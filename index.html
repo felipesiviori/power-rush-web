@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Rush — Foco Sin Crash</title>
+  <meta name="description" content="El primer suplemento cognitivo argentino para gamers y estudiantes. 11 nootropicos. Dosis reales. Sin azúcar. Sin crash.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Bricolage+Grotesque:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #080A08;
+      --bg2:     #0C100C;
+      --bg3:     #111511;
+      --green:   #00D47A;
+      --glo:     rgba(0,212,122,0.45);
+      --glo-lo:  rgba(0,212,122,0.10);
+      --yellow:  #FFD100;
+      --red:     #FF3C3C;
+      --blue:    #3B82F6;
+      --orange:  #F97316;
+      --white:   #EEF5EE;
+      --gray:    #56685A;
+      --border:  rgba(0,212,122,0.16);
+      --hd: 'Barlow Condensed', sans-serif;
+      --bd: 'Bricolage Grotesque', sans-serif;
+      --mo: 'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: var(--bd); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+    a, button { cursor: none; }
+
+    /* ===== CURSOR ===== */
+    #cur { position: fixed; width: 14px; height: 14px; border-radius: 50%; background: var(--green); pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); transition: width .18s, height .18s, opacity .18s; mix-blend-mode: screen; }
+    #cur-glo { position: fixed; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, rgba(0,212,122,.2) 0%, transparent 70%); pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+
+    /* ===== PROGRESS ===== */
+    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 10001; background: linear-gradient(90deg, var(--green), var(--yellow)); box-shadow: 0 0 8px var(--green); transition: width .06s linear; }
+
+    /* ===== ACHIEVEMENTS ===== */
+    #ach-wrap { position: fixed; top: 76px; right: 20px; z-index: 9998; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .ach { display: flex; gap: 12px; align-items: flex-start; background: var(--bg2); border: 1px solid var(--green); border-left: 4px solid var(--green); padding: 12px 16px; min-width: 270px; transform: translateX(110%); animation: achIn .4s ease forwards, achOut .4s ease 3.6s forwards; }
+    .ach-ico { color: var(--yellow); flex-shrink: 0; margin-top: 2px; }
+    .ach-tag { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); }
+    .ach-name { font-family: var(--hd); font-weight: 700; font-size: 14px; text-transform: uppercase; }
+    .ach-desc { font-size: 11px; color: var(--gray); margin-top: 2px; }
+    @keyframes achIn  { to { transform: translateX(0); } }
+    @keyframes achOut { to { transform: translateX(110%); opacity: 0; } }
+
+    /* ===== ANNOUNCEMENT BAR ===== */
+    #announce { position: fixed; top: 0; left: 0; right: 0; z-index: 1002; height: 34px; background: var(--green); overflow: hidden; display: flex; align-items: center; }
+    .ann-track { display: flex; align-items: center; white-space: nowrap; animation: annScroll 22s linear infinite; will-change: transform; }
+    .ann-track span { font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--bg); padding: 0 48px; }
+    .ann-track span::before { content: '◆'; margin-right: 48px; font-size: 8px; opacity: .5; }
+    @keyframes annScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ===== NAV ===== */
+    nav { position: fixed; top: 34px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 1200px; display: flex; align-items: center; justify-content: space-between; background: rgba(8,10,8,.88); backdrop-filter: blur(24px) saturate(1.4); border: 1px solid var(--border); padding: 12px 24px; z-index: 1000; }
+    .nav-logo img { height: 30px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .4px; transition: color .2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-btn { background: var(--green); color: var(--bg); border: none; border-top: 1px solid rgba(255,255,255,.2); padding: 10px 22px; font-family: var(--hd); font-weight: 900; font-size: 14px; letter-spacing: .8px; text-transform: uppercase; transition: background .16s, box-shadow .16s; }
+    .nav-btn:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2); }
+
+    /* ===== HERO ===== */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; overflow: hidden;
+    }
+
+    .hero-grid { position: absolute; inset: 0; z-index: 1; background-image: linear-gradient(rgba(0,212,122,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.03) 1px, transparent 1px); background-size: 56px 56px; }
+    .hero-scan { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.025) 3px, rgba(0,0,0,.025) 4px); }
+    .hero-bg-glow { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 78% 50%, rgba(0,212,122,.07) 0%, transparent 55%); }
+
+    .hero-inner {
+      position: relative; z-index: 3;
+      display: grid; grid-template-columns: 1fr 500px;
+      align-items: center; gap: 0;
+      max-width: 1240px; width: 100%;
+      margin: 0 auto; padding: 150px 32px 100px;
+    }
+
+    .hero-left {
+      padding-right: 64px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+    }
+
+    .h-overline {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--mo); font-size: 9px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 28px;
+    }
+    .h-overline::before { content: ''; width: 28px; height: 1px; background: var(--green); flex-shrink: 0; }
+
+    .hero-title {
+      font-family: var(--hd); font-weight: 900; font-style: italic;
+      font-size: clamp(80px, 9.5vw, 136px);
+      line-height: .84; letter-spacing: -4px;
+      text-transform: uppercase; margin-bottom: 32px;
+    }
+    .hero-title .h-acc { color: var(--green); }
+
+    .hero-copy {
+      font-size: 15px; color: var(--gray); line-height: 1.75;
+      max-width: 400px; margin-bottom: 36px;
+    }
+    .hero-copy strong { color: var(--white); }
+
+    /* Power meter */
+    .h-pm { background: var(--bg2); border: 1px solid var(--border); padding: 14px 16px; max-width: 380px; margin-bottom: 32px; }
+    .h-pm-top { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .h-pm-track { height: 4px; background: rgba(255,255,255,.05); overflow: hidden; }
+    .h-pm-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--yellow)); box-shadow: 0 0 8px var(--green); transition: width 2.2s cubic-bezier(.23,1,.32,1); }
+    .h-pm-val { font-family: var(--mo); font-weight: 700; font-size: 16px; color: var(--green); margin-top: 8px; }
+
+    .hero-ctas { display: flex; gap: 10px; max-width: 380px; margin-bottom: 40px; align-items: stretch; }
+    .hero-ctas .btn-pr { flex: 1.6; }
+    .hero-ctas .btn-sc { flex: 1; }
+
+    .hero-stats { display: flex; border-top: 1px solid var(--border); padding-top: 28px; }
+    .h-stat { flex: 1; }
+    .h-stat + .h-stat { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 0; }
+    .h-stat-n { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 38px; line-height: 1; color: var(--green); letter-spacing: -1px; }
+    .h-stat-l { font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; color: var(--gray); text-transform: uppercase; margin-top: 4px; }
+
+    /* Right: product image */
+    .hero-right { display: flex; align-items: center; justify-content: center; padding: 0 0 0 56px; }
+    .hero-prod-img {
+      width: 100%; max-width: 460px; height: auto; object-fit: contain;
+      filter: drop-shadow(0 40px 100px rgba(0,0,0,.65));
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+    @keyframes heroFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+
+    /* ===== SHARED ===== */
+    section { padding: 100px 24px; }
+    .wrap { max-width: 1200px; margin: 0 auto; }
+    .s-tag { display: block; font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .s-title { font-family: var(--hd); font-weight: 900; font-size: clamp(40px, 5vw, 72px); line-height: .92; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 52px; }
+
+    /* Buttons */
+    .btn-pr {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      text-align: center; text-decoration: none;
+      padding: 14px 26px;
+      border: none; border-top: 1px solid rgba(255,255,255,.2);
+      font-family: var(--hd); font-weight: 900; font-size: 16px;
+      letter-spacing: .8px; text-transform: uppercase;
+      background: var(--green); color: var(--bg);
+      transition: background .16s, box-shadow .16s;
+      white-space: nowrap;
+    }
+    .btn-pr:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2), 0 8px 28px rgba(0,212,122,.16); }
+    .btn-pr:active { background: #00C46E; box-shadow: inset 0 2px 4px rgba(0,0,0,.2); }
+
+    .btn-sc {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      text-align: center; text-decoration: none;
+      padding: 13px 22px;
+      border: 1px solid rgba(238,245,238,.2); background: transparent;
+      font-family: var(--hd); font-weight: 700; font-size: 14px;
+      letter-spacing: .6px; text-transform: uppercase;
+      color: rgba(238,245,238,.6);
+      transition: border-color .16s, color .16s, background .16s;
+      white-space: nowrap;
+    }
+    .btn-sc:hover { border-color: rgba(0,212,122,.55); color: var(--green); background: rgba(0,212,122,.06); }
+    .btn-sc:active { background: rgba(0,212,122,.1); }
+
+    /* Reveal */
+    .rv { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .rv.on { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
+
+    /* ===== VS SECTION ===== */
+    #vs { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 24px; }
+
+    .vs-intro { max-width: 640px; margin-bottom: 52px; }
+    .vs-intro p { font-size: 15px; color: var(--gray); line-height: 1.7; margin-top: 16px; }
+    .vs-intro p strong { color: var(--white); }
+
+    /* Match banner header */
+    .vs-match-header { display: grid; grid-template-columns: 1fr auto 1fr; border: 1px solid var(--border); border-bottom: none; background: var(--bg3); }
+    .vs-team-panel { padding: 28px 32px; }
+    .vs-team-panel.pr { border-right: 1px solid var(--border); border-top: 3px solid var(--green); }
+    .vs-team-panel.them { border-left: 1px solid var(--border); border-top: 3px solid rgba(200,50,50,.35); text-align: right; }
+    .vtp-label { font-family: var(--mo); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+    .vs-team-panel.pr .vtp-label { color: var(--green); }
+    .vs-team-panel.them .vtp-label { color: rgba(200,80,80,.7); }
+    .vtp-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 34px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; }
+    .vs-team-panel.pr .vtp-name { color: var(--white); }
+    .vs-team-panel.them .vtp-name { color: rgba(200,70,70,.6); }
+    .vs-center-vs { display: flex; align-items: center; justify-content: center; padding: 24px 40px; font-family: var(--hd); font-weight: 900; font-size: 16px; letter-spacing: 6px; color: rgba(86,104,90,.3); }
+
+    /* Table */
+    .vs-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-top: none; }
+    .vs-table thead { display: none; }
+    .vs-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    .vs-table tbody tr:last-child { border-bottom: none; }
+    .vs-table tbody tr:hover .vs-us { background: rgba(0,212,122,.08); }
+
+    .vs-metric { padding: 20px 20px; border-right: 1px solid var(--border); vertical-align: middle; width: 18%; }
+    .vs-metric-rnd { font-family: var(--mo); font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: rgba(86,104,90,.4); margin-bottom: 3px; }
+    .vs-metric-name { font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
+
+    .vs-us { padding: 20px 24px; border-right: 1px solid var(--border); vertical-align: middle; width: 41%; background: rgba(0,212,122,.04); border-left: 3px solid var(--green); transition: background .15s; }
+    .vs-them { padding: 20px 24px; vertical-align: middle; width: 41%; }
+
+    .vs-val { display: flex; align-items: center; gap: 14px; }
+    .vs-badge { display: inline-flex; align-items: center; font-family: var(--mo); font-size: 7px; font-weight: 700; letter-spacing: 2px; padding: 5px 9px; text-transform: uppercase; flex-shrink: 0; line-height: 1; }
+    .vs-badge.win { background: var(--green); color: var(--bg); }
+    .vs-badge.loss { background: transparent; color: rgba(200,70,70,.65); border: 1px solid rgba(200,70,70,.3); }
+    .vs-val-inner { display: flex; flex-direction: column; gap: 3px; }
+    .vs-val-text { font-family: var(--hd); font-weight: 900; font-size: 21px; text-transform: uppercase; line-height: 1.1; letter-spacing: -.3px; }
+    .vs-val-sub { font-size: 11px; font-family: var(--mo); letter-spacing: .3px; }
+    .us-val .vs-val-text { color: var(--white); }
+    .us-val .vs-val-sub { color: var(--gray); }
+    .them-val .vs-val-text { color: rgba(210,70,70,.75); }
+    .them-val .vs-val-sub { color: rgba(200,70,70,.5); }
+
+    /* Score block */
+    .vs-score { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: var(--bg3); border: 1px solid var(--border); border-top: 3px solid var(--green); padding: 44px 40px; }
+    .vs-score-side { display: flex; flex-direction: column; gap: 6px; }
+    .vs-score-side.pr { align-items: flex-start; }
+    .vs-score-side.them { align-items: flex-end; }
+    .vs-score-brand { font-family: var(--mo); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; }
+    .vs-score-side.pr .vs-score-brand { color: var(--green); }
+    .vs-score-side.them .vs-score-brand { color: rgba(200,70,70,.65); }
+    .vs-score-num { font-family: var(--hd); font-weight: 900; font-style: italic; line-height: .9; font-size: 96px; letter-spacing: -4px; }
+    .vs-score-side.pr .vs-score-num { color: var(--green); text-shadow: 0 0 60px rgba(0,212,122,.3), 0 0 120px rgba(0,212,122,.15); }
+    .vs-score-side.them .vs-score-num { color: rgba(200,60,60,.35); }
+    .vs-score-label { font-size: 11px; font-family: var(--mo); letter-spacing: 1px; }
+    .vs-score-side.pr .vs-score-label { color: var(--gray); }
+    .vs-score-side.them .vs-score-label { color: rgba(200,70,70,.5); }
+    .vs-score-vs { font-family: var(--hd); font-weight: 900; font-size: 18px; letter-spacing: 6px; color: rgba(86,104,90,.25); padding: 0 48px; }
+
+    .vs-close { margin-top: 40px; padding: 24px; border-left: 4px solid var(--green); background: rgba(0,212,122,.05); }
+    .vs-close p { font-size: 14px; color: var(--gray); line-height: 1.75; }
+    .vs-close strong { color: var(--white); }
+
+    /* ===== REVIEWS ===== */
+    #reviews { background: var(--bg); border-bottom: 1px solid var(--border); padding: 100px 0; overflow: hidden; }
+    .rev-head { text-align: center; padding: 0 24px; margin-bottom: 60px; }
+    .rev-rating-global { display: flex; justify-content: center; gap: 4px; color: var(--yellow); font-size: 20px; margin-bottom: 20px; }
+    .rev-cols {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      max-height: 700px; overflow: hidden; padding: 0 24px;
+      max-width: 1100px; margin: 0 auto;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+    }
+    .rev-col-inner { display: flex; flex-direction: column; gap: 16px; }
+    .rev-col:nth-child(1) .rev-col-inner { animation: revScroll 26s linear infinite; }
+    .rev-col:nth-child(2) .rev-col-inner { animation: revScroll 34s linear infinite; animation-delay: -8s; }
+    .rev-col:nth-child(3) .rev-col-inner { animation: revScroll 30s linear infinite; animation-delay: -4s; }
+    @keyframes revScroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+    .rev-card { background: var(--bg2); border: 1px solid var(--border); padding: 24px; flex-shrink: 0; transition: border-color .2s; }
+    .rev-card:hover { border-color: rgba(0,212,122,.3); }
+    .rev-stars { display: flex; gap: 3px; color: var(--yellow); font-size: 12px; margin-bottom: 14px; }
+    .rev-text { font-size: 14px; color: var(--white); line-height: 1.72; margin-bottom: 18px; font-style: italic; }
+    .rev-author { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .rev-ava { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--hd); font-weight: 900; font-size: 14px; color: var(--bg); flex-shrink: 0; }
+    .rev-name { font-family: var(--hd); font-weight: 700; font-size: 13px; text-transform: uppercase; line-height: 1; }
+    .rev-role { font-family: var(--mo); font-size: 8px; color: var(--gray); letter-spacing: 1px; margin-top: 3px; text-transform: uppercase; }
+    @media (max-width: 1024px) { .rev-cols { grid-template-columns: repeat(2,1fr); } .rev-col:nth-child(3) { display: none; } }
+    @media (max-width: 640px) { .rev-cols { grid-template-columns: 1fr; } .rev-col:nth-child(2) { display: none; } }
+
+    /* ===== PRODUCTS ===== */
+    #productos { background: var(--bg); }
+    .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
+    .prod-card { background: var(--bg); padding: 48px 40px; position: relative; overflow: hidden; transition: background .3s; }
+    .prod-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+    .prod-card.bl::after { background: var(--blue); }
+    .prod-card.tr::after { background: var(--orange); }
+    .prod-card:hover::after { transform: scaleX(1); }
+    .prod-card:hover { background: var(--bg2); }
+    .card-inner { transform-style: preserve-3d; transition: transform .1s ease; }
+    .p-flav { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+    .bl .p-flav { color: var(--blue); } .tr .p-flav { color: var(--orange); }
+    .p-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 6.5vw, 86px); line-height: .88; text-transform: uppercase; letter-spacing: -2px; }
+    .p-img-wrap { display: flex; justify-content: center; margin: 28px 0; }
+    .p-img { height: 250px; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,.55)); transition: filter .3s; }
+    .bl:hover .p-img { filter: drop-shadow(0 24px 50px rgba(59,130,246,.4)); }
+    .tr:hover .p-img { filter: drop-shadow(0 24px 50px rgba(249,115,22,.4)); }
+    .p-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+    .p-tag { font-family: var(--mo); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
+    .bl .p-tag { border-color: var(--blue); color: var(--blue); } .tr .p-tag { border-color: var(--orange); color: var(--orange); }
+    .p-desc { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
+    .p-price { font-family: var(--hd); font-weight: 900; font-size: 38px; margin-bottom: 18px; }
+    .p-price span { font-size: 15px; color: var(--gray); font-weight: 400; }
+    .btn-buy {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      width: 100%; padding: 14px 20px;
+      font-family: var(--hd); font-weight: 900; font-size: 16px;
+      letter-spacing: .8px; text-transform: uppercase;
+      text-align: center; text-decoration: none;
+      border: none; border-top: 1px solid rgba(255,255,255,.18);
+      transition: box-shadow .16s, filter .16s;
+      white-space: nowrap;
+    }
+    .bl .btn-buy { background: var(--blue); color: #fff; }
+    .bl .btn-buy:hover { filter: brightness(1.1); box-shadow: 0 0 0 3px rgba(59,130,246,.22), 0 8px 24px rgba(59,130,246,.22); }
+    .tr .btn-buy { background: var(--orange); color: #fff; }
+    .tr .btn-buy:hover { filter: brightness(1.08); box-shadow: 0 0 0 3px rgba(249,115,22,.22), 0 8px 24px rgba(249,115,22,.22); }
+
+    /* ===== CÓMO FUNCIONA ===== */
+    #como-funciona { background: var(--bg2); border-top: 1px solid var(--border); }
+    .func-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); }
+    .func-step { background: var(--bg2); padding: 40px 32px; position: relative; }
+    .step-bg-n { position: absolute; top: 16px; right: 20px; font-family: var(--hd); font-weight: 900; font-size: 96px; line-height: 1; color: rgba(0,212,122,.06); pointer-events: none; }
+    .step-ico { width: 46px; height: 46px; background: var(--glo-lo); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--green); }
+    .func-step h4 { font-family: var(--hd); font-weight: 900; font-size: 22px; text-transform: uppercase; margin-bottom: 12px; }
+    .func-step p { font-size: 14px; color: var(--gray); line-height: 1.7; }
+    .func-step p .hl { color: var(--green); font-weight: 600; }
+
+    /* ===== INGREDIENTES ===== */
+    #ingredientes { background: var(--bg); }
+    .ing-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; gap: 40px; }
+    .ing-note { font-family: var(--mo); font-size: 11px; color: var(--gray); text-align: right; line-height: 1.7; max-width: 240px; flex-shrink: 0; }
+    .ing-list { border: 1px solid var(--border); }
+    .ing-row { display: grid; grid-template-columns: 180px 72px 1fr 120px; align-items: center; gap: 20px; padding: 15px 24px; border-bottom: 1px solid var(--border); transition: background .2s; }
+    .ing-row:last-child { border-bottom: none; }
+    .ing-row:hover { background: var(--glo-lo); }
+    .ing-n { font-family: var(--mo); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--white); }
+    .ing-d { font-family: var(--mo); font-size: 13px; font-weight: 700; color: var(--green); }
+    .ing-track { height: 5px; background: rgba(255,255,255,.05); overflow: hidden; }
+    .ing-fill { height: 100%; width: 0%; background: var(--green); box-shadow: 0 0 6px rgba(0,212,122,.5); transition: width 1.3s cubic-bezier(.23,1,.32,1); }
+    .ing-row:nth-child(even) .ing-fill { background: linear-gradient(90deg, var(--green), var(--yellow)); }
+    .ing-f { font-family: var(--mo); font-size: 10px; color: var(--gray); text-align: right; letter-spacing: .5px; }
+
+
+    /* ===== FAQ ===== */
+    #faq { background: var(--bg2); border-top: 1px solid var(--border); }
+    .faq-wrap { max-width: 780px; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { width: 100%; background: none; border: none; color: var(--white); text-align: left; padding: 22px 0; font-family: var(--hd); font-weight: 700; font-size: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: color .2s; }
+    .faq-q:hover { color: var(--green); }
+    .faq-ico { width: 24px; height: 24px; flex-shrink: 0; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; color: var(--green); transition: background .2s, border-color .2s, color .2s; font-family: var(--mo); font-weight: 700; }
+    .faq-item.open .faq-ico { background: var(--green); border-color: var(--green); color: var(--bg); }
+    .faq-a { max-height: 0; overflow: hidden; font-size: 14px; color: var(--gray); line-height: 1.8; transition: max-height .4s ease, padding .4s ease; }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 22px; }
+    .faq-a strong { color: var(--white); }
+
+    /* ===== CTA FINAL ===== */
+    #comprar { background: var(--bg); border-top: 1px solid var(--border); text-align: center; padding: 130px 24px; position: relative; overflow: hidden; }
+    #comprar::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,212,122,.07) 0%, transparent 68%); pointer-events: none; }
+    .cta-tag { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 18px; display: block; }
+    .cta-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 8vw, 110px); line-height: .88; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 22px; }
+    .cta-title .gr { color: var(--green); }
+    .cta-sub { font-size: 15px; color: var(--gray); line-height: 1.7; max-width: 460px; margin: 0 auto 48px; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: stretch; }
+    .cta-btns .btn-pr { padding: 17px 40px; font-size: 18px; letter-spacing: 1px; min-width: 220px; }
+    .cta-btns .btn-sc { padding: 16px 32px; font-size: 16px; min-width: 180px; }
+    .cta-note { margin-top: 32px; font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
+
+    /* ===== FOOTER ===== */
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 44px 24px; }
+    .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .foot-logo img { height: 26px; }
+    .foot-copy { font-family: var(--mo); font-size: 10px; color: var(--gray); line-height: 1.7; text-align: center; }
+    .foot-links { display: flex; gap: 22px; }
+    .foot-links a { font-size: 12px; color: var(--gray); text-decoration: none; transition: color .2s; }
+    .foot-links a:hover { color: var(--white); }
+
+    /* ===== HERO PROOF ===== */
+    .hero-proof { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
+    .proof-stars { color: var(--yellow); font-size: 16px; letter-spacing: 2px; flex-shrink: 0; }
+    .proof-divider { width: 1px; height: 14px; background: var(--border); flex-shrink: 0; }
+    .proof-text { font-family: var(--mo); font-size: 11px; color: var(--gray); letter-spacing: .6px; line-height: 1.6; }
+    .proof-text strong { color: var(--green); }
+
+    /* ===== PRESS / COMUNIDAD ===== */
+    #prensa { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 28px 24px; }
+    .press-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
+    .press-label { font-family: var(--mo); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); flex-shrink: 0; white-space: nowrap; padding-right: 12px; border-right: 1px solid var(--border); }
+    .press-logos { display: flex; align-items: center; gap: 44px; flex-wrap: wrap; }
+    .press-logos img { height: 26px; width: auto; filter: grayscale(1) brightness(4); opacity: 0.4; transition: opacity .2s, filter .2s; }
+    .press-logos img:hover { opacity: 0.75; filter: grayscale(0.5) brightness(2); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 100px 24px 80px; text-align: center; }
+      .hero-left { padding-right: 0; border-right: none; align-items: center; }
+      .hero-copy { text-align: left; }
+      .hero-right { padding: 0; }
+      .hero-prod-img { max-width: 360px; }
+      .ing-row { grid-template-columns: 1fr 60px; } .ing-track, .ing-f { display: none; }
+      .vs-match-header { grid-template-columns: 1fr; }
+      .vs-team-panel.them { text-align: left; }
+      .vs-center-vs { display: none; }
+    }
+    @media (max-width: 768px) {
+      /* Base */
+      body { cursor: auto; }
+      #cur, #cur-glo { display: none; }
+      a, button { cursor: pointer; }
+      section { padding: 64px 20px; }
+
+      /* Nav */
+      nav { padding: 10px 16px; }
+      .nav-links { display: none; }
+
+      /* Hero — eliminar min-height para no dejar espacio negro vacío */
+      #hero { min-height: auto; }
+      .hero-inner { padding: 90px 20px 56px; }
+      .hero-prod-img { max-width: 240px; }
+      .hero-right { padding-top: 0; }
+      .hero-ctas { flex-direction: column; }
+      .proof-text { font-size: 10px; }
+      .proof-divider { display: none; }
+      /* Stats — más espacio entre número y borde divisor */
+      .h-stat + .h-stat { padding-left: 14px; }
+      .h-stat-n { font-size: 30px; }
+
+      /* Achievements — mover a la parte inferior para no tapar contenido */
+      #ach-wrap { top: auto; bottom: 20px; right: 12px; left: 12px; align-items: flex-end; }
+      .ach { min-width: 0; width: 100%; box-sizing: border-box; }
+      .ach-name { font-size: 12px; }
+      .ach-desc { font-size: 10px; }
+
+      /* VS — rediseño mobile: métrica arriba (full width), valores abajo (50/50) */
+      .vs-table, .vs-table tbody { display: block; }
+      .vs-table tbody tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        border-bottom: 1px solid var(--border);
+      }
+      .vs-table tbody tr:last-child { border-bottom: none; }
+      .vs-metric {
+        display: block !important;
+        grid-column: 1 / -1;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 6px 12px;
+        width: auto;
+        background: rgba(0,0,0,.18);
+      }
+      .vs-metric-rnd { display: inline; margin-right: 6px; }
+      .vs-us { padding: 12px 10px; width: auto; border-right: 1px solid var(--border); }
+      .vs-them { padding: 12px 10px; width: auto; }
+      .vs-val { gap: 5px; flex-wrap: wrap; }
+      .vs-val-text { font-size: 14px; letter-spacing: 0; }
+      .vs-val-sub { display: none; }
+      .vs-badge { font-size: 6px; padding: 3px 6px; letter-spacing: 1px; }
+      .vtp-name { font-size: 24px; }
+      .vs-score { grid-template-columns: 1fr auto 1fr; padding: 24px 16px; }
+      .vs-score-num { font-size: 56px; }
+      .vs-score-vs { padding: 0 12px; font-size: 13px; }
+
+      /* Productos */
+      .prod-grid { grid-template-columns: 1fr; }
+      .prod-card { padding: 36px 24px; }
+
+      /* Cómo funciona */
+      .func-grid { grid-template-columns: 1fr; }
+
+      /* Ingredientes */
+      .ing-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .ing-note { text-align: left; max-width: 100%; }
+
+      /* CTA final */
+      .cta-btns { flex-direction: column; align-items: center; }
+      .cta-btns .btn-pr, .cta-btns .btn-sc { width: 100%; max-width: 320px; }
+
+      /* Footer */
+      .foot-inner { flex-direction: column; text-align: center; }
+      .foot-links { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-prod-img { animation: none; }
+      .rv { opacity: 1; transform: none; transition: none; }
+      .ing-fill { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-glo"></div>
+<div id="progress"></div>
+<div id="ach-wrap"></div>
+
+<!-- ===== ANNOUNCEMENT BAR ===== -->
+<div id="announce" aria-label="Promoción">
+  <div class="ann-track">
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="Brand Guidelines/Copia de Untitled design (9).png" alt="Power Rush">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#reviews">Reseñas</a></li>
+    <li><a href="#faq">Ayuda</a></li>
+  </ul>
+  <button class="nav-btn" onclick="document.getElementById('comprar').scrollIntoView({behavior:'smooth'})">PROBALO AHORA</button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-scan"></div>
+  <div class="hero-bg-glow"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="h-overline">Suplemento cognitivo · Argentina</div>
+
+      <div class="hero-proof">
+        <span class="proof-stars">★★★★★</span>
+        <span class="proof-divider"></span>
+        <span class="proof-text"><strong>+10.000</strong> clientes satisfechos &nbsp;·&nbsp; <strong>1.000+</strong> reseñas &nbsp;·&nbsp; <strong>4.7/5</strong></span>
+      </div>
+
+      <h1 class="hero-title">
+        FOCO<br>SIN<br>CRASH<span class="h-acc">.</span>
+      </h1>
+
+      <p class="hero-copy">
+        <strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Foco limpio hasta la última ronda, sin temblor, sin crash.
+      </p>
+
+      <div class="h-pm">
+        <div class="h-pm-top"><span>NIVEL DE FOCO</span><span id="pw-status">INICIANDO...</span></div>
+        <div class="h-pm-track"><div class="h-pm-fill" id="pw-fill"></div></div>
+        <div class="h-pm-val" id="pw-val">0%</div>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+        <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="h-stat">
+          <div class="h-stat-n" data-count="11">0</div>
+          <div class="h-stat-l">Nootropicos</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n" data-count="30">0</div>
+          <div class="h-stat-l">Porciones</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">5</div>
+          <div class="h-stat-l">Kcal</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">0g</div>
+          <div class="h-stat-l">Azúcar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <img
+        src="Brand Guidelines/Copia de TROPICAL Y BLAZE.png"
+        alt="Power Rush — Blaze Berry y Tropical Bomb"
+        class="hero-prod-img"
+      >
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews">
+  <div class="rev-head">
+    <span class="s-tag">Lo que dicen</span>
+    <h2 class="s-title" style="margin-bottom:0">Los clientes<br>hablan solos.</h2>
+  </div>
+
+  <div class="rev-cols">
+
+    <!-- COLUMNA 1 -->
+    <div class="rev-col">
+      <div class="rev-col-inner">
+        <!-- Set 1 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Cuatro horas de ranked y en el overtime estaba igual que en la primera ronda. Antes a esa hora ya erraba los flashes más fáciles. La diferencia es real."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">M</div>
+            <div><div class="rev-name">Mateo</div><div class="rev-role">Gamer competitivo · Rosario</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor que puedo describir."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">V</div>
+            <div><div class="rev-name">Valentina</div><div class="rev-role">Medicina 3er año · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo. El tiempo de reacción se siente diferente desde la primera partida."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">B</div>
+            <div><div class="rev-name">Benjamín</div><div class="rev-role">CS2 competitivo · Santa Fe</div></div>
+          </div>
+        </div>
+        <!-- Set 2 (duplicado para el loop infinito) -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Cuatro horas de ranked y en el overtime estaba igual que en la primera ronda. Antes a esa hora ya erraba los flashes más fáciles. La diferencia es real."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">M</div>
+            <div><div class="rev-name">Mateo</div><div class="rev-role">Gamer competitivo · Rosario</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor que puedo describir."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">V</div>
+            <div><div class="rev-name">Valentina</div><div class="rev-role">Medicina 3er año · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo. El tiempo de reacción se siente diferente desde la primera partida."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">B</div>
+            <div><div class="rev-name">Benjamín</div><div class="rev-role">CS2 competitivo · Santa Fe</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA 2 -->
+    <div class="rev-col">
+      <div class="rev-col-inner">
+        <!-- Set 1 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El pote está en el setup. Me preguntaron qué tomaba porque la energía se nota distinta desde la primera hora hasta la última. Sin nervios, sin ansiedad."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">A</div>
+            <div><div class="rev-name">Agustina</div><div class="rev-role">Streamer · Gran Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Me pasaba de entrar al tramo final del estudio y no recordar nada de lo que había leído. Ahora termino igual de enfocado que al principio. No hay otra explicación."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">L</div>
+            <div><div class="rev-name">Lucas</div><div class="rev-role">Estudiante UBA · Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Las dos horas de gaming después del trabajo siempre terminaban en lag mental. Con Power Rush son las mejores dos horas del día. Sin exagerar."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">N</div>
+            <div><div class="rev-name">Nicolás</div><div class="rev-role">Tech / Diseño · CABA</div></div>
+          </div>
+        </div>
+        <!-- Set 2 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El pote está en el setup. Me preguntaron qué tomaba porque la energía se nota distinta desde la primera hora hasta la última. Sin nervios, sin ansiedad."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">A</div>
+            <div><div class="rev-name">Agustina</div><div class="rev-role">Streamer · Gran Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Me pasaba de entrar al tramo final del estudio y no recordar nada de lo que había leído. Ahora termino igual de enfocado que al principio. No hay otra explicación."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">L</div>
+            <div><div class="rev-name">Lucas</div><div class="rev-role">Estudiante UBA · Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Las dos horas de gaming después del trabajo siempre terminaban en lag mental. Con Power Rush son las mejores dos horas del día. Sin exagerar."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">N</div>
+            <div><div class="rev-name">Nicolás</div><div class="rev-role">Tech / Diseño · CABA</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA 3 -->
+    <div class="rev-col">
+      <div class="rev-col-inner">
+        <!-- Set 1 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El foco que da es muy diferente al del café. Sin ansiedad, sin la mano que tiembla. Lo noto más en los streams largos, cuando normalmente ya estaría cayendo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">S</div>
+            <div><div class="rev-name">Sofía</div><div class="rev-role">Streamer · Mendoza</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Tenía el parcial a las 8 de la mañana. Me lo tomé media hora antes. Lo di sin bloquearme, sin perder el hilo. No lo puedo explicar de otra manera."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">C</div>
+            <div><div class="rev-name">Carolina</div><div class="rev-role">Ingeniería · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Lo primero que noté fue que no me quedé dormido en un stream de 5 horas. Para mí eso era imposible. El chat lo notó antes que yo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">T</div>
+            <div><div class="rev-name">Thiago</div><div class="rev-role">Streamer React · CABA</div></div>
+          </div>
+        </div>
+        <!-- Set 2 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El foco que da es muy diferente al del café. Sin ansiedad, sin la mano que tiembla. Lo noto más en los streams largos, cuando normalmente ya estaría cayendo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">S</div>
+            <div><div class="rev-name">Sofía</div><div class="rev-role">Streamer · Mendoza</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Tenía el parcial a las 8 de la mañana. Me lo tomé media hora antes. Lo di sin bloquearme, sin perder el hilo. No lo puedo explicar de otra manera."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">C</div>
+            <div><div class="rev-name">Carolina</div><div class="rev-role">Ingeniería · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Lo primero que noté fue que no me quedé dormido en un stream de 5 horas. Para mí eso era imposible. El chat lo notó antes que yo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">T</div>
+            <div><div class="rev-name">Thiago</div><div class="rev-role">Streamer React · CABA</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== VS SECTION ===== -->
+<section id="vs">
+  <div class="wrap">
+    <span class="s-tag rv">Power Rush vs la competencia</span>
+    <h2 class="s-title rv d1">Power Rush<br>vs la lata.</h2>
+
+    <div class="vs-intro rv d2">
+      <p>
+        La lata te da <strong>90 minutos</strong> y un bajón garantizado. Lo sabés. Acá está la comparación que ningún energizante se anima a mostrar.
+      </p>
+    </div>
+
+    <div class="rv d2">
+      <!-- Match header -->
+      <div class="vs-match-header">
+        <div class="vs-team-panel pr">
+          <div class="vtp-label">Suplemento cognitivo · Argentina</div>
+          <div class="vtp-name">Power Rush</div>
+        </div>
+        <div class="vs-center-vs">VS</div>
+        <div class="vs-team-panel them">
+          <div class="vtp-label">Energizante en lata</div>
+          <div class="vtp-name">Energizantes típicos</div>
+        </div>
+      </div>
+
+      <table class="vs-table">
+        <tbody>
+
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 01</div><div class="vs-metric-name">Cafeína</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">120MG</div><div class="vs-val-sub">Dosis funcional. Sin brute force.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">160–300MG</div><div class="vs-val-sub">Varía entre 160 y 300mg según la marca.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 02</div><div class="vs-metric-name">L-Teanina</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">100MG</div><div class="vs-val-sub">Modula la cafeína. Foco limpio.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">0MG</div><div class="vs-val-sub">No existe en ninguna lata.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 03</div><div class="vs-metric-name">Azúcar</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">0G</div><div class="vs-val-sub">Sin azúcar. Sin bajón glucémico.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">27–54G</div><div class="vs-val-sub">Entre 27 y 54g según el producto.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 04</div><div class="vs-metric-name">Calorías</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">5 KCAL</div><div class="vs-val-sub">Por porción. Prácticamente cero.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">110–230 KCAL</div><div class="vs-val-sub">Entre 110 y 230 kcal según el producto.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 05</div><div class="vs-metric-name">Crash</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">NINGUNO</div><div class="vs-val-sub">L-Teanina evita el pico y el bajón.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">A LAS 90 MIN</div><div class="vs-val-sub">Azúcar + cafeína alta = pico + bajón.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 06</div><div class="vs-metric-name">Temblor</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">NINGUNO</div><div class="vs-val-sub">Cafeína moderada + L-Teanina. Sin jitters.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">TÍPICO</div><div class="vs-val-sub">Cafeína a 160-300mg sola causa jitters.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 07</div><div class="vs-metric-name">Duración foco</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">4–6 HORAS</div><div class="vs-val-sub">Sostenido. Sin picos. Sin caídas abruptas.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">60–90 MIN</div><div class="vs-val-sub">Después del pico, bajón garantizado.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 08</div><div class="vs-metric-name">Nootropicos</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">11 INGREDIENTES</div><div class="vs-val-sub">Todos con función cognitiva específica.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">1–2</div><div class="vs-val-sub">Solo cafeína + taurina. El resto es saborizante.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 09</div><div class="vs-metric-name">Transparencia</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">TODO EN EL LABEL</div><div class="vs-val-sub">Cada ingrediente con su dosis exacta.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">VARÍA</div><div class="vs-val-sub">Mezclas propietarias. Dosis ocultas.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 10</div><div class="vs-metric-name">Para pantallas</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">LUTEÍNA 20MG</div><div class="vs-val-sub">Protección ocular activa. Luz de pantalla.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">NADA</div><div class="vs-val-sub">Diseñadas para vender, no para jugar mejor.</div></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Score block -->
+      <div class="vs-score">
+        <div class="vs-score-side pr">
+          <div class="vs-score-brand">Power Rush</div>
+          <div class="vs-score-num">10</div>
+          <div class="vs-score-label">rondas ganadas</div>
+        </div>
+        <div class="vs-score-vs">VS</div>
+        <div class="vs-score-side them">
+          <div class="vs-score-brand">Energizante típico</div>
+          <div class="vs-score-num">0</div>
+          <div class="vs-score-label">rondas ganadas</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-close rv d3">
+      <p>
+        <strong>Leé la etiqueta. La nuestra y la de ellos.</strong> En Power Rush cada ingrediente tiene nombre, dosis y función. Sin letras chicas, sin relleno, sin sorpresas. Si la competencia no hace lo mismo, ya sabés por qué.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCTOS ===== -->
+<section id="productos">
+  <div class="wrap">
+    <span class="s-tag rv">Los sabores</span>
+    <h2 class="s-title rv d1">Elegí el tuyo.</h2>
+  </div>
+  <div class="prod-grid">
+    <div class="prod-card bl rv d1" id="card-bl">
+      <div class="card-inner">
+        <div class="p-flav">Sabor arándano</div>
+        <div class="p-name">BLAZE<br>BERRY</div>
+        <div class="p-img-wrap">
+          <img src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="Blaze Berry" class="p-img">
+        </div>
+        <div class="p-tags">
+          <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
+        </div>
+        <p class="p-desc">Arándano intenso con fondo frío. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la ronda 20.</p>
+        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
+        <a href="#comprar" class="btn-buy">COMPRAR BLAZE BERRY <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="prod-card tr rv d2" id="card-tr">
+      <div class="card-inner">
+        <div class="p-flav">Sabor maracuyá</div>
+        <div class="p-name">TROPICAL<br>BOMB</div>
+        <div class="p-img-wrap">
+          <img src="Brand Guidelines/Copia de TROPICAL BOMB SIN FONDO.png" alt="Tropical Bomb" class="p-img">
+        </div>
+        <div class="p-tags">
+          <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
+        </div>
+        <p class="p-desc">Maracuyá explosivo con punch tropical. Para los streams de 4 horas donde el chat nota si bajás la guardia, y para los parciales que no perdonan.</p>
+        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
+        <a href="#comprar" class="btn-buy">COMPRAR TROPICAL BOMB <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CÓMO FUNCIONA ===== -->
+<section id="como-funciona">
+  <div class="wrap">
+    <span class="s-tag rv">El mecanismo</span>
+    <h2 class="s-title rv d1">No es magia.<br>Es química.</h2>
+    <div class="func-grid">
+      <div class="func-step rv d1">
+        <div class="step-bg-n">01</div>
+        <div class="step-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h4>Activación cognitiva</h4>
+        <p>La <span class="hl">cafeína (120mg)</span> bloquea la adenosina — la molécula que acumula cansancio. L-Tirosina y Colina alimentan la producción de dopamina y acetilcolina. Estado de alerta real, sin el ruido.</p>
+      </div>
+      <div class="func-step rv d2">
+        <div class="step-bg-n">02</div>
+        <div class="step-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h4>Foco limpio</h4>
+        <p>La cafeína te activa, pero sin control puede ponerte nervioso. La <span class="hl">L-Teanina (100mg)</span> suaviza ese efecto: te da el foco sin la ansiedad, sin el temblor, sin el crash. La combinación más estudiada para la cognición.</p>
+      </div>
+      <div class="func-step rv d3">
+        <div class="step-bg-n">03</div>
+        <div class="step-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <h4>Soporte anti-fatiga</h4>
+        <p>Vitaminas <span class="hl">B3, B6, B12</span>, Taurina, L-Carnitina y Ginseng sostienen el sistema nervioso y la energía celular. El cansancio llega más tarde. La claridad, más lejos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INGREDIENTES ===== -->
+<section id="ingredientes">
+  <div class="wrap">
+    <div class="ing-head rv">
+      <div>
+        <span class="s-tag">La fórmula</span>
+        <h2 class="s-title" style="margin-bottom:0">11 ingredientes.<br>Dosis reales.</h2>
+      </div>
+      <p class="ing-note">Cada ingrediente tiene su nombre y su cantidad exacta. Sabés exactamente qué estás tomando y para qué sirve. Sin letras chicas. Sin sorpresas.</p>
+    </div>
+    <div class="ing-list rv d1" id="ing-list">
+      <div class="ing-row" data-pct="95"><div class="ing-n">Taurina</div><div class="ing-d">700mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neuroprotección</div></div>
+      <div class="ing-row" data-pct="88"><div class="ing-n">L-Carnitina</div><div class="ing-d">600mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Energía celular</div></div>
+      <div class="ing-row" data-pct="80"><div class="ing-n">L-Tirosina</div><div class="ing-d">500mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Dopamina · Foco</div></div>
+      <div class="ing-row" data-pct="72"><div class="ing-n">Colina</div><div class="ing-d">300mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Memoria de trabajo</div></div>
+      <div class="ing-row" data-pct="78"><div class="ing-n">Cafeína</div><div class="ing-d">120mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Alerta · Reacción</div></div>
+      <div class="ing-row" data-pct="75"><div class="ing-n">L-Teanina</div><div class="ing-d">100mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Foco limpio</div></div>
+      <div class="ing-row" data-pct="65"><div class="ing-n">Ginseng</div><div class="ing-d">50mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Adaptógeno</div></div>
+      <div class="ing-row" data-pct="62"><div class="ing-n">Luteína</div><div class="ing-d">20mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Protección visual</div></div>
+      <div class="ing-row" data-pct="70"><div class="ing-n">Vitamina B3</div><div class="ing-d">10mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Metabolismo energético</div></div>
+      <div class="ing-row" data-pct="67"><div class="ing-n">Vitamina B6</div><div class="ing-d">1.5mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neurotransmisores</div></div>
+      <div class="ing-row" data-pct="73"><div class="ing-n">Vitamina B12</div><div class="ing-d">3µg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Sistema nervioso</div></div>
+    </div>
+    <div class="rv d2" style="margin-top:32px;">
+      <a href="#" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        VER ETIQUETA
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="wrap">
+    <span class="s-tag rv">Las dudas</span>
+    <h2 class="s-title rv d1">Preguntas<br>frecuentes.</h2>
+    <div class="faq-wrap">
+      <div class="faq-item rv">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Cuándo empiezo a sentirlo?<span class="faq-ico">+</span></button>
+        <div class="faq-a">Entre <strong>20 y 40 minutos</strong> después de tomarlo. Con el estómago no demasiado lleno el efecto es más claro. La primera vez puede ser más sutil — el cuerpo necesita un par de usos para responder a pleno.</div>
+      </div>
+      <div class="faq-item rv d1">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Tiene mucha cafeína?<span class="faq-ico">+</span></button>
+        <div class="faq-a"><strong>120mg por porción</strong> — equivalente a un café largo. No llega a los niveles que generan jitters. Y combinada con L-Teanina (100mg), el efecto es más limpio y sostenido que la cafeína sola.</div>
+      </div>
+      <div class="faq-item rv d2">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Me va a arruinar el sueño?<span class="faq-ico">+</span></button>
+        <div class="faq-a">Si lo tomás <strong>6+ horas antes de dormir</strong>, no debería ser problema para la mayoría. La cafeína tiene vida media de 4-6 horas. Si sos sensible o lo tomás de noche, puede afectar el sueño — como cualquier fuente de cafeína.</div>
+      </div>
+      <div class="faq-item rv d3">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto dura el pote?<span class="faq-ico">+</span></button>
+        <div class="faq-a"><strong>30 porciones de 7,5g</strong> — 226g netos. Si lo usás todos los días dura un mes. Si es más situacional (sesiones, parciales, streams), puede durar bastante más.</div>
+      </div>
+      <div class="faq-item rv">
+        <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
+        <div class="faq-a">La fórmula es <strong>exactamente la misma en todos los sabores</strong> desde 2024. Blaze Berry (arándano) es más intenso y oscuro. Tropical Bomb (maracuyá) es más refrescante. La ciencia adentro es idéntica.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section id="comprar">
+  <div class="wrap">
+    <span class="cta-tag rv">Próximo paso</span>
+    <h2 class="cta-title rv d1">¿LO PROBÁS<br>O SEGUÍS<br><span class="gr">IGUAL?</span></h2>
+    <p class="cta-sub rv d2">30 porciones. 11 ingredientes. Sin crash. Sin azúcar.<br>Sin el corazón a 200. Hacé las cuentas.</p>
+    <div class="cta-btns rv d3">
+      <a href="#" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+      <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+    </div>
+    <p class="cta-note rv d4">Envío a todo el país · Pago seguro · Todo en el label, sin sorpresas</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-logo"><img src="Brand Guidelines/Copia de Untitled design (9).png" alt="Power Rush"></div>
+    <p class="foot-copy">&copy; 2026 Power Rush — Argentina<br>Suplemento cognitivo dietético. No apto para menores de 18 años.</p>
+    <div class="foot-links">
+      <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Contacto</a><a href="#">Términos</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== CURSOR ===== */
+const cur = document.getElementById('cur'), curGlo = document.getElementById('cur-glo');
+let mx = 0, my = 0, gx = 0, gy = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+(function aG() { gx += (mx-gx)*.11; gy += (my-gy)*.11; curGlo.style.left = gx+'px'; curGlo.style.top = gy+'px'; requestAnimationFrame(aG); })();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.width='26px'; cur.style.height='26px'; cur.style.opacity='.6'; });
+  el.addEventListener('mouseleave', () => { cur.style.width='14px'; cur.style.height='14px'; cur.style.opacity='1'; });
+});
+
+/* ===== SCROLL PROGRESS ===== */
+const prog = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  prog.style.width = ((s.scrollTop/(s.scrollHeight-s.clientHeight))*100)+'%';
+}, { passive: true });
+
+/* ===== POWER METER ===== */
+const pwFill=document.getElementById('pw-fill'), pwVal=document.getElementById('pw-val'), pwStatus=document.getElementById('pw-status');
+let pct=0;
+setTimeout(()=>{
+  const t=setInterval(()=>{ pct=Math.min(pct+2,100); pwFill.style.width=pct+'%'; pwVal.textContent=pct+'%'; if(pct>=100){clearInterval(t); pwStatus.textContent='OPERATIVO'; pwVal.textContent='MAX'; setTimeout(()=>showAch('CONECTADO','Sistema operativo','Foco activado. Tu sesión empieza ahora.'), 5000);} },28);
+},900);
+
+/* ===== ACHIEVEMENTS ===== */
+const achWrap = document.getElementById('ach-wrap'), achSeen = new Set();
+let achQueue = [], achBusy = false;
+function showAch(name, tag, desc) {
+  if (achSeen.has(name)) return; achSeen.add(name);
+  achQueue.push({name, tag, desc});
+  if (!achBusy) processAch();
+}
+function processAch() {
+  if (!achQueue.length) { achBusy = false; return; }
+  achBusy = true;
+  const {name, tag, desc} = achQueue.shift();
+  const d = document.createElement('div'); d.className = 'ach';
+  d.innerHTML = `<svg class="ach-ico" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5H5a2 2 0 0 0-2 2v3c0 2.8 2 5.1 4.7 5.9A6 6 0 0 0 11 19v2H7v2h10v-2h-4v-2a6 6 0 0 0 3.3-3.1C19 14.1 21 11.8 21 9V7a2 2 0 0 0-2-2h-3V3H8v2zm-3 5V7h3v3.4C7 12.5 5 11.4 5 10zm14 0c0 1.4-2 2.5-3 2.4V7h3v3z"/></svg><div><div class="ach-tag">${tag}</div><div class="ach-name">${name}</div><div class="ach-desc">${desc}</div></div>`;
+  achWrap.appendChild(d);
+  setTimeout(() => { d.remove(); setTimeout(processAch, 300); }, 3000);
+}
+
+/* ===== REVEAL ===== */
+const rvObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+document.querySelectorAll('.rv').forEach(el => rvObs.observe(el));
+
+/* ===== INGREDIENT BARS ===== */
+const ingObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.ing-row').forEach((row,i) => setTimeout(()=>{ row.querySelector('.ing-fill').style.width=row.dataset.pct+'%'; },i*75));
+    showAch('FÓRMULA DESCUBIERTA','Logro desbloqueado','11 ingredientes. Dosis reales. Todo en el label.');
+    ingObs.unobserve(e.target);
+  });
+}, { threshold: 0.15 });
+const ingList = document.getElementById('ing-list');
+if (ingList) ingObs.observe(ingList);
+
+/* ===== COUNTERS ===== */
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('[data-count]').forEach(el => {
+      const target = +el.dataset.count, step = target/38;
+      let n = 0;
+      const t = setInterval(()=>{ n=Math.min(n+step,target); el.textContent=Math.floor(n); if(n>=target){el.textContent=target;clearInterval(t);} },38);
+    });
+    cntObs.unobserve(e.target);
+  });
+}, { threshold: 0.5 });
+cntObs.observe(document.getElementById('hero'));
+
+/* ===== 3D TILT ON PRODUCT CARDS ===== */
+document.querySelectorAll('.prod-card').forEach(card => {
+  const inner = card.querySelector('.card-inner');
+  card.addEventListener('mousemove', e => { const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; inner.style.transform=`perspective(900px) rotateY(${x*9}deg) rotateX(${-y*9}deg)`; });
+  card.addEventListener('mouseleave', () => { inner.style.transform='perspective(900px) rotateY(0deg) rotateX(0deg)'; });
+});
+
+/* ===== FAQ ===== */
+function toggleFaq(btn) { const item=btn.closest('.faq-item'), wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open')); if(!wasOpen)item.classList.add('open'); }
+
+/* ===== SECTION ACHIEVEMENTS ===== */
+const secAch = {
+  'vs':       ['EL MATCH VISTO','Logro desbloqueado','10-0. La lata no compite.'],
+  'productos':['SABORES VISTOS','Logro desbloqueado','Blaze Berry o Tropical Bomb. La fórmula es la misma.'],
+  'comprar':  ['LISTO PARA ACTIVARSE','Logro desbloqueado','Probalo. Después nos contás.'],
+};
+const secObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(!e.isIntersecting)return; const a=secAch[e.target.id]; if(a)showAch(a[0],a[1],a[2]); });
+}, { threshold: 0.3 });
+Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)secObs.observe(el); });
+</script>
+</body>
+</html>

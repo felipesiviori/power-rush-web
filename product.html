@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Rush — Comprá tu pote</title>
+  <meta name="description" content="Elegí tu sabor y hacé tu pedido. 11 nootropicos. Dosis reales. Envío a todo el país.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Bricolage+Grotesque:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #080A08;
+      --bg2:     #0C100C;
+      --bg3:     #111511;
+      --green:   #00D47A;
+      --glo-lo:  rgba(0,212,122,0.10);
+      --yellow:  #FFD100;
+      --red:     #FF3C3C;
+      --blue:    #3B82F6;
+      --orange:  #F97316;
+      --white:   #EEF5EE;
+      --gray:    #56685A;
+      --border:  rgba(0,212,122,0.16);
+      --hd: 'Barlow Condensed', sans-serif;
+      --bd: 'Bricolage Grotesque', sans-serif;
+      --mo: 'Space Mono', monospace;
+      --flavor-accent: #3B82F6;
+      --flavor-glo: rgba(59,130,246,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: var(--bd); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+    a, button { cursor: none; }
+
+    /* CURSOR */
+    #cur { position: fixed; width: 14px; height: 14px; border-radius: 50%; background: var(--green); pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); transition: width .18s, height .18s, opacity .18s; mix-blend-mode: screen; }
+    #cur-glo { position: fixed; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, rgba(0,212,122,.2) 0%, transparent 70%); pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+
+    /* PROGRESS */
+    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 10001; background: linear-gradient(90deg, var(--green), var(--yellow)); box-shadow: 0 0 8px var(--green); transition: width .06s linear; }
+
+    /* ACHIEVEMENTS */
+    /* ANNOUNCE */
+    #announce { position: fixed; top: 0; left: 0; right: 0; z-index: 1002; height: 34px; background: var(--green); overflow: hidden; display: flex; align-items: center; }
+    .ann-track { display: flex; align-items: center; white-space: nowrap; animation: annScroll 22s linear infinite; will-change: transform; }
+    .ann-track span { font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--bg); padding: 0 48px; }
+    .ann-track span::before { content: '◆'; margin-right: 48px; font-size: 8px; opacity: .5; }
+    @keyframes annScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* NAV */
+    nav { position: fixed; top: 34px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 1200px; display: flex; align-items: center; justify-content: space-between; background: rgba(8,10,8,.88); backdrop-filter: blur(24px) saturate(1.4); border: 1px solid var(--border); padding: 12px 24px; z-index: 1000; }
+    .nav-logo img { height: 30px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .4px; transition: color .2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-btn { background: var(--green); color: var(--bg); border: none; border-top: 1px solid rgba(255,255,255,.2); padding: 10px 22px; font-family: var(--hd); font-weight: 900; font-size: 14px; letter-spacing: .8px; text-transform: uppercase; transition: background .16s, box-shadow .16s; }
+    .nav-btn:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2); }
+
+    /* ===== HERO ===== */
+    #prod-hero { padding-top: calc(34px + 60px + 40px); padding-bottom: 80px; position: relative; }
+    .prod-grid-bg { position: absolute; inset: 0; z-index: 0; background-image: linear-gradient(rgba(0,212,122,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.03) 1px, transparent 1px); background-size: 56px 56px; pointer-events: none; }
+    .prod-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+
+    /* Image col */
+    .prod-img-col { position: sticky; top: calc(34px + 60px + 24px); }
+    .prod-img-frame {
+      position: relative; background: var(--bg2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px 32px; min-height: 520px; overflow: hidden;
+    }
+    .prod-img-frame::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, var(--flavor-glo) 0%, transparent 65%); transition: background .5s ease; pointer-events: none; }
+    .prod-img-frame::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.018) 3px, rgba(0,0,0,.018) 4px); pointer-events: none; }
+    .prod-main-img { width: 100%; max-width: 380px; height: auto; position: relative; z-index: 1; transition: opacity .3s ease, transform .3s ease; filter: drop-shadow(0 24px 48px rgba(0,0,0,.6)); }
+    .prod-main-img.switching { opacity: 0; transform: scale(0.96); }
+    .prod-img-badge { position: absolute; top: 16px; left: 16px; z-index: 2; background: var(--green); color: var(--bg); font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; }
+    .prod-flavor-label { position: absolute; bottom: 16px; left: 0; right: 0; z-index: 2; text-align: center; font-family: var(--mo); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); transition: color .3s; }
+
+    /* Info col */
+    .prod-info-col { display: flex; flex-direction: column; gap: 26px; }
+    .prod-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); }
+    .prod-rating { display: flex; align-items: center; gap: 10px; }
+    .prod-stars { color: var(--yellow); font-size: 15px; letter-spacing: 2px; }
+    .prod-rating-text { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
+    .prod-title { font-family: var(--hd); font-weight: 900; font-size: clamp(42px, 5vw, 64px); text-transform: uppercase; line-height: .95; letter-spacing: -0.02em; }
+    .prod-title .flavor-name { color: var(--flavor-accent); transition: color .5s; }
+    .prod-desc { font-size: 15px; line-height: 1.7; color: rgba(238,245,238,.75); }
+
+    /* Selector label */
+    .sel-label { font-family: var(--mo); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 10px; }
+    .sel-label span { color: var(--white); margin-left: 6px; }
+
+    /* Flavor cards */
+    .flavor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .flavor-card { border: 1px solid rgba(255,255,255,.1); padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: none; transition: border-color .2s, background .2s; background: transparent; }
+    .flavor-card:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.03); }
+    .flavor-card.active.bb { border-color: var(--blue); background: rgba(59,130,246,.06); }
+    .flavor-card.active.tb { border-color: var(--orange); background: rgba(249,115,22,.06); }
+    .flavor-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .flavor-dot.bb { background: var(--blue); }
+    .flavor-dot.tb { background: var(--orange); }
+    .flavor-card-name { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .5px; }
+    .flavor-card-sub { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ── Selector de cantidad — botones rectangulares biselados ── */
+    .qty-wrap { position: relative; }
+    .qty-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .qty-card { position: relative; display: flex; flex-direction: row; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 4px 8px; padding: 16px 12px 14px; min-height: 78px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); cursor: none; transition: border-color .2s, background .2s, box-shadow .2s; }
+    .qty-card:hover { border-color: rgba(255,255,255,.22); }
+    .qty-num { font-family: var(--hd); font-weight: 900; line-height: 1; color: var(--white); font-size: 30px; transition: color .2s; }
+    .qty-card.active .qty-num { color: var(--green); }
+    .qty-info { display: flex; flex-direction: row; align-items: baseline; gap: 6px; }
+    .qty-unit { font-family: var(--hd); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; font-size: 15px; align-self: center; }
+    .qty-per { display: none; }
+    .qty-meta { display: flex; flex-direction: column; align-items: center; gap: 2px; flex-basis: 100%; }
+    .qty-total { font-family: var(--hd); font-weight: 900; line-height: 1; font-size: 18px; }
+    .qty-save { font-family: var(--mo); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    .qty-radio { display: none; }
+    .qty-ship { display: none; }
+    .qty-ribbon { position: absolute; top: 0; left: 50%; transform: translateX(-50%); border-radius: 0 0 6px 6px; font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; background: var(--green); color: var(--bg); padding: 2px 8px; white-space: nowrap; z-index: 2; }
+    .qty-card.active { border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
+
+    /* Envío gratis — bracket que abarca packs 2 y 3 */
+    .qty-ship-bracket { margin-left: calc((100% - 16px)/3 + 8px); margin-top: 6px; }
+    .qty-ship-line { height: 7px; border: 1px solid rgba(0,212,122,.4); border-top: none; }
+    .qty-ship-txt { display: block; text-align: center; margin-top: 6px; font-family: var(--mo); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); }
+
+    /* Price */
+    .prod-price-row { display: flex; align-items: baseline; gap: 14px; }
+    .prod-price { font-family: var(--hd); font-weight: 900; font-size: 52px; line-height: 1; letter-spacing: -0.02em; }
+    .prod-price-note { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
+
+    /* CTA */
+    .prod-cta { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--green); color: var(--bg); border: none; border-top: 1px solid rgba(255,255,255,.2); padding: 18px 32px; width: 100%; font-family: var(--hd); font-weight: 900; font-size: 20px; letter-spacing: 1px; text-transform: uppercase; transition: background .16s, box-shadow .16s, transform .1s; }
+    .prod-cta:hover { background: #06EA8A; box-shadow: 0 0 0 4px rgba(0,212,122,.2), 0 8px 32px rgba(0,212,122,.15); }
+    .prod-cta:active { transform: scale(0.99); }
+
+    /* Ver etiqueta */
+    .btn-etiqueta { display: inline-flex; align-items: center; gap: 7px; color: var(--gray); border-bottom: 1px solid rgba(86,104,90,.35); padding-bottom: 2px; font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: color .2s, border-color .2s; }
+    .btn-etiqueta:hover { color: var(--white); border-color: var(--gray); }
+
+    /* Trust mini */
+    .trust-row { display: flex; gap: 20px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--border); }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--gray); }
+    .trust-item svg { color: var(--green); flex-shrink: 0; }
+
+    /* ===== TRUST STRIP ===== */
+    #trust-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .trust-strip-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); }
+    .ts-item { display: flex; align-items: center; gap: 14px; padding: 24px 20px; border-right: 1px solid var(--border); }
+    .ts-item:last-child { border-right: none; }
+    .ts-ico { color: var(--green); flex-shrink: 0; }
+    .ts-title { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .3px; }
+    .ts-sub { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+    /* ===== PARA QUIÉN ES ===== */
+    #para-quien { padding: 80px 0; }
+    .pq-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .pq-header { margin-bottom: 40px; }
+    .pq-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .pq-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
+    .pq-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .pq-card { background: var(--bg2); padding: 36px 28px; display: flex; flex-direction: column; gap: 14px; transition: background .2s; }
+    .pq-card:hover { background: var(--bg3); }
+    .pq-ico { color: var(--green); margin-bottom: 4px; }
+    .pq-persona { font-family: var(--mo); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray); }
+    .pq-name { font-family: var(--hd); font-weight: 900; font-size: 26px; text-transform: uppercase; line-height: 1; }
+    .pq-desc { font-size: 13px; color: rgba(238,245,238,.6); line-height: 1.6; }
+    .pq-unlock { display: flex; align-items: center; gap: 7px; margin-top: 8px; font-family: var(--mo); font-size: 9px; color: var(--green); letter-spacing: 1px; text-transform: uppercase; }
+    .pq-unlock::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); }
+
+    /* ===== TABS ===== */
+    #tabs-section { padding: 80px 0; border-top: 1px solid var(--border); }
+    .tabs-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Tab nav — botones biselados (PILL) */
+    .tabs-nav { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 44px; }
+    .tab-btn { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 16px 12px; min-height: 54px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); cursor: none; color: var(--gray); transition: color .2s, background .2s, border-color .2s, box-shadow .2s; }
+    .tab-btn:hover { color: var(--white); border-color: rgba(255,255,255,.22); }
+    .tab-btn.active { color: var(--green); border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
+    .tab-ico { width: 20px; height: 20px; flex-shrink: 0; }
+    .tab-label { font-family: var(--mo); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+    .tab-num { display: none; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Ventajas — carrusel de cartas con flip 3D (estilo emblem) */
+    .wc-wrap { position: relative; }
+    .wc-head { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 1px solid rgba(0,212,122,.25); }
+    .wc-title { font-family: var(--hd); font-weight: 900; font-size: 26px; letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
+    .wc-sub { flex: 1; font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+    .wc-arrows { display: flex; gap: 8px; }
+    .wc-arrow { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); background: var(--bg2); color: var(--green); cursor: none; transition: background .16s, border-color .16s; }
+    .wc-arrow:hover { background: rgba(0,212,122,.1); border-color: var(--green); }
+
+    /* Rail carrusel — deslizable con touch, rueda y arrastre de mouse */
+    .wc-rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; scroll-behavior: smooth; padding: 8px 2px 16px; scrollbar-width: none; touch-action: pan-x; -webkit-overflow-scrolling: touch; }
+    .wc-rail::-webkit-scrollbar { display: none; }
+    .wc-rail.dragging { scroll-behavior: auto; scroll-snap-type: none; user-select: none; }
+    .wc-rail.dragging .wc-card { pointer-events: none; }
+
+    /* Carta + flip 3D */
+    .wc-card { flex: 0 0 240px; width: 240px; height: 344px; perspective: 1200px; cursor: none; border: none; background: none; padding: 0; scroll-snap-align: start; }
+    .wc-flip { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,.2,.2,1); }
+    .wc-card.flipped .wc-flip { transform: rotateY(180deg); }
+    .wc-card:not(.flipped):hover .wc-flip { transform: translateY(-5px); }
+    .wc-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 28px 22px; overflow: hidden; border: 1px solid rgba(0,212,122,.3); background: radial-gradient(ellipse at 50% 34%, rgba(0,212,122,.1), var(--bg2) 70%); transition: border-color .25s, box-shadow .25s; }
+    .wc-back { transform: rotateY(180deg); }
+    .wc-face::before { content: ''; position: absolute; inset: 9px; border: 1px solid rgba(0,212,122,.28); pointer-events: none; z-index: 1; clip-path: polygon(13px 0, calc(100% - 13px) 0, 100% 13px, 100% calc(100% - 13px), calc(100% - 13px) 100%, 13px 100%, 0 calc(100% - 13px), 0 13px); }
+    .wc-card.flipped .wc-face, .wc-card:hover .wc-face { border-color: var(--green); box-shadow: 0 0 26px rgba(0,212,122,.2); }
+
+    /* Frente */
+    .wc-illu { color: var(--green); position: relative; z-index: 2; }
+    .wc-illu svg { display: block; }
+    .wc-name { font-family: var(--hd); font-weight: 900; font-size: 19px; text-transform: uppercase; letter-spacing: .5px; line-height: 1.05; text-align: center; position: relative; z-index: 2; }
+    .wc-tag { font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); position: relative; z-index: 2; }
+    .wc-index { position: absolute; top: 11px; right: 13px; font-family: var(--mo); font-size: 10px; letter-spacing: 1px; color: rgba(0,212,122,.55); z-index: 3; }
+    .wc-flip-hint { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 5px; font-family: var(--mo); font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); z-index: 3; }
+
+    /* Dorso */
+    .wc-back-title { font-family: var(--hd); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: .5px; color: var(--green); text-align: center; position: relative; z-index: 2; }
+    .wc-back-rule { width: 36px; height: 2px; background: var(--green); margin: 12px 0 14px; position: relative; z-index: 2; }
+    .wc-back-desc { font-size: 13px; color: rgba(238,245,238,.8); line-height: 1.6; text-align: center; position: relative; z-index: 2; }
+
+    /* Ingredientes */
+    .ing-wrap { display: flex; flex-direction: column; gap: 24px; }
+    .ing-table-wrap { border: 1px solid var(--border); }
+    .ing-row { display: grid; grid-template-columns: 1fr auto 200px; align-items: center; gap: 24px; padding: 18px 24px; border-bottom: 1px solid var(--border); }
+    .ing-row:last-child { border-bottom: none; }
+    .ing-row:hover { background: rgba(0,212,122,.03); }
+    .ing-name { font-family: var(--mo); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+    .ing-dose { font-family: var(--hd); font-weight: 700; font-size: 18px; color: var(--green); }
+    .ing-bar-wrap { height: 3px; background: rgba(0,212,122,.12); }
+    .ing-bar-fill { height: 100%; background: var(--green); width: 0; transition: width 1s ease; }
+    .ing-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 8px; }
+    .ing-note-text { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
+
+    /* Modo de uso */
+    .uso-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .uso-step { background: var(--bg2); border: 1px solid var(--border); padding: 32px 28px; position: relative; overflow: hidden; }
+    .uso-num { font-family: var(--hd); font-weight: 900; font-size: 80px; line-height: 1; color: rgba(0,212,122,.08); position: absolute; top: 8px; right: 16px; }
+    .uso-icon { margin-bottom: 16px; color: var(--green); }
+    .uso-title { font-family: var(--hd); font-weight: 700; font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
+    .uso-text { font-size: 14px; color: rgba(238,245,238,.65); line-height: 1.65; }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: none; border: none; color: var(--white); font-family: var(--bd); font-size: 15px; font-weight: 600; text-align: left; transition: color .2s; }
+    .faq-q:hover { color: var(--green); }
+    .faq-ico { font-family: var(--mo); font-size: 20px; color: var(--green); flex-shrink: 0; margin-left: 16px; transition: transform .25s; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease; font-size: 14px; color: rgba(238,245,238,.65); line-height: 1.7; }
+    .faq-a.open { max-height: 400px; padding: 0 24px 20px; }
+    .faq-a.open.tall { max-height: 900px; }
+    .faq-q.open .faq-ico { transform: rotate(45deg); }
+    .faq-video-btn { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; background: none; border: 1px solid var(--green); color: var(--green); padding: 9px 15px; font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; cursor: none; transition: background .16s, color .16s; }
+    .faq-video-btn:hover { background: var(--green); color: var(--bg); }
+    .faq-video { margin-top: 14px; }
+    .faq-video video { width: 100%; max-width: 480px; display: block; border: 1px solid var(--border); }
+
+    /* ===== TIMELINE ===== */
+    #timeline { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
+    .tl-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .tl-header { margin-bottom: 56px; }
+    .tl-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .tl-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
+    .tl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+    .tl-grid::before { content: ''; position: absolute; top: 28px; left: calc(12.5%); right: calc(12.5%); height: 1px; background: linear-gradient(90deg, var(--green) 0%, rgba(0,212,122,.3) 100%); z-index: 0; }
+    .tl-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
+    .tl-dot { width: 56px; height: 56px; border: 2px solid var(--green); background: var(--bg2); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; position: relative; }
+    .tl-dot::after { content: ''; position: absolute; inset: 6px; background: var(--green); opacity: .15; }
+    .tl-dot svg { position: relative; z-index: 1; color: var(--green); }
+    .tl-time { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+    .tl-step-title { font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; margin-bottom: 8px; }
+    .tl-step-desc { font-size: 13px; color: rgba(238,245,238,.55); line-height: 1.6; }
+
+    /* ===== RESEÑAS ===== */
+    #prod-reviews { padding: 80px 0; border-top: 1px solid var(--border); }
+    .rev-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .rev-header { margin-bottom: 40px; }
+    .rev-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .rev-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
+    .rev-agg { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+    .rev-agg-num { font-family: var(--hd); font-weight: 900; font-size: 48px; line-height: 1; }
+    .rev-agg-stars { color: var(--yellow); font-size: 18px; letter-spacing: 3px; }
+    .rev-agg-count { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
+    .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .rev-card { background: var(--bg2); border: 1px solid var(--border); padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; }
+    .rev-stars { color: var(--yellow); font-size: 14px; letter-spacing: 2px; }
+    .rev-text { font-size: 14px; color: rgba(238,245,238,.75); line-height: 1.7; flex: 1; }
+    .rev-text::before { content: '\201C'; }
+    .rev-text::after { content: '\201D'; }
+    .rev-author { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .rev-ava { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--hd); font-weight: 900; font-size: 16px; color: var(--bg); flex-shrink: 0; }
+    .rev-name { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; }
+    .rev-role { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+    .rev-game-tag { display: inline-block; margin-top: 6px; background: rgba(0,212,122,.1); color: var(--green); font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border: 1px solid rgba(0,212,122,.25); }
+
+    /* ===== GARANTÍA ===== */
+    #garantia { padding: 80px 0; border-top: 1px solid var(--border); }
+    .gar-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .gar-header { margin-bottom: 48px; }
+    .gar-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .gar-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
+    .gar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .gar-card { background: var(--bg2); padding: 40px 32px; display: flex; flex-direction: column; gap: 16px; }
+    .gar-ico { color: var(--green); }
+    .gar-num { font-family: var(--hd); font-weight: 900; font-size: 56px; line-height: 1; letter-spacing: -0.02em; }
+    .gar-label { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-top: -8px; }
+    .gar-desc { font-size: 14px; color: rgba(238,245,238,.6); line-height: 1.65; margin-top: 4px; }
+
+    /* ===== CROSS-SELL ===== */
+    #cross-sell { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
+    .cs-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .cs-header { margin-bottom: 40px; }
+    .cs-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .cs-title { font-family: var(--hd); font-weight: 900; font-size: clamp(32px, 4vw, 48px); text-transform: uppercase; line-height: .95; }
+    .cs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .cs-card { background: var(--bg); border: 1px solid var(--border); padding: 32px; display: flex; gap: 32px; align-items: center; transition: border-color .2s; }
+    .cs-card:hover { border-color: rgba(255,255,255,.25); }
+    .cs-img { width: 200px; height: 230px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 16px 32px rgba(0,0,0,.5)); }
+    .cs-info { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .cs-flavor { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
+    .cs-flavor.bb { color: var(--blue); }
+    .cs-flavor.tb { color: var(--orange); }
+    .cs-name { font-family: var(--hd); font-weight: 900; font-size: 28px; text-transform: uppercase; line-height: 1; }
+    .cs-desc { font-size: 13px; color: rgba(238,245,238,.55); line-height: 1.6; }
+    .cs-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--green); color: var(--green); padding: 10px 20px; font-family: var(--hd); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; text-decoration: none; transition: background .16s, color .16s; width: fit-content; }
+    .cs-btn:hover { background: var(--green); color: var(--bg); }
+
+    /* ===== STICKY BAR ===== */
+    #sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; background: var(--bg2); border-top: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; gap: 20px; transform: translateY(100%); transition: transform .35s cubic-bezier(.16,1,.3,1); }
+    #sticky-bar.visible { transform: translateY(0); }
+    .sb-img { width: 44px; height: 50px; object-fit: contain; flex-shrink: 0; }
+    .sb-info { flex: 1; }
+    .sb-name { font-family: var(--hd); font-weight: 700; font-size: 17px; text-transform: uppercase; }
+    .sb-detail { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
+    .sb-price { font-family: var(--hd); font-weight: 900; font-size: 26px; }
+    .sb-cta { background: var(--green); color: var(--bg); border: none; padding: 12px 28px; font-family: var(--hd); font-weight: 900; font-size: 16px; letter-spacing: .8px; text-transform: uppercase; flex-shrink: 0; transition: background .16s; }
+    .sb-cta:hover { background: #06EA8A; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 48px 24px; }
+    .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .foot-logo img { height: 28px; width: auto; opacity: .7; }
+    .foot-copy { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; line-height: 1.8; text-align: center; }
+    .foot-links { display: flex; gap: 24px; }
+    .foot-links a { color: var(--gray); text-decoration: none; font-size: 12px; transition: color .2s; }
+    .foot-links a:hover { color: var(--white); }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .prod-wrap { grid-template-columns: 1fr; gap: 0; }
+      .prod-img-col { position: static; padding: 24px 0 0; }
+      .prod-img-frame { min-height: 300px; padding: 32px 24px; }
+      .prod-main-img { max-width: 260px; }
+      .wc-card { flex-basis: 210px; width: 210px; height: 320px; }
+      .rev-grid { grid-template-columns: 1fr; }
+      .uso-steps { grid-template-columns: 1fr; }
+      .cs-grid { grid-template-columns: 1fr; }
+      .cs-card { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .cs-img { width: 120px; height: 130px; }
+      .trust-strip-inner { grid-template-columns: 1fr 1fr; }
+      .ts-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .ts-item:nth-child(odd) { border-right: 1px solid var(--border); }
+      .ts-item:nth-last-child(-n+2) { border-bottom: none; }
+      nav { padding: 10px 16px; }
+      .nav-links { display: none; }
+      .prod-title { font-size: 40px; }
+      .rev-agg { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .sb-img { display: none; }
+      .foot-inner { flex-direction: column; text-align: center; }
+      .foot-links { justify-content: center; }
+      #prod-hero { padding-top: calc(34px + 56px + 16px); }
+      .pq-grid { grid-template-columns: 1fr 1fr; }
+      .tabs-nav { grid-template-columns: 1fr 1fr; }
+      .tl-grid { grid-template-columns: 1fr 1fr; gap: 32px 0; }
+      .tl-grid::before { display: none; }
+      .gar-grid { grid-template-columns: 1fr; }
+      .ing-row { grid-template-columns: 1fr auto; }
+      .ing-row .ing-bar-wrap { display: none; }
+    }
+    @media (max-width: 480px) {
+      .wc-card { flex-basis: 200px; width: 200px; height: 310px; }
+      .flavor-grid { grid-template-columns: 1fr; }
+      .pq-grid { grid-template-columns: 1fr; }
+      .tabs-nav { grid-template-columns: 1fr 1fr; }
+      .tl-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-glo"></div>
+<div id="progress"></div>
+
+<!-- ANNOUNCE -->
+<div id="announce">
+  <div class="ann-track">
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>30 días de garantía o te devolvemos el dinero</span>
+    <span>11 nootropicos · Dosis reales · Sin crash</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>30 días de garantía o te devolvemos el dinero</span>
+    <span>11 nootropicos · Dosis reales · Sin crash</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+    <span>30 días de garantía o te devolvemos el dinero</span>
+    <span>11 nootropicos · Dosis reales · Sin crash</span>
+    <span>Envío gratis llevando 2 o más unidades</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Brand Guidelines/Copia de Untitled design (9).png" alt="Power Rush">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#prod-reviews">Reseñas</a></li>
+    <li><a href="#prod-faq">Ayuda</a></li>
+  </ul>
+  <button class="nav-btn" onclick="document.getElementById('prod-hero').scrollIntoView({behavior:'smooth'})">COMPRAR</button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="prod-hero">
+  <div class="prod-grid-bg"></div>
+  <div class="prod-wrap">
+
+    <!-- IMAGEN -->
+    <div class="prod-img-col">
+      <div class="prod-img-frame" id="img-frame">
+        <div class="prod-img-badge">Suplemento cognitivo</div>
+        <img id="prod-img" src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="Power Rush Blaze Berry" class="prod-main-img">
+        <div class="prod-flavor-label" id="flavor-label">Blaze Berry · Arándano</div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="prod-info-col">
+      <div class="prod-overline">Power Rush · Argentina</div>
+
+      <div class="prod-rating">
+        <span class="prod-stars">★★★★★</span>
+        <span class="prod-rating-text">4.7 · +1.000 reseñas</span>
+      </div>
+
+      <h1 class="prod-title">POWER RUSH<br><span class="flavor-name" id="title-flavor">BLAZE BERRY</span></h1>
+
+      <p class="prod-desc">11 nootropicos. 30 porciones. Sin azúcar. Sin crash. La combinación de cafeína y L-Teanina que hace que tu sesión dure más que el enemigo.</p>
+
+      <!-- SABOR -->
+      <div>
+        <div class="sel-label">Sabor seleccionado:<span id="lbl-flavor">Blaze Berry</span></div>
+        <div class="flavor-grid">
+          <div class="flavor-card bb active" onclick="selectFlavor('bb')">
+            <div class="flavor-dot bb"></div>
+            <div>
+              <div class="flavor-card-name">Blaze Berry</div>
+              <div class="flavor-card-sub">Arándano intenso</div>
+            </div>
+          </div>
+          <div class="flavor-card tb" onclick="selectFlavor('tb')">
+            <div class="flavor-dot tb"></div>
+            <div>
+              <div class="flavor-card-name">Tropical Bomb</div>
+              <div class="flavor-card-sub">Maracuyá refrescante</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CANTIDAD -->
+      <div>
+        <div class="sel-label">Cantidad:<span id="lbl-qty">1 pote</span></div>
+        <div class="qty-wrap" id="qty-wrap">
+        <div class="qty-grid">
+
+          <div class="qty-card active" data-n="1" data-total="$24.999" onclick="selectQty(1, this)">
+            <span class="qty-radio"></span>
+            <span class="qty-num">1</span>
+            <span class="qty-info">
+              <span class="qty-unit">Pote</span>
+              <span class="qty-per">$24.999 c/u · 30 porciones</span>
+            </span>
+            <span class="qty-meta">
+              <span class="qty-total">$24.999</span>
+              <span class="qty-save" style="color:var(--gray)">por pote</span>
+            </span>
+          </div>
+
+          <div class="qty-card" data-n="2" data-total="$44.999" onclick="selectQty(2, this)">
+            <span class="qty-radio"></span>
+            <span class="qty-num">2</span>
+            <span class="qty-info">
+              <span class="qty-unit">Potes</span>
+              <span class="qty-per">$22.500 c/u · 60 porciones</span>
+            </span>
+            <span class="qty-meta">
+              <span class="qty-total">$22.500</span>
+              <span class="qty-save">por pote · −10%</span>
+            </span>
+            <span class="qty-ship">✓ Envío gratis</span>
+          </div>
+
+          <div class="qty-card" data-n="3" data-total="$63.749" onclick="selectQty(3, this)">
+            <span class="qty-ribbon">Más elegido</span>
+            <span class="qty-radio"></span>
+            <span class="qty-num">3</span>
+            <span class="qty-info">
+              <span class="qty-unit">Potes</span>
+              <span class="qty-per">$21.250 c/u · 90 porciones</span>
+            </span>
+            <span class="qty-meta">
+              <span class="qty-total">$21.250</span>
+              <span class="qty-save">por pote · −15%</span>
+            </span>
+            <span class="qty-ship">✓ Envío gratis</span>
+          </div>
+
+        </div>
+        <div class="qty-ship-bracket"><div class="qty-ship-line"></div><span class="qty-ship-txt">✓ Envío gratis</span></div>
+        </div><!-- /qty-wrap -->
+      </div>
+
+      <!-- PRECIO -->
+      <div>
+        <div class="prod-price-row">
+          <div class="prod-price" id="prod-price">$24.999</div>
+        </div>
+        <div class="prod-price-note">Total · IVA incluido · Envío a calcular</div>
+      </div>
+
+      <!-- CTA -->
+      <button class="prod-cta" onclick="addToCart()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        AGREGAR AL CARRITO
+      </button>
+
+      <!-- VER ETIQUETA + TRUST -->
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <a href="#tab-ingredientes" class="btn-etiqueta" onclick="switchTab('ingredientes', document.querySelector('[data-tab=ingredientes]'))">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Ver etiqueta completa
+        </a>
+        <div class="trust-row">
+          <div class="trust-item">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            30 días de garantía
+          </div>
+          <div class="trust-item">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Envío a todo el país
+          </div>
+          <div class="trust-item">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Pago seguro
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== TABS ===== -->
+<section id="tabs-section">
+  <div class="tabs-wrap">
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('beneficios', this)" data-tab="beneficios">
+        <svg class="tab-ico" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span class="tab-label">Beneficios</span>
+        <span class="tab-num">01</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('ingredientes', this)" data-tab="ingredientes">
+        <svg class="tab-ico" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        <span class="tab-label">Ingredientes</span>
+        <span class="tab-num">02</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('uso', this)" data-tab="uso">
+        <svg class="tab-ico" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="tab-label">Modo de uso</span>
+        <span class="tab-num">03</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('faq', this)" data-tab="faq" id="prod-faq">
+        <svg class="tab-ico" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span class="tab-label">Preguntas</span>
+        <span class="tab-num">04</span>
+      </button>
+    </div>
+
+    <!-- BENEFICIOS — Wildcards (carrusel con flip) -->
+    <div class="tab-panel active" id="tab-beneficios">
+      <div class="wc-wrap" id="wc-wrap">
+        <div class="wc-head">
+          <span class="wc-title">VENTAJAS</span>
+          <span class="wc-sub">Deslizá y tocá una carta para darla vuelta</span>
+          <div class="wc-arrows">
+            <button class="wc-arrow" onclick="scrollWC(-1)" aria-label="Anterior"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="wc-arrow" onclick="scrollWC(1)" aria-label="Siguiente"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="wc-rail" id="wc-rail">
+
+          <div class="wc-card" onclick="flipCard(this)">
+            <div class="wc-flip">
+              <div class="wc-face wc-front">
+                <span class="wc-index">01</span>
+                <span class="wc-illu"><svg width="84" height="84" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2"><circle cx="48" cy="48" r="30"/><line x1="48" y1="6" x2="48" y2="20"/><line x1="48" y1="76" x2="48" y2="90"/><line x1="6" y1="48" x2="20" y2="48"/><line x1="76" y1="48" x2="90" y2="48"/><polygon points="51 30 37 52 47 52 43 66 59 44 49 44 51 30" fill="currentColor" stroke="none"/></svg></span>
+                <span class="wc-name">Foco inmediato</span>
+                <span class="wc-tag">20–30 min</span>
+                <span class="wc-flip-hint">↻ Tocá para ver +</span>
+              </div>
+              <div class="wc-face wc-back">
+                <div class="wc-back-title">Foco inmediato</div>
+                <div class="wc-back-rule"></div>
+                <div class="wc-back-desc">La cafeína actúa en 20–30 minutos y la L-Teanina suaviza el efecto. Activación limpia, sin ansiedad y sin temblor.</div>
+                <span class="wc-flip-hint">↻ Tocá para volver</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wc-card" onclick="flipCard(this)">
+            <div class="wc-flip">
+              <div class="wc-face wc-front">
+                <span class="wc-index">02</span>
+                <span class="wc-illu"><svg width="84" height="84" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2"><line x1="26" y1="14" x2="70" y2="14"/><line x1="26" y1="82" x2="70" y2="82"/><path d="M32 14 C32 36 48 42 48 48 C48 54 32 60 32 82"/><path d="M64 14 C64 36 48 42 48 48 C48 54 64 60 64 82"/><line x1="42" y1="24" x2="54" y2="24"/></svg></span>
+                <span class="wc-name">Duración 4–6 hs</span>
+                <span class="wc-tag">Sin crash</span>
+                <span class="wc-flip-hint">↻ Tocá para ver +</span>
+              </div>
+              <div class="wc-face wc-back">
+                <div class="wc-back-title">Duración 4–6 hs</div>
+                <div class="wc-back-rule"></div>
+                <div class="wc-back-desc">Sin el pico de azúcar ni el bajón posterior. El foco se sostiene desde la primera ronda hasta la última.</div>
+                <span class="wc-flip-hint">↻ Tocá para volver</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wc-card" onclick="flipCard(this)">
+            <div class="wc-flip">
+              <div class="wc-face wc-front">
+                <span class="wc-index">03</span>
+                <span class="wc-illu"><svg width="84" height="84" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2"><path d="M48 10 L78 20 V46 C78 66 64 80 48 86 C32 80 18 66 18 46 V20 Z"/><path d="M30 48 C37 39 59 39 66 48 C59 57 37 57 30 48 Z"/><circle cx="48" cy="48" r="6" fill="currentColor" stroke="none"/></svg></span>
+                <span class="wc-name">Vista protegida</span>
+                <span class="wc-tag">Anti luz azul</span>
+                <span class="wc-flip-hint">↻ Tocá para ver +</span>
+              </div>
+              <div class="wc-face wc-back">
+                <div class="wc-back-title">Vista protegida</div>
+                <div class="wc-back-rule"></div>
+                <div class="wc-back-desc">20mg de Luteína protegen tus ojos de la luz azul de la pantalla. Pensado para las horas frente al monitor.</div>
+                <span class="wc-flip-hint">↻ Tocá para volver</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wc-card" onclick="flipCard(this)">
+            <div class="wc-flip">
+              <div class="wc-face wc-front">
+                <span class="wc-index">04</span>
+                <span class="wc-illu"><svg width="84" height="84" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2"><rect x="26" y="12" width="44" height="72" rx="4"/><line x1="34" y1="30" x2="62" y2="30"/><line x1="34" y1="42" x2="62" y2="42"/><line x1="34" y1="54" x2="52" y2="54"/><path d="M34 68 l6 6 l12 -13"/></svg></span>
+                <span class="wc-name">Sin sorpresas</span>
+                <span class="wc-tag">Dosis reales</span>
+                <span class="wc-flip-hint">↻ Tocá para ver +</span>
+              </div>
+              <div class="wc-face wc-back">
+                <div class="wc-back-title">Sin sorpresas</div>
+                <div class="wc-back-rule"></div>
+                <div class="wc-back-desc">11 ingredientes con nombre y dosis exacta en la etiqueta. Sabés exactamente qué tomás y para qué sirve.</div>
+                <span class="wc-flip-hint">↻ Tocá para volver</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wc-card" onclick="flipCard(this)">
+            <div class="wc-flip">
+              <div class="wc-face wc-front">
+                <span class="wc-index">05</span>
+                <span class="wc-illu"><svg width="84" height="84" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2"><circle cx="48" cy="48" r="32"/><line x1="25" y1="25" x2="71" y2="71"/><rect x="40" y="40" width="16" height="16"/></svg></span>
+                <span class="wc-name">Cero azúcar</span>
+                <span class="wc-tag">5 kcal</span>
+                <span class="wc-flip-hint">↻ Tocá para ver +</span>
+              </div>
+              <div class="wc-face wc-back">
+                <div class="wc-back-title">Cero azúcar</div>
+                <div class="wc-back-rule"></div>
+                <div class="wc-back-desc">Cero azúcar y solo 5 calorías por porción. Endulzado con sucralosa, sin impacto en tu glucosa en sangre.</div>
+                <span class="wc-flip-hint">↻ Tocá para volver</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wc-card" onclick="flipCard(this)">
+            <div class="wc-flip">
+              <div class="wc-face wc-front">
+                <span class="wc-index">06</span>
+                <span class="wc-illu"><svg width="84" height="84" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="24" width="68" height="48" rx="3"/><polyline points="20 50 34 50 40 36 48 64 54 50 76 50"/></svg></span>
+                <span class="wc-name">Energía estable</span>
+                <span class="wc-tag">Sin nervios</span>
+                <span class="wc-flip-hint">↻ Tocá para ver +</span>
+              </div>
+              <div class="wc-face wc-back">
+                <div class="wc-back-title">Energía estable</div>
+                <div class="wc-back-rule"></div>
+                <div class="wc-back-desc">Cafeína y L-Teanina en equilibrio. Energía pareja, sin los picos ni el temblor de un energizante común.</div>
+                <span class="wc-flip-hint">↻ Tocá para volver</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- INGREDIENTES -->
+    <div class="tab-panel" id="tab-ingredientes">
+      <div class="ing-wrap">
+        <div class="ing-table-wrap">
+          <div class="ing-row"><div class="ing-name">Taurina</div><div class="ing-dose">700mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="100"></div></div></div>
+          <div class="ing-row"><div class="ing-name">L-Carnitina</div><div class="ing-dose">600mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="86"></div></div></div>
+          <div class="ing-row"><div class="ing-name">L-Tirosina</div><div class="ing-dose">500mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="71"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Colina</div><div class="ing-dose">300mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="43"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Cafeína</div><div class="ing-dose">120mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="17"></div></div></div>
+          <div class="ing-row"><div class="ing-name">L-Teanina</div><div class="ing-dose">100mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="14"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Ginseng</div><div class="ing-dose">50mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="7"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Luteína</div><div class="ing-dose">20mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="3"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Vitamina B3</div><div class="ing-dose">10mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Vitamina B6</div><div class="ing-dose">5mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Vitamina B12</div><div class="ing-dose">3µg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
+        </div>
+        <div class="ing-footer">
+          <span class="ing-note-text">Valores por porción (7,5g) · 30 porciones por envase</span>
+          <a href="#" class="btn-etiqueta">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Ver etiqueta completa
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODO DE USO -->
+    <div class="tab-panel" id="tab-uso">
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="uso-num">01</div>
+          <div class="uso-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="uso-title">Medí un scoop</div>
+          <div class="uso-text">Un scoop (7,5g) por porción. El pote incluye la cuchara medidora. No hace falta adivinar.</div>
+        </div>
+        <div class="uso-step">
+          <div class="uso-num">02</div>
+          <div class="uso-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="uso-title">Mezclá con agua fría</div>
+          <div class="uso-text">250 a 300ml de agua fría. Agitá bien hasta disolver. El polvo se integra rápido.</div>
+        </div>
+        <div class="uso-step">
+          <div class="uso-num">03</div>
+          <div class="uso-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="uso-title">Tomalo 20–30 min antes</div>
+          <div class="uso-text">Antes de jugar, estudiar o lo que sea que necesite tu foco máximo. Evitá tomarlo después de las 6pm si sos sensible a la cafeína.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="tab-panel" id="tab-faq">
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Qué es Power Rush?<span class="faq-ico">+</span></button>
+          <div class="faq-a">Power Rush es un suplemento cognitivo en polvo pensado para potenciar tu foco y tu energía sin el bajón. Combina 11 nootropicos en dosis reales —cafeína, L-Teanina, L-Tirosina, Colina y más— para darte concentración sostenida, reacción rápida y claridad mental durante horas. Sin azúcar, sin mezclas misteriosas y con cada ingrediente declarado en la etiqueta. Lo mezclás con agua, lo tomás 20–30 minutos antes y listo: a rendir.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto dura el pote?<span class="faq-ico">+</span></button>
+          <div class="faq-a">30 porciones de 7,5g — 226g netos. Si lo usás todos los días dura un mes. Si es más situacional (sesiones, parciales, streams), puede durar bastante más.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
+          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. Blaze Berry (arándano) es más intenso y oscuro. Tropical Bomb (maracuyá) es más refrescante y frutal. La ciencia adentro es idéntica. Como dijo una vieja antes de sentarse en un hormiguero: "sobre gustos no hay nada escrito".</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Tiene azúcar?<span class="faq-ico">+</span></button>
+          <div class="faq-a">Cero azúcar. 5 calorías por porción. Está endulzado con sucralosa, sin impacto en el nivel de glucosa en sangre.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Lo puedo tomar si no juego videojuegos?<span class="faq-ico">+</span></button>
+          <div class="faq-a">Por supuesto. La fórmula es para cualquier tarea que requiera foco sostenido: estudiar, trabajar, crear contenido, diseñar, programar y hasta entrenar. Power Rush no discrimina… a menos que seas team verano, ahí sí que está todo mal.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto tarda en llegar?<span class="faq-ico">+</span></button>
+          <div class="faq-a">Enviamos a todo el país. A CABA y AMBA llega en 24 hs hábiles; al resto del país los tiempos varían según la zona. Te enviamos el tracking en cuanto despachamos.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Qué pasa si no me gusta?<span class="faq-ico">+</span></button>
+          <div class="faq-a">Garantía de 30 días sin preguntas. Si en los primeros 30 días no notás ningún efecto o simplemente no te gustó, te devolvemos el dinero. Sin vueltas.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">¿Qué es el video del founder para quienes compran 3 potes?<span class="faq-ico">+</span></button>
+          <div class="faq-a">Cuando comprás 3 potes o más, el founder de Power Rush te manda un video agradeciéndote la compra personalmente… No seas sucio que no es nada raro, ya te conozco a vos.
+            <button class="faq-video-btn" onclick="toggleExampleVideo(this)">
+              <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Mirá un ejemplo acá
+            </button>
+            <div class="faq-video" hidden>
+              <!-- TODO: reemplazar el src por el video real del founder -->
+              <video controls preload="none" poster="https://placehold.co/640x360/0C100C/00D47A?text=Video+del+founder">
+                <source src="" type="video/mp4">
+                Tu navegador no soporta el video.
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== ¿PARA QUIÉN ES? ===== -->
+<section id="para-quien">
+  <div class="pq-wrap">
+    <div class="pq-header">
+      <div class="pq-overline">Casos de uso</div>
+      <h2 class="pq-title">¿PARA QUIÉN<br>ES POWER RUSH?</h2>
+    </div>
+    <div class="pq-grid">
+      <div class="pq-card">
+        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
+        <div class="pq-persona">Perfil 01</div>
+        <div class="pq-name">El gamer</div>
+        <div class="pq-desc">Sesiones largas donde la concentración marca la diferencia entre rankear o no. Menos errores a la hora 3, misma velocidad de reacción a la hora 5.</div>
+        <div class="pq-unlock">Foco sostenido · Sin crash entre rounds</div>
+      </div>
+      <div class="pq-card">
+        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div class="pq-persona">Perfil 02</div>
+        <div class="pq-name">El estudiante</div>
+        <div class="pq-desc">Parciales, finales, maratones de estudio. Mejor retención, más claridad, sin el bajón de la tarde que te hace releer lo mismo tres veces.</div>
+        <div class="pq-unlock">Claridad mental · Mayor retención</div>
+      </div>
+      <div class="pq-card">
+        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.6 11.6L22 7v10l-6.4-4.5v-0.9z"/><rect x="1" y="5" width="14" height="14" rx="2"/></svg></div>
+        <div class="pq-persona">Perfil 03</div>
+        <div class="pq-name">El streamer</div>
+        <div class="pq-desc">6 horas de live. El chat no perdona y vos tampoco querés bajar el nivel. Energía sostenida sin los picos que te ponen nervioso frente a la cámara.</div>
+        <div class="pq-unlock">Energía estable · Sin nerviosismo</div>
+      </div>
+      <div class="pq-card">
+        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+        <div class="pq-persona">Perfil 04</div>
+        <div class="pq-name">El profesional</div>
+        <div class="pq-desc">Reuniones, deadlines, código, diseño. Sin picos de cafeína, sin el bajón a media tarde, sin el temblor en la mano durante la presentación.</div>
+        <div class="pq-unlock">Sin picos · Foco limpio en reuniones</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section id="timeline">
+  <div class="tl-wrap">
+    <div class="tl-header">
+      <div class="tl-overline">Efectos en tiempo real</div>
+      <h2 class="tl-title">LO QUE PASA<br>ADENTRO.</h2>
+    </div>
+    <div class="tl-grid">
+      <div class="tl-step">
+        <div class="tl-dot">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <div class="tl-time">Minuto 0</div>
+        <div class="tl-step-title">Tomás el pote</div>
+        <div class="tl-step-desc">Mezclás, agitás, tomás. El sistema operativo está cargando.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="tl-time">Minuto 20–30</div>
+        <div class="tl-step-title">Activación</div>
+        <div class="tl-step-desc">La cafeína y la L-Tirosina arrancan. Empezás a notar el foco. Sin nerviosismo, sin ansiedad.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="tl-time">Hora 1</div>
+        <div class="tl-step-title">Foco total</div>
+        <div class="tl-step-desc">Modo máximo. Colina y Ginseng en plena acción. Velocidad de respuesta, claridad mental, cero ruido interno.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="tl-time">Horas 4–6</div>
+        <div class="tl-step-title">Sin crash</div>
+        <div class="tl-step-desc">La L-Teanina hizo su trabajo. No hay bajón. No hay temblor. Terminás igual que empezaste.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESEÑAS ===== -->
+<section id="prod-reviews">
+  <div class="rev-wrap">
+    <div class="rev-header">
+      <div class="rev-overline">Lo que dice la comunidad</div>
+      <h2 class="rev-title">FOCO QUE<br>SE NOTA.</h2>
+      <div class="rev-agg">
+        <div class="rev-agg-num">4.7</div>
+        <div>
+          <div class="rev-agg-stars">★★★★★</div>
+          <div class="rev-agg-count">Sobre más de 1.000 reseñas verificadas</div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">Lo tomo 20 minutos antes de rankear. La diferencia en concentración es real, nada de nerviosismo, nada de crash a mitad de partida.</p>
+        <div class="rev-game-tag">CS2 · 2.300 hs</div>
+        <div class="rev-author">
+          <div class="rev-ava" style="background:#3B82F6;">M</div>
+          <div><div class="rev-name">Matías</div><div class="rev-role">Competitivo · Córdoba</div></div>
+        </div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">Estudié tres parciales seguidos en una semana. Me lo tomaba antes de cada sesión. La diferencia de retención es brutal comparado a cómo estudiaba antes.</p>
+        <div class="rev-game-tag">Facultad de Ingeniería · UBA</div>
+        <div class="rev-author">
+          <div class="rev-ava" style="background:#00D47A;">S</div>
+          <div><div class="rev-name">Sofía</div><div class="rev-role">Estudiante · Buenos Aires</div></div>
+        </div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">Stream de 6 horas y llegué al final igual de activo que al principio. El chat lo nota. Los viewers preguntan qué tomé. Ahora lo recomiendo siempre.</p>
+        <div class="rev-game-tag">Streamer · Twitch</div>
+        <div class="rev-author">
+          <div class="rev-ava" style="background:#FFD100;">R</div>
+          <div><div class="rev-name">Rodrigo</div><div class="rev-role">Content creator · Rosario</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GARANTÍA ===== -->
+<section id="garantia">
+  <div class="gar-wrap">
+    <div class="gar-header">
+      <div class="gar-overline">Sin vueltas</div>
+      <h2 class="gar-title">COMPRÁS<br>CON RESPALDO.</h2>
+    </div>
+    <div class="gar-grid">
+      <div class="gar-card">
+        <div class="gar-ico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div>
+          <div class="gar-num">30</div>
+          <div class="gar-label">días de garantía</div>
+        </div>
+        <div class="gar-desc">Si en los primeros 30 días no notás el efecto o no te gustó, te devolvemos el dinero. Sin preguntas, sin vueltas, sin formularios raros.</div>
+      </div>
+      <div class="gar-card">
+        <div class="gar-ico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div>
+          <div class="gar-num">11</div>
+          <div class="gar-label">ingredientes visibles</div>
+        </div>
+        <div class="gar-desc">Cada ingrediente en el label con su nombre y su dosis exacta. Sin letras chicas. Sin mezclas propietarias. Sabés exactamente qué entra en tu cuerpo.</div>
+      </div>
+      <div class="gar-card">
+        <div class="gar-ico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div>
+          <div class="gar-num">ARG</div>
+          <div class="gar-label">hecho en Argentina</div>
+        </div>
+        <div class="gar-desc">Producción local. Control de calidad propio. Soporte en tu idioma y en tu huso horario. Power Rush es un producto argentino, para el mercado argentino.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CROSS-SELL ===== -->
+<section id="cross-sell">
+  <div class="cs-wrap">
+    <div class="cs-header">
+      <div class="cs-overline">También en la rotación</div>
+      <h2 class="cs-title">LOS DOS<br>SABORES.</h2>
+    </div>
+    <div class="cs-grid">
+      <div class="cs-card">
+        <img class="cs-img" src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="Blaze Berry">
+        <div class="cs-info">
+          <div class="cs-flavor bb">Arándano · Sabor intenso</div>
+          <div class="cs-name">Blaze Berry</div>
+          <div class="cs-desc">Arándano oscuro, fondo frío. Para sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la 30.</div>
+          <a href="product.html" class="cs-btn">VER SABOR →</a>
+        </div>
+      </div>
+      <div class="cs-card">
+        <img class="cs-img" src="Brand Guidelines/Copia de TROPICAL BOMB SIN FONDO.png" alt="Tropical Bomb">
+        <div class="cs-info">
+          <div class="cs-flavor tb">Maracuyá · Sabor refrescante</div>
+          <div class="cs-name">Tropical Bomb</div>
+          <div class="cs-desc">Maracuyá brillante, tropical, refrescante. Para las sesiones de día o cuando necesitás algo que se sienta liviano pero te tenga enchufado.</div>
+          <a href="product.html" class="cs-btn">VER SABOR →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-logo"><img src="Brand Guidelines/Copia de Untitled design (9).png" alt="Power Rush"></div>
+    <p class="foot-copy">&copy; 2026 Power Rush — Argentina<br>Suplemento cognitivo dietético. No apto para menores de 18 años.</p>
+    <div class="foot-links">
+      <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Contacto</a><a href="#">Términos</a>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY BAR -->
+<div id="sticky-bar">
+  <img class="sb-img" id="sb-img" src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="">
+  <div class="sb-info">
+    <div class="sb-name">Power Rush · <span id="sb-flavor">Blaze Berry</span></div>
+    <div class="sb-detail" id="sb-detail">1 pote · 30 porciones</div>
+  </div>
+  <div class="sb-price" id="sb-price">$24.999</div>
+  <button class="sb-cta" onclick="addToCart()">COMPRAR</button>
+</div>
+
+<script>
+/* CURSOR */
+const cur = document.getElementById('cur'), curGlo = document.getElementById('cur-glo');
+let mx = 0, my = 0, gx = 0, gy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+(function aG(){ gx+=(mx-gx)*.11; gy+=(my-gy)*.11; curGlo.style.left=gx+'px'; curGlo.style.top=gy+'px'; requestAnimationFrame(aG); })();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.width='26px'; cur.style.height='26px'; cur.style.opacity='.6'; });
+  el.addEventListener('mouseleave', () => { cur.style.width='14px'; cur.style.height='14px'; cur.style.opacity='1'; });
+});
+
+/* SCROLL PROGRESS */
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('progress').style.width = Math.min(pct,100) + '%';
+});
+
+/* FLAVOR */
+let currentFlavor = 'bb';
+const flavorData = {
+  bb: { img: 'Brand Guidelines/Copia de blaze berry Sin fondo.png', label: 'Blaze Berry · Arándano', name: 'BLAZE BERRY', lbl: 'Blaze Berry', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
+  tb: { img: 'Brand Guidelines/Copia de TROPICAL BOMB SIN FONDO.png', label: 'Tropical Bomb · Maracuyá', name: 'TROPICAL BOMB', lbl: 'Tropical Bomb', accent: '#F97316', glo: 'rgba(249,115,22,0.11)' }
+};
+function selectFlavor(f) {
+  if (currentFlavor === f) return;
+  currentFlavor = f;
+  const data = flavorData[f];
+  const img = document.getElementById('prod-img');
+  img.classList.add('switching');
+  setTimeout(() => { img.src = data.img; img.classList.remove('switching'); }, 300);
+  document.getElementById('flavor-label').textContent = data.label;
+  document.getElementById('title-flavor').textContent = data.name;
+  document.getElementById('title-flavor').style.color = data.accent;
+  document.getElementById('lbl-flavor').textContent = ' ' + data.lbl;
+  document.getElementById('sb-img').src = data.img;
+  document.getElementById('sb-flavor').textContent = data.lbl;
+  document.documentElement.style.setProperty('--flavor-accent', data.accent);
+  document.documentElement.style.setProperty('--flavor-glo', data.glo);
+  document.querySelectorAll('.flavor-card').forEach(c => c.classList.remove('active'));
+  document.querySelector('.flavor-card.'+f).classList.add('active');
+}
+
+/* QUANTITY */
+let currentQty = 1;
+function selectQty(n, el) {
+  currentQty = n;
+  document.querySelectorAll('.qty-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const total = el.dataset.total;
+  document.getElementById('lbl-qty').textContent = ' ' + n + (n===1?' pote':' potes');
+  document.getElementById('sb-detail').textContent = n + (n===1?' pote':' potes') + ' · ' + (n*30) + ' porciones';
+  document.getElementById('prod-price').textContent = total;
+  document.getElementById('sb-price').textContent = total;
+}
+
+/* ADD TO CART */
+function addToCart() { /* TODO: integrar carrito */ }
+
+/* TABS */
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else document.querySelector('[data-tab='+id+']')?.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if (id === 'ingredientes') setTimeout(animateBars, 100);
+}
+function animateBars() { document.querySelectorAll('.ing-bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; }); }
+
+/* VENTAJAS — carrusel de cartas con flip + arrastre */
+let wcDragged = false;
+function flipCard(card) { if (wcDragged) return; card.classList.toggle('flipped'); }
+function scrollWC(dir) {
+  document.getElementById('wc-rail').scrollBy({ left: dir * 256, behavior: 'smooth' });
+}
+(function enableWcDrag() {
+  const rail = document.getElementById('wc-rail');
+  if (!rail) return;
+  let down = false, startX = 0, startScroll = 0, lastX = 0, lastT = 0, vel = 0, raf = 0;
+  rail.addEventListener('pointerdown', e => {
+    wcDragged = false;
+    if (e.pointerType !== 'mouse') return; // touch usa scroll nativo (con su propia inercia)
+    down = true; startX = lastX = e.clientX; startScroll = rail.scrollLeft;
+    lastT = performance.now(); vel = 0;
+    cancelAnimationFrame(raf);
+  });
+  // escucha en window: el arrastre sigue al cursor aunque salga del carrusel
+  window.addEventListener('pointermove', e => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 6) { wcDragged = true; rail.classList.add('dragging'); }
+    rail.scrollLeft = startScroll - dx;
+    const now = performance.now(), dt = now - lastT;
+    if (dt > 0) vel = (lastX - e.clientX) / dt; // px/ms en sentido del scroll
+    lastX = e.clientX; lastT = now;
+  });
+  const end = () => {
+    if (!down) return;
+    down = false;
+    let v = Math.max(-60, Math.min(60, vel * 16)); // velocidad por frame al soltar (clamp anti-fling)
+    (function momentum() {
+      if (Math.abs(v) < 0.4) { rail.classList.remove('dragging'); return; }
+      rail.scrollLeft += v;
+      v *= 0.93; // fricción
+      raf = requestAnimationFrame(momentum);
+    })();
+  };
+  window.addEventListener('pointerup', end);
+  window.addEventListener('pointercancel', end);
+})();
+
+/* FAQ */
+function toggleFaq(btn) {
+  const a = btn.nextElementSibling;
+  const isOpen = a.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(el => el.classList.remove('open'));
+  if (!isOpen) {
+    a.classList.add('open');
+    btn.classList.add('open');
+    if (a.querySelector('.faq-video') && !a.querySelector('.faq-video').hasAttribute('hidden')) a.classList.add('tall');
+  }
+}
+function toggleExampleVideo(btn) {
+  const wrap = btn.nextElementSibling;
+  const a = btn.closest('.faq-a');
+  if (wrap.hasAttribute('hidden')) {
+    wrap.removeAttribute('hidden');
+    a.classList.add('tall');
+    btn.querySelector('svg').style.display = 'none';
+    btn.lastChild.textContent = ' Ocultar ejemplo';
+  } else {
+    wrap.setAttribute('hidden', '');
+    a.classList.remove('tall');
+    btn.querySelector('svg').style.display = '';
+    btn.lastChild.textContent = ' Mirá un ejemplo acá';
+  }
+}
+
+/* STICKY BAR */
+const stickyBar = document.getElementById('sticky-bar');
+const heroSection = document.getElementById('prod-hero');
+window.addEventListener('scroll', () => {
+  if (heroSection.getBoundingClientRect().bottom < 0) stickyBar.classList.add('visible');
+  else stickyBar.classList.remove('visible');
+});
+</script>
+</body>
+</html>
