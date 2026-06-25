@@ -418,7 +418,7 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="Brand Guidelines/Copia de Untitled design (9).png" alt="Power Rush">
+    <img src="assets/logo.png" alt="Power Rush">
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
@@ -437,7 +437,7 @@
     <div class="prod-img-col">
       <div class="prod-img-frame" id="img-frame">
         <div class="prod-img-badge">Suplemento cognitivo</div>
-        <img id="prod-img" src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="Power Rush Blaze Berry" class="prod-main-img">
+        <img id="prod-img" src="assets/blaze-berry.png" alt="Power Rush Blaze Berry" class="prod-main-img">
         <div class="prod-flavor-label" id="flavor-label">Blaze Berry · Arándano</div>
       </div>
     </div>
@@ -998,7 +998,7 @@
     </div>
     <div class="cs-grid">
       <div class="cs-card">
-        <img class="cs-img" src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="Blaze Berry">
+        <img class="cs-img" src="assets/blaze-berry.png" alt="Blaze Berry">
         <div class="cs-info">
           <div class="cs-flavor bb">Arándano · Sabor intenso</div>
           <div class="cs-name">Blaze Berry</div>
@@ -1007,7 +1007,7 @@
         </div>
       </div>
       <div class="cs-card">
-        <img class="cs-img" src="Brand Guidelines/Copia de TROPICAL BOMB SIN FONDO.png" alt="Tropical Bomb">
+        <img class="cs-img" src="assets/tropical-bomb.png" alt="Tropical Bomb">
         <div class="cs-info">
           <div class="cs-flavor tb">Maracuyá · Sabor refrescante</div>
           <div class="cs-name">Tropical Bomb</div>
@@ -1022,7 +1022,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="foot-inner">
-    <div class="foot-logo"><img src="Brand Guidelines/Copia de Untitled design (9).png" alt="Power Rush"></div>
+    <div class="foot-logo"><img src="assets/logo.png" alt="Power Rush"></div>
     <p class="foot-copy">&copy; 2026 Power Rush — Argentina<br>Suplemento cognitivo dietético. No apto para menores de 18 años.</p>
     <div class="foot-links">
       <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Contacto</a><a href="#">Términos</a>
@@ -1032,7 +1032,7 @@
 
 <!-- STICKY BAR -->
 <div id="sticky-bar">
-  <img class="sb-img" id="sb-img" src="Brand Guidelines/Copia de blaze berry Sin fondo.png" alt="">
+  <img class="sb-img" id="sb-img" src="assets/blaze-berry.png" alt="">
   <div class="sb-info">
     <div class="sb-name">Power Rush · <span id="sb-flavor">Blaze Berry</span></div>
     <div class="sb-detail" id="sb-detail">1 pote · 30 porciones</div>
@@ -1061,8 +1061,8 @@ window.addEventListener('scroll', () => {
 /* FLAVOR */
 let currentFlavor = 'bb';
 const flavorData = {
-  bb: { img: 'Brand Guidelines/Copia de blaze berry Sin fondo.png', label: 'Blaze Berry · Arándano', name: 'BLAZE BERRY', lbl: 'Blaze Berry', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
-  tb: { img: 'Brand Guidelines/Copia de TROPICAL BOMB SIN FONDO.png', label: 'Tropical Bomb · Maracuyá', name: 'TROPICAL BOMB', lbl: 'Tropical Bomb', accent: '#F97316', glo: 'rgba(249,115,22,0.11)' }
+  bb: { img: 'assets/blaze-berry.png', label: 'Blaze Berry · Arándano', name: 'BLAZE BERRY', lbl: 'Blaze Berry', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
+  tb: { img: 'assets/tropical-bomb.png', label: 'Tropical Bomb · Maracuyá', name: 'TROPICAL BOMB', lbl: 'Tropical Bomb', accent: '#F97316', glo: 'rgba(249,115,22,0.11)' }
 };
 function selectFlavor(f) {
   if (currentFlavor === f) return;
