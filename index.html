@@ -272,6 +272,136 @@
     @media (max-width: 1024px) { .rev-cols { grid-template-columns: repeat(2,1fr); } .rev-col:nth-child(3) { display: none; } }
     @media (max-width: 640px) { .rev-cols { grid-template-columns: 1fr; } .rev-col:nth-child(2) { display: none; } }
 
+    /* ===== UGC GALLERY ===== */
+    .ugc-wrap { max-width: 1100px; margin: 0 auto 72px; padding: 0 24px; }
+    .ugc-label { font-family: var(--mo); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); text-align: center; margin-bottom: 24px; }
+    .ugc-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; }
+    .ugc-tile { position: relative; aspect-ratio: 9/16; overflow: hidden; border: 1px solid var(--border); background: var(--bg2); display: block; transition: border-color .25s; }
+    .ugc-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s cubic-bezier(.23,1,.32,1); }
+    .ugc-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.74) 0%, transparent 52%); pointer-events: none; }
+    .ugc-tile:hover { border-color: rgba(0,212,122,.55); }
+    .ugc-tile:hover img { transform: scale(1.07); }
+    .ugc-handle { position: absolute; left: 11px; bottom: 11px; z-index: 2; font-family: var(--mo); font-size: 9px; letter-spacing: .4px; color: var(--white); }
+    .ugc-dur { position: absolute; top: 10px; right: 10px; z-index: 2; font-family: var(--mo); font-size: 9px; background: rgba(0,0,0,.55); padding: 3px 7px; color: var(--white); letter-spacing: .5px; }
+    .ugc-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2; width: 46px; height: 46px; border-radius: 50%; background: rgba(0,212,122,.92); display: flex; align-items: center; justify-content: center; color: var(--bg); transition: transform .2s, box-shadow .2s; }
+    .ugc-tile:hover .ugc-play { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 0 0 7px rgba(0,212,122,.16); }
+
+    /* ===== QUÉ ES ===== */
+    #que-es { background: var(--bg); }
+    .qe-intro { max-width: 700px; margin-bottom: 56px; }
+    .qe-intro p { font-size: 16px; color: var(--gray); line-height: 1.85; }
+    .qe-intro p strong { color: var(--white); }
+    /* ===== CÓMO FUNCIONA (niveles con scroll) ===== */
+    #como { position: relative; height: 300vh; margin: 110px 0 40px; }
+    .como-sticky { position: sticky; top: 64px; height: calc(100vh - 84px); display: flex; align-items: center; }
+    .como-screen { position: relative; width: 100%; height: 100%; border: 1px solid var(--border); background: var(--bg2); overflow: hidden; display: flex; flex-direction: column; padding: 28px 34px 26px; }
+    .como-screen::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 78% 26%, rgba(0,212,122,.09), transparent 58%); pointer-events: none; }
+    .como-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(0,212,122,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.04) 1px, transparent 1px); background-size: 46px 46px; }
+    .como-top { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; }
+    .como-eyebrow { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
+    .como-pips { display: flex; gap: 7px; }
+    .como-pip { width: 36px; height: 4px; background: rgba(238,245,238,.1); transition: background .3s, box-shadow .3s; }
+    .como-pip.done { background: var(--green); }
+    .como-pip.cur { background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .como-stage { position: relative; z-index: 2; flex: 1; display: flex; }
+    .como-panel { position: absolute; inset: 0; display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: center; opacity: 0; transform: translateY(16px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; }
+    .cp-text { max-width: 560px; }
+    .cp-art { position: relative; width: 100%; max-width: 440px; margin-left: auto; overflow: hidden; aspect-ratio: 339 / 319; }
+    .cp-art img { position: absolute; top: 0; height: 100%; width: 300%; max-width: none; pointer-events: none; }
+    .cp-art.a1 img { left: 0; } .cp-art.a2 img { left: -100%; } .cp-art.a3 img { left: -200%; }
+    .cp-art.solo { aspect-ratio: auto; max-width: 520px; margin-left: auto; overflow: visible; display: flex; align-items: center; justify-content: center; }
+    .cp-art.solo img { position: static; left: auto; width: auto; height: auto; max-width: 100%; max-height: 64vh; display: block; }
+    .como-panel.on { opacity: 1; transform: none; }
+    .cp-tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mo); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+    .cp-tag::before { content: ''; width: 22px; height: 1px; background: var(--green); }
+    .cp-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(38px, 5.6vw, 70px); line-height: .9; text-transform: uppercase; letter-spacing: -1.5px; margin-bottom: 18px; }
+    .cp-desc { font-size: 15px; color: var(--gray); line-height: 1.7; max-width: 540px; margin-bottom: 22px; }
+    .cp-desc b { color: var(--white); font-weight: 600; }
+    .cp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cp-chips span { font-family: var(--mo); font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 6px 11px; }
+    .como-flash { position: absolute; z-index: 5; top: 58px; left: 50%; transform: translate(-50%,-8px); display: inline-flex; align-items: center; gap: 10px; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(24px, 3.2vw, 40px); text-transform: uppercase; letter-spacing: -.5px; color: var(--green); text-shadow: 0 0 26px rgba(0,212,122,.5); opacity: 0; pointer-events: none; white-space: nowrap; }
+    .como-flash::before { content: '✓'; font-size: .8em; }
+    .como-flash.show { animation: comoUp 1.2s ease; }
+    @keyframes comoUp { 0% { opacity: 0; transform: translate(-50%,-18px) scale(.85); } 16% { opacity: 1; transform: translate(-50%,-8px) scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%,-8px) scale(1.04); } }
+    .como-bar { position: relative; z-index: 3; margin-top: 16px; }
+    .como-bar-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; gap: 16px; }
+    .como-lvl { font-family: var(--mo); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
+    .como-lvl b { color: var(--green); font-size: 13px; }
+    .como-xp { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 20px; color: var(--green); letter-spacing: -.5px; }
+    .como-track { position: relative; height: 13px; background: rgba(238,245,238,.05); border: 1px solid var(--border); overflow: hidden; }
+    .como-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--yellow)); box-shadow: 0 0 14px var(--green); }
+    .como-track::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, transparent 0, transparent calc(10% - 1px), rgba(8,10,8,.55) calc(10% - 1px), rgba(8,10,8,.55) 10%); }
+    .como-screen.levelup .como-fill { animation: comoFlash .5s ease; }
+    @keyframes comoFlash { 0%,100% { filter: none; } 45% { filter: brightness(1.9); } }
+    .qe-formula-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; padding-top: 56px; border-top: 1px solid var(--border); }
+    .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
+    .qe-formula-note { font-family: var(--mo); font-size: 11px; color: var(--gray); text-align: right; line-height: 1.7; max-width: 250px; flex-shrink: 0; }
+
+    /* ===== WHY CHART ===== */
+    .why-chart { margin-top: 4px; }
+    .wc-topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+    .wc-hint { font-family: var(--mo); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
+
+    .wc-plot { position: relative; border: 1px solid var(--border); background: #060806; padding: 16px 18px 8px; overflow: hidden; }
+    .wc-plot::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 28% 18%, rgba(0,212,122,.06), transparent 62%); pointer-events: none; }
+    .wc-svg { display: block; width: 100%; height: auto; position: relative; }
+    .wc-zone-over { fill: rgba(255,60,60,.06); }
+    .wc-zone-zone { fill: rgba(0,212,122,.08); }
+    .wc-zone-crash { fill: rgba(255,60,60,.07); }
+    .wc-zline { stroke: rgba(238,245,238,.07); stroke-width: 1; }
+    .wc-zlabel { font-family: var(--mo); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; }
+    .wc-zlabel.over { fill: rgba(255,90,90,.42); }
+    .wc-zlabel.zone { fill: rgba(0,212,122,.52); }
+    .wc-zlabel.crash { fill: rgba(255,90,90,.38); }
+    .wc-axis { font-family: var(--mo); font-size: 12px; fill: var(--gray); letter-spacing: .5px; }
+    .wc-axis-title { font-family: var(--mo); font-size: 11px; fill: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
+    .wc-area, .wc-grid, .wc-endlab { display: none; }
+    .wc-scan { position: absolute; inset: 0; pointer-events: none; opacity: 1; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.18) 3px, rgba(0,0,0,.18) 4px); }
+
+    .wc-line { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: var(--len); stroke-dashoffset: var(--len); transition: opacity .35s ease; }
+    .why-chart.drawn .wc-line { stroke-dashoffset: 0; transition: stroke-dashoffset 1.7s cubic-bezier(.23,1,.32,1), opacity .35s ease; }
+    .wc-line.lata { stroke: var(--red); filter: drop-shadow(0 0 5px rgba(255,60,60,.5)); }
+    .wc-line.cafe { stroke: var(--orange); filter: drop-shadow(0 0 5px rgba(249,115,22,.5)); }
+    .wc-line.pr   { stroke: var(--green); stroke-width: 3.5; filter: drop-shadow(0 0 6px rgba(0,212,122,.6)); }
+    .wc-line.dim { opacity: .14; filter: none; }
+    .wc-dot { transition: opacity .35s ease; }
+    .why-chart .wc-dot { opacity: 0; }
+    .why-chart.drawn .wc-dot { opacity: 1; transition: opacity .4s ease 1.4s; }
+    .why-chart.drawn .wc-dot.dim { opacity: .18; }
+
+    /* ===== keycaps + callout info ===== */
+    .wc-bar.bkeys { display: flex; gap: 10px; align-items: flex-start; margin-top: 6px; }
+    .kcol { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .kcol.lata { --c: var(--red); } .kcol.cafe { --c: var(--orange); } .kcol.pr { --c: var(--green); }
+
+    .kcol .bkey { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 10px 13px; background: linear-gradient(180deg, var(--bg2), var(--bg)); border: 1px solid var(--border); border-top-color: rgba(255,255,255,.12); border-bottom: 3px solid var(--c); box-shadow: 0 3px 0 rgba(0,0,0,.45); transition: transform .12s, background .2s, box-shadow .12s; }
+    .kcol .bkey .bpow { color: var(--c); display: flex; }
+    .kcol .bkey .bkl { font-family: var(--hd); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .4px; color: var(--white); }
+    .kcol .bkey:hover { transform: translateY(-1px); }
+    .kcol:not(.on) .bkey { background: var(--bg); border-bottom-color: rgba(86,104,90,.3); box-shadow: none; transform: translateY(2px); }
+    .kcol:not(.on) .bkey .bpow { color: var(--gray); }
+    .kcol:not(.on) .bkey .bkl { color: var(--gray); opacity: .55; }
+
+    .kinfo { overflow: hidden; }
+    .kinfo .it { font-family: var(--mo); }
+
+    /* callout con punta */
+    .ikind-2 .kinfo { max-height: 0; opacity: 0; padding-top: 0; transition: max-height .3s ease, opacity .3s ease, padding-top .3s ease; }
+    .ikind-2 .kcol.on .kinfo { max-height: 170px; opacity: 1; padding-top: 12px; }
+    .ikind-2 .kinfo .ib { position: relative; border: 1px solid var(--c); background: var(--bg2); padding: 11px 13px; }
+    .ikind-2 .kinfo .ib::before { content: ''; position: absolute; top: -6px; left: 22px; width: 10px; height: 10px; background: var(--bg2); border-left: 1px solid var(--c); border-top: 1px solid var(--c); transform: rotate(45deg); }
+    .ikind-2 .kinfo .it { font-family: var(--mo); font-size: 11.5px; line-height: 1.55; color: var(--white); }
+
+    @media (max-width: 768px) {
+      .wc-bar.bkeys { flex-direction: column; }
+      .wc-zlabel { font-size: 9px; letter-spacing: 2px; }
+      .wc-axis { font-size: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wc-line { stroke-dashoffset: 0 !important; transition: opacity .35s ease !important; }
+      .why-chart .wc-dot { opacity: 1; }
+    }
+
     /* ===== PRODUCTS ===== */
     #productos { background: var(--bg); }
     .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
@@ -395,6 +525,7 @@
       .vs-match-header { grid-template-columns: 1fr; }
       .vs-team-panel.them { text-align: left; }
       .vs-center-vs { display: none; }
+      .ugc-grid { grid-template-columns: repeat(3,1fr); gap: 10px; }
     }
     @media (max-width: 768px) {
       /* Base */
@@ -402,6 +533,16 @@
       #cur, #cur-glo { display: none; }
       a, button { cursor: pointer; }
       section { padding: 64px 20px; }
+
+      /* Cómo funciona */
+      #como { height: 280vh; }
+      .como-sticky { top: 52px; height: calc(100vh - 64px); }
+      .como-screen { padding: 22px 20px 20px; }
+      .como-panel { grid-template-columns: 1fr; gap: 0; }
+      .cp-text { max-width: 100%; }
+      .cp-art { display: none; }
+      .cp-desc { font-size: 14px; }
+      .como-flash { font-size: 19px; top: 50px; }
 
       /* Nav */
       nav { padding: 10px 16px; }
@@ -459,8 +600,10 @@
       .prod-grid { grid-template-columns: 1fr; }
       .prod-card { padding: 36px 24px; }
 
-      /* Cómo funciona */
-      .func-grid { grid-template-columns: 1fr; }
+      /* Qué es */
+      .qe-formula-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .qe-formula-note { text-align: left; max-width: 100%; }
+      .ugc-grid { grid-template-columns: repeat(2,1fr); }
 
       /* Ingredientes */
       .ing-head { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -582,11 +725,322 @@
   </div>
 </section>
 
+<!-- ===== PRODUCTOS ===== -->
+<section id="productos">
+  <div class="wrap">
+    <span class="s-tag rv">Los sabores</span>
+    <h2 class="s-title rv d1">Elegí el tuyo.</h2>
+  </div>
+  <div class="prod-grid">
+    <div class="prod-card bl rv d1" id="card-bl">
+      <div class="card-inner">
+        <div class="p-flav">Sabor arándano</div>
+        <div class="p-name">BLAZE<br>BERRY</div>
+        <div class="p-img-wrap">
+          <img src="assets/blaze-berry.png" alt="Blaze Berry" class="p-img">
+        </div>
+        <div class="p-tags">
+          <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
+        </div>
+        <p class="p-desc">Arándano intenso con fondo frío. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la ronda 20.</p>
+        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
+        <a href="#comprar" class="btn-buy">COMPRAR BLAZE BERRY <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="prod-card tr rv d2" id="card-tr">
+      <div class="card-inner">
+        <div class="p-flav">Sabor maracuyá</div>
+        <div class="p-name">TROPICAL<br>BOMB</div>
+        <div class="p-img-wrap">
+          <img src="assets/tropical-bomb.png" alt="Tropical Bomb" class="p-img">
+        </div>
+        <div class="p-tags">
+          <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
+        </div>
+        <p class="p-desc">Maracuyá explosivo con punch tropical. Para los streams de 4 horas donde el chat nota si bajás la guardia, y para los parciales que no perdonan.</p>
+        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
+        <a href="#comprar" class="btn-buy">COMPRAR TROPICAL BOMB <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VS SECTION ===== -->
+<section id="vs">
+  <div class="wrap">
+    <span class="s-tag rv">Power Rush vs la competencia</span>
+    <h2 class="s-title rv d1">Power Rush<br>vs la lata.</h2>
+
+    <div class="vs-intro rv d2">
+      <p>
+        La lata te da <strong>90 minutos</strong> y un bajón garantizado. Lo sabés. Acá está la comparación que ningún energizante se anima a mostrar.
+      </p>
+    </div>
+
+    <div class="rv d2">
+      <!-- Match header -->
+      <div class="vs-match-header">
+        <div class="vs-team-panel pr">
+          <div class="vtp-label">Suplemento cognitivo · Argentina</div>
+          <div class="vtp-name">Power Rush</div>
+        </div>
+        <div class="vs-center-vs">VS</div>
+        <div class="vs-team-panel them">
+          <div class="vtp-label">Energizante en lata</div>
+          <div class="vtp-name">Energizantes típicos</div>
+        </div>
+      </div>
+
+      <table class="vs-table">
+        <tbody>
+
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 01</div><div class="vs-metric-name">Cafeína</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">120MG</div><div class="vs-val-sub">Dosis funcional. Sin brute force.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">160–300MG</div><div class="vs-val-sub">Varía entre 160 y 300mg según la marca.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 02</div><div class="vs-metric-name">L-Teanina</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">100MG</div><div class="vs-val-sub">Modula la cafeína. Foco limpio.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">0MG</div><div class="vs-val-sub">No existe en ninguna lata.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 03</div><div class="vs-metric-name">Azúcar</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">0G</div><div class="vs-val-sub">Sin azúcar. Sin bajón glucémico.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">27–54G</div><div class="vs-val-sub">Entre 27 y 54g según el producto.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 04</div><div class="vs-metric-name">Calorías</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">5 KCAL</div><div class="vs-val-sub">Por porción. Prácticamente cero.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">110–230 KCAL</div><div class="vs-val-sub">Entre 110 y 230 kcal según el producto.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 05</div><div class="vs-metric-name">Crash</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">NINGUNO</div><div class="vs-val-sub">L-Teanina evita el pico y el bajón.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">A LAS 90 MIN</div><div class="vs-val-sub">Azúcar + cafeína alta = pico + bajón.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 06</div><div class="vs-metric-name">Temblor</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">NINGUNO</div><div class="vs-val-sub">Cafeína moderada + L-Teanina. Sin jitters.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">TÍPICO</div><div class="vs-val-sub">Cafeína a 160-300mg sola causa jitters.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 07</div><div class="vs-metric-name">Duración foco</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">4–6 HORAS</div><div class="vs-val-sub">Sostenido. Sin picos. Sin caídas abruptas.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">60–90 MIN</div><div class="vs-val-sub">Después del pico, bajón garantizado.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 08</div><div class="vs-metric-name">Nootropicos</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">11 INGREDIENTES</div><div class="vs-val-sub">Todos con función cognitiva específica.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">1–2</div><div class="vs-val-sub">Solo cafeína + taurina. El resto es saborizante.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 09</div><div class="vs-metric-name">Transparencia</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">TODO EN EL LABEL</div><div class="vs-val-sub">Cada ingrediente con su dosis exacta.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">VARÍA</div><div class="vs-val-sub">Mezclas propietarias. Dosis ocultas.</div></div></div></td>
+          </tr>
+          <tr>
+            <td class="vs-metric"><div class="vs-metric-rnd">RND 10</div><div class="vs-metric-name">Para pantallas</div></td>
+            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">LUTEÍNA 20MG</div><div class="vs-val-sub">Protección ocular activa. Luz de pantalla.</div></div></div></td>
+            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">NADA</div><div class="vs-val-sub">Diseñadas para vender, no para jugar mejor.</div></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Score block -->
+      <div class="vs-score">
+        <div class="vs-score-side pr">
+          <div class="vs-score-brand">Power Rush</div>
+          <div class="vs-score-num">10</div>
+          <div class="vs-score-label">rondas ganadas</div>
+        </div>
+        <div class="vs-score-vs">VS</div>
+        <div class="vs-score-side them">
+          <div class="vs-score-brand">Energizante típico</div>
+          <div class="vs-score-num">0</div>
+          <div class="vs-score-label">rondas ganadas</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-close rv d3">
+      <p>
+        <strong>Leé la etiqueta. La nuestra y la de ellos.</strong> En Power Rush cada ingrediente tiene nombre, dosis y función. Sin letras chicas, sin relleno, sin sorpresas. Si la competencia no hace lo mismo, ya sabés por qué.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUÉ ES ===== -->
+<section id="que-es">
+  <div class="wrap">
+    <span class="s-tag rv">Por qué elegir Power Rush</span>
+    <h2 class="s-title rv d1">No todos<br>reaccionan <span style="color:var(--green)">igual</span>.</h2>
+
+    <div class="qe-intro rv d2">
+      <p>Cafeína sola, azúcar de más o dosis exageradas: la mayoría de los estimulantes te suben rápido y te sueltan más rápido todavía. <strong>Power Rush combina cafeína con L-Teanina y 9 nootrópicos más para darte foco parejo durante 4 a 6 horas</strong>, sin sobreestimularte y sin bajón. La curva lo dice todo.</p>
+    </div>
+
+    <div id="why" class="why-chart rv d2">
+      <div class="wc-topbar">
+        <span class="wc-hint">Comparativa interactiva</span>
+        <span class="wc-hint">Tocá cada uno para mostrar u ocultar</span>
+      </div>
+      <div class="wc-plot">
+        <svg class="wc-svg" viewBox="0 0 1040 446" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Energía y foco en el tiempo: Lata, Café y Power Rush">
+          <rect class="wc-zone-over" x="70" y="30" width="950" height="68.4"/>
+          <rect class="wc-zone-zone" x="70" y="98.4" width="950" height="140.6"/>
+          <rect class="wc-zone-crash" x="70" y="326.4" width="950" height="83.6"/>
+          <line class="wc-grid" x1="70" y1="125" x2="1020" y2="125"/>
+          <line class="wc-grid" x1="70" y1="220" x2="1020" y2="220"/>
+          <line class="wc-grid" x1="70" y1="315" x2="1020" y2="315"/>
+          <text class="wc-zlabel over" x="86" y="58">/// Sobreestimulación ///</text>
+          <text class="wc-zlabel zone" x="86" y="152">/// Energía Real ///</text>
+          <text class="wc-zlabel crash" x="86" y="372">/// Crash ///</text>
+          <line class="wc-zline" x1="70" y1="30" x2="1020" y2="30"/>
+          <line class="wc-zline" x1="70" y1="410" x2="1020" y2="410"/>
+          <text class="wc-axis" x="60" y="35" text-anchor="end">100%</text>
+          <text class="wc-axis" x="60" y="413" text-anchor="end">0%</text>
+          <text class="wc-axis-title" x="22" y="220" text-anchor="middle" transform="rotate(-90 22 220)">Energía / Foco</text>
+          <text class="wc-axis" x="70"  y="433" text-anchor="start">0min</text>
+          <text class="wc-axis" x="175" y="433" text-anchor="middle">15min</text>
+          <text class="wc-axis" x="260" y="433" text-anchor="middle">30min</text>
+          <text class="wc-axis" x="400" y="433" text-anchor="middle">1hr</text>
+          <text class="wc-axis" x="610" y="433" text-anchor="middle">2hr</text>
+          <text class="wc-axis" x="820" y="433" text-anchor="middle">3hr</text>
+          <text class="wc-axis" x="1020" y="433" text-anchor="end">4hr</text>
+          <path class="wc-area pr" data-key="pr"></path>
+          <path class="wc-line cafe" data-key="cafe"></path>
+          <path class="wc-line lata" data-key="lata"></path>
+          <path class="wc-line pr"   data-key="pr"></path>
+          <circle class="wc-dot cafe" data-key="cafe" r="5" fill="#F97316"></circle>
+          <circle class="wc-dot lata" data-key="lata" r="5" fill="#FF3C3C"></circle>
+          <circle class="wc-dot pr"   data-key="pr"   r="6" fill="#00D47A"></circle>
+          <text class="wc-endlab cafe" data-key="cafe" text-anchor="end" fill="#F97316"></text>
+          <text class="wc-endlab lata" data-key="lata" text-anchor="end" fill="#FF3C3C"></text>
+          <text class="wc-endlab pr"   data-key="pr"   text-anchor="end" fill="#00D47A"></text>
+        </svg>
+        <div class="wc-scan"></div>
+      </div>
+      <div class="wc-bar" id="wc-bar"></div>
+    </div>
+
+    <div id="como">
+      <div class="como-sticky">
+        <div class="como-screen">
+          <div class="como-grid"></div>
+          <div class="como-top">
+            <span class="como-eyebrow">El mecanismo · Cómo funciona</span>
+            <div class="como-pips"><span class="como-pip"></span><span class="como-pip"></span><span class="como-pip"></span></div>
+          </div>
+          <div class="como-flash" id="como-flash">¡Nivel completo!</div>
+          <div class="como-stage">
+            <div class="como-panel" data-lvl="0">
+              <div class="cp-text">
+                <span class="cp-tag">Fase 01 · Preparación</span>
+                <h3 class="cp-title">Una medida,<br>220 ml de agua</h3>
+                <p class="cp-desc">Disolvé <b>una medida de Power Rush</b> en <b>220 ml de agua fría</b> y tomalo antes de arrancar. Se mezcla en segundos: sin grumos y sin batidora.</p>
+                <div class="cp-chips"><span>1 medida · 7,5g</span><span>220 ml de agua</span><span>Antes de empezar</span></div>
+              </div>
+              <div class="cp-art solo"><img src="assets/PrimerSlidePolvo.png" alt="" aria-hidden="true"></div>
+            </div>
+            <div class="como-panel" data-lvl="1">
+              <div class="cp-text">
+                <span class="cp-tag">Fase 02 · El envión · 20–30 min</span>
+                <h3 class="cp-title">Foco arriba,<br>sin ansiedad</h3>
+                <p class="cp-desc">A los <b>20 a 30 minutos</b> llega el envión: la <b>cafeína</b>, la <b>L-Tirosina</b> y la <b>Colina</b> te encienden el foco. La <b>L-Teanina</b> amortigua el golpe, así que rendís concentrado y sin ansiedad ni temblor.</p>
+                <div class="cp-chips"><span>Cafeína 120mg</span><span>L-Tirosina 500mg</span><span>L-Teanina 100mg</span></div>
+              </div>
+              <div class="cp-art solo"><img src="assets/SegundoSlidePC..png" alt="" aria-hidden="true"></div>
+            </div>
+            <div class="como-panel" data-lvl="2">
+              <div class="cp-text">
+                <span class="cp-tag">Fase 03 · Sin bajón · 4–6 h</span>
+                <h3 class="cp-title">Se va parejo,<br>sin crash</h3>
+                <p class="cp-desc">Después de <b>4 a 6 horas</b> el efecto baja de forma pareja. Nada de crash ni de quedar fundido como con los energizantes: volvés a tu base, sin deuda.</p>
+                <div class="cp-chips"><span>4–6 horas</span><span>Sin crash</span><span>Sin rebote</span></div>
+              </div>
+              <div class="cp-art solo"><img src="assets/TercerSlidePila.png" alt="" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="como-bar">
+            <div class="como-bar-head">
+              <span class="como-lvl">Nivel <b id="como-n">1</b> / 3 · <span id="como-name">Activación</span></span>
+              <span class="como-xp" id="como-pct">0%</span>
+            </div>
+            <div class="como-track"><div class="como-fill" id="como-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qe-formula-head rv">
+      <h3>La fórmula,<br>sin letras chicas.</h3>
+      <p class="qe-formula-note">11 ingredientes, cada uno con su nombre y su dosis exacta. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
+    </div>
+    <div class="ing-list rv d1" id="ing-list">
+      <div class="ing-row" data-pct="95"><div class="ing-n">Taurina</div><div class="ing-d">700mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neuroprotección</div></div>
+      <div class="ing-row" data-pct="88"><div class="ing-n">L-Carnitina</div><div class="ing-d">600mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Energía celular</div></div>
+      <div class="ing-row" data-pct="80"><div class="ing-n">L-Tirosina</div><div class="ing-d">500mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Dopamina · Foco</div></div>
+      <div class="ing-row" data-pct="72"><div class="ing-n">Colina</div><div class="ing-d">300mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Memoria de trabajo</div></div>
+      <div class="ing-row" data-pct="78"><div class="ing-n">Cafeína</div><div class="ing-d">120mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Alerta · Reacción</div></div>
+      <div class="ing-row" data-pct="75"><div class="ing-n">L-Teanina</div><div class="ing-d">100mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Foco limpio</div></div>
+      <div class="ing-row" data-pct="65"><div class="ing-n">Ginseng</div><div class="ing-d">50mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Adaptógeno</div></div>
+      <div class="ing-row" data-pct="62"><div class="ing-n">Luteína</div><div class="ing-d">20mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Protección visual</div></div>
+      <div class="ing-row" data-pct="70"><div class="ing-n">Vitamina B3</div><div class="ing-d">10mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Metabolismo energético</div></div>
+      <div class="ing-row" data-pct="67"><div class="ing-n">Vitamina B6</div><div class="ing-d">1.5mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neurotransmisores</div></div>
+      <div class="ing-row" data-pct="73"><div class="ing-n">Vitamina B12</div><div class="ing-d">3µg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Sistema nervioso</div></div>
+    </div>
+    <div class="rv d2" style="margin-top:32px;">
+      <a href="#" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        VER ETIQUETA
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ===== REVIEWS ===== -->
 <section id="reviews">
   <div class="rev-head">
     <span class="s-tag">Lo que dicen</span>
     <h2 class="s-title" style="margin-bottom:0">Los clientes<br>hablan solos.</h2>
+  </div>
+
+  <div class="ugc-wrap rv">
+    <div class="ugc-label">En sus propias manos · #PowerRush</div>
+    <div class="ugc-grid">
+      <a href="#" class="ugc-tile" aria-label="Video de un cliente en su setup">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=SETUP" alt="Cliente Power Rush en su setup gamer">
+        <span class="ugc-dur">0:18</span>
+        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ugc-handle">@mateo.aim</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Foto de un cliente con su pote">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=POTE" alt="Cliente con su pote de Power Rush">
+        <span class="ugc-handle">@valu.cba</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Video de una partida">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=CLUTCH" alt="Cliente jugando una partida competitiva">
+        <span class="ugc-dur">0:24</span>
+        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ugc-handle">@benji.cs2</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Foto de un stream">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=STREAM" alt="Cliente en pleno stream">
+        <span class="ugc-handle">@agus.plays</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Video reseña de una clienta">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=REVIEW" alt="Reseña en video de una clienta">
+        <span class="ugc-dur">0:31</span>
+        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ugc-handle">@sofi.stream</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Foto estudiando para un parcial">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=PARCIAL" alt="Cliente estudiando para un parcial">
+        <span class="ugc-handle">@lucas.uba</span>
+      </a>
+    </div>
   </div>
 
   <div class="rev-cols">
@@ -762,218 +1216,6 @@
   </div>
 </section>
 
-<!-- ===== VS SECTION ===== -->
-<section id="vs">
-  <div class="wrap">
-    <span class="s-tag rv">Power Rush vs la competencia</span>
-    <h2 class="s-title rv d1">Power Rush<br>vs la lata.</h2>
-
-    <div class="vs-intro rv d2">
-      <p>
-        La lata te da <strong>90 minutos</strong> y un bajón garantizado. Lo sabés. Acá está la comparación que ningún energizante se anima a mostrar.
-      </p>
-    </div>
-
-    <div class="rv d2">
-      <!-- Match header -->
-      <div class="vs-match-header">
-        <div class="vs-team-panel pr">
-          <div class="vtp-label">Suplemento cognitivo · Argentina</div>
-          <div class="vtp-name">Power Rush</div>
-        </div>
-        <div class="vs-center-vs">VS</div>
-        <div class="vs-team-panel them">
-          <div class="vtp-label">Energizante en lata</div>
-          <div class="vtp-name">Energizantes típicos</div>
-        </div>
-      </div>
-
-      <table class="vs-table">
-        <tbody>
-
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 01</div><div class="vs-metric-name">Cafeína</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">120MG</div><div class="vs-val-sub">Dosis funcional. Sin brute force.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">160–300MG</div><div class="vs-val-sub">Varía entre 160 y 300mg según la marca.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 02</div><div class="vs-metric-name">L-Teanina</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">100MG</div><div class="vs-val-sub">Modula la cafeína. Foco limpio.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">0MG</div><div class="vs-val-sub">No existe en ninguna lata.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 03</div><div class="vs-metric-name">Azúcar</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">0G</div><div class="vs-val-sub">Sin azúcar. Sin bajón glucémico.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">27–54G</div><div class="vs-val-sub">Entre 27 y 54g según el producto.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 04</div><div class="vs-metric-name">Calorías</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">5 KCAL</div><div class="vs-val-sub">Por porción. Prácticamente cero.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">110–230 KCAL</div><div class="vs-val-sub">Entre 110 y 230 kcal según el producto.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 05</div><div class="vs-metric-name">Crash</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">NINGUNO</div><div class="vs-val-sub">L-Teanina evita el pico y el bajón.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">A LAS 90 MIN</div><div class="vs-val-sub">Azúcar + cafeína alta = pico + bajón.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 06</div><div class="vs-metric-name">Temblor</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">NINGUNO</div><div class="vs-val-sub">Cafeína moderada + L-Teanina. Sin jitters.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">TÍPICO</div><div class="vs-val-sub">Cafeína a 160-300mg sola causa jitters.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 07</div><div class="vs-metric-name">Duración foco</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">4–6 HORAS</div><div class="vs-val-sub">Sostenido. Sin picos. Sin caídas abruptas.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">60–90 MIN</div><div class="vs-val-sub">Después del pico, bajón garantizado.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 08</div><div class="vs-metric-name">Nootropicos</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">11 INGREDIENTES</div><div class="vs-val-sub">Todos con función cognitiva específica.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">1–2</div><div class="vs-val-sub">Solo cafeína + taurina. El resto es saborizante.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 09</div><div class="vs-metric-name">Transparencia</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">TODO EN EL LABEL</div><div class="vs-val-sub">Cada ingrediente con su dosis exacta.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">VARÍA</div><div class="vs-val-sub">Mezclas propietarias. Dosis ocultas.</div></div></div></td>
-          </tr>
-          <tr>
-            <td class="vs-metric"><div class="vs-metric-rnd">RND 10</div><div class="vs-metric-name">Para pantallas</div></td>
-            <td class="vs-us"><div class="vs-val us-val"><span class="vs-badge win">WIN</span><div class="vs-val-inner"><div class="vs-val-text">LUTEÍNA 20MG</div><div class="vs-val-sub">Protección ocular activa. Luz de pantalla.</div></div></div></td>
-            <td class="vs-them"><div class="vs-val them-val"><span class="vs-badge loss">—</span><div class="vs-val-inner"><div class="vs-val-text">NADA</div><div class="vs-val-sub">Diseñadas para vender, no para jugar mejor.</div></div></div></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Score block -->
-      <div class="vs-score">
-        <div class="vs-score-side pr">
-          <div class="vs-score-brand">Power Rush</div>
-          <div class="vs-score-num">10</div>
-          <div class="vs-score-label">rondas ganadas</div>
-        </div>
-        <div class="vs-score-vs">VS</div>
-        <div class="vs-score-side them">
-          <div class="vs-score-brand">Energizante típico</div>
-          <div class="vs-score-num">0</div>
-          <div class="vs-score-label">rondas ganadas</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="vs-close rv d3">
-      <p>
-        <strong>Leé la etiqueta. La nuestra y la de ellos.</strong> En Power Rush cada ingrediente tiene nombre, dosis y función. Sin letras chicas, sin relleno, sin sorpresas. Si la competencia no hace lo mismo, ya sabés por qué.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PRODUCTOS ===== -->
-<section id="productos">
-  <div class="wrap">
-    <span class="s-tag rv">Los sabores</span>
-    <h2 class="s-title rv d1">Elegí el tuyo.</h2>
-  </div>
-  <div class="prod-grid">
-    <div class="prod-card bl rv d1" id="card-bl">
-      <div class="card-inner">
-        <div class="p-flav">Sabor arándano</div>
-        <div class="p-name">BLAZE<br>BERRY</div>
-        <div class="p-img-wrap">
-          <img src="assets/blaze-berry.png" alt="Blaze Berry" class="p-img">
-        </div>
-        <div class="p-tags">
-          <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
-        </div>
-        <p class="p-desc">Arándano intenso con fondo frío. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la ronda 20.</p>
-        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
-        <a href="#comprar" class="btn-buy">COMPRAR BLAZE BERRY <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-    <div class="prod-card tr rv d2" id="card-tr">
-      <div class="card-inner">
-        <div class="p-flav">Sabor maracuyá</div>
-        <div class="p-name">TROPICAL<br>BOMB</div>
-        <div class="p-img-wrap">
-          <img src="assets/tropical-bomb.png" alt="Tropical Bomb" class="p-img">
-        </div>
-        <div class="p-tags">
-          <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
-        </div>
-        <p class="p-desc">Maracuyá explosivo con punch tropical. Para los streams de 4 horas donde el chat nota si bajás la guardia, y para los parciales que no perdonan.</p>
-        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
-        <a href="#comprar" class="btn-buy">COMPRAR TROPICAL BOMB <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CÓMO FUNCIONA ===== -->
-<section id="como-funciona">
-  <div class="wrap">
-    <span class="s-tag rv">El mecanismo</span>
-    <h2 class="s-title rv d1">No es magia.<br>Es química.</h2>
-    <div class="func-grid">
-      <div class="func-step rv d1">
-        <div class="step-bg-n">01</div>
-        <div class="step-ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
-        <h4>Activación cognitiva</h4>
-        <p>La <span class="hl">cafeína (120mg)</span> bloquea la adenosina — la molécula que acumula cansancio. L-Tirosina y Colina alimentan la producción de dopamina y acetilcolina. Estado de alerta real, sin el ruido.</p>
-      </div>
-      <div class="func-step rv d2">
-        <div class="step-bg-n">02</div>
-        <div class="step-ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        </div>
-        <h4>Foco limpio</h4>
-        <p>La cafeína te activa, pero sin control puede ponerte nervioso. La <span class="hl">L-Teanina (100mg)</span> suaviza ese efecto: te da el foco sin la ansiedad, sin el temblor, sin el crash. La combinación más estudiada para la cognición.</p>
-      </div>
-      <div class="func-step rv d3">
-        <div class="step-bg-n">03</div>
-        <div class="step-ico">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-        </div>
-        <h4>Soporte anti-fatiga</h4>
-        <p>Vitaminas <span class="hl">B3, B6, B12</span>, Taurina, L-Carnitina y Ginseng sostienen el sistema nervioso y la energía celular. El cansancio llega más tarde. La claridad, más lejos.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== INGREDIENTES ===== -->
-<section id="ingredientes">
-  <div class="wrap">
-    <div class="ing-head rv">
-      <div>
-        <span class="s-tag">La fórmula</span>
-        <h2 class="s-title" style="margin-bottom:0">11 ingredientes.<br>Dosis reales.</h2>
-      </div>
-      <p class="ing-note">Cada ingrediente tiene su nombre y su cantidad exacta. Sabés exactamente qué estás tomando y para qué sirve. Sin letras chicas. Sin sorpresas.</p>
-    </div>
-    <div class="ing-list rv d1" id="ing-list">
-      <div class="ing-row" data-pct="95"><div class="ing-n">Taurina</div><div class="ing-d">700mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neuroprotección</div></div>
-      <div class="ing-row" data-pct="88"><div class="ing-n">L-Carnitina</div><div class="ing-d">600mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Energía celular</div></div>
-      <div class="ing-row" data-pct="80"><div class="ing-n">L-Tirosina</div><div class="ing-d">500mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Dopamina · Foco</div></div>
-      <div class="ing-row" data-pct="72"><div class="ing-n">Colina</div><div class="ing-d">300mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Memoria de trabajo</div></div>
-      <div class="ing-row" data-pct="78"><div class="ing-n">Cafeína</div><div class="ing-d">120mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Alerta · Reacción</div></div>
-      <div class="ing-row" data-pct="75"><div class="ing-n">L-Teanina</div><div class="ing-d">100mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Foco limpio</div></div>
-      <div class="ing-row" data-pct="65"><div class="ing-n">Ginseng</div><div class="ing-d">50mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Adaptógeno</div></div>
-      <div class="ing-row" data-pct="62"><div class="ing-n">Luteína</div><div class="ing-d">20mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Protección visual</div></div>
-      <div class="ing-row" data-pct="70"><div class="ing-n">Vitamina B3</div><div class="ing-d">10mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Metabolismo energético</div></div>
-      <div class="ing-row" data-pct="67"><div class="ing-n">Vitamina B6</div><div class="ing-d">1.5mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neurotransmisores</div></div>
-      <div class="ing-row" data-pct="73"><div class="ing-n">Vitamina B12</div><div class="ing-d">3µg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Sistema nervioso</div></div>
-    </div>
-    <div class="rv d2" style="margin-top:32px;">
-      <a href="#" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-        VER ETIQUETA
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ===== FAQ ===== -->
 <section id="faq">
   <div class="wrap">
@@ -1127,6 +1369,123 @@ const secObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(!e.isIntersecting)return; const a=secAch[e.target.id]; if(a)showAch(a[0],a[1],a[2]); });
 }, { threshold: 0.3 });
 Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)secObs.observe(el); });
+
+/* ===== WHY CHART ===== */
+(function(){
+  const root = document.getElementById('why');
+  if (!root) return;
+  const svg = root.querySelector('.wc-svg');
+  const bar = document.getElementById('wc-bar');
+
+  const TX = {0:70,15:175,30:260,60:400,120:610,180:820,240:1020};
+  const TIMES = [0,15,30,60,120,180,240];
+  const fy = f => 410 - (f/100)*380;
+  const DATA = { lata:[6,72,96,78,22,12,9], cafe:[3,28,52,70,56,40,30], pr:[5,46,69,75,73,67,60] };
+  const KEYS = ['lata','cafe','pr'];
+  const META = { lata:{name:'Lata'}, cafe:{name:'Café'}, pr:{name:'Power Rush'} };
+  const INFO = {
+    lata:{ text:'Luego de 90 minutos te sentís más cansado que antes de empezar.', stat:'90 min', tag:'⚠' },
+    cafe:{ text:'Arranca bien, pero te pone nervioso y a la hora ya estás cayendo.', stat:'~1 h', tag:'⚠' },
+    pr:  { text:'Foco parejo de 4 a 6 horas, sin nervios y sin bajón.', stat:'4–6 h', tag:'✓' },
+  };
+  const POWER = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3.5v8"/><path d="M7.3 6.8a7 7 0 1 0 9.4 0"/></svg>';
+
+  function smooth(vals){
+    const pts = TIMES.map((t,i)=>[TX[t], fy(vals[i])]);
+    let d = 'M'+pts[0][0]+' '+pts[0][1];
+    for(let i=0;i<pts.length-1;i++){
+      const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||pts[i+1];
+      const c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+      const c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+      d += ' C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+' '+c2x.toFixed(1)+' '+c2y.toFixed(1)+' '+p2[0]+' '+p2[1];
+    }
+    return d;
+  }
+  KEYS.forEach(k=>{
+    const line = svg.querySelector('.wc-line[data-key="'+k+'"]');
+    line.setAttribute('d', smooth(DATA[k]));
+    try { line.style.setProperty('--len', line.getTotalLength()); } catch(e){}
+    const dot = svg.querySelector('.wc-dot[data-key="'+k+'"]');
+    if(dot){ const endf=DATA[k][DATA[k].length-1]; dot.setAttribute('cx', TX[240]); dot.setAttribute('cy', fy(endf)); }
+  });
+
+  const dimmed = {lata:false,cafe:false,pr:false};
+
+  function applyLines(){
+    KEYS.forEach(k=>{
+      const line = svg.querySelector('.wc-line[data-key="'+k+'"]');
+      const dot  = svg.querySelector('.wc-dot[data-key="'+k+'"]');
+      line.classList.toggle('dim', dimmed[k]);
+      if(dot) dot.classList.toggle('dim', dimmed[k]);
+    });
+  }
+  function setCol(k){
+    const col = bar.querySelector('.kcol[data-key="'+k+'"]');
+    if(col) col.classList.toggle('on', !dimmed[k]);
+  }
+
+  let h = '';
+  KEYS.forEach(k=>{
+    h += '<div class="kcol '+k+'" data-key="'+k+'">'
+       +   '<button class="bkey" data-key="'+k+'"><span class="bpow">'+POWER+'</span><span class="bkl">'+META[k].name+'</span></button>'
+       +   '<div class="kinfo"><div class="ib"><span class="it">'+INFO[k].text+'</span></div></div>'
+       + '</div>';
+  });
+  bar.className = 'wc-bar bkeys ikind-2';
+  bar.innerHTML = h;
+  bar.querySelectorAll('.bkey').forEach(b=>b.addEventListener('click',()=>{
+    const k = b.dataset.key; dimmed[k] = !dimmed[k]; applyLines(); setCol(k);
+  }));
+  KEYS.forEach(setCol);
+
+  const io = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ root.classList.add('drawn'); io.disconnect(); } }); }, { threshold: 0.25 });
+  io.observe(root);
+})();
+
+/* ===== CÓMO FUNCIONA — niveles con scroll ===== */
+(function(){
+  const como = document.getElementById('como');
+  if (!como) return;
+  const fill = document.getElementById('como-fill');
+  const pct = document.getElementById('como-pct');
+  const nEl = document.getElementById('como-n');
+  const nameEl = document.getElementById('como-name');
+  const flash = document.getElementById('como-flash');
+  const screen = como.querySelector('.como-screen');
+  const panels = Array.prototype.slice.call(como.querySelectorAll('.como-panel'));
+  const pips = Array.prototype.slice.call(como.querySelectorAll('.como-pip'));
+  const NAMES = ['Preparación','El envión','Sin bajón'];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lastLvl = -1, flashT;
+
+  function doFlash(){
+    if(reduce) return;
+    screen.classList.remove('levelup'); void screen.offsetWidth; screen.classList.add('levelup');
+    if(flash){ flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show'); clearTimeout(flashT); flashT=setTimeout(()=>flash.classList.remove('show'),1100); }
+  }
+  function onScroll(){
+    const r = como.getBoundingClientRect();
+    const scrollable = como.offsetHeight - window.innerHeight;
+    const scrolled = Math.min(Math.max(-r.top,0), scrollable);
+    const p = scrollable>0 ? scrolled/scrollable : 0;
+    const lf = Math.min(p*3, 3);
+    const lvl = Math.min(Math.floor(lf), 2);
+    let f = lf - lvl; if(f>1) f=1;
+    fill.style.width = (f*100)+'%';
+    pct.textContent = Math.round(f*100)+'%';
+    if(lvl!==lastLvl){
+      nEl.textContent = lvl+1;
+      nameEl.textContent = NAMES[lvl];
+      panels.forEach((pn,i)=>pn.classList.toggle('on', i===lvl));
+      pips.forEach((pp,i)=>{ pp.classList.toggle('done', i<lvl); pp.classList.toggle('cur', i===lvl); });
+      if(lvl>lastLvl && lastLvl>=0) doFlash();
+      lastLvl = lvl;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+})();
 </script>
 </body>
 </html>
