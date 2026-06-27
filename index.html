@@ -115,7 +115,8 @@
 
     /* Power meter */
     .h-pm { background: var(--bg2); border: 1px solid var(--border); padding: 14px 16px; max-width: 380px; margin-bottom: 32px; }
-    .h-pm-top { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .h-pm-top { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; margin-bottom: 8px; }
+    .h-pm-top span { white-space: nowrap; }
     .h-pm-track { height: 4px; background: rgba(255,255,255,.05); overflow: hidden; }
     .h-pm-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--yellow)); box-shadow: 0 0 8px var(--green); transition: width 2.2s cubic-bezier(.23,1,.32,1); }
     .h-pm-val { font-family: var(--mo); font-weight: 700; font-size: 16px; color: var(--green); margin-top: 8px; }

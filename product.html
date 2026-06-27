@@ -249,11 +249,19 @@
 
     /* Modo de uso */
     .uso-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .uso-step { background: var(--bg2); border: 1px solid var(--border); padding: 32px 28px; position: relative; overflow: hidden; }
-    .uso-num { font-family: var(--hd); font-weight: 900; font-size: 80px; line-height: 1; color: rgba(0,212,122,.08); position: absolute; top: 8px; right: 16px; }
-    .uso-icon { margin-bottom: 16px; color: var(--green); }
-    .uso-title { font-family: var(--hd); font-weight: 700; font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
-    .uso-text { font-size: 14px; color: rgba(238,245,238,.65); line-height: 1.65; }
+    .uso-card { position: relative; height: 420px; border: 1px solid var(--border); border-radius: 16px; background: var(--bg2); overflow: hidden; padding: 22px; display: flex; flex-direction: column; justify-content: flex-end; transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s ease, border-color .4s ease; will-change: transform; }
+    .uso-card:hover { transform: translateY(-10px); border-color: rgba(0,212,122,.42); box-shadow: 0 26px 50px -14px rgba(0,212,122,.20), 0 10px 24px -8px rgba(0,0,0,.5); }
+    .uso-card-glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 50% 33%, rgba(0,212,122,.18) 0%, transparent 60%); opacity: .75; transition: opacity .4s ease; }
+    .uso-card:hover .uso-card-glow { opacity: 1; }
+    .uso-card-num { position: absolute; top: 20px; left: 22px; z-index: 3; font-family: var(--mo); font-size: 12px; letter-spacing: 2px; color: var(--gray); }
+    .uso-card-img { position: absolute; left: 0; right: 0; top: 6px; bottom: 142px; z-index: 1; display: flex; align-items: center; justify-content: center; transition: transform .45s cubic-bezier(.23,1,.32,1); }
+    .uso-card-img img { width: 220px; height: 220px; object-fit: contain; filter: drop-shadow(0 8px 30px rgba(0,212,122,.32)); }
+    .uso-card:hover .uso-card-img { transform: scale(1.12) translateY(-12px); }
+    .uso-card-body { position: relative; z-index: 2; min-height: 118px; background: rgba(8,10,8,.74); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 11px; padding: 16px 18px; }
+    .uso-card-tag { display: inline-block; font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: rgba(0,212,122,.12); border: 1px solid var(--border); border-radius: 40px; padding: 5px 12px; margin-bottom: 12px; }
+    .uso-card-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 22px; text-transform: uppercase; letter-spacing: -.4px; line-height: 1; margin-bottom: 9px; }
+    .uso-card-text { font-size: 13px; color: rgba(238,245,238,.6); line-height: 1.6; }
+    @media (prefers-reduced-motion: reduce) { .uso-card, .uso-card-img { transition: none; } }
 
     /* FAQ */
     .faq-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
@@ -758,24 +766,36 @@
     <!-- MODO DE USO -->
     <div class="tab-panel" id="tab-uso">
       <div class="uso-steps">
-        <div class="uso-step">
-          <div class="uso-num">01</div>
-          <div class="uso-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-          <div class="uso-title">Medí un scoop</div>
-          <div class="uso-text">Un scoop (7,5g) por porción. El pote incluye la cuchara medidora. No hace falta adivinar.</div>
-        </div>
-        <div class="uso-step">
-          <div class="uso-num">02</div>
-          <div class="uso-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-          <div class="uso-title">Mezclá con agua fría</div>
-          <div class="uso-text">250 a 300ml de agua fría. Agitá bien hasta disolver. El polvo se integra rápido.</div>
-        </div>
-        <div class="uso-step">
-          <div class="uso-num">03</div>
-          <div class="uso-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          <div class="uso-title">Tomalo 20–30 min antes</div>
-          <div class="uso-text">Antes de jugar, estudiar o lo que sea que necesite tu foco máximo. Evitá tomarlo después de las 6pm si sos sensible a la cafeína.</div>
-        </div>
+        <article class="uso-card">
+          <span class="uso-card-num">01 / 03</span>
+          <div class="uso-card-glow"></div>
+          <div class="uso-card-img"><img src="assets/15.png" alt="Medir un scoop de Power Rush en un vaso" loading="lazy"></div>
+          <div class="uso-card-body">
+            <span class="uso-card-tag">Paso 01 · Medí</span>
+            <h3 class="uso-card-title">Medí un scoop</h3>
+            <p class="uso-card-text">Un scoop (7,5g) por porción. El pote incluye la cuchara medidora. No hace falta adivinar.</p>
+          </div>
+        </article>
+        <article class="uso-card">
+          <span class="uso-card-num">02 / 03</span>
+          <div class="uso-card-glow"></div>
+          <div class="uso-card-img"><img src="assets/16.png" alt="Mezclar Power Rush con agua fría" loading="lazy"></div>
+          <div class="uso-card-body">
+            <span class="uso-card-tag">Paso 02 · Mezclá</span>
+            <h3 class="uso-card-title">Mezclá con agua fría</h3>
+            <p class="uso-card-text">250 a 300ml de agua fría. Agitá bien hasta disolver. El polvo se integra rápido.</p>
+          </div>
+        </article>
+        <article class="uso-card">
+          <span class="uso-card-num">03 / 03</span>
+          <div class="uso-card-glow"></div>
+          <div class="uso-card-img"><img src="assets/17.png" alt="Tomar Power Rush antes de la sesión" loading="lazy"></div>
+          <div class="uso-card-body">
+            <span class="uso-card-tag">Paso 03 · Tomá</span>
+            <h3 class="uso-card-title">Tomalo 20–30 min antes</h3>
+            <p class="uso-card-text">Antes de jugar, estudiar o entrenar. Si te pega la cafeína, evitá después de las 6pm.</p>
+          </div>
+        </article>
       </div>
     </div>
 
