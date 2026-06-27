@@ -539,9 +539,11 @@
       #como { height: 280vh; }
       .como-sticky { top: 52px; height: calc(100vh - 64px); }
       .como-screen { padding: 22px 20px 20px; }
-      .como-panel { grid-template-columns: 1fr; gap: 0; }
+      .como-panel { grid-template-columns: 1fr; gap: 14px; align-content: center; justify-items: stretch; }
       .cp-text { max-width: 100%; }
-      #como .cp-art { display: none; }
+      #como .cp-art.solo { order: -1; max-width: 100%; max-height: 26vh; margin: 0 auto; }
+      #como .cp-art.solo img { max-height: 26vh; width: auto; }
+      .cp-title { font-size: clamp(30px, 9vw, 44px); }
       .cp-desc { font-size: 14px; }
       .como-flash { font-size: 19px; top: 50px; }
 
