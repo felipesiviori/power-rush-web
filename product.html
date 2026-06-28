@@ -160,21 +160,47 @@
     .ts-title { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .3px; }
     .ts-sub { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
 
-    /* ===== PARA QUIÉN ES ===== */
+    /* ===== PARA QUIÉN ES · CHOOSE YOUR FIGHTER ===== */
     #para-quien { padding: 80px 0; }
     .pq-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    .pq-header { margin-bottom: 40px; }
+    .pq-header { margin-bottom: 36px; }
     .pq-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-    .pq-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
-    .pq-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-    .pq-card { background: var(--bg2); padding: 36px 28px; display: flex; flex-direction: column; gap: 14px; transition: background .2s; }
-    .pq-card:hover { background: var(--bg3); }
-    .pq-ico { color: var(--green); margin-bottom: 4px; }
-    .pq-persona { font-family: var(--mo); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray); }
-    .pq-name { font-family: var(--hd); font-weight: 900; font-size: 26px; text-transform: uppercase; line-height: 1; }
-    .pq-desc { font-size: 13px; color: rgba(238,245,238,.6); line-height: 1.6; }
-    .pq-unlock { display: flex; align-items: center; gap: 7px; margin-top: 8px; font-family: var(--mo); font-size: 9px; color: var(--green); letter-spacing: 1px; text-transform: uppercase; }
-    .pq-unlock::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); }
+    .pq-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
+
+    .cf-stage { display: flex; gap: 12px; height: 470px; }
+    .cf-pod { position: relative; flex: 1 1 0; min-width: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; padding: 0; text-align: left; color: inherit; font: inherit; display: flex; align-items: flex-end; transition: flex-grow .55s cubic-bezier(.23,1,.32,1), border-color .4s ease, background .4s ease; }
+    .cf-pod.active { flex-grow: 2.6; border-color: rgba(0,212,122,.5); background: var(--bg3); }
+    .cf-pod:not(.active):hover { border-color: rgba(0,212,122,.34); }
+    .cf-pod:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+    .cf-pod-img { position: absolute; inset: 0; z-index: 1; display: flex; align-items: flex-end; justify-content: center; pointer-events: none; }
+    .cf-pod-img img { height: 100%; width: auto; max-width: none; object-fit: contain; object-position: bottom center; filter: brightness(.3) saturate(.45) contrast(1.05); transform: translateY(4%) scale(.98); transition: filter .55s ease, transform .65s cubic-bezier(.23,1,.32,1); }
+    .cf-pod:not(.active):hover .cf-pod-img img { filter: brightness(.5) saturate(.7); }
+    .cf-pod.active .cf-pod-img img { filter: brightness(1) saturate(1) drop-shadow(0 6px 34px rgba(0,212,122,.5)); transform: translateY(0) scale(1); }
+
+    /* haz de luz cenital */
+    .cf-pod-light { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 86%; height: 74%; z-index: 2; pointer-events: none; opacity: 0; mix-blend-mode: screen; background: linear-gradient(to bottom, rgba(0,212,122,.34) 0%, rgba(0,212,122,.12) 38%, rgba(0,212,122,0) 78%); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%); transition: opacity .55s ease; }
+    .cf-pod-light::before { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 40%; height: 3px; border-radius: 3px; background: var(--green); box-shadow: 0 0 18px 4px rgba(0,212,122,.8); }
+    .cf-pod.active .cf-pod-light { opacity: 1; }
+
+    .cf-pod-scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 62%; z-index: 3; pointer-events: none; background: linear-gradient(to top, rgba(8,10,8,.96) 14%, rgba(8,10,8,.72) 46%, rgba(8,10,8,0) 100%); }
+    .cf-pod-info { position: relative; z-index: 4; width: 100%; padding: 22px; }
+    .cf-pod-num { font-family: var(--mo); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 7px; }
+    .cf-pod-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(20px, 2vw, 28px); text-transform: uppercase; line-height: .92; letter-spacing: -.4px; transition: color .4s ease, text-shadow .4s ease; }
+    .cf-pod.active .cf-pod-name { color: var(--green); text-shadow: 0 0 26px rgba(0,212,122,.45); }
+    .cf-pod-reveal { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .55s ease, opacity .45s ease, margin-top .45s ease; }
+    .cf-pod.active .cf-pod-reveal { max-height: 220px; opacity: 1; margin-top: 14px; }
+    .cf-pod-desc { font-size: 13px; color: rgba(238,245,238,.64); line-height: 1.6; max-width: 460px; }
+    .cf-pod-perks { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--mo); font-size: 9px; color: var(--green); letter-spacing: 1px; text-transform: uppercase; }
+    .cf-pod-perks::before { content: ''; flex: none; width: 16px; height: 1px; background: var(--green); }
+
+    .cf-pod-badge { position: absolute; top: 16px; right: 16px; z-index: 4; font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: rgba(0,212,122,.12); border: 1px solid var(--border); border-radius: 40px; padding: 4px 10px; }
+
+    .cf-note { display: flex; align-items: baseline; gap: 12px; margin-top: 24px; font-size: 14px; color: rgba(238,245,238,.5); line-height: 1.6; max-width: 760px; }
+    .cf-note::before { content: '+'; flex: none; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 22px; line-height: 1; color: var(--green); }
+    .cf-note b { color: var(--green); font-weight: 600; }
+
+    @media (prefers-reduced-motion: reduce) { .cf-pod, .cf-pod-img img, .cf-pod-light, .cf-pod-reveal { transition: none; } }
 
     /* ===== TABS ===== */
     #tabs-section { padding: 80px 0; border-top: 1px solid var(--border); }
@@ -317,19 +343,6 @@
     .rev-role { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
     .rev-game-tag { display: inline-block; margin-top: 6px; background: rgba(0,212,122,.1); color: var(--green); font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border: 1px solid rgba(0,212,122,.25); }
 
-    /* ===== GARANTÍA ===== */
-    #garantia { padding: 80px 0; border-top: 1px solid var(--border); }
-    .gar-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    .gar-header { margin-bottom: 48px; }
-    .gar-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-    .gar-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
-    .gar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-    .gar-card { background: var(--bg2); padding: 40px 32px; display: flex; flex-direction: column; gap: 16px; }
-    .gar-ico { color: var(--green); }
-    .gar-num { font-family: var(--hd); font-weight: 900; font-size: 56px; line-height: 1; letter-spacing: -0.02em; }
-    .gar-label { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-top: -8px; }
-    .gar-desc { font-size: 14px; color: rgba(238,245,238,.6); line-height: 1.65; margin-top: 4px; }
-
     /* ===== CROSS-SELL ===== */
     #cross-sell { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
     .cs-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
@@ -393,11 +406,16 @@
       .foot-inner { flex-direction: column; text-align: center; }
       .foot-links { justify-content: center; }
       #prod-hero { padding-top: calc(34px + 56px + 16px); }
-      .pq-grid { grid-template-columns: 1fr 1fr; }
+      .cf-stage { flex-direction: column; height: auto; gap: 10px; }
+      .cf-pod { flex: none; height: 116px; transition: height .55s cubic-bezier(.23,1,.32,1), border-color .4s ease, background .4s ease; }
+      .cf-pod.active { height: 430px; flex-grow: 0; }
+      .cf-pod-img img { height: 116%; transform: translate(22%, 4%) scale(.98); }
+      .cf-pod.active .cf-pod-img img { height: 104%; transform: translate(0, 0) scale(1); }
+      .cf-pod-light { height: 60%; }
+      .cf-pod-name { font-size: 24px; }
       .tabs-nav { grid-template-columns: 1fr 1fr; }
       .tl-grid { grid-template-columns: 1fr 1fr; gap: 32px 0; }
       .tl-grid::before { display: none; }
-      .gar-grid { grid-template-columns: 1fr; }
       .ing-row { grid-template-columns: 1fr auto; }
       .ing-row .ing-bar-wrap { display: none; }
     }
@@ -856,39 +874,51 @@
 <section id="para-quien">
   <div class="pq-wrap">
     <div class="pq-header">
-      <div class="pq-overline">Casos de uso</div>
-      <h2 class="pq-title">¿PARA QUIÉN<br>ES POWER RUSH?</h2>
+      <div class="pq-overline">¿Para quién es Power Rush?</div>
+      <h2 class="pq-title">ELEGÍ TU<br>FIGHTER</h2>
     </div>
-    <div class="pq-grid">
-      <div class="pq-card">
-        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
-        <div class="pq-persona">Perfil 01</div>
-        <div class="pq-name">El gamer</div>
-        <div class="pq-desc">Sesiones largas donde la concentración marca la diferencia entre rankear o no. Menos errores a la hora 3, misma velocidad de reacción a la hora 5.</div>
-        <div class="pq-unlock">Foco sostenido · Sin crash entre rounds</div>
-      </div>
-      <div class="pq-card">
-        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
-        <div class="pq-persona">Perfil 02</div>
-        <div class="pq-name">El estudiante</div>
-        <div class="pq-desc">Parciales, finales, maratones de estudio. Mejor retención, más claridad, sin el bajón de la tarde que te hace releer lo mismo tres veces.</div>
-        <div class="pq-unlock">Claridad mental · Mayor retención</div>
-      </div>
-      <div class="pq-card">
-        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.6 11.6L22 7v10l-6.4-4.5v-0.9z"/><rect x="1" y="5" width="14" height="14" rx="2"/></svg></div>
-        <div class="pq-persona">Perfil 03</div>
-        <div class="pq-name">El streamer</div>
-        <div class="pq-desc">6 horas de live. El chat no perdona y vos tampoco querés bajar el nivel. Energía sostenida sin los picos que te ponen nervioso frente a la cámara.</div>
-        <div class="pq-unlock">Energía estable · Sin nerviosismo</div>
-      </div>
-      <div class="pq-card">
-        <div class="pq-ico"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
-        <div class="pq-persona">Perfil 04</div>
-        <div class="pq-name">El profesional</div>
-        <div class="pq-desc">Reuniones, deadlines, código, diseño. Sin picos de cafeína, sin el bajón a media tarde, sin el temblor en la mano durante la presentación.</div>
-        <div class="pq-unlock">Sin picos · Foco limpio en reuniones</div>
-      </div>
+    <div class="cf-stage">
+      <button type="button" class="cf-pod active" aria-pressed="true" onclick="selectFighter(this)">
+        <div class="cf-pod-light"></div>
+        <div class="cf-pod-img"><img src="assets/GAMER.png" alt="Ilustración de un gamer con auriculares y joystick" loading="lazy"></div>
+        <div class="cf-pod-scrim"></div>
+        <div class="cf-pod-info">
+          <div class="cf-pod-num">Perfil 01</div>
+          <div class="cf-pod-name">Para los que<br>jugamos</div>
+          <div class="cf-pod-reveal">
+            <p class="cf-pod-desc">Sesiones largas donde la concentración marca la diferencia entre rankear o no. Menos errores a la hora 3, misma velocidad de reacción a la hora 5.</p>
+            <div class="cf-pod-perks">Foco sostenido · Sin crash entre rounds</div>
+          </div>
+        </div>
+      </button>
+      <button type="button" class="cf-pod" aria-pressed="false" onclick="selectFighter(this)">
+        <div class="cf-pod-light"></div>
+        <div class="cf-pod-img"><img src="assets/ESTUDIANTE.png" alt="Ilustración de un estudiante con mochila, libro y auriculares" loading="lazy"></div>
+        <div class="cf-pod-scrim"></div>
+        <div class="cf-pod-info">
+          <div class="cf-pod-num">Perfil 02</div>
+          <div class="cf-pod-name">El<br>estudiante</div>
+          <div class="cf-pod-reveal">
+            <p class="cf-pod-desc">Parciales, finales, maratones de estudio. Mejor retención, más claridad, sin el bajón de la tarde que te hace releer lo mismo tres veces.</p>
+            <div class="cf-pod-perks">Claridad mental · Mayor retención</div>
+          </div>
+        </div>
+      </button>
+      <button type="button" class="cf-pod" aria-pressed="false" onclick="selectFighter(this)">
+        <div class="cf-pod-light"></div>
+        <div class="cf-pod-img"><img src="assets/TRABAJADOR.png" alt="Ilustración de un trabajador frente a una laptop con una taza" loading="lazy"></div>
+        <div class="cf-pod-scrim"></div>
+        <div class="cf-pod-info">
+          <div class="cf-pod-num">Perfil 03</div>
+          <div class="cf-pod-name">El<br>profesional</div>
+          <div class="cf-pod-reveal">
+            <p class="cf-pod-desc">Reuniones, deadlines, código, diseño. Sin picos de cafeína, sin el bajón a media tarde, sin el temblor en la mano durante la presentación.</p>
+            <div class="cf-pod-perks">Sin picos · Foco limpio en reuniones</div>
+          </div>
+        </div>
+      </button>
     </div>
+    <p class="cf-note">Y para cualquier otra cosa que pida lo mismo: <b>concentración y energía sostenida durante un período prolongado de tiempo</b>. Si tu actividad necesita eso, también es para vos.</p>
   </div>
 </section>
 
@@ -977,42 +1007,6 @@
           <div class="rev-ava" style="background:#FFD100;">R</div>
           <div><div class="rev-name">Rodrigo</div><div class="rev-role">Content creator · Rosario</div></div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== GARANTÍA ===== -->
-<section id="garantia">
-  <div class="gar-wrap">
-    <div class="gar-header">
-      <div class="gar-overline">Sin vueltas</div>
-      <h2 class="gar-title">COMPRÁS<br>CON RESPALDO.</h2>
-    </div>
-    <div class="gar-grid">
-      <div class="gar-card">
-        <div class="gar-ico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div>
-          <div class="gar-num">30</div>
-          <div class="gar-label">días de garantía</div>
-        </div>
-        <div class="gar-desc">Si en los primeros 30 días no notás el efecto o no te gustó, te devolvemos el dinero. Sin preguntas, sin vueltas, sin formularios raros.</div>
-      </div>
-      <div class="gar-card">
-        <div class="gar-ico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
-        <div>
-          <div class="gar-num">11</div>
-          <div class="gar-label">ingredientes visibles</div>
-        </div>
-        <div class="gar-desc">Cada ingrediente en el label con su nombre y su dosis exacta. Sin letras chicas. Sin mezclas propietarias. Sabés exactamente qué entra en tu cuerpo.</div>
-      </div>
-      <div class="gar-card">
-        <div class="gar-ico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div>
-          <div class="gar-num">ARG</div>
-          <div class="gar-label">hecho en Argentina</div>
-        </div>
-        <div class="gar-desc">Producción local. Control de calidad propio. Soporte en tu idioma y en tu huso horario. Power Rush es un producto argentino, para el mercado argentino.</div>
       </div>
     </div>
   </div>
@@ -1182,6 +1176,15 @@ function scrollWC(dir) {
 })();
 
 /* FAQ */
+function selectFighter(btn) {
+  const stage = btn.closest('.cf-stage');
+  if (!stage) return;
+  stage.querySelectorAll('.cf-pod').forEach(p => {
+    const on = p === btn;
+    p.classList.toggle('active', on);
+    p.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
 function toggleFaq(btn) {
   const a = btn.nextElementSibling;
   const isOpen = a.classList.contains('open');
