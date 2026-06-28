@@ -660,7 +660,13 @@
     <li><a href="#reviews">Reseñas</a></li>
     <li><a href="#faq">Ayuda</a></li>
   </ul>
-  <button class="nav-btn" onclick="document.getElementById('comprar').scrollIntoView({behavior:'smooth'})">PROBALO AHORA</button>
+  <div class="nav-actions">
+    <button class="pr-cart-btn" aria-label="Abrir carrito" data-pr-open>
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+      <span class="pr-cart-count" data-pr-count hidden>0</span>
+    </button>
+    <button class="nav-btn" onclick="document.getElementById('comprar').scrollIntoView({behavior:'smooth'})">PROBALO AHORA</button>
+  </div>
 </nav>
 
 <!-- ===== HERO ===== -->
@@ -746,8 +752,8 @@
           <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
         </div>
         <p class="p-desc">Arándano intenso con fondo frío. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la ronda 20.</p>
-        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
-        <a href="#comprar" class="btn-buy">COMPRAR BLAZE BERRY <span aria-hidden="true">→</span></a>
+        <div class="p-price">$24.999 <span>/ 30 porciones · 226g</span></div>
+        <a href="#" class="btn-buy" data-pr-add="bb">COMPRAR BLAZE BERRY <span aria-hidden="true">→</span></a>
       </div>
     </div>
     <div class="prod-card tr rv d2" id="card-tr">
@@ -761,8 +767,8 @@
           <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
         </div>
         <p class="p-desc">Maracuyá explosivo con punch tropical. Para los streams de 4 horas donde el chat nota si bajás la guardia, y para los parciales que no perdonan.</p>
-        <div class="p-price">$XXXX <span>/ 30 porciones · 226g</span></div>
-        <a href="#comprar" class="btn-buy">COMPRAR TROPICAL BOMB <span aria-hidden="true">→</span></a>
+        <div class="p-price">$24.999 <span>/ 30 porciones · 226g</span></div>
+        <a href="#" class="btn-buy" data-pr-add="tb">COMPRAR TROPICAL BOMB <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
@@ -1490,5 +1496,6 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   onScroll();
 })();
 </script>
+<script src="cart.js" defer></script>
 </body>
 </html>
