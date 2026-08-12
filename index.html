@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Power Rush — Foco Sin Crash</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23080A08'/%3E%3Cpath d='M13 3 5.5 13.5H11l-1 7.5L18.5 10H12z' fill='%2300D47A'/%3E%3C/svg%3E">
   <meta name="description" content="El primer suplemento cognitivo argentino para gamers y estudiantes. 11 nootropicos. Dosis reales. Sin azúcar. Sin crash.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +23,7 @@
       --red:     #FF3C3C;
       --blue:    #3B82F6;
       --orange:  #F97316;
+      --cherry:  #E63950;
       --white:   #EEF5EE;
       --gray:    #56685A;
       --border:  rgba(0,212,122,0.16);
@@ -68,10 +70,9 @@
     .nav-btn:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2); }
 
     /* ===== HERO ===== */
-    #hero {
-      position: relative; min-height: 100vh;
-      display: flex; align-items: center; overflow: hidden;
-    }
+    #hero { position: relative; overflow: hidden; }
+    .hv { display: none; }
+    .hv.on { display: flex; align-items: center; width: 100%; min-height: 100vh; position: relative; }
 
     .hero-grid { position: absolute; inset: 0; z-index: 1; background-image: linear-gradient(rgba(0,212,122,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.03) 1px, transparent 1px); background-size: 56px 56px; }
     .hero-scan { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.025) 3px, rgba(0,0,0,.025) 4px); }
@@ -140,11 +141,127 @@
     }
     @keyframes heroFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
 
+    /* ===== HERO VARIANTS (presioná P para cambiar) ===== */
+    .hp-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+    .hp-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+    .hv .h-acc { color: var(--green); }
+    @keyframes hvUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+    @keyframes hvJarPop { from { opacity: 0; transform: translateY(-50%) scale(.9); } to { opacity: 1; transform: translateY(-50%) scale(1); } }
+    @keyframes hvEmerge { from { opacity: 0; transform: translateY(-50%) translateX(130px) scale(.9); } to { opacity: 1; transform: translateY(-50%) translateX(0) scale(1); } }
+    @keyframes hvLineUp { from { transform: translateY(110%); } to { transform: translateY(0); } }
+    @keyframes hvZoom { from { transform: scale(1.16); } to { transform: scale(1); } }
+
+    /* --- OPCIÓN 2: cinematográfico full-bleed (texto a la derecha) --- */
+    .hv-2 .hp-bg { object-position: 32% center; }
+    .hv-2 .hp-scrim { background:
+      linear-gradient(to left, rgba(6,8,6,.95) 0%, rgba(6,8,6,.8) 34%, rgba(6,8,6,.32) 64%, transparent 100%),
+      linear-gradient(0deg, rgba(6,8,6,.55), transparent 42%); }
+    .hv-2 .hp-content { position: relative; z-index: 2; max-width: 1240px; width: 100%; margin: 0 auto; padding: 150px 32px 90px; }
+    .hv2-inner { max-width: 600px; margin-left: auto; }
+    .hv2-title { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(66px, 8.4vw, 128px); line-height: .84; letter-spacing: -4px; margin: 0 0 26px; }
+    .hv-2 .hero-copy { color: rgba(238,245,238,.74); max-width: 460px; margin-bottom: 30px; }
+    .hv-2 .hero-ctas { margin-bottom: 30px; }
+    .hv-2.on .h-overline { animation: hvUp .6s .05s both cubic-bezier(.23,1,.32,1); }
+    .hv-2.on .hv2-title  { animation: hvUp .75s .16s both cubic-bezier(.23,1,.32,1); }
+    .hv-2.on .hero-copy  { animation: hvUp .6s .32s both cubic-bezier(.23,1,.32,1); }
+    .hv-2.on .hero-ctas  { animation: hvUp .6s .44s both cubic-bezier(.23,1,.32,1); }
+    .hv-2.on .hero-proof { animation: hvUp .6s .56s both cubic-bezier(.23,1,.32,1); }
+
+    /* --- OPCIÓN 3: profundidad, el texto sale de detrás del frasco --- */
+    .hv-3 .hp-bg { filter: blur(7px) brightness(.42) saturate(1.15); transform: scale(1.1); }
+    .hv-3 .hp-scrim { background: radial-gradient(ellipse at 52% 48%, rgba(6,8,6,.12), rgba(6,8,6,.86) 80%); }
+    .hv3-inner { position: relative; z-index: 2; width: 100%; max-width: 1180px; height: 100vh; margin: 0 auto; }
+    .hv3-textcol { position: absolute; left: 4%; top: 50%; transform: translateY(-50%); z-index: 2; max-width: 62%; }
+    .hv3-textcol .h-overline { display: none; }
+    .hv3-title { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(54px, 8.2vw, 130px); line-height: .86; letter-spacing: -3px; margin: 0 0 26px; text-shadow: 0 12px 55px rgba(0,0,0,.6); }
+    .hv-3 .hero-copy { color: rgba(238,245,238,.72); max-width: 360px; margin-bottom: 26px; }
+    .hv3-jar { position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: min(82vh, 730px); width: auto; z-index: 3; filter: drop-shadow(0 44px 74px rgba(0,0,0,.72)); pointer-events: none; }
+    .hv-3.on .hv3-title { animation: hvEmerge .9s .1s both cubic-bezier(.23,1,.32,1); }
+    .hv-3.on .hv3-jar   { animation: hvJarPop .8s .02s both cubic-bezier(.23,1,.32,1); }
+    .hv-3.on .h-overline { animation: hvUp .6s .38s both ease; }
+    .hv-3.on .hero-copy  { animation: hvUp .6s .5s both ease; }
+    .hv-3.on .hero-ctas  { animation: hvUp .6s .6s both ease; }
+
+    /* --- OPCIÓN 4: split con foto enmarcada --- */
+    .hv-4 .hv4-grid { position: absolute; inset: 0; z-index: 0; background-image: linear-gradient(rgba(0,212,122,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.03) 1px, transparent 1px); background-size: 56px 56px; }
+    .hv-4 .hp-scrim { background: radial-gradient(ellipse at 82% 42%, rgba(0,212,122,.09), transparent 55%); }
+    .hv4-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 540px; gap: 52px; align-items: center; max-width: 1240px; width: 100%; margin: 0 auto; padding: 150px 32px 100px; }
+    .hv4-title { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(56px, 6.6vw, 104px); line-height: .84; letter-spacing: -3px; margin: 0 0 24px; }
+    .hv-4 .hero-copy { margin-bottom: 30px; }
+    .hv4-frame { position: relative; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: 0 50px 100px -34px rgba(0,0,0,.85); }
+    .hv4-frame img { display: block; width: 100%; height: auto; }
+    .hv4-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(155deg, rgba(0,212,122,.1), transparent 46%); pointer-events: none; }
+    .hv4-chip { position: absolute; z-index: 2; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 7px; font-family: var(--mo); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: rgba(6,8,6,.72); border: 1px solid var(--border); padding: 6px 11px; border-radius: 40px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .hv4-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .hv-4.on .h-overline { animation: hvUp .6s .05s both cubic-bezier(.23,1,.32,1); }
+    .hv-4.on .hv4-title  { animation: hvUp .7s .15s both cubic-bezier(.23,1,.32,1); }
+    .hv-4.on .hero-copy  { animation: hvUp .6s .28s both cubic-bezier(.23,1,.32,1); }
+    .hv-4.on .hero-ctas  { animation: hvUp .6s .4s both cubic-bezier(.23,1,.32,1); }
+    .hv-4.on .hv4-frame  { animation: hvUp .85s .2s both cubic-bezier(.23,1,.32,1); }
+
+    /* --- OPCIÓN 5: tipografía gigante + zoom --- */
+    .hv-5 .hp-bg { object-position: 40% center; animation: hvZoom 16s ease-out both; }
+    .hv-5 .hp-scrim { background:
+      radial-gradient(ellipse at 50% 44%, transparent 16%, rgba(6,8,6,.5) 60%, rgba(6,8,6,.92) 100%),
+      linear-gradient(0deg, rgba(6,8,6,.88), transparent 46%); }
+    .hv5-content { position: relative; z-index: 2; width: 100%; max-width: 1120px; margin: 0 auto; padding: 60px 32px 20px; text-align: center; }
+    .hv5-title { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(66px, 11.5vw, 172px); line-height: .82; letter-spacing: -4px; margin: 0 0 22px; }
+    .hv5-title > span { display: block; overflow: hidden; padding-bottom: .06em; }
+    .hv5-title > span > i { display: block; font-style: italic; }
+    .hv5-title .h-acc { display: inline; }
+    .hv5-sub { font-size: 16px; color: rgba(238,245,238,.8); max-width: 540px; margin: 0 auto 30px; line-height: 1.6; }
+    .hv5-sub strong { color: var(--white); }
+    .hv-5 .hero-ctas { justify-content: center; max-width: 320px; margin: 0 auto; }
+    .hv-5.on .hv5-title > span:nth-child(1) > i { animation: hvLineUp .7s .1s both cubic-bezier(.23,1,.32,1); }
+    .hv-5.on .hv5-title > span:nth-child(2) > i { animation: hvLineUp .7s .22s both cubic-bezier(.23,1,.32,1); }
+    .hv-5.on .hv5-title > span:nth-child(3) > i { animation: hvLineUp .7s .34s both cubic-bezier(.23,1,.32,1); }
+    .hv-5.on .h-overline { animation: hvUp .6s .1s both ease; }
+    .hv-5.on .hv5-sub    { animation: hvUp .6s .5s both ease; }
+    .hv-5.on .hero-ctas  { animation: hvUp .6s .6s both ease; }
+
+    /* --- Switcher (indicador · borralo antes de lanzar) --- */
+    .hero-switcher { position: fixed; left: 20px; bottom: 20px; z-index: 1500; display: inline-flex; align-items: center; gap: 9px; padding: 9px 13px 9px 9px; background: rgba(6,8,6,.82); border: 1px solid var(--border); border-radius: 40px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-family: var(--mo); font-size: 11px; color: var(--gray); letter-spacing: .4px; user-select: none; }
+    .hsw-key { display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px; background: var(--green); color: #04140C; font-weight: 700; box-shadow: 0 0 12px rgba(0,212,122,.4); }
+    .hsw-label b { color: var(--white); }
+    .hsw-name { color: var(--green); }
+
+    @media (min-width: 769px) {
+      /* Opción 2 en desktop: pote grande a la izquierda, texto afuera a la derecha */
+      .hv-2 .hp-bg { transform: scale(1.24); transform-origin: 40% center; }
+      .hv-2 .hp-scrim { background:
+        linear-gradient(to left, rgba(6,8,6,.97) 0%, rgba(6,8,6,.9) 30%, rgba(6,8,6,.5) 50%, rgba(6,8,6,.12) 70%, transparent 82%),
+        linear-gradient(0deg, rgba(6,8,6,.5), transparent 40%); }
+      .hv-2 .hp-content { padding-left: 0; padding-right: 5vw; }
+      .hv2-inner { max-width: 500px; }
+    }
+    @media (max-width: 768px) {
+      .hv-1.on { min-height: auto; }
+      .hv-2 .hp-content { padding: 118px 22px 66px; }
+      .hv-2 .hp-scrim { background: linear-gradient(0deg, rgba(6,8,6,.94) 14%, rgba(6,8,6,.55) 56%, rgba(6,8,6,.3)), linear-gradient(to left, rgba(6,8,6,.4), transparent 70%); }
+      .hv2-inner { max-width: 100%; margin-left: 0; }
+      .hv2-title { font-size: clamp(52px, 15vw, 84px); }
+      .hv-3.on { min-height: auto; }
+      .hv3-inner { height: auto; padding: 116px 22px 64px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+      .hv3-textcol { position: static; transform: none; max-width: 100%; order: 2; }
+      .hv3-jar { position: static; transform: none; order: 1; height: 44vh; margin-bottom: 6px; }
+      .hv3-title { font-size: clamp(56px, 16vw, 96px); }
+      .hv-3 .hero-copy { margin-left: auto; margin-right: auto; }
+      .hv-3 .hero-ctas { justify-content: center; }
+      .hv4-inner { grid-template-columns: 1fr; gap: 30px; padding: 116px 22px 64px; }
+      .hv4-title { font-size: clamp(48px, 12vw, 72px); }
+      .hv5-content { padding: 116px 22px 0; }
+      .hv5-title { font-size: clamp(58px, 17vw, 112px); }
+      .hero-switcher { left: 12px; bottom: 12px; padding: 7px 11px 7px 7px; font-size: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hv-2.on *, .hv-3.on *, .hv-4.on *, .hv-5.on * { animation: none !important; }
+    }
+
     /* ===== SHARED ===== */
     section { padding: 100px 24px; }
     .wrap { max-width: 1200px; margin: 0 auto; }
     .s-tag { display: block; font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
-    .s-title { font-family: var(--hd); font-weight: 900; font-size: clamp(40px, 5vw, 72px); line-height: .92; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 52px; }
+    .s-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(40px, 5vw, 72px); line-height: .92; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 52px; }
 
     /* Buttons */
     .btn-pr {
@@ -219,7 +336,7 @@
     .vs-badge.win { background: var(--green); color: var(--bg); }
     .vs-badge.loss { background: transparent; color: rgba(200,70,70,.65); border: 1px solid rgba(200,70,70,.3); }
     .vs-val-inner { display: flex; flex-direction: column; gap: 3px; }
-    .vs-val-text { font-family: var(--hd); font-weight: 900; font-size: 21px; text-transform: uppercase; line-height: 1.1; letter-spacing: -.3px; }
+    .vs-val-text { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 21px; text-transform: uppercase; line-height: 1.1; letter-spacing: -.3px; }
     .vs-val-sub { font-size: 11px; font-family: var(--mo); letter-spacing: .3px; }
     .us-val .vs-val-text { color: var(--white); }
     .us-val .vs-val-sub { color: var(--gray); }
@@ -335,7 +452,7 @@
     .como-screen.levelup .como-fill { animation: comoFlash .5s ease; }
     @keyframes comoFlash { 0%,100% { filter: none; } 45% { filter: brightness(1.9); } }
     .qe-formula-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; padding-top: 56px; border-top: 1px solid var(--border); }
-    .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
+    .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
     .qe-formula-note { font-family: var(--mo); font-size: 11px; color: var(--gray); text-align: right; line-height: 1.7; max-width: 250px; flex-shrink: 0; }
 
     /* ===== WHY CHART ===== */
@@ -419,10 +536,10 @@
     .p-img-wrap { display: flex; justify-content: center; margin: 28px 0; }
     .p-img { height: 250px; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,.55)); transition: filter .3s; }
     .bl:hover .p-img { filter: drop-shadow(0 24px 50px rgba(59,130,246,.4)); }
-    .tr:hover .p-img { filter: drop-shadow(0 24px 50px rgba(249,115,22,.4)); }
+    .tr:hover .p-img { filter: drop-shadow(0 24px 50px rgba(230,57,80,.4)); }
     .p-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
     .p-tag { font-family: var(--mo); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
-    .bl .p-tag { border-color: var(--blue); color: var(--blue); } .tr .p-tag { border-color: var(--orange); color: var(--orange); }
+    .bl .p-tag { border-color: var(--blue); color: var(--blue); } .tr .p-tag { border-color: var(--cherry); color: var(--cherry); }
     .p-desc { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
     .p-price { font-family: var(--hd); font-weight: 900; font-size: 38px; margin-bottom: 18px; }
     .p-price span { font-size: 15px; color: var(--gray); font-weight: 400; }
@@ -438,18 +555,8 @@
     }
     .bl .btn-buy { background: var(--blue); color: #fff; }
     .bl .btn-buy:hover { filter: brightness(1.1); box-shadow: 0 0 0 3px rgba(59,130,246,.22), 0 8px 24px rgba(59,130,246,.22); }
-    .tr .btn-buy { background: var(--orange); color: #fff; }
-    .tr .btn-buy:hover { filter: brightness(1.08); box-shadow: 0 0 0 3px rgba(249,115,22,.22), 0 8px 24px rgba(249,115,22,.22); }
-
-    /* ===== CÓMO FUNCIONA ===== */
-    #como-funciona { background: var(--bg2); border-top: 1px solid var(--border); }
-    .func-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); }
-    .func-step { background: var(--bg2); padding: 40px 32px; position: relative; }
-    .step-bg-n { position: absolute; top: 16px; right: 20px; font-family: var(--hd); font-weight: 900; font-size: 96px; line-height: 1; color: rgba(0,212,122,.06); pointer-events: none; }
-    .step-ico { width: 46px; height: 46px; background: var(--glo-lo); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--green); }
-    .func-step h4 { font-family: var(--hd); font-weight: 900; font-size: 22px; text-transform: uppercase; margin-bottom: 12px; }
-    .func-step p { font-size: 14px; color: var(--gray); line-height: 1.7; }
-    .func-step p .hl { color: var(--green); font-weight: 600; }
+    .tr .btn-buy { background: var(--cherry); color: #fff; }
+    .tr .btn-buy:hover { filter: brightness(1.08); box-shadow: 0 0 0 3px rgba(230,57,80,.22), 0 8px 24px rgba(230,57,80,.22); }
 
     /* ===== INGREDIENTES ===== */
     #ingredientes { background: var(--bg); }
@@ -548,8 +655,10 @@
       .como-flash { font-size: 19px; top: 50px; }
 
       /* Nav */
-      nav { padding: 10px 16px; }
+      nav { padding: 10px 12px; }
       .nav-links { display: none; }
+      .nav-btn { padding: 10px 14px; font-size: 12.5px; white-space: nowrap; }
+      .nav-actions { gap: 8px; }
 
       /* Hero — eliminar min-height para no dejar espacio negro vacío */
       #hero { min-height: auto; }
@@ -670,7 +779,10 @@
 </nav>
 
 <!-- ===== HERO ===== -->
-<section id="hero">
+<section id="hero" data-hv="1">
+
+  <!-- OPCIÓN 1 · Original (split con los dos potes) -->
+  <div class="hv hv-1 on">
   <div class="hero-grid"></div>
   <div class="hero-scan"></div>
   <div class="hero-bg-glow"></div>
@@ -726,11 +838,93 @@
 
     <div class="hero-right">
       <img
-        src="assets/tropical-y-blaze.png"
-        alt="Power Rush — Blaze Berry y Tropical Bomb"
+        src="assets/fizz-y-cherry.png"
+        alt="Power Rush — Blue Fizz y Cherry Pop"
         class="hero-prod-img"
       >
     </div>
+  </div>
+  </div><!-- /hv-1 -->
+
+  <!-- OPCIÓN 2 · Cinematográfico full-bleed -->
+  <div class="hv hv-2">
+    <img class="hp-bg" src="assets/HERO.png" alt="Power Rush Blue Fizz en un setup gamer">
+    <div class="hp-scrim"></div>
+    <div class="hp-content">
+      <div class="hv2-inner">
+        <div class="h-overline">Suplemento cognitivo · Argentina</div>
+        <h1 class="hv2-title">FOCO<br>SIN<br>CRASH<span class="h-acc">.</span></h1>
+        <p class="hero-copy"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Foco limpio hasta la última ronda, sin temblor, sin crash.</p>
+        <div class="hero-ctas">
+          <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+          <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+        </div>
+        <div class="hero-proof">
+          <span class="proof-stars">★★★★★</span>
+          <span class="proof-divider"></span>
+          <span class="proof-text"><strong>+10.000</strong> clientes &nbsp;·&nbsp; <strong>4.7/5</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPCIÓN 3 · Profundidad: el texto sale de detrás del frasco -->
+  <div class="hv hv-3">
+    <img class="hp-bg" src="assets/HERO.png" alt="">
+    <div class="hp-scrim"></div>
+    <div class="hv3-inner">
+      <div class="hv3-textcol">
+        <div class="h-overline">Suplemento cognitivo · Argentina</div>
+        <h1 class="hv3-title">FOCO<br>SIN<br>CRASH<span class="h-acc">.</span></h1>
+        <p class="hero-copy"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> Foco limpio hasta la última ronda, sin temblor, sin crash.</p>
+        <div class="hero-ctas">
+          <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+          <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+        </div>
+      </div>
+      <img class="hv3-jar" src="assets/blue-fizz.png" alt="Power Rush Blue Fizz">
+    </div>
+  </div>
+
+  <!-- OPCIÓN 4 · Split con foto enmarcada -->
+  <div class="hv hv-4">
+    <div class="hv4-grid"></div>
+    <div class="hp-scrim"></div>
+    <div class="hv4-inner">
+      <div class="hv4-text">
+        <div class="h-overline">Suplemento cognitivo · Argentina</div>
+        <h1 class="hv4-title">FOCO<br>SIN CRASH<span class="h-acc">.</span></h1>
+        <p class="hero-copy"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Foco limpio hasta la última ronda, sin temblor, sin crash.</p>
+        <div class="hero-ctas">
+          <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+          <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+        </div>
+      </div>
+      <div class="hv4-frame">
+        <img src="assets/HERO.png" alt="Power Rush Blue Fizz en un setup gamer">
+        <span class="hv4-chip">En tu setup</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPCIÓN 5 · Tipografía gigante + zoom -->
+  <div class="hv hv-5">
+    <img class="hp-bg" src="assets/HERO.png" alt="Power Rush Blue Fizz en un setup gamer">
+    <div class="hp-scrim"></div>
+    <div class="hv5-content">
+      <div class="h-overline" style="justify-content:center">Suplemento cognitivo · Argentina</div>
+      <h1 class="hv5-title"><span><i>FOCO</i></span><span><i>SIN</i></span><span><i>CRASH<span class="h-acc">.</span></i></span></h1>
+      <p class="hv5-sub"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Sin temblor, sin crash.</p>
+      <div class="hero-ctas">
+        <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selector de hero (P) -->
+  <div class="hero-switcher" aria-hidden="true">
+    <span class="hsw-key">P</span>
+    <span class="hsw-label">Hero <b id="hsw-n">1</b>/5 · <span class="hsw-name" id="hsw-name">Original</span></span>
   </div>
 </section>
 
@@ -743,32 +937,32 @@
   <div class="prod-grid">
     <div class="prod-card bl rv d1" id="card-bl">
       <div class="card-inner">
-        <div class="p-flav">Sabor arándano</div>
-        <div class="p-name">BLAZE<br>BERRY</div>
+        <div class="p-flav">Sabor frutal azul</div>
+        <div class="p-name">BLUE<br>FIZZ</div>
         <div class="p-img-wrap">
-          <img src="assets/blaze-berry.png" alt="Blaze Berry" class="p-img">
+          <img src="assets/blue-fizz.png" alt="Blue Fizz" class="p-img">
         </div>
         <div class="p-tags">
           <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
         </div>
-        <p class="p-desc">Arándano intenso con fondo frío. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la ronda 20.</p>
-        <div class="p-price">$24.999 <span>/ 30 porciones · 226g</span></div>
-        <a href="#" class="btn-buy" data-pr-add="bb">COMPRAR BLAZE BERRY <span aria-hidden="true">→</span></a>
+        <p class="p-desc">Frutal azul con gas y fondo helado. Refrescante para las sesiones de día o cuando querés algo liviano que igual te tenga enchufado.</p>
+        <div class="p-price">$24.999 <span>/ 30 porciones · 300g</span></div>
+        <a href="#" class="btn-buy" data-pr-add="bf">COMPRAR BLUE FIZZ <span aria-hidden="true">→</span></a>
       </div>
     </div>
     <div class="prod-card tr rv d2" id="card-tr">
       <div class="card-inner">
-        <div class="p-flav">Sabor maracuyá</div>
-        <div class="p-name">TROPICAL<br>BOMB</div>
+        <div class="p-flav">Sabor cereza</div>
+        <div class="p-name">CHERRY<br>POP</div>
         <div class="p-img-wrap">
-          <img src="assets/tropical-bomb.png" alt="Tropical Bomb" class="p-img">
+          <img src="assets/cherry-pop.png" alt="Cherry Pop" class="p-img">
         </div>
         <div class="p-tags">
           <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
         </div>
-        <p class="p-desc">Maracuyá explosivo con punch tropical. Para los streams de 4 horas donde el chat nota si bajás la guardia, y para los parciales que no perdonan.</p>
-        <div class="p-price">$24.999 <span>/ 30 porciones · 226g</span></div>
-        <a href="#" class="btn-buy" data-pr-add="tb">COMPRAR TROPICAL BOMB <span aria-hidden="true">→</span></a>
+        <p class="p-desc">Cereza oscura con actitud. Para los streams de 4 horas donde el chat nota si bajás la guardia, y para los parciales que no perdonan.</p>
+        <div class="p-price">$24.999 <span>/ 30 porciones · 300g</span></div>
+        <a href="#" class="btn-buy" data-pr-add="cp">COMPRAR CHERRY POP <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
@@ -947,9 +1141,9 @@
             <div class="como-panel" data-lvl="0">
               <div class="cp-text">
                 <span class="cp-tag">Fase 01 · Preparación</span>
-                <h3 class="cp-title">Una medida,<br>220 ml de agua</h3>
-                <p class="cp-desc">Disolvé <b>una medida de Power Rush</b> en <b>220 ml de agua fría</b> y tomalo antes de arrancar. Se mezcla en segundos: sin grumos y sin batidora.</p>
-                <div class="cp-chips"><span>1 medida · 7,5g</span><span>220 ml de agua</span><span>Antes de empezar</span></div>
+                <h3 class="cp-title">Una medida,<br>350 ml de agua</h3>
+                <p class="cp-desc">Disolvé <b>una medida de Power Rush</b> en <b>350 ml de agua fría</b> y tomalo antes de arrancar. Se mezcla en segundos: sin grumos y sin batidora.</p>
+                <div class="cp-chips"><span>1 medida · 10g</span><span>350 ml de agua</span><span>Antes de empezar</span></div>
               </div>
               <div class="cp-art solo"><img src="assets/PrimerSlidePolvo.png" alt="" aria-hidden="true"></div>
             </div>
@@ -1245,11 +1439,11 @@
       </div>
       <div class="faq-item rv d3">
         <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto dura el pote?<span class="faq-ico">+</span></button>
-        <div class="faq-a"><strong>30 porciones de 7,5g</strong> — 226g netos. Si lo usás todos los días dura un mes. Si es más situacional (sesiones, parciales, streams), puede durar bastante más.</div>
+        <div class="faq-a"><strong>30 porciones de 10g</strong> — 300g netos. Si lo usás todos los días dura un mes. Si es más situacional (sesiones, parciales, streams), puede durar bastante más.</div>
       </div>
       <div class="faq-item rv">
         <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
-        <div class="faq-a">La fórmula es <strong>exactamente la misma en todos los sabores</strong> desde 2024. Blaze Berry (arándano) es más intenso y oscuro. Tropical Bomb (maracuyá) es más refrescante. La ciencia adentro es idéntica.</div>
+        <div class="faq-a">La fórmula es <strong>exactamente la misma en todos los sabores</strong> desde 2024. Blue Fizz (frutal azul) es más refrescante y con gas. Cherry Pop (cereza) es más intenso y oscuro. La ciencia adentro es idéntica.</div>
       </div>
     </div>
   </div>
@@ -1371,7 +1565,7 @@ function toggleFaq(btn) { const item=btn.closest('.faq-item'), wasOpen=item.clas
 /* ===== SECTION ACHIEVEMENTS ===== */
 const secAch = {
   'vs':       ['EL MATCH VISTO','Logro desbloqueado','10-0. La lata no compite.'],
-  'productos':['SABORES VISTOS','Logro desbloqueado','Blaze Berry o Tropical Bomb. La fórmula es la misma.'],
+  'productos':['SABORES VISTOS','Logro desbloqueado','Blue Fizz o Cherry Pop. La fórmula es la misma.'],
   'comprar':  ['LISTO PARA ACTIVARSE','Logro desbloqueado','Probalo. Después nos contás.'],
 };
 const secObs = new IntersectionObserver(entries => {
@@ -1494,6 +1688,32 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
+})();
+</script>
+<script>
+/* ===== HERO SWITCHER (tecla P) ===== */
+(function () {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  const variants = Array.prototype.slice.call(hero.querySelectorAll('.hv'));
+  const nEl = document.getElementById('hsw-n');
+  const nameEl = document.getElementById('hsw-name');
+  const NAMES = ['Original', 'Cinematográfico', 'Profundidad', 'Foto enmarcada', 'Tipografía XL'];
+  let i = 0;
+  function show(idx) {
+    i = (idx + variants.length) % variants.length;
+    variants.forEach((v, k) => v.classList.toggle('on', k === i));
+    hero.setAttribute('data-hv', i + 1);
+    if (nEl) nEl.textContent = i + 1;
+    if (nameEl) nameEl.textContent = NAMES[i] || ('Hero ' + (i + 1));
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'p' && e.key !== 'P') return;
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    show(i + 1);
+  });
 })();
 </script>
 <script src="cart.js" defer></script>

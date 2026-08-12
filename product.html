@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Power Rush — Comprá tu pote</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23080A08'/%3E%3Cpath d='M13 3 5.5 13.5H11l-1 7.5L18.5 10H12z' fill='%2300D47A'/%3E%3C/svg%3E">
   <meta name="description" content="Elegí tu sabor y hacé tu pedido. 11 nootropicos. Dosis reales. Envío a todo el país.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +22,7 @@
       --red:     #FF3C3C;
       --blue:    #3B82F6;
       --orange:  #F97316;
+      --cherry:  #E63950;
       --white:   #EEF5EE;
       --gray:    #56685A;
       --border:  rgba(0,212,122,0.16);
@@ -89,7 +91,7 @@
     .prod-rating { display: flex; align-items: center; gap: 10px; }
     .prod-stars { color: var(--yellow); font-size: 15px; letter-spacing: 2px; }
     .prod-rating-text { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
-    .prod-title { font-family: var(--hd); font-weight: 900; font-size: clamp(42px, 5vw, 64px); text-transform: uppercase; line-height: .95; letter-spacing: -0.02em; }
+    .prod-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(42px, 5vw, 64px); text-transform: uppercase; line-height: .95; letter-spacing: -0.02em; }
     .prod-title .flavor-name { color: var(--flavor-accent); transition: color .5s; }
     .prod-desc { font-size: 15px; line-height: 1.7; color: rgba(238,245,238,.75); }
 
@@ -101,11 +103,11 @@
     .flavor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .flavor-card { border: 1px solid rgba(255,255,255,.1); padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: none; transition: border-color .2s, background .2s; background: transparent; }
     .flavor-card:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.03); }
-    .flavor-card.active.bb { border-color: var(--blue); background: rgba(59,130,246,.06); }
-    .flavor-card.active.tb { border-color: var(--orange); background: rgba(249,115,22,.06); }
+    .flavor-card.active.bf { border-color: var(--blue); background: rgba(59,130,246,.06); }
+    .flavor-card.active.cp { border-color: var(--cherry); background: rgba(230,57,80,.07); }
     .flavor-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .flavor-dot.bb { background: var(--blue); }
-    .flavor-dot.tb { background: var(--orange); }
+    .flavor-dot.bf { background: var(--blue); }
+    .flavor-dot.cp { background: var(--cherry); }
     .flavor-card-name { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .5px; }
     .flavor-card-sub { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
 
@@ -213,7 +215,7 @@
     .tab-btn.active { color: var(--green); border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
     .tab-ico { width: 20px; height: 20px; flex-shrink: 0; }
     .tab-label { font-family: var(--mo); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
-    .tab-num { display: none; }
+    .tab-num { display: none; font-family: var(--mo); }
 
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
@@ -221,7 +223,7 @@
     /* Ventajas — carrusel de cartas con flip 3D (estilo emblem) */
     .wc-wrap { position: relative; }
     .wc-head { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 1px solid rgba(0,212,122,.25); }
-    .wc-title { font-family: var(--hd); font-weight: 900; font-size: 26px; letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
+    .wc-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
     .wc-sub { flex: 1; font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
     .wc-arrows { display: flex; gap: 8px; }
     .wc-arrow { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); background: var(--bg2); color: var(--green); cursor: none; transition: background .16s, border-color .16s; }
@@ -250,13 +252,13 @@
     /* Frente */
     .wc-illu { color: var(--green); position: relative; z-index: 2; }
     .wc-illu svg { display: block; }
-    .wc-name { font-family: var(--hd); font-weight: 900; font-size: 19px; text-transform: uppercase; letter-spacing: .5px; line-height: 1.05; text-align: center; position: relative; z-index: 2; }
+    .wc-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 19px; text-transform: uppercase; letter-spacing: .5px; line-height: 1.05; text-align: center; position: relative; z-index: 2; }
     .wc-tag { font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); position: relative; z-index: 2; }
     .wc-index { position: absolute; top: 11px; right: 13px; font-family: var(--mo); font-size: 10px; letter-spacing: 1px; color: rgba(0,212,122,.55); z-index: 3; }
     .wc-flip-hint { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 5px; font-family: var(--mo); font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); z-index: 3; }
 
     /* Dorso */
-    .wc-back-title { font-family: var(--hd); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: .5px; color: var(--green); text-align: center; position: relative; z-index: 2; }
+    .wc-back-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 18px; text-transform: uppercase; letter-spacing: .5px; color: var(--green); text-align: center; position: relative; z-index: 2; }
     .wc-back-rule { width: 36px; height: 2px; background: var(--green); margin: 12px 0 14px; position: relative; z-index: 2; }
     .wc-back-desc { font-size: 13px; color: rgba(238,245,238,.8); line-height: 1.6; text-align: center; position: relative; z-index: 2; }
 
@@ -293,7 +295,7 @@
     .faq-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-item:last-child { border-bottom: none; }
-    .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: none; border: none; color: var(--white); font-family: var(--bd); font-size: 15px; font-weight: 600; text-align: left; transition: color .2s; }
+    .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; background: none; border: none; color: var(--white); font-family: var(--hd); font-size: 18px; font-weight: 700; text-align: left; transition: color .2s; }
     .faq-q:hover { color: var(--green); }
     .faq-ico { font-family: var(--mo); font-size: 20px; color: var(--green); flex-shrink: 0; margin-left: 16px; transition: transform .25s; }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease; font-size: 14px; color: rgba(238,245,238,.65); line-height: 1.7; }
@@ -310,7 +312,7 @@
     .tl-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .tl-header { margin-bottom: 56px; }
     .tl-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-    .tl-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
+    .tl-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
     .tl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
     .tl-grid::before { content: ''; position: absolute; top: 28px; left: calc(12.5%); right: calc(12.5%); height: 1px; background: linear-gradient(90deg, var(--green) 0%, rgba(0,212,122,.3) 100%); z-index: 0; }
     .tl-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
@@ -326,9 +328,9 @@
     .rev-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .rev-header { margin-bottom: 40px; }
     .rev-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-    .rev-title { font-family: var(--hd); font-weight: 900; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; }
+    .rev-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
     .rev-agg { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
-    .rev-agg-num { font-family: var(--hd); font-weight: 900; font-size: 48px; line-height: 1; }
+    .rev-agg-num { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 48px; line-height: 1; letter-spacing: -1px; }
     .rev-agg-stars { color: var(--yellow); font-size: 18px; letter-spacing: 3px; }
     .rev-agg-count { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
     .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -348,16 +350,16 @@
     .cs-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .cs-header { margin-bottom: 40px; }
     .cs-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-    .cs-title { font-family: var(--hd); font-weight: 900; font-size: clamp(32px, 4vw, 48px); text-transform: uppercase; line-height: .95; }
+    .cs-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(32px, 4vw, 48px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
     .cs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
     .cs-card { background: var(--bg); border: 1px solid var(--border); padding: 32px; display: flex; gap: 32px; align-items: center; transition: border-color .2s; }
     .cs-card:hover { border-color: rgba(255,255,255,.25); }
     .cs-img { width: 200px; height: 230px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 16px 32px rgba(0,0,0,.5)); }
     .cs-info { display: flex; flex-direction: column; gap: 12px; flex: 1; }
     .cs-flavor { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
-    .cs-flavor.bb { color: var(--blue); }
-    .cs-flavor.tb { color: var(--orange); }
-    .cs-name { font-family: var(--hd); font-weight: 900; font-size: 28px; text-transform: uppercase; line-height: 1; }
+    .cs-flavor.bf { color: var(--blue); }
+    .cs-flavor.cp { color: var(--cherry); }
+    .cs-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 28px; text-transform: uppercase; line-height: 1; letter-spacing: -.3px; }
     .cs-desc { font-size: 13px; color: rgba(238,245,238,.55); line-height: 1.6; }
     .cs-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--green); color: var(--green); padding: 10px 20px; font-family: var(--hd); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; text-decoration: none; transition: background .16s, color .16s; width: fit-content; }
     .cs-btn:hover { background: var(--green); color: var(--bg); }
@@ -422,7 +424,6 @@
     @media (max-width: 480px) {
       .wc-card { flex-basis: 200px; width: 200px; height: 310px; }
       .flavor-grid { grid-template-columns: 1fr; }
-      .pq-grid { grid-template-columns: 1fr; }
       .tabs-nav { grid-template-columns: 1fr 1fr; }
       .tl-grid { grid-template-columns: 1fr; }
     }
@@ -478,8 +479,8 @@
     <div class="prod-img-col">
       <div class="prod-img-frame" id="img-frame">
         <div class="prod-img-badge">Suplemento cognitivo</div>
-        <img id="prod-img" src="assets/blaze-berry.png" alt="Power Rush Blaze Berry" class="prod-main-img">
-        <div class="prod-flavor-label" id="flavor-label">Blaze Berry · Arándano</div>
+        <img id="prod-img" src="assets/blue-fizz.png" alt="Power Rush Blue Fizz" class="prod-main-img">
+        <div class="prod-flavor-label" id="flavor-label">Blue Fizz · Frutal azul</div>
       </div>
     </div>
 
@@ -492,26 +493,26 @@
         <span class="prod-rating-text">4.7 · +1.000 reseñas</span>
       </div>
 
-      <h1 class="prod-title">POWER RUSH<br><span class="flavor-name" id="title-flavor">BLAZE BERRY</span></h1>
+      <h1 class="prod-title">POWER RUSH<br><span class="flavor-name" id="title-flavor">BLUE FIZZ</span></h1>
 
       <p class="prod-desc">11 nootropicos. 30 porciones. Sin azúcar. Sin crash. La combinación de cafeína y L-Teanina que hace que tu sesión dure más que el enemigo.</p>
 
       <!-- SABOR -->
       <div>
-        <div class="sel-label">Sabor seleccionado:<span id="lbl-flavor">Blaze Berry</span></div>
+        <div class="sel-label">Sabor seleccionado:<span id="lbl-flavor">Blue Fizz</span></div>
         <div class="flavor-grid">
-          <div class="flavor-card bb active" onclick="selectFlavor('bb')">
-            <div class="flavor-dot bb"></div>
+          <div class="flavor-card bf active" onclick="selectFlavor('bf')">
+            <div class="flavor-dot bf"></div>
             <div>
-              <div class="flavor-card-name">Blaze Berry</div>
-              <div class="flavor-card-sub">Arándano intenso</div>
+              <div class="flavor-card-name">Blue Fizz</div>
+              <div class="flavor-card-sub">Frutal refrescante</div>
             </div>
           </div>
-          <div class="flavor-card tb" onclick="selectFlavor('tb')">
-            <div class="flavor-dot tb"></div>
+          <div class="flavor-card cp" onclick="selectFlavor('cp')">
+            <div class="flavor-dot cp"></div>
             <div>
-              <div class="flavor-card-name">Tropical Bomb</div>
-              <div class="flavor-card-sub">Maracuyá refrescante</div>
+              <div class="flavor-card-name">Cherry Pop</div>
+              <div class="flavor-card-sub">Cereza intensa</div>
             </div>
           </div>
         </div>
@@ -778,7 +779,7 @@
           <div class="ing-row"><div class="ing-name">Vitamina B12</div><div class="ing-dose">3µg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
         </div>
         <div class="ing-footer">
-          <span class="ing-note-text">Valores por porción (7,5g) · 30 porciones por envase</span>
+          <span class="ing-note-text">Valores por porción (10g) · 30 porciones por envase</span>
           <a href="#" class="btn-etiqueta">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             Ver etiqueta completa
@@ -797,7 +798,7 @@
           <div class="uso-card-body">
             <span class="uso-card-tag">Paso 01 · Medí</span>
             <h3 class="uso-card-title">Medí un scoop</h3>
-            <p class="uso-card-text">Un scoop (7,5g) por porción. El pote incluye la cuchara medidora. No hace falta adivinar.</p>
+            <p class="uso-card-text">Un scoop (10g) por porción. El pote incluye la cuchara medidora. No hace falta adivinar.</p>
           </div>
         </article>
         <article class="uso-card">
@@ -807,7 +808,7 @@
           <div class="uso-card-body">
             <span class="uso-card-tag">Paso 02 · Mezclá</span>
             <h3 class="uso-card-title">Mezclá con agua fría</h3>
-            <p class="uso-card-text">250 a 300ml de agua fría. Agitá bien hasta disolver. El polvo se integra rápido.</p>
+            <p class="uso-card-text">350ml de agua fría. Agitá bien hasta disolver. El polvo se integra rápido.</p>
           </div>
         </article>
         <article class="uso-card">
@@ -832,11 +833,11 @@
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto dura el pote?<span class="faq-ico">+</span></button>
-          <div class="faq-a">30 porciones de 7,5g — 226g netos. Si lo usás todos los días dura un mes. Si es más situacional (sesiones, parciales, streams), puede durar bastante más.</div>
+          <div class="faq-a">30 porciones de 10g — 300g netos. Si lo usás todos los días dura un mes. Si es más situacional (sesiones, parciales, streams), puede durar bastante más.</div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
-          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. Blaze Berry (arándano) es más intenso y oscuro. Tropical Bomb (maracuyá) es más refrescante y frutal. La ciencia adentro es idéntica. Como dijo una vieja antes de sentarse en un hormiguero: "sobre gustos no hay nada escrito".</div>
+          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. Blue Fizz (frutal azul) es más refrescante y con gas. Cherry Pop (cereza) es más intenso y oscuro. La ciencia adentro es idéntica. Como dijo una vieja antes de sentarse en un hormiguero: "sobre gustos no hay nada escrito".</div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Tiene azúcar?<span class="faq-ico">+</span></button>
@@ -1027,20 +1028,20 @@
     </div>
     <div class="cs-grid">
       <div class="cs-card">
-        <img class="cs-img" src="assets/blaze-berry.png" alt="Blaze Berry">
+        <img class="cs-img" src="assets/blue-fizz.png" alt="Blue Fizz">
         <div class="cs-info">
-          <div class="cs-flavor bb">Arándano · Sabor intenso</div>
-          <div class="cs-name">Blaze Berry</div>
-          <div class="cs-desc">Arándano oscuro, fondo frío. Para sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la 30.</div>
+          <div class="cs-flavor bf">Frutal azul · Refrescante</div>
+          <div class="cs-name">Blue Fizz</div>
+          <div class="cs-desc">Frutal azul con gas y fondo helado. Para las sesiones de día o cuando querés algo liviano que igual te tenga enchufado.</div>
           <a href="product.html" class="cs-btn">VER SABOR →</a>
         </div>
       </div>
       <div class="cs-card">
-        <img class="cs-img" src="assets/tropical-bomb.png" alt="Tropical Bomb">
+        <img class="cs-img" src="assets/cherry-pop.png" alt="Cherry Pop">
         <div class="cs-info">
-          <div class="cs-flavor tb">Maracuyá · Sabor refrescante</div>
-          <div class="cs-name">Tropical Bomb</div>
-          <div class="cs-desc">Maracuyá brillante, tropical, refrescante. Para las sesiones de día o cuando necesitás algo que se sienta liviano pero te tenga enchufado.</div>
+          <div class="cs-flavor cp">Cereza · Sabor intenso</div>
+          <div class="cs-name">Cherry Pop</div>
+          <div class="cs-desc">Cereza oscura con actitud. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la 30.</div>
           <a href="product.html" class="cs-btn">VER SABOR →</a>
         </div>
       </div>
@@ -1061,9 +1062,9 @@
 
 <!-- STICKY BAR -->
 <div id="sticky-bar">
-  <img class="sb-img" id="sb-img" src="assets/blaze-berry.png" alt="">
+  <img class="sb-img" id="sb-img" src="assets/blue-fizz.png" alt="">
   <div class="sb-info">
-    <div class="sb-name">Power Rush · <span id="sb-flavor">Blaze Berry</span></div>
+    <div class="sb-name">Power Rush · <span id="sb-flavor">Blue Fizz</span></div>
     <div class="sb-detail" id="sb-detail">1 pote · 30 porciones</div>
   </div>
   <div class="sb-price" id="sb-price">$24.999</div>
@@ -1088,10 +1089,10 @@ window.addEventListener('scroll', () => {
 });
 
 /* FLAVOR */
-let currentFlavor = 'bb';
+let currentFlavor = 'bf';
 const flavorData = {
-  bb: { img: 'assets/blaze-berry.png', label: 'Blaze Berry · Arándano', name: 'BLAZE BERRY', lbl: 'Blaze Berry', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
-  tb: { img: 'assets/tropical-bomb.png', label: 'Tropical Bomb · Maracuyá', name: 'TROPICAL BOMB', lbl: 'Tropical Bomb', accent: '#F97316', glo: 'rgba(249,115,22,0.11)' }
+  bf: { img: 'assets/blue-fizz.png', label: 'Blue Fizz · Frutal azul', name: 'BLUE FIZZ', lbl: 'Blue Fizz', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
+  cp: { img: 'assets/cherry-pop.png', label: 'Cherry Pop · Cereza', name: 'CHERRY POP', lbl: 'Cherry Pop', accent: '#E63950', glo: 'rgba(230,57,80,0.13)' }
 };
 function selectFlavor(f) {
   if (currentFlavor === f) return;
