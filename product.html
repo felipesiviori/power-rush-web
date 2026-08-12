@@ -54,20 +54,21 @@
     /* ANNOUNCE */
     #announce { position: fixed; top: 0; left: 0; right: 0; z-index: 1002; height: var(--annh); background: var(--green); overflow: hidden; }
     .ann-rot { position: relative; width: 100%; height: 100%; }
-    .ann-msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 0 14px; opacity: 0; font-family: var(--mo); font-weight: 400; font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; color: #04170D; animation: annRot 10s infinite; }
+    .ann-msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 0 14px; opacity: 0; font-family: var(--mo); font-weight: 400; font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; color: #04170D; animation: annRot 15s infinite; }
     .ann-msg:nth-child(2) { animation-delay: 5s; }
+    .ann-msg:nth-child(3) { animation-delay: 10s; }
     .ann-msg b { font-weight: 700; }
     .ann-msg svg { width: 14px; height: 14px; flex: none; opacity: .85; }
     @keyframes annRot {
-      0%   { opacity: 0; transform: translateY(7px); }
-      4%   { opacity: 1; transform: translateY(0); }
-      45%  { opacity: 1; transform: translateY(0); }
-      50%  { opacity: 0; transform: translateY(-7px); }
-      100% { opacity: 0; transform: translateY(-7px); }
+      0%    { opacity: 0; transform: translateY(7px); }
+      2.5%  { opacity: 1; transform: translateY(0); }
+      30%   { opacity: 1; transform: translateY(0); }
+      33%   { opacity: 0; transform: translateY(-7px); }
+      100%  { opacity: 0; transform: translateY(-7px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .ann-msg { animation-name: annRotFade; }
-      @keyframes annRotFade { 0% { opacity: 0; } 4% { opacity: 1; } 45% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+      @keyframes annRotFade { 0% { opacity: 0; } 2.5% { opacity: 1; } 30% { opacity: 1; } 33% { opacity: 0; } 100% { opacity: 0; } }
     }
 
     /* NAV */
@@ -79,58 +80,57 @@
     .nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 1px; background: var(--green); transform: scaleX(0); transition: transform .22s ease; }
     .nav-links a:hover { color: var(--white); }
     .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-btn { background: var(--green); color: var(--bg); border: none; border-top: 1px solid rgba(255,255,255,.2); padding: 11px 26px; font-family: var(--hd); font-weight: 700; font-size: 15px; letter-spacing: 1.2px; text-transform: uppercase; transition: background .16s, box-shadow .16s; }
-    .nav-btn:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2); }
 
     /* ===== HERO ===== */
     #prod-hero { padding-top: calc(var(--annh) + 60px + 40px); padding-bottom: 80px; position: relative; }
-    .prod-grid-bg { position: absolute; inset: 0; z-index: 0; background-image: linear-gradient(rgba(0,212,122,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.03) 1px, transparent 1px); background-size: 56px 56px; pointer-events: none; }
+    /* PDP background: radiales duales + puntos (port de 21st.dev, colores Power Rush) */
+    .pdp-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .pdp-bg-spot { position: absolute; inset: 0; background: radial-gradient(circle 520px at 35% 240px, rgba(0,212,122,.09), transparent); }
+    .pdp-bg-spot2 { position: absolute; inset: 0; background: radial-gradient(circle 520px at 70% 540px, var(--flavor-glo), transparent); }
+    .pdp-bg-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(0,212,122,.16) 1px, transparent 1px); background-size: 22px 22px; }
     .prod-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 
     /* Image col */
     .prod-img-col { position: sticky; top: calc(var(--annh) + 60px + 24px); }
-    .prod-img-frame {
-      position: relative; background: var(--bg2); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      padding: 48px 32px; min-height: 520px; overflow: hidden;
-    }
-    .prod-img-frame::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, var(--flavor-glo) 0%, transparent 65%); transition: background .5s ease; pointer-events: none; }
-    .prod-img-frame::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.018) 3px, rgba(0,0,0,.018) 4px); pointer-events: none; }
-    .prod-main-img { width: 100%; max-width: 380px; height: auto; position: relative; z-index: 1; transition: opacity .3s ease, transform .3s ease; filter: drop-shadow(0 24px 48px rgba(0,0,0,.6)); }
+    .prod-gallery { display: flex; flex-direction: column; gap: 12px; }
+    .prod-img-main { width: 100%; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .prod-main-img { width: 100%; height: 100%; object-fit: contain; transition: opacity .3s ease, transform .3s ease; filter: drop-shadow(0 24px 48px rgba(0,0,0,.6)); }
     .prod-main-img.switching { opacity: 0; transform: scale(0.96); }
-    .prod-img-badge { position: absolute; top: 16px; left: 16px; z-index: 2; background: var(--green); color: var(--bg); font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; }
-    .prod-flavor-label { position: absolute; bottom: 16px; left: 0; right: 0; z-index: 2; text-align: center; font-family: var(--mo); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); transition: color .3s; }
+    .prod-thumbs { display: flex; gap: 10px; }
+    .prod-thumb { flex: 1; min-width: 0; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.1); border-radius: 8px; background: var(--bg2); overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 8px; cursor: none; transition: border-color .2s; }
+    .prod-thumb:hover { border-color: rgba(255,255,255,.22); }
+    .prod-thumb.active { border-color: var(--green); }
+    .prod-thumb img { width: 100%; height: 100%; object-fit: contain; }
 
     /* Info col */
     .prod-info-col { display: flex; flex-direction: column; gap: 26px; }
-    .prod-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); }
     .prod-rating { display: flex; align-items: center; gap: 10px; }
-    .prod-stars { color: var(--yellow); font-size: 15px; letter-spacing: 2px; }
-    .prod-rating-text { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
-    .prod-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(42px, 5vw, 64px); text-transform: uppercase; line-height: .95; letter-spacing: -0.02em; }
-    .prod-title .flavor-name { color: var(--flavor-accent); transition: color .5s; }
-    .prod-desc { font-size: 15px; line-height: 1.7; color: rgba(238,245,238,.75); }
+    .prod-stars { color: var(--green); font-size: 17px; letter-spacing: 2px; }
+    .prod-rating-text { font-family: var(--mo); font-size: 13px; color: var(--white); letter-spacing: 1px; }
+    .rating-count { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(238,245,238,.45); transition: text-decoration-color .2s; }
+    .rating-count:hover { text-decoration-color: var(--green); }
+    .prod-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(42px, 5vw, 64px); text-transform: uppercase; line-height: .78; letter-spacing: 0.005em; }
+    .prod-title .flavor-name { color: var(--flavor-accent); font-size: 0.7em; letter-spacing: 0.005em; transition: color .5s; }
+    .prod-desc { font-size: 16px; line-height: 1.7; color: rgba(238,245,238,.92); }
 
-    /* Selector label */
-    .sel-label { font-family: var(--mo); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 10px; }
-    .sel-label span { color: var(--white); margin-left: 6px; }
+    /* Selector titles */
+    .sel-title { font-family: var(--mo); font-weight: 700; font-size: 14px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--white); margin-bottom: 10px; }
 
     /* Flavor cards */
     .flavor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .flavor-card { border: 1px solid rgba(255,255,255,.1); padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: none; transition: border-color .2s, background .2s; background: transparent; }
-    .flavor-card:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.03); }
-    .flavor-card.active.bf { border-color: var(--blue); background: rgba(59,130,246,.06); }
-    .flavor-card.active.cp { border-color: var(--cherry); background: rgba(230,57,80,.07); }
+    .flavor-card { border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: none; transition: border-color .2s, background .2s, box-shadow .2s; background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); }
+    .flavor-card:hover { border-color: rgba(255,255,255,.22); }
+    .flavor-card.active { border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
     .flavor-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .flavor-dot.bf { background: var(--blue); }
     .flavor-dot.cp { background: var(--cherry); }
-    .flavor-card-name { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .5px; }
-    .flavor-card-sub { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+    .flavor-card-name { font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .5px; }
+    .flavor-card-sub { font-family: var(--mo); font-size: 10px; color: rgba(238,245,238,.85); letter-spacing: 1px; text-transform: uppercase; }
 
     /* ── Selector de cantidad — botones rectangulares biselados ── */
     .qty-wrap { position: relative; }
     .qty-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-    .qty-card { position: relative; display: flex; flex-direction: row; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 4px 8px; padding: 16px 12px 14px; min-height: 78px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); cursor: none; transition: border-color .2s, background .2s, box-shadow .2s; }
+    .qty-card { position: relative; display: flex; flex-direction: row; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 10px 8px; padding: 16px 12px 14px; min-height: 78px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); cursor: none; transition: border-color .2s, background .2s, box-shadow .2s; }
     .qty-card:hover { border-color: rgba(255,255,255,.22); }
     .qty-num { font-family: var(--hd); font-weight: 900; line-height: 1; color: var(--white); font-size: 30px; transition: color .2s; }
     .qty-card.active .qty-num { color: var(--green); }
@@ -138,25 +138,25 @@
     .qty-unit { font-family: var(--hd); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; font-size: 15px; align-self: center; }
     .qty-per { display: none; }
     .qty-meta { display: flex; flex-direction: column; align-items: center; gap: 2px; flex-basis: 100%; }
-    .qty-total { font-family: var(--hd); font-weight: 900; line-height: 1; font-size: 18px; }
-    .qty-save { font-family: var(--mo); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    .qty-total { font-family: var(--hd); font-weight: 700; line-height: 1; font-size: 18px; }
+    .qty-save { font-family: var(--mo); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--white); }
     .qty-radio { display: none; }
     .qty-ship { display: none; }
-    .qty-ribbon { position: absolute; top: 0; left: 50%; transform: translateX(-50%); border-radius: 0 0 6px 6px; font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; background: var(--green); color: var(--bg); padding: 2px 8px; white-space: nowrap; z-index: 2; }
     .qty-card.active { border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
 
     /* Envío gratis — bracket que abarca packs 2 y 3 */
     .qty-ship-bracket { margin-left: calc((100% - 16px)/3 + 8px); margin-top: 6px; }
     .qty-ship-line { height: 7px; border: 1px solid rgba(0,212,122,.4); border-top: none; }
-    .qty-ship-txt { display: block; text-align: center; margin-top: 6px; font-family: var(--mo); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); }
+    .qty-ship-txt { display: block; text-align: center; margin-top: 6px; font-family: var(--mo); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); }
 
     /* Price */
     .prod-price-row { display: flex; align-items: baseline; gap: 14px; }
-    .prod-price { font-family: var(--hd); font-weight: 900; font-size: 52px; line-height: 1; letter-spacing: -0.02em; }
-    .prod-price-note { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
+    .prod-price { font-family: var(--hd); font-weight: 700; font-size: 36px; line-height: 1; letter-spacing: 0.01em; }
+    .prod-price-note { font-family: var(--mo); font-size: 12px; color: var(--white); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; }
+    .prod-price-note .ship-free { color: var(--green); }
 
     /* CTA */
-    .prod-cta { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--green); color: var(--bg); border: none; border-top: 1px solid rgba(255,255,255,.2); padding: 18px 32px; width: 100%; font-family: var(--hd); font-weight: 900; font-size: 20px; letter-spacing: 1px; text-transform: uppercase; transition: background .16s, box-shadow .16s, transform .1s; }
+    .prod-cta { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--green); color: var(--bg); border: none; border-radius: 8px; padding: 18px 32px; width: 100%; font-family: var(--hd); font-weight: 700; font-size: 20px; letter-spacing: 1.5px; text-transform: uppercase; transition: background .16s, box-shadow .16s, transform .1s; }
     .prod-cta:hover { background: #06EA8A; box-shadow: 0 0 0 4px rgba(0,212,122,.2), 0 8px 32px rgba(0,212,122,.15); }
     .prod-cta:active { transform: scale(0.99); }
 
@@ -165,9 +165,16 @@
     .btn-etiqueta:hover { color: var(--white); border-color: var(--gray); }
 
     /* Trust mini */
-    .trust-row { display: flex; gap: 20px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--border); }
-    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--gray); }
+    .trust-item { display: flex; align-items: center; gap: 9px; font-size: 15px; color: var(--white); }
     .trust-item svg { color: var(--green); flex-shrink: 0; }
+
+    /* Links bajo el CTA */
+    .pdp-links { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .pdp-links .btn-etiqueta { border-bottom: none; padding-bottom: 0; font-family: inherit; font-size: 15px; letter-spacing: 0; text-transform: none; color: var(--white); gap: 9px; }
+    .pdp-links .btn-etiqueta:hover { color: var(--green); }
+    .pdp-links .btn-etiqueta svg { color: var(--green); }
+    .pdp-links .btn-etiqueta-txt { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(238,245,238,.45); }
+    .pdp-links .btn-etiqueta:hover .btn-etiqueta-txt { text-decoration-color: var(--green); }
 
     /* ===== TRUST STRIP ===== */
     #trust-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
@@ -402,10 +409,10 @@
 
     /* ===== MOBILE ===== */
     @media (max-width: 768px) {
-      .prod-wrap { grid-template-columns: 1fr; gap: 0; }
+      .prod-wrap { grid-template-columns: 1fr; gap: 28px; }
       .prod-img-col { position: static; padding: 24px 0 0; }
-      .prod-img-frame { min-height: 300px; padding: 32px 24px; }
-      .prod-main-img { max-width: 260px; }
+      .prod-info-col { gap: 18px; }
+      .prod-price { font-size: 30px; }
       .wc-card { flex-basis: 210px; width: 210px; height: 320px; }
       .rev-grid { grid-template-columns: 1fr; }
       .uso-steps { grid-template-columns: 1fr; }
@@ -442,7 +449,7 @@
     }
     @media (max-width: 480px) {
       .wc-card { flex-basis: 200px; width: 200px; height: 310px; }
-      .flavor-grid { grid-template-columns: 1fr; }
+      .flavor-card { padding: 12px 12px; gap: 9px; }
       .tabs-nav { grid-template-columns: 1fr 1fr; }
       .tl-grid { grid-template-columns: 1fr; }
     }
@@ -460,6 +467,10 @@
     <p class="ann-msg">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
       <span><b>Envío gratis</b> llevando 2 o más unidades</span>
+    </p>
+    <p class="ann-msg">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      <span><b>30 días de garantía</b> o devolvemos tu dinero</span>
     </p>
     <p class="ann-msg">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -484,47 +495,50 @@
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
       <span class="pr-cart-count" data-pr-count hidden>0</span>
     </button>
-    <button class="nav-btn" onclick="document.getElementById('prod-hero').scrollIntoView({behavior:'smooth'})">COMPRAR</button>
   </div>
   </div>
 </nav>
 
 <!-- ===== HERO ===== -->
 <section id="prod-hero">
-  <div class="prod-grid-bg"></div>
+  <div class="pdp-bg" aria-hidden="true">
+    <div class="pdp-bg-spot"></div>
+    <div class="pdp-bg-spot2"></div>
+    <div class="pdp-bg-dots"></div>
+  </div>
   <div class="prod-wrap">
 
     <!-- IMAGEN -->
     <div class="prod-img-col">
-      <div class="prod-img-frame" id="img-frame">
-        <div class="prod-img-badge">Suplemento cognitivo</div>
-        <img id="prod-img" src="assets/blue-fizz.png" alt="Power Rush Blue Fizz" class="prod-main-img">
-        <div class="prod-flavor-label" id="flavor-label">Blue Fizz · Frutal azul</div>
+      <div class="prod-gallery">
+        <div class="prod-img-main">
+          <img id="prod-img" src="assets/blue-fizz.png" alt="Power Rush Blue Fizz" class="prod-main-img">
+        </div>
+        <div class="prod-thumbs" id="prod-thumbs"></div>
       </div>
     </div>
 
     <!-- INFO -->
     <div class="prod-info-col">
-      <div class="prod-overline">Power Rush · Argentina</div>
 
       <div class="prod-rating">
         <span class="prod-stars">★★★★★</span>
-        <span class="prod-rating-text">4.7 · +1.000 reseñas</span>
+        <span class="prod-rating-text">4.7 · <a href="#prod-reviews" class="rating-count">+937 reseñas</a></span>
       </div>
 
       <h1 class="prod-title">POWER RUSH<br><span class="flavor-name" id="title-flavor">BLUE FIZZ</span></h1>
 
-      <p class="prod-desc">11 nootropicos. 30 porciones. Sin azúcar. Sin crash. La combinación de cafeína y L-Teanina que hace que tu sesión dure más que el enemigo.</p>
+      <p class="prod-desc">Power Rush es un energizante con la mejor combinación de nootrópicos para focus y energía, balanceado para tener la mente calma. Nada de latas ni pre&#8209;entrenos que solo buscan agitarte.</p>
 
       <!-- SABOR -->
       <div>
-        <div class="sel-label">Sabor seleccionado:<span id="lbl-flavor">Blue Fizz</span></div>
+        <div class="sel-title">Sabores</div>
         <div class="flavor-grid">
           <div class="flavor-card bf active" onclick="selectFlavor('bf')">
             <div class="flavor-dot bf"></div>
             <div>
               <div class="flavor-card-name">Blue Fizz</div>
-              <div class="flavor-card-sub">Frutal refrescante</div>
+              <div class="flavor-card-sub">Fresco y frutal</div>
             </div>
           </div>
           <div class="flavor-card cp" onclick="selectFlavor('cp')">
@@ -539,7 +553,7 @@
 
       <!-- CANTIDAD -->
       <div>
-        <div class="sel-label">Cantidad:<span id="lbl-qty">1 pote</span></div>
+        <div class="sel-title">Cantidad</div>
         <div class="qty-wrap" id="qty-wrap">
         <div class="qty-grid">
 
@@ -552,7 +566,6 @@
             </span>
             <span class="qty-meta">
               <span class="qty-total">$24.999</span>
-              <span class="qty-save" style="color:var(--gray)">por pote</span>
             </span>
           </div>
 
@@ -565,13 +578,12 @@
             </span>
             <span class="qty-meta">
               <span class="qty-total">$22.500</span>
-              <span class="qty-save">por pote · −10%</span>
+              <span class="qty-save">cada uno</span>
             </span>
             <span class="qty-ship">✓ Envío gratis</span>
           </div>
 
           <div class="qty-card" data-n="3" data-total="$63.749" onclick="selectQty(3, this)">
-            <span class="qty-ribbon">Más elegido</span>
             <span class="qty-radio"></span>
             <span class="qty-num">3</span>
             <span class="qty-info">
@@ -580,7 +592,7 @@
             </span>
             <span class="qty-meta">
               <span class="qty-total">$21.250</span>
-              <span class="qty-save">por pote · −15%</span>
+              <span class="qty-save">cada uno</span>
             </span>
             <span class="qty-ship">✓ Envío gratis</span>
           </div>
@@ -595,7 +607,7 @@
         <div class="prod-price-row">
           <div class="prod-price" id="prod-price">$24.999</div>
         </div>
-        <div class="prod-price-note">Total · IVA incluido · Envío a calcular</div>
+        <div class="prod-price-note">Total · IVA incluido · <span id="price-ship">Envío a calcular</span></div>
       </div>
 
       <!-- CTA -->
@@ -605,25 +617,15 @@
       </button>
 
       <!-- VER ETIQUETA + TRUST -->
-      <div style="display:flex; flex-direction:column; gap:14px;">
-        <a href="#tab-ingredientes" class="btn-etiqueta" onclick="switchTab('ingredientes', document.querySelector('[data-tab=ingredientes]'))">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          Ver etiqueta completa
-        </a>
-        <div class="trust-row">
-          <div class="trust-item">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            30 días de garantía
-          </div>
-          <div class="trust-item">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-            Envío a todo el país
-          </div>
-          <div class="trust-item">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            Pago seguro
-          </div>
+      <div class="pdp-links">
+        <div class="trust-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          30 días de garantía, si no te sirve te devolvemos el dinero
         </div>
+        <a href="#tab-ingredientes" class="btn-etiqueta" onclick="switchTab('ingredientes', document.querySelector('[data-tab=ingredientes]'))">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span class="btn-etiqueta-txt">Ver información nutricional completa</span>
+        </a>
       </div>
 
     </div>
@@ -1110,20 +1112,49 @@ window.addEventListener('scroll', () => {
 /* FLAVOR */
 let currentFlavor = 'bf';
 const flavorData = {
-  bf: { img: 'assets/blue-fizz.png', label: 'Blue Fizz · Frutal azul', name: 'BLUE FIZZ', lbl: 'Blue Fizz', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
-  cp: { img: 'assets/cherry-pop.png', label: 'Cherry Pop · Cereza', name: 'CHERRY POP', lbl: 'Cherry Pop', accent: '#E63950', glo: 'rgba(230,57,80,0.13)' }
+  bf: { img: 'assets/blue-fizz.png', name: 'BLUE FIZZ', lbl: 'Blue Fizz', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
+  cp: { img: 'assets/cherry-pop.png', name: 'CHERRY POP', lbl: 'Cherry Pop', accent: '#E63950', glo: 'rgba(230,57,80,0.13)' }
 };
+
+/* GALERIA (una sola por producto; el sabor salta a su imagen) */
+const productGallery = [
+  { src: 'assets/blue-fizz.png',       alt: 'Pote Blue Fizz',          flavor: 'bf' },
+  { src: 'assets/cherry-pop.png',      alt: 'Pote Cherry Pop',         flavor: 'cp' },
+  { src: 'assets/SCOOP_CHERRY_POP.png', alt: 'Qué tiene un scoop' },
+  { src: 'assets/fizz-y-cherry.png',   alt: 'Blue Fizz y Cherry Pop' },
+  { src: 'assets/INFO_BLUE_FIZZ.png',  alt: 'Información nutricional' }
+];
+function setMainImg(src) {
+  const img = document.getElementById('prod-img');
+  img.classList.add('switching');
+  setTimeout(() => { img.src = src; img.classList.remove('switching'); }, 300);
+}
+function setGalleryIndex(i) {
+  document.querySelectorAll('.prod-thumb').forEach((t, j) => t.classList.toggle('active', j === i));
+  setMainImg(productGallery[i].src);
+}
+(function renderThumbs() {
+  const wrap = document.getElementById('prod-thumbs');
+  productGallery.forEach((item, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'prod-thumb' + (i === 0 ? ' active' : '');
+    b.setAttribute('aria-label', item.alt);
+    const im = document.createElement('img');
+    im.src = item.src; im.alt = ''; im.loading = 'lazy';
+    b.appendChild(im);
+    b.onclick = () => setGalleryIndex(i);
+    wrap.appendChild(b);
+  });
+})();
 function selectFlavor(f) {
   if (currentFlavor === f) return;
   currentFlavor = f;
   const data = flavorData[f];
-  const img = document.getElementById('prod-img');
-  img.classList.add('switching');
-  setTimeout(() => { img.src = data.img; img.classList.remove('switching'); }, 300);
-  document.getElementById('flavor-label').textContent = data.label;
+  const gi = productGallery.findIndex(g => g.flavor === f);
+  if (gi > -1) setGalleryIndex(gi);
   document.getElementById('title-flavor').textContent = data.name;
   document.getElementById('title-flavor').style.color = data.accent;
-  document.getElementById('lbl-flavor').textContent = ' ' + data.lbl;
   document.getElementById('sb-img').src = data.img;
   document.getElementById('sb-flavor').textContent = data.lbl;
   document.documentElement.style.setProperty('--flavor-accent', data.accent);
@@ -1139,9 +1170,11 @@ function selectQty(n, el) {
   document.querySelectorAll('.qty-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   const total = el.dataset.total;
-  document.getElementById('lbl-qty').textContent = ' ' + n + (n===1?' pote':' potes');
   document.getElementById('sb-detail').textContent = n + (n===1?' pote':' potes') + ' · ' + (n*30) + ' porciones';
   document.getElementById('prod-price').textContent = total;
+  const ship = document.getElementById('price-ship');
+  ship.textContent = n >= 2 ? 'Envío gratis' : 'Envío a calcular';
+  ship.classList.toggle('ship-free', n >= 2);
   document.getElementById('sb-price').textContent = total;
 }
 
