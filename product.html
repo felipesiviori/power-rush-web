@@ -71,7 +71,8 @@
     }
 
     /* NAV */
-    nav { position: fixed; top: var(--annh); left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: rgba(8,10,8,.88); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--border); padding: 12px clamp(20px, 3.5vw, 56px); z-index: 1000; }
+    nav { position: fixed; top: var(--annh); left: 0; right: 0; background: rgba(8,10,8,.88); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--border); padding: 12px 0; z-index: 1000; }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .nav-logo img { height: 30px; width: auto; display: block; }
     .nav-links { display: flex; gap: 40px; list-style: none; }
     .nav-links a { position: relative; color: rgba(238,245,238,.72); text-decoration: none; font-size: 14.5px; font-weight: 500; letter-spacing: .2px; transition: color .2s; }
@@ -415,7 +416,8 @@
       .ts-item { border-right: none; border-bottom: 1px solid var(--border); }
       .ts-item:nth-child(odd) { border-right: 1px solid var(--border); }
       .ts-item:nth-last-child(-n+2) { border-bottom: none; }
-      nav { padding: 10px 16px; }
+      nav { padding: 10px 0; }
+      .nav-inner { padding: 0 16px; }
       .nav-links { display: none; }
       .prod-title { font-size: 40px; }
       .rev-agg { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -468,6 +470,7 @@
 
 <!-- NAV -->
 <nav>
+  <div class="nav-inner">
   <a href="index.html" class="nav-logo">
     <img src="assets/logo.png" alt="Power Rush">
   </a>
@@ -482,6 +485,7 @@
       <span class="pr-cart-count" data-pr-count hidden>0</span>
     </button>
     <button class="nav-btn" onclick="document.getElementById('prod-hero').scrollIntoView({behavior:'smooth'})">COMPRAR</button>
+  </div>
   </div>
 </nav>
 
