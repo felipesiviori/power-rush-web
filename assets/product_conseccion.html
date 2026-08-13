@@ -170,24 +170,11 @@
 
     /* Links bajo el CTA */
     .pdp-links { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-    .pdp-links .btn-etiqueta { border-bottom: none; padding-bottom: 0; font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); gap: 9px; }
+    .pdp-links .btn-etiqueta { border-bottom: none; padding-bottom: 0; font-family: inherit; font-size: 15px; letter-spacing: 0; text-transform: none; color: var(--white); gap: 9px; }
     .pdp-links .btn-etiqueta:hover { color: var(--green); }
     .pdp-links .btn-etiqueta svg { color: var(--green); }
     .pdp-links .btn-etiqueta-txt { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(238,245,238,.45); }
     .pdp-links .btn-etiqueta:hover .btn-etiqueta-txt { text-decoration-color: var(--green); }
-    /* Popup etiqueta completa */
-    .label-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 28px 20px; }
-    .label-modal.open { display: flex; }
-    .label-modal-backdrop { position: absolute; inset: 0; background: rgba(4,6,4,.84); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: lmFade .3s ease; }
-    .label-modal-inner { position: relative; z-index: 1; max-width: 680px; width: 100%; max-height: 92vh; animation: lmPop .38s cubic-bezier(.23,1,.32,1); }
-    .label-modal-inner img { display: block; width: 100%; height: auto; max-height: 92vh; object-fit: contain; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 40px 90px -30px rgba(0,0,0,.85); }
-    .label-modal-close { position: absolute; top: -16px; right: -16px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #04140C; border: none; cursor: pointer; box-shadow: 0 6px 20px -4px rgba(0,212,122,.6); transition: transform .18s ease, filter .18s ease; z-index: 2; }
-    .label-modal-close:hover { transform: scale(1.08); filter: brightness(1.05); }
-    .label-modal-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-    @keyframes lmFade { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes lmPop { from { opacity: 0; transform: translateY(16px) scale(.96); } to { opacity: 1; transform: none; } }
-    @media (max-width: 560px) { .label-modal-close { top: -14px; right: -6px; } }
-    @media (prefers-reduced-motion: reduce) { .label-modal-backdrop, .label-modal-inner { animation: none; } }
 
     /* ===== TRUST STRIP ===== */
     #trust-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
@@ -246,7 +233,7 @@
 
     /* Tab nav — botones biselados (PILL) */
     .tabs-nav { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 44px; }
-    .tab-btn { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 16px 12px; min-height: 54px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); cursor: none; color: rgba(238,245,238,.68); transition: color .2s, background .2s, border-color .2s, box-shadow .2s; }
+    .tab-btn { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 16px 12px; min-height: 54px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); cursor: none; color: var(--gray); transition: color .2s, background .2s, border-color .2s, box-shadow .2s; }
     .tab-btn:hover { color: var(--white); border-color: rgba(255,255,255,.22); }
     .tab-btn.active { color: var(--green); border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
     .tab-ico { width: 20px; height: 20px; flex-shrink: 0; }
@@ -260,7 +247,7 @@
     .wc-wrap { position: relative; }
     .wc-head { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 1px solid rgba(0,212,122,.25); }
     .wc-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
-    .wc-sub { flex: 1; font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--white); }
+    .wc-sub { flex: 1; font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
     .wc-arrows { display: flex; gap: 8px; }
     .wc-arrow { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); background: var(--bg2); color: var(--green); cursor: none; transition: background .16s, border-color .16s; }
     .wc-arrow:hover { background: rgba(0,212,122,.1); border-color: var(--green); }
@@ -289,9 +276,9 @@
     .wc-illu { color: var(--green); position: relative; z-index: 2; }
     .wc-illu svg { display: block; }
     .wc-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 19px; text-transform: uppercase; letter-spacing: .5px; line-height: 1.05; text-align: center; position: relative; z-index: 2; }
-    .wc-tag { font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); position: relative; z-index: 2; }
+    .wc-tag { font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); position: relative; z-index: 2; }
     .wc-index { position: absolute; top: 11px; right: 13px; font-family: var(--mo); font-size: 10px; letter-spacing: 1px; color: rgba(0,212,122,.55); z-index: 3; }
-    .wc-flip-hint { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 5px; font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); z-index: 3; }
+    .wc-flip-hint { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 5px; font-family: var(--mo); font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); z-index: 3; }
 
     /* Dorso */
     .wc-back-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 18px; text-transform: uppercase; letter-spacing: .5px; color: var(--green); text-align: center; position: relative; z-index: 2; }
@@ -309,71 +296,7 @@
     .ing-bar-wrap { height: 3px; background: rgba(0,212,122,.12); }
     .ing-bar-fill { height: 100%; background: var(--green); width: 0; transition: width 1s ease; }
     .ing-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 8px; }
-    .ing-note-text { font-family: var(--mo); font-weight: 700; font-size: 11px; color: var(--white); letter-spacing: 1.5px; text-transform: uppercase; }
-    /* Ingredientes en carrusel horizontal (4 visibles, deslizás para ver las otras) */
-    .ing-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
-    .ing-head-hint { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(238,245,238,.62); }
-    .ing-arrows { display: flex; gap: 8px; }
-    .ing-rail { display: flex; gap: 13px; overflow-x: auto; scroll-snap-type: x proximity; scroll-behavior: smooth; padding: 4px 2px 12px; scrollbar-width: none; -ms-overflow-style: none; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: pan-x; }
-    .ing-rail::-webkit-scrollbar { display: none; }
-    .ing-rail.dragging { cursor: grabbing; scroll-behavior: auto; }
-    .ing-rail.dragging .ing-card { pointer-events: none; }
-    .ing-card { flex: 0 0 clamp(190px, calc((100% - 39px) / 4), 320px); scroll-snap-align: start; position: relative; overflow: hidden; background: var(--bg2); border: 1px solid var(--border); border-radius: 13px; padding: 20px 18px 17px; min-height: 132px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform .32s cubic-bezier(.23,1,.32,1), border-color .3s ease, box-shadow .32s ease; will-change: transform; }
-    .ing-card:hover { transform: translateY(-5px); border-color: rgba(0,212,122,.45); box-shadow: 0 20px 38px -16px rgba(0,212,122,.2), 0 8px 20px -8px rgba(0,0,0,.5); }
-    .ing-card-glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 82% 12%, rgba(0,212,122,.16), transparent 60%); opacity: 0; transition: opacity .32s ease; }
-    .ing-card:hover .ing-card-glow { opacity: 1; }
-    .ing-card-top { position: relative; z-index: 1; }
-    .ing-card-name { display: block; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 23px; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1; }
-    .ing-card-fn { display: block; margin-top: 9px; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: rgba(238,245,238,.92); line-height: 1.45; }
-    .ing-card-dose { position: relative; z-index: 1; display: flex; align-items: baseline; gap: 3px; font-family: var(--hd); font-weight: 900; color: var(--green); line-height: 1; transition: text-shadow .3s ease; }
-    .ing-card-dose b { font-size: 38px; letter-spacing: -1px; font-style: italic; }
-    .ing-card-dose span { font-size: 14px; font-weight: 700; letter-spacing: .5px; }
-    .ing-card:hover .ing-card-dose { text-shadow: 0 0 22px rgba(0,212,122,.55); }
-    .ing-card-vit .ing-card-name { color: var(--green); }
-    .ing-card-vitlist { position: relative; z-index: 1; font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: .8px; color: rgba(238,245,238,.95); line-height: 1.55; }
-    #tab-ingredientes.active .ing-rail .ing-card { animation: ingUp .5s both cubic-bezier(.23,1,.32,1); }
-    .ing-rail .ing-card:nth-child(1){animation-delay:.03s}.ing-rail .ing-card:nth-child(2){animation-delay:.08s}.ing-rail .ing-card:nth-child(3){animation-delay:.13s}.ing-rail .ing-card:nth-child(4){animation-delay:.18s}.ing-rail .ing-card:nth-child(5){animation-delay:.23s}.ing-rail .ing-card:nth-child(6){animation-delay:.28s}.ing-rail .ing-card:nth-child(7){animation-delay:.33s}.ing-rail .ing-card:nth-child(8){animation-delay:.38s}.ing-rail .ing-card:nth-child(9){animation-delay:.43s}
-    @keyframes ingUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-    @media (prefers-reduced-motion: reduce) { .ing-card, #tab-ingredientes.active .ing-rail .ing-card { animation: none; transition: none; } .ing-rail { scroll-behavior: auto; } }
-    @media (max-width: 640px) { .ing-card { flex-basis: 74%; } .ing-arrows { display: none; } }
-    /* Switcher de variantes (tecla P) */
-    .iv-switcher { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px; padding: 7px 13px 7px 7px; border: 1px solid var(--border); border-radius: 40px; background: var(--bg2); font-family: var(--mo); font-size: 10px; letter-spacing: .5px; color: rgba(238,245,238,.6); user-select: none; }
-    .iv-key { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 6px; background: var(--green); color: #04140C; font-weight: 700; box-shadow: 0 0 10px rgba(0,212,122,.35); }
-    .iv-lab b { color: var(--white); } .iv-lab span { color: var(--green); }
-    .ing-stage > * { animation: ingStage .45s cubic-bezier(.23,1,.32,1) both; }
-    @keyframes ingStage { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-    /* v2 · Lista vertical */
-    .iv-list { display: flex; flex-direction: column; gap: 10px; }
-    .iv-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; transition: border-color .25s, background .25s, transform .25s; }
-    .iv-row:hover { border-color: rgba(0,212,122,.42); background: var(--bg3); transform: translateX(5px); }
-    .iv-row-name { display: block; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 23px; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1; }
-    .iv-row-fn { display: block; margin-top: 6px; font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(238,245,238,.64); }
-    .iv-row-dose { display: flex; align-items: baseline; gap: 3px; font-family: var(--hd); font-weight: 900; color: var(--green); flex-shrink: 0; }
-    .iv-row-dose b { font-size: 32px; font-style: italic; letter-spacing: -1px; }
-    .iv-row-dose span { font-size: 13px; font-weight: 700; }
-    .iv-row-vit { font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: 1.5px; color: var(--green); text-align: right; flex-shrink: 0; }
-    /* v3 · Grilla */
-    .iv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 12px; }
-    .iv-grid .ing-card { flex: initial; }
-    /* v4 · Barras */
-    .iv-bars { display: flex; flex-direction: column; }
-    .iv-bar { display: grid; grid-template-columns: 1fr 260px; align-items: center; gap: 22px; padding: 16px 4px; border-bottom: 1px solid var(--border); }
-    .iv-bar:last-child { border-bottom: none; }
-    .iv-bar-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 20px; text-transform: uppercase; letter-spacing: 0.03em; }
-    .iv-bar-fn { display: block; margin-top: 4px; font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(238,245,238,.55); }
-    .iv-bar-right { display: flex; align-items: center; gap: 14px; }
-    .iv-bar-dose { font-family: var(--hd); font-weight: 900; font-size: 18px; color: var(--green); white-space: nowrap; min-width: 66px; text-align: right; }
-    .iv-bar-track { flex: 1; height: 4px; background: rgba(0,212,122,.12); border-radius: 4px; overflow: hidden; }
-    .iv-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--yellow)); border-radius: 4px; box-shadow: 0 0 8px rgba(0,212,122,.5); }
-    /* v5 · Compacta (2 columnas) */
-    .iv-compact { columns: 2; column-gap: 44px; }
-    .iv-c-item { display: flex; align-items: baseline; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); break-inside: avoid; }
-    .iv-c-name { font-family: var(--hd); font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
-    .iv-c-line { flex: 1; border-bottom: 1px dotted rgba(238,245,238,.22); transform: translateY(-3px); }
-    .iv-c-dose { font-family: var(--mo); font-weight: 700; font-size: 13px; color: var(--green); white-space: nowrap; }
-    @media (max-width: 720px) { .iv-bar { grid-template-columns: 1fr 160px; gap: 12px; } .iv-compact { columns: 1; } }
-    @media (max-width: 480px) { .iv-bar { grid-template-columns: 1fr; gap: 8px; } .iv-bar-right { justify-content: flex-start; } .iv-row-name { font-size: 20px; } }
-    @media (prefers-reduced-motion: reduce) { .ing-stage > * { animation: none; } }
+    .ing-note-text { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
 
     /* Modo de uso */
     .uso-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -381,7 +304,7 @@
     .uso-card:hover { transform: translateY(-10px); border-color: rgba(0,212,122,.42); box-shadow: 0 26px 50px -14px rgba(0,212,122,.20), 0 10px 24px -8px rgba(0,0,0,.5); }
     .uso-card-glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 50% 33%, rgba(0,212,122,.18) 0%, transparent 60%); opacity: .75; transition: opacity .4s ease; }
     .uso-card:hover .uso-card-glow { opacity: 1; }
-    .uso-card-num { position: absolute; top: 20px; left: 22px; z-index: 3; font-family: var(--mo); font-size: 12px; letter-spacing: 2px; color: rgba(238,245,238,.5); }
+    .uso-card-num { position: absolute; top: 20px; left: 22px; z-index: 3; font-family: var(--mo); font-size: 12px; letter-spacing: 2px; color: var(--gray); }
     .uso-card-img { position: absolute; left: 0; right: 0; top: 6px; bottom: 142px; z-index: 1; display: flex; align-items: center; justify-content: center; transition: transform .45s cubic-bezier(.23,1,.32,1); }
     .uso-card-img img { width: 220px; height: 220px; object-fit: contain; filter: drop-shadow(0 8px 30px rgba(0,212,122,.32)); }
     .uso-card:hover .uso-card-img { transform: scale(1.12) translateY(-12px); }
@@ -444,23 +367,6 @@
     .rev-name { font-family: var(--hd); font-weight: 700; font-size: 16px; text-transform: uppercase; }
     .rev-role { font-family: var(--mo); font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
     .rev-game-tag { display: inline-block; margin-top: 6px; background: rgba(0,212,122,.1); color: var(--green); font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border: 1px solid rgba(0,212,122,.25); }
-    /* Header de reviews (estrellas + rating juntos, headline grande) */
-    .rev-header-join { text-align: center; margin-bottom: 8px; }
-    .rev-stars-top { display: inline-flex; align-items: center; gap: 11px; color: var(--yellow); font-size: 17px; letter-spacing: 3px; margin-bottom: 18px; }
-    .rev-stars-top span { font-family: var(--mo); font-size: 12px; letter-spacing: 1.5px; color: var(--white); text-transform: uppercase; }
-    .rev-title-join { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(38px, 5vw, 66px); line-height: .92; letter-spacing: -1.5px; text-transform: uppercase; }
-    .rev-title-join .join-dot { color: var(--green); }
-    /* Reviews en columnas que scrollean (como la home) */
-    .rev-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1080px; margin: 44px auto 0; max-height: 640px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent); }
-    .rev-col-inner { display: flex; flex-direction: column; gap: 16px; }
-    .rev-col:nth-child(1) .rev-col-inner { animation: revScroll 32s linear infinite; }
-    .rev-col:nth-child(2) .rev-col-inner { animation: revScroll 42s linear infinite; animation-delay: -12s; }
-    .rev-col:nth-child(3) .rev-col-inner { animation: revScroll 37s linear infinite; animation-delay: -6s; }
-    @keyframes revScroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-    .rev-cols:hover .rev-col-inner { animation-play-state: paused; }
-    @media (max-width: 1024px) { .rev-cols { grid-template-columns: repeat(2,1fr); } .rev-col:nth-child(3) { display: none; } }
-    @media (max-width: 640px) { .rev-cols { grid-template-columns: 1fr; } .rev-col:nth-child(2) { display: none; } .rev-col:nth-child(1) .rev-col-inner { animation-duration: 20s; } }
-    @media (prefers-reduced-motion: reduce) { .rev-col-inner { animation: none !important; } }
 
     /* ===== CROSS-SELL ===== */
     #cross-sell { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
@@ -632,14 +538,14 @@
             <div class="flavor-dot bf"></div>
             <div>
               <div class="flavor-card-name">Blue Fizz</div>
-              <div class="flavor-card-sub">Ácido e intenso</div>
+              <div class="flavor-card-sub">Fresco y frutal</div>
             </div>
           </div>
           <div class="flavor-card cp" onclick="selectFlavor('cp')">
             <div class="flavor-dot cp"></div>
             <div>
               <div class="flavor-card-name">Cherry Pop</div>
-              <div class="flavor-card-sub">Cereza refrescante</div>
+              <div class="flavor-card-sub">Cereza intensa</div>
             </div>
           </div>
         </div>
@@ -716,9 +622,9 @@
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
           30 días de garantía, si no te sirve te devolvemos el dinero
         </div>
-        <a href="#" class="btn-etiqueta" onclick="setGalleryIndex(1); document.querySelector('.prod-img-col').scrollIntoView({behavior:'smooth',block:'center'}); return false;">
+        <a href="#tab-ingredientes" class="btn-etiqueta" onclick="switchTab('ingredientes', document.querySelector('[data-tab=ingredientes]'))">
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span class="btn-etiqueta-txt">Ver qué lleva cada scoop</span>
+          <span class="btn-etiqueta-txt">Ver información nutricional completa</span>
         </a>
       </div>
 
@@ -727,18 +633,6 @@
 </section>
 
 <!-- ===== TABS ===== -->
-<!-- ===== REVIEWS (columnas que scrollean) ===== -->
-<section id="prod-reviews">
-  <div class="rev-wrap">
-    <div class="rev-header rev-header-join">
-      <div class="rev-stars-top">★★★★★ <span>4.7/5 · +700 reseñas verificadas</span></div>
-      <h2 class="rev-title-join">Sumate a los que<br>ya confiaron<span class="join-dot">.</span></h2>
-    </div>
-    <div class="rev-cols" id="rev-cols"></div>
-  </div>
-</section>
-
-<!-- ===== BENEFICIOS / INGREDIENTES / MODO DE USO / FAQ (tabs) ===== -->
 <section id="tabs-section">
   <div class="tabs-wrap">
     <div class="tabs-nav">
@@ -892,14 +786,22 @@
     <!-- INGREDIENTES -->
     <div class="tab-panel" id="tab-ingredientes">
       <div class="ing-wrap">
-        <div class="iv-switcher" aria-hidden="true">
-          <span class="iv-key">P</span>
-          <span class="iv-lab">Ingredientes <b id="iv-n">1</b>/5 · <span id="iv-name">Carrusel</span></span>
+        <div class="ing-table-wrap">
+          <div class="ing-row"><div class="ing-name">Taurina</div><div class="ing-dose">700mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="100"></div></div></div>
+          <div class="ing-row"><div class="ing-name">L-Carnitina</div><div class="ing-dose">600mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="86"></div></div></div>
+          <div class="ing-row"><div class="ing-name">L-Tirosina</div><div class="ing-dose">500mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="71"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Colina</div><div class="ing-dose">300mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="43"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Cafeína</div><div class="ing-dose">120mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="17"></div></div></div>
+          <div class="ing-row"><div class="ing-name">L-Teanina</div><div class="ing-dose">100mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="14"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Ginseng</div><div class="ing-dose">50mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="7"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Luteína</div><div class="ing-dose">20mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="3"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Vitamina B3</div><div class="ing-dose">10mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Vitamina B6</div><div class="ing-dose">5mg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
+          <div class="ing-row"><div class="ing-name">Vitamina B12</div><div class="ing-dose">3µg</div><div class="ing-bar-wrap"><div class="ing-bar-fill" data-w="1"></div></div></div>
         </div>
-        <div class="ing-stage" id="ing-stage"></div>
         <div class="ing-footer">
           <span class="ing-note-text">Valores por porción (10g) · 30 porciones por envase</span>
-          <a href="#" class="btn-etiqueta" onclick="openLabelModal(); return false;">
+          <a href="#" class="btn-etiqueta">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             Ver etiqueta completa
           </a>
@@ -956,7 +858,7 @@
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
-          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. <strong>Blue Fizz</strong> es ácido e intenso: el más fuerte de la línea, para los que les gustan los sabores que se sienten. <strong>Cherry Pop</strong> es cereza refrescante y suave: más rico y fácil de tomar. La ciencia adentro es idéntica, elegí por gusto.</div>
+          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. Blue Fizz (frutal azul) es más refrescante y con gas. Cherry Pop (cereza) es más intenso y oscuro. La ciencia adentro es idéntica. Como dijo una vieja antes de sentarse en un hormiguero: "sobre gustos no hay nada escrito".</div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Tiene azúcar?<span class="faq-ico">+</span></button>
@@ -972,7 +874,7 @@
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Qué pasa si no me gusta?<span class="faq-ico">+</span></button>
-          <div class="faq-a">Garantía de 30 días. Si en los primeros 30 días <strong>no notás ningún efecto ni diferencia</strong>, te devolvemos el dinero, sin vueltas. Aclaración: la devolución es por resultados, <strong>no por sabor</strong> — el gusto es demasiado subjetivo para garantizarlo, por eso tenés dos sabores bien distintos para elegir el que va con vos.</div>
+          <div class="faq-a">Garantía de 30 días sin preguntas. Si en los primeros 30 días no notás ningún efecto o simplemente no te gustó, te devolvemos el dinero. Sin vueltas.</div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Qué es el video del founder para quienes compran 3 potes?<span class="faq-ico">+</span></button>
@@ -1093,7 +995,50 @@
 </section>
 
 <!-- ===== RESEÑAS ===== -->
-
+<section id="prod-reviews">
+  <div class="rev-wrap">
+    <div class="rev-header">
+      <div class="rev-overline">Lo que dice la comunidad</div>
+      <h2 class="rev-title">FOCO QUE<br>SE NOTA.</h2>
+      <div class="rev-agg">
+        <div class="rev-agg-num">4.7</div>
+        <div>
+          <div class="rev-agg-stars">★★★★★</div>
+          <div class="rev-agg-count">Sobre más de 1.000 reseñas verificadas</div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">Lo tomo 20 minutos antes de rankear. La diferencia en concentración es real, nada de nerviosismo, nada de crash a mitad de partida.</p>
+        <div class="rev-game-tag">CS2 · 2.300 hs</div>
+        <div class="rev-author">
+          <div class="rev-ava" style="background:#3B82F6;">M</div>
+          <div><div class="rev-name">Matías</div><div class="rev-role">Competitivo · Córdoba</div></div>
+        </div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">Estudié tres parciales seguidos en una semana. Me lo tomaba antes de cada sesión. La diferencia de retención es brutal comparado a cómo estudiaba antes.</p>
+        <div class="rev-game-tag">Facultad de Ingeniería · UBA</div>
+        <div class="rev-author">
+          <div class="rev-ava" style="background:#00D47A;">S</div>
+          <div><div class="rev-name">Sofía</div><div class="rev-role">Estudiante · Buenos Aires</div></div>
+        </div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">Stream de 6 horas y llegué al final igual de activo que al principio. El chat lo nota. Los viewers preguntan qué tomé. Ahora lo recomiendo siempre.</p>
+        <div class="rev-game-tag">Streamer · Twitch</div>
+        <div class="rev-author">
+          <div class="rev-ava" style="background:#FFD100;">R</div>
+          <div><div class="rev-name">Rodrigo</div><div class="rev-role">Content creator · Rosario</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ===== CROSS-SELL ===== -->
 <section id="cross-sell">
@@ -1106,18 +1051,18 @@
       <div class="cs-card">
         <img class="cs-img" src="assets/blue-fizz.png" alt="Blue Fizz">
         <div class="cs-info">
-          <div class="cs-flavor bf">Ácido · El más intenso</div>
+          <div class="cs-flavor bf">Frutal azul · Refrescante</div>
           <div class="cs-name">Blue Fizz</div>
-          <div class="cs-desc">El sabor más fuerte de la línea: ácido, con carácter y que se siente. Si te copan los sabores intensos que pegan, sos team Blue Fizz.</div>
+          <div class="cs-desc">Frutal azul con gas y fondo helado. Para las sesiones de día o cuando querés algo liviano que igual te tenga enchufado.</div>
           <a href="product.html" class="cs-btn">VER SABOR →</a>
         </div>
       </div>
       <div class="cs-card">
         <img class="cs-img" src="assets/cherry-pop.png" alt="Cherry Pop">
         <div class="cs-info">
-          <div class="cs-flavor cp">Cereza · Suave y refrescante</div>
+          <div class="cs-flavor cp">Cereza · Sabor intenso</div>
           <div class="cs-name">Cherry Pop</div>
-          <div class="cs-desc">Cereza refrescante, suave y fácil de tomar. Si preferís los sabores más ricos y menos agresivos, este es tu camino.</div>
+          <div class="cs-desc">Cereza oscura con actitud. Para las sesiones nocturnas donde el resultado depende de que estés igual en la ronda 1 que en la 30.</div>
           <a href="product.html" class="cs-btn">VER SABOR →</a>
         </div>
       </div>
@@ -1145,17 +1090,6 @@
   </div>
   <div class="sb-price" id="sb-price">$24.999</div>
   <button class="sb-cta" onclick="addToCart()">COMPRAR</button>
-</div>
-
-<!-- POPUP ETIQUETA COMPLETA -->
-<div class="label-modal" id="label-modal" aria-hidden="true">
-  <div class="label-modal-backdrop" onclick="closeLabelModal()"></div>
-  <div class="label-modal-inner" role="dialog" aria-modal="true" aria-label="Información nutricional completa">
-    <button class="label-modal-close" onclick="closeLabelModal()" aria-label="Cerrar">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    </button>
-    <img src="assets/INFO_CHERRY_POP.png" alt="Información nutricional completa de Power Rush">
-  </div>
 </div>
 
 <script>
@@ -1188,7 +1122,6 @@ const productGallery = [
   { src: 'assets/QUE_TIENE_UN_SCOOP.png',    alt: 'Qué tiene un scoop de Power Rush' },
   { src: 'assets/pq_Powe_Blue.png',          alt: 'Por qué Power Rush: más energía, foco, sin azúcar' },
   { src: 'assets/REVIEWS_FOTOS.png',         alt: 'Reseñas de clientes' },
-  { src: 'assets/INFO_BLUE_FIZZ.png',        alt: 'Información nutricional Blue Fizz' },
   { src: 'assets/BLUE_FIZZ_FRENTE_SOLO.png', alt: 'Pote Blue Fizz',  flavor: 'bf' },
   { src: 'assets/CHERRY_FRENTE_SOLO.png',    alt: 'Pote Cherry Pop', flavor: 'cp' }
 ];
@@ -1250,154 +1183,6 @@ function selectQty(n, el) {
 function addToCart() { if (window.PowerCart) PowerCart.add(currentFlavor, currentQty); }
 
 /* TABS */
-/* REVIEWS reales (columnas que scrollean, como la home) */
-const REVIEWS = [
-  { t:'Es increíble el producto. Estoy diez mil veces más atento y con más ganas. Lo uso para laburar y me cambió todo.', n:'Lucas', r:'Trabajo · Verificado', c:'#00D47A' },
-  { t:'Te levanta re piola y no te lo baja al ratito, como esas bebidas en latita llenas de azúcar. Lo recomiendo.', n:'Luciana', r:'Uso diario · Verificado', c:'#3B82F6' },
-  { t:'Lo tomo a la mañana antes del gimnasio y me activa muchísimo para los ejercicios de fuerza y musculación.', n:'Bruno', r:'Entrena · Verificado', c:'#E63950' },
-  { t:'Desde el primer día sentí el plus de energía, y dura varias horas. Sabor aprobado.', n:'Franco', r:'Compra verificada', c:'#FFD100' },
-  { t:'Me ayudó en la concentración para mis finales en la facu, y un plus en el gym. Recomendable.', n:'Martín', r:'Estudiante · Verificado', c:'#F97316' },
-  { t:'Dejé de consumir otros energizantes hace casi un año gracias a Power Rush. Estos son los verdaderos.', n:'Brian', r:'Uso diario · Verificado', c:'#00D47A' },
-  { t:'Estudiar y trabajar se volvió más fácil porque me ayudó a concentrarme mejor. Me funcionó bárbaro.', n:'Krys', r:'Estudia y trabaja · Verificado', c:'#3B82F6' },
-  { t:'Desde el minuto uno se siente el punch. Me sorprendió. Rendís desde la primera toma.', n:'Miguel', r:'Compra verificada', c:'#E63950' },
-  { t:'No me siento cansado en todo el día. Como complemento de una buena dieta, va de la mano perfecto.', n:'Mauricio', r:'Uso diario · Verificado', c:'#FFD100' },
-  { t:'Los energizantes normalmente no me hacen ni cosquillas. No tenía esperanza, pero quedé gratamente sorprendida.', n:'Leonor', r:'Compra verificada', c:'#F97316' },
-  { t:'Buenísimo para estudiar y para el gym. Es como una trompada de energía y estás todo el día como un reloj.', n:'Matías', r:'Estudiante · Verificado', c:'#00D47A' },
-  { t:'Hace varios meses que lo consumo sin ningún problema. Me ayuda a estudiar y a trabajar.', n:'Maximiliano', r:'Uso diario · Verificado', c:'#3B82F6' }
-];
-(function renderReviews() {
-  const cols = document.getElementById('rev-cols');
-  if (!cols) return;
-  const card = rv =>
-    '<div class="rev-card"><div class="rev-stars">★★★★★</div>' +
-    '<p class="rev-text">' + rv.t + '</p>' +
-    '<div class="rev-author"><div class="rev-ava" style="background:' + rv.c + '">' + rv.n.charAt(0) + '</div>' +
-    '<div><div class="rev-name">' + rv.n + '</div><div class="rev-role">' + rv.r + '</div></div></div></div>';
-  const per = Math.ceil(REVIEWS.length / 3);
-  for (let ci = 0; ci < 3; ci++) {
-    const slice = REVIEWS.slice(ci * per, ci * per + per);
-    if (!slice.length) break;
-    const html = slice.map(card).join('');
-    const col = document.createElement('div');
-    col.className = 'rev-col';
-    col.innerHTML = '<div class="rev-col-inner">' + html + html + '</div>'; // duplicado para loop infinito
-    cols.appendChild(col);
-  }
-})();
-
-/* ===== INGREDIENTES · 5 variantes (tecla P) ===== */
-var ING = [
-  { n: 'Taurina', fn: 'Energía y aguante', d: 700, u: 'mg', w: 100 },
-  { n: 'L-Carnitina', fn: 'Energía celular', d: 600, u: 'mg', w: 86 },
-  { n: 'L-Tirosina', fn: 'Foco y claridad', d: 500, u: 'mg', w: 72 },
-  { n: 'Colina', fn: 'Memoria y cognición', d: 300, u: 'mg', w: 45 },
-  { n: 'Cafeína', fn: 'Alerta inmediata', d: 120, u: 'mg', w: 22 },
-  { n: 'L-Teanina', fn: 'Calma sin bajón', d: 100, u: 'mg', w: 18 },
-  { n: 'Ginseng', fn: 'Resistencia mental', d: 50, u: 'mg', w: 12 },
-  { n: 'Luteína', fn: 'Vista · anti luz azul', d: 20, u: 'mg', w: 7 },
-  { n: 'Vitaminas', fn: 'Complejo B + C', vit: 'C · B1 · B2 · B3 · B5 · B9 · B12' }
-];
-var IV_NAMES = ['Carrusel', 'Lista', 'Grilla', 'Barras', 'Compacta'];
-var ivIndex = 0;
-
-function ingDoseHTML(x) {
-  return x.vit
-    ? '<div class="ing-card-vitlist">' + x.vit + '</div>'
-    : '<div class="ing-card-dose"><b>' + x.d + '</b><span>' + x.u + '</span></div>';
-}
-function ingCardHTML(x) {
-  return '<div class="ing-card' + (x.vit ? ' ing-card-vit' : '') + '"><div class="ing-card-glow"></div>' +
-    '<div class="ing-card-top"><span class="ing-card-name">' + x.n + '</span><span class="ing-card-fn">' + x.fn + '</span></div>' +
-    ingDoseHTML(x) + '</div>';
-}
-function buildIngVariant(i) {
-  if (i === 0) { // Carrusel horizontal
-    return '<div class="ing-head"><span class="ing-head-hint">↔ Deslizá para ver los 9 ingredientes</span>' +
-      '<div class="ing-arrows"><button type="button" class="wc-arrow" onclick="scrollIng(-1)" aria-label="Anterior"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>' +
-      '<button type="button" class="wc-arrow" onclick="scrollIng(1)" aria-label="Siguiente"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>' +
-      '<div class="ing-rail" id="ing-rail">' + ING.map(ingCardHTML).join('') + '</div>';
-  }
-  if (i === 1) { // Lista vertical (filas full-width)
-    return '<div class="iv-list">' + ING.map(function (x) {
-      return '<div class="iv-row"><div class="iv-row-main"><span class="iv-row-name">' + x.n + '</span><span class="iv-row-fn">' + x.fn + '</span></div>' +
-        (x.vit ? '<div class="iv-row-vit">' + x.vit + '</div>' : '<div class="iv-row-dose"><b>' + x.d + '</b><span>' + x.u + '</span></div>') + '</div>';
-    }).join('') + '</div>';
-  }
-  if (i === 2) { // Grilla (todas visibles)
-    return '<div class="iv-grid">' + ING.map(ingCardHTML).join('') + '</div>';
-  }
-  if (i === 3) { // Barras (dosis con barra)
-    return '<div class="iv-bars">' + ING.map(function (x) {
-      var right = x.vit ? '<span class="iv-bar-dose">7 vitaminas</span>' : '<span class="iv-bar-dose">' + x.d + x.u + '</span>';
-      var w = x.vit ? 10 : x.w;
-      return '<div class="iv-bar"><div class="iv-bar-info"><span class="iv-bar-name">' + x.n + '</span><span class="iv-bar-fn">' + x.fn + '</span></div>' +
-        '<div class="iv-bar-right">' + right + '<div class="iv-bar-track"><div class="iv-bar-fill" style="width:' + w + '%"></div></div></div></div>';
-    }).join('') + '</div>';
-  }
-  // i === 4 · Compacta (2 columnas, minimal)
-  return '<div class="iv-compact">' + ING.map(function (x) {
-    var dose = x.vit ? 'Complejo' : x.d + x.u;
-    return '<div class="iv-c-item"><span class="iv-c-name">' + x.n + '</span><span class="iv-c-line"></span><span class="iv-c-dose">' + dose + '</span></div>';
-  }).join('') + '</div>';
-}
-function renderIng(i) {
-  ivIndex = (i % 5 + 5) % 5;
-  var stage = document.getElementById('ing-stage');
-  if (!stage) return;
-  stage.className = 'ing-stage iv-v' + (ivIndex + 1);
-  stage.innerHTML = buildIngVariant(ivIndex);
-  var nEl = document.getElementById('iv-n'), nm = document.getElementById('iv-name');
-  if (nEl) nEl.textContent = ivIndex + 1;
-  if (nm) nm.textContent = IV_NAMES[ivIndex];
-  if (ivIndex === 0) bindIngRail();
-}
-function scrollIng(dir) {
-  var r = document.getElementById('ing-rail');
-  if (r) r.scrollBy({ left: dir * Math.min(r.clientWidth * 0.82, 640), behavior: 'smooth' });
-}
-function bindIngRail() {
-  var rail = document.getElementById('ing-rail');
-  if (!rail || rail.dataset.bound) return;
-  rail.dataset.bound = '1';
-  var down = false, sx = 0, sl = 0;
-  rail.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('dragging'); });
-  window.addEventListener('pointermove', function (e) { if (!down || !rail.isConnected) return; rail.scrollLeft = sl - (e.clientX - sx); });
-  var up = function () { if (!down) return; down = false; rail.classList.remove('dragging'); };
-  window.addEventListener('pointerup', up);
-  window.addEventListener('pointercancel', up);
-}
-document.addEventListener('keydown', function (e) {
-  if (e.key !== 'p' && e.key !== 'P') return;
-  var t = e.target;
-  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-  if (e.metaKey || e.ctrlKey || e.altKey) return;
-  var panel = document.getElementById('tab-ingredientes');
-  if (!panel || !panel.classList.contains('active')) return; // solo en la pestaña de ingredientes
-  renderIng(ivIndex + 1);
-});
-renderIng(0);
-
-/* POPUP ETIQUETA COMPLETA */
-function openLabelModal() {
-  const m = document.getElementById('label-modal');
-  if (!m) return;
-  m.classList.add('open');
-  m.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  const c = m.querySelector('.label-modal-close');
-  setTimeout(function () { if (c) c.focus(); }, 50);
-}
-function closeLabelModal() {
-  const m = document.getElementById('label-modal');
-  if (!m) return;
-  m.classList.remove('open');
-  m.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') closeLabelModal();
-});
-
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
