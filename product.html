@@ -202,7 +202,7 @@
     #para-quien { padding: 80px 0; }
     .pq-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .pq-header { margin-bottom: 36px; }
-    .pq-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .pq-overline { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
     .pq-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
 
     .cf-stage { display: flex; gap: 12px; height: 470px; }
@@ -228,7 +228,7 @@
     .cf-pod.active .cf-pod-name { color: var(--green); text-shadow: 0 0 26px rgba(0,212,122,.45); }
     .cf-pod-reveal { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .55s ease, opacity .45s ease, margin-top .45s ease; }
     .cf-pod.active .cf-pod-reveal { max-height: 220px; opacity: 1; margin-top: 14px; }
-    .cf-pod-desc { font-size: 13px; color: rgba(238,245,238,.64); line-height: 1.6; max-width: 460px; }
+    .cf-pod-desc { font-size: 15px; color: rgba(238,245,238,.82); line-height: 1.6; max-width: 460px; }
     .cf-pod-perks { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--mo); font-size: 9px; color: var(--green); letter-spacing: 1px; text-transform: uppercase; }
     .cf-pod-perks::before { content: ''; flex: none; width: 16px; height: 1px; background: var(--green); }
 
@@ -316,7 +316,7 @@
     .ing-arrows { display: flex; gap: 8px; }
     .ing-rail { display: flex; gap: 13px; overflow-x: auto; scroll-snap-type: x proximity; scroll-behavior: smooth; padding: 4px 2px 12px; scrollbar-width: none; -ms-overflow-style: none; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: pan-x; }
     .ing-rail::-webkit-scrollbar { display: none; }
-    .ing-rail.dragging { cursor: grabbing; scroll-behavior: auto; }
+    .ing-rail.dragging { cursor: grabbing; scroll-behavior: auto; scroll-snap-type: none; }
     .ing-rail.dragging .ing-card { pointer-events: none; }
     .ing-card { flex: 0 0 clamp(190px, calc((100% - 39px) / 4), 320px); scroll-snap-align: start; position: relative; overflow: hidden; background: var(--bg2); border: 1px solid var(--border); border-radius: 13px; padding: 20px 18px 17px; min-height: 132px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform .32s cubic-bezier(.23,1,.32,1), border-color .3s ease, box-shadow .32s ease; will-change: transform; }
     .ing-card:hover { transform: translateY(-5px); border-color: rgba(0,212,122,.45); box-shadow: 0 20px 38px -16px rgba(0,212,122,.2), 0 8px 20px -8px rgba(0,0,0,.5); }
@@ -336,44 +336,6 @@
     @keyframes ingUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) { .ing-card, #tab-ingredientes.active .ing-rail .ing-card { animation: none; transition: none; } .ing-rail { scroll-behavior: auto; } }
     @media (max-width: 640px) { .ing-card { flex-basis: 74%; } .ing-arrows { display: none; } }
-    /* Switcher de variantes (tecla P) */
-    .iv-switcher { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px; padding: 7px 13px 7px 7px; border: 1px solid var(--border); border-radius: 40px; background: var(--bg2); font-family: var(--mo); font-size: 10px; letter-spacing: .5px; color: rgba(238,245,238,.6); user-select: none; }
-    .iv-key { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 6px; background: var(--green); color: #04140C; font-weight: 700; box-shadow: 0 0 10px rgba(0,212,122,.35); }
-    .iv-lab b { color: var(--white); } .iv-lab span { color: var(--green); }
-    .ing-stage > * { animation: ingStage .45s cubic-bezier(.23,1,.32,1) both; }
-    @keyframes ingStage { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-    /* v2 · Lista vertical */
-    .iv-list { display: flex; flex-direction: column; gap: 10px; }
-    .iv-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; transition: border-color .25s, background .25s, transform .25s; }
-    .iv-row:hover { border-color: rgba(0,212,122,.42); background: var(--bg3); transform: translateX(5px); }
-    .iv-row-name { display: block; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 23px; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1; }
-    .iv-row-fn { display: block; margin-top: 6px; font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(238,245,238,.64); }
-    .iv-row-dose { display: flex; align-items: baseline; gap: 3px; font-family: var(--hd); font-weight: 900; color: var(--green); flex-shrink: 0; }
-    .iv-row-dose b { font-size: 32px; font-style: italic; letter-spacing: -1px; }
-    .iv-row-dose span { font-size: 13px; font-weight: 700; }
-    .iv-row-vit { font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: 1.5px; color: var(--green); text-align: right; flex-shrink: 0; }
-    /* v3 · Grilla */
-    .iv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 12px; }
-    .iv-grid .ing-card { flex: initial; }
-    /* v4 · Barras */
-    .iv-bars { display: flex; flex-direction: column; }
-    .iv-bar { display: grid; grid-template-columns: 1fr 260px; align-items: center; gap: 22px; padding: 16px 4px; border-bottom: 1px solid var(--border); }
-    .iv-bar:last-child { border-bottom: none; }
-    .iv-bar-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 20px; text-transform: uppercase; letter-spacing: 0.03em; }
-    .iv-bar-fn { display: block; margin-top: 4px; font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(238,245,238,.55); }
-    .iv-bar-right { display: flex; align-items: center; gap: 14px; }
-    .iv-bar-dose { font-family: var(--hd); font-weight: 900; font-size: 18px; color: var(--green); white-space: nowrap; min-width: 66px; text-align: right; }
-    .iv-bar-track { flex: 1; height: 4px; background: rgba(0,212,122,.12); border-radius: 4px; overflow: hidden; }
-    .iv-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--yellow)); border-radius: 4px; box-shadow: 0 0 8px rgba(0,212,122,.5); }
-    /* v5 · Compacta (2 columnas) */
-    .iv-compact { columns: 2; column-gap: 44px; }
-    .iv-c-item { display: flex; align-items: baseline; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); break-inside: avoid; }
-    .iv-c-name { font-family: var(--hd); font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
-    .iv-c-line { flex: 1; border-bottom: 1px dotted rgba(238,245,238,.22); transform: translateY(-3px); }
-    .iv-c-dose { font-family: var(--mo); font-weight: 700; font-size: 13px; color: var(--green); white-space: nowrap; }
-    @media (max-width: 720px) { .iv-bar { grid-template-columns: 1fr 160px; gap: 12px; } .iv-compact { columns: 1; } }
-    @media (max-width: 480px) { .iv-bar { grid-template-columns: 1fr; gap: 8px; } .iv-bar-right { justify-content: flex-start; } .iv-row-name { font-size: 20px; } }
-    @media (prefers-reduced-motion: reduce) { .ing-stage > * { animation: none; } }
 
     /* Modo de uso */
     .uso-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -388,7 +350,7 @@
     .uso-card-body { position: relative; z-index: 2; min-height: 118px; background: rgba(8,10,8,.74); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 11px; padding: 16px 18px; }
     .uso-card-tag { display: inline-block; font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: rgba(0,212,122,.12); border: 1px solid var(--border); border-radius: 40px; padding: 5px 12px; margin-bottom: 12px; }
     .uso-card-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 22px; text-transform: uppercase; letter-spacing: -.4px; line-height: 1; margin-bottom: 9px; }
-    .uso-card-text { font-size: 13px; color: rgba(238,245,238,.6); line-height: 1.6; }
+    .uso-card-text { font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--white); line-height: 1.75; }
     @media (prefers-reduced-motion: reduce) { .uso-card, .uso-card-img { transition: none; } }
 
     /* FAQ */
@@ -892,11 +854,24 @@
     <!-- INGREDIENTES -->
     <div class="tab-panel" id="tab-ingredientes">
       <div class="ing-wrap">
-        <div class="iv-switcher" aria-hidden="true">
-          <span class="iv-key">P</span>
-          <span class="iv-lab">Ingredientes <b id="iv-n">1</b>/5 · <span id="iv-name">Carrusel</span></span>
+        <div class="ing-head">
+          <span class="ing-head-hint">↔ Deslizá para ver los 9 ingredientes</span>
+          <div class="ing-arrows">
+            <button type="button" class="wc-arrow" onclick="scrollIng(-1)" aria-label="Anterior"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button type="button" class="wc-arrow" onclick="scrollIng(1)" aria-label="Siguiente"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
         </div>
-        <div class="ing-stage" id="ing-stage"></div>
+        <div class="ing-rail" id="ing-rail">
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">Taurina</span><span class="ing-card-fn">Energía y aguante</span></div><div class="ing-card-dose"><b>700</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">L-Carnitina</span><span class="ing-card-fn">Energía celular</span></div><div class="ing-card-dose"><b>600</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">L-Tirosina</span><span class="ing-card-fn">Foco y claridad</span></div><div class="ing-card-dose"><b>500</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">Colina</span><span class="ing-card-fn">Memoria y cognición</span></div><div class="ing-card-dose"><b>300</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">Cafeína</span><span class="ing-card-fn">Alerta inmediata</span></div><div class="ing-card-dose"><b>120</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">L-Teanina</span><span class="ing-card-fn">Calma sin bajón</span></div><div class="ing-card-dose"><b>100</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">Ginseng</span><span class="ing-card-fn">Resistencia mental</span></div><div class="ing-card-dose"><b>50</b><span>mg</span></div></div>
+          <div class="ing-card"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">Luteína</span><span class="ing-card-fn">Vista · anti luz azul</span></div><div class="ing-card-dose"><b>20</b><span>mg</span></div></div>
+          <div class="ing-card ing-card-vit"><div class="ing-card-glow"></div><div class="ing-card-top"><span class="ing-card-name">Vitaminas</span><span class="ing-card-fn">Complejo B + C</span></div><div class="ing-card-vitlist">C · B1 · B2 · B3 · B5 · B9 · B12</div></div>
+        </div>
         <div class="ing-footer">
           <span class="ing-note-text">Valores por porción (10g) · 30 porciones por envase</span>
           <a href="#" class="btn-etiqueta" onclick="openLabelModal(); return false;">
@@ -1285,97 +1260,45 @@ const REVIEWS = [
   }
 })();
 
-/* ===== INGREDIENTES · 5 variantes (tecla P) ===== */
-var ING = [
-  { n: 'Taurina', fn: 'Energía y aguante', d: 700, u: 'mg', w: 100 },
-  { n: 'L-Carnitina', fn: 'Energía celular', d: 600, u: 'mg', w: 86 },
-  { n: 'L-Tirosina', fn: 'Foco y claridad', d: 500, u: 'mg', w: 72 },
-  { n: 'Colina', fn: 'Memoria y cognición', d: 300, u: 'mg', w: 45 },
-  { n: 'Cafeína', fn: 'Alerta inmediata', d: 120, u: 'mg', w: 22 },
-  { n: 'L-Teanina', fn: 'Calma sin bajón', d: 100, u: 'mg', w: 18 },
-  { n: 'Ginseng', fn: 'Resistencia mental', d: 50, u: 'mg', w: 12 },
-  { n: 'Luteína', fn: 'Vista · anti luz azul', d: 20, u: 'mg', w: 7 },
-  { n: 'Vitaminas', fn: 'Complejo B + C', vit: 'C · B1 · B2 · B3 · B5 · B9 · B12' }
-];
-var IV_NAMES = ['Carrusel', 'Lista', 'Grilla', 'Barras', 'Compacta'];
-var ivIndex = 0;
-
-function ingDoseHTML(x) {
-  return x.vit
-    ? '<div class="ing-card-vitlist">' + x.vit + '</div>'
-    : '<div class="ing-card-dose"><b>' + x.d + '</b><span>' + x.u + '</span></div>';
-}
-function ingCardHTML(x) {
-  return '<div class="ing-card' + (x.vit ? ' ing-card-vit' : '') + '"><div class="ing-card-glow"></div>' +
-    '<div class="ing-card-top"><span class="ing-card-name">' + x.n + '</span><span class="ing-card-fn">' + x.fn + '</span></div>' +
-    ingDoseHTML(x) + '</div>';
-}
-function buildIngVariant(i) {
-  if (i === 0) { // Carrusel horizontal
-    return '<div class="ing-head"><span class="ing-head-hint">↔ Deslizá para ver los 9 ingredientes</span>' +
-      '<div class="ing-arrows"><button type="button" class="wc-arrow" onclick="scrollIng(-1)" aria-label="Anterior"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>' +
-      '<button type="button" class="wc-arrow" onclick="scrollIng(1)" aria-label="Siguiente"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>' +
-      '<div class="ing-rail" id="ing-rail">' + ING.map(ingCardHTML).join('') + '</div>';
-  }
-  if (i === 1) { // Lista vertical (filas full-width)
-    return '<div class="iv-list">' + ING.map(function (x) {
-      return '<div class="iv-row"><div class="iv-row-main"><span class="iv-row-name">' + x.n + '</span><span class="iv-row-fn">' + x.fn + '</span></div>' +
-        (x.vit ? '<div class="iv-row-vit">' + x.vit + '</div>' : '<div class="iv-row-dose"><b>' + x.d + '</b><span>' + x.u + '</span></div>') + '</div>';
-    }).join('') + '</div>';
-  }
-  if (i === 2) { // Grilla (todas visibles)
-    return '<div class="iv-grid">' + ING.map(ingCardHTML).join('') + '</div>';
-  }
-  if (i === 3) { // Barras (dosis con barra)
-    return '<div class="iv-bars">' + ING.map(function (x) {
-      var right = x.vit ? '<span class="iv-bar-dose">7 vitaminas</span>' : '<span class="iv-bar-dose">' + x.d + x.u + '</span>';
-      var w = x.vit ? 10 : x.w;
-      return '<div class="iv-bar"><div class="iv-bar-info"><span class="iv-bar-name">' + x.n + '</span><span class="iv-bar-fn">' + x.fn + '</span></div>' +
-        '<div class="iv-bar-right">' + right + '<div class="iv-bar-track"><div class="iv-bar-fill" style="width:' + w + '%"></div></div></div></div>';
-    }).join('') + '</div>';
-  }
-  // i === 4 · Compacta (2 columnas, minimal)
-  return '<div class="iv-compact">' + ING.map(function (x) {
-    var dose = x.vit ? 'Complejo' : x.d + x.u;
-    return '<div class="iv-c-item"><span class="iv-c-name">' + x.n + '</span><span class="iv-c-line"></span><span class="iv-c-dose">' + dose + '</span></div>';
-  }).join('') + '</div>';
-}
-function renderIng(i) {
-  ivIndex = (i % 5 + 5) % 5;
-  var stage = document.getElementById('ing-stage');
-  if (!stage) return;
-  stage.className = 'ing-stage iv-v' + (ivIndex + 1);
-  stage.innerHTML = buildIngVariant(ivIndex);
-  var nEl = document.getElementById('iv-n'), nm = document.getElementById('iv-name');
-  if (nEl) nEl.textContent = ivIndex + 1;
-  if (nm) nm.textContent = IV_NAMES[ivIndex];
-  if (ivIndex === 0) bindIngRail();
-}
+/* ===== CARRUSEL DE INGREDIENTES (flechas + arrastre suave con mouse) ===== */
 function scrollIng(dir) {
   var r = document.getElementById('ing-rail');
   if (r) r.scrollBy({ left: dir * Math.min(r.clientWidth * 0.82, 640), behavior: 'smooth' });
 }
-function bindIngRail() {
+(function bindIngRail() {
   var rail = document.getElementById('ing-rail');
-  if (!rail || rail.dataset.bound) return;
-  rail.dataset.bound = '1';
-  var down = false, sx = 0, sl = 0;
-  rail.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('dragging'); });
-  window.addEventListener('pointermove', function (e) { if (!down || !rail.isConnected) return; rail.scrollLeft = sl - (e.clientX - sx); });
-  var up = function () { if (!down) return; down = false; rail.classList.remove('dragging'); };
-  window.addEventListener('pointerup', up);
-  window.addEventListener('pointercancel', up);
-}
-document.addEventListener('keydown', function (e) {
-  if (e.key !== 'p' && e.key !== 'P') return;
-  var t = e.target;
-  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-  if (e.metaKey || e.ctrlKey || e.altKey) return;
-  var panel = document.getElementById('tab-ingredientes');
-  if (!panel || !panel.classList.contains('active')) return; // solo en la pestaña de ingredientes
-  renderIng(ivIndex + 1);
-});
-renderIng(0);
+  if (!rail) return;
+  var down = false, startX = 0, startScroll = 0, lastX = 0, lastT = 0, vel = 0, raf = 0;
+  rail.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse') return; // touch usa scroll nativo
+    down = true;
+    startX = lastX = e.clientX; startScroll = rail.scrollLeft;
+    lastT = performance.now(); vel = 0;
+    cancelAnimationFrame(raf);
+    rail.classList.add('dragging');
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    rail.scrollLeft = startScroll - (e.clientX - startX);
+    var now = performance.now(), dt = now - lastT;
+    if (dt > 0) vel = (lastX - e.clientX) / dt;
+    lastX = e.clientX; lastT = now;
+  });
+  var end = function () {
+    if (!down) return;
+    down = false;
+    rail.classList.remove('dragging');
+    var v = Math.max(-55, Math.min(55, vel * 16));
+    (function momentum() {
+      if (Math.abs(v) < 0.4) return;
+      rail.scrollLeft += v;
+      v *= 0.94;
+      raf = requestAnimationFrame(momentum);
+    })();
+  };
+  window.addEventListener('pointerup', end);
+  window.addEventListener('pointercancel', end);
+})();
 
 /* POPUP ETIQUETA COMPLETA */
 function openLabelModal() {
