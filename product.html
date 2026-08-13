@@ -512,7 +512,7 @@
     <div class="prod-img-col">
       <div class="prod-gallery">
         <div class="prod-img-main">
-          <img id="prod-img" src="assets/blue-fizz.png" alt="Power Rush Blue Fizz" class="prod-main-img">
+          <img id="prod-img" src="assets/PRIMERA_FOTO.png" alt="Power Rush en tu setup" class="prod-main-img">
         </div>
         <div class="prod-thumbs" id="prod-thumbs"></div>
       </div>
@@ -1112,17 +1112,18 @@ window.addEventListener('scroll', () => {
 /* FLAVOR */
 let currentFlavor = 'bf';
 const flavorData = {
-  bf: { img: 'assets/blue-fizz.png', name: 'BLUE FIZZ', lbl: 'Blue Fizz', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
-  cp: { img: 'assets/cherry-pop.png', name: 'CHERRY POP', lbl: 'Cherry Pop', accent: '#E63950', glo: 'rgba(230,57,80,0.13)' }
+  bf: { img: 'assets/BLUE_FIZZ_FRENTE_SOLO.png', name: 'BLUE FIZZ', lbl: 'Blue Fizz', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
+  cp: { img: 'assets/CHERRY_FRENTE_SOLO.png', name: 'CHERRY POP', lbl: 'Cherry Pop', accent: '#E63950', glo: 'rgba(230,57,80,0.13)' }
 };
 
 /* GALERIA (una sola por producto; el sabor salta a su imagen) */
 const productGallery = [
-  { src: 'assets/blue-fizz.png',       alt: 'Pote Blue Fizz',          flavor: 'bf' },
-  { src: 'assets/cherry-pop.png',      alt: 'Pote Cherry Pop',         flavor: 'cp' },
-  { src: 'assets/SCOOP_CHERRY_POP.png', alt: 'Qué tiene un scoop' },
-  { src: 'assets/fizz-y-cherry.png',   alt: 'Blue Fizz y Cherry Pop' },
-  { src: 'assets/INFO_BLUE_FIZZ.png',  alt: 'Información nutricional' }
+  { src: 'assets/PRIMERA_FOTO.png',          alt: 'Power Rush en tu setup' },
+  { src: 'assets/QUE_TIENE_UN_SCOOP.png',    alt: 'Qué tiene un scoop de Power Rush' },
+  { src: 'assets/pq_Powe_Blue.png',          alt: 'Por qué Power Rush: más energía, foco, sin azúcar' },
+  { src: 'assets/REVIEWS_FOTOS.png',         alt: 'Reseñas de clientes' },
+  { src: 'assets/BLUE_FIZZ_FRENTE_SOLO.png', alt: 'Pote Blue Fizz',  flavor: 'bf' },
+  { src: 'assets/CHERRY_FRENTE_SOLO.png',    alt: 'Pote Cherry Pop', flavor: 'cp' }
 ];
 function setMainImg(src) {
   const img = document.getElementById('prod-img');
