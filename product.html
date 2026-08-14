@@ -30,8 +30,8 @@
       --bd: 'Bricolage Grotesque', sans-serif;
       --mo: 'Space Mono', monospace;
       --annh: 38px;
-      --flavor-accent: #3B82F6;
-      --flavor-glo: rgba(59,130,246,0.12);
+      --flavor-accent: #E63950;
+      --flavor-glo: rgba(230,57,80,0.13);
     }
 
     html { scroll-behavior: smooth; }
@@ -234,7 +234,7 @@
 
     .cf-pod-badge { position: absolute; top: 16px; right: 16px; z-index: 4; font-family: var(--mo); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: rgba(0,212,122,.12); border: 1px solid var(--border); border-radius: 40px; padding: 4px 10px; }
 
-    .cf-note { display: flex; align-items: baseline; gap: 12px; margin-top: 24px; font-size: 14px; color: rgba(238,245,238,.5); line-height: 1.6; max-width: 760px; }
+    .cf-note { display: flex; align-items: baseline; gap: 12px; margin-top: 24px; font-size: 15px; color: rgba(238,245,238,.82); line-height: 1.7; max-width: 760px; }
     .cf-note::before { content: '+'; flex: none; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 22px; line-height: 1; color: var(--green); }
     .cf-note b { color: var(--green); font-weight: 600; }
 
@@ -373,7 +373,7 @@
     #timeline { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
     .tl-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .tl-header { margin-bottom: 56px; }
-    .tl-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .tl-overline { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
     .tl-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
     .tl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
     .tl-grid::before { content: ''; position: absolute; top: 28px; left: calc(12.5%); right: calc(12.5%); height: 1px; background: linear-gradient(90deg, var(--green) 0%, rgba(0,212,122,.3) 100%); z-index: 0; }
@@ -383,13 +383,13 @@
     .tl-dot svg { position: relative; z-index: 1; color: var(--green); }
     .tl-time { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
     .tl-step-title { font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; margin-bottom: 8px; }
-    .tl-step-desc { font-size: 13px; color: rgba(238,245,238,.55); line-height: 1.6; }
+    .tl-step-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; }
 
     /* ===== RESEÑAS ===== */
     #prod-reviews { padding: 80px 0; border-top: 1px solid var(--border); }
     .rev-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .rev-header { margin-bottom: 40px; }
-    .rev-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .rev-overline { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
     .rev-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
     .rev-agg { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
     .rev-agg-num { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 48px; line-height: 1; letter-spacing: -1px; }
@@ -398,7 +398,7 @@
     .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .rev-card { background: var(--bg2); border: 1px solid var(--border); padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; }
     .rev-stars { color: var(--yellow); font-size: 14px; letter-spacing: 2px; }
-    .rev-text { font-size: 14px; color: rgba(238,245,238,.75); line-height: 1.7; flex: 1; }
+    .rev-text { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; flex: 1; }
     .rev-text::before { content: '\201C'; }
     .rev-text::after { content: '\201D'; }
     .rev-author { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--border); }
@@ -428,7 +428,7 @@
     #cross-sell { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
     .cs-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .cs-header { margin-bottom: 40px; }
-    .cs-overline { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .cs-overline { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
     .cs-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(32px, 4vw, 48px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
     .cs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
     .cs-card { background: var(--bg); border: 1px solid var(--border); padding: 32px; display: flex; gap: 32px; align-items: center; transition: border-color .2s; }
@@ -439,7 +439,7 @@
     .cs-flavor.bf { color: var(--blue); }
     .cs-flavor.cp { color: var(--cherry); }
     .cs-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 28px; text-transform: uppercase; line-height: 1; letter-spacing: -.3px; }
-    .cs-desc { font-size: 13px; color: rgba(238,245,238,.55); line-height: 1.6; }
+    .cs-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; }
     .cs-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--green); color: var(--green); padding: 10px 20px; font-family: var(--hd); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; text-decoration: none; transition: background .16s, color .16s; width: fit-content; }
     .cs-btn:hover { background: var(--green); color: var(--bg); }
 
@@ -582,7 +582,7 @@
         <span class="prod-rating-text">4.7 · <a href="#prod-reviews" class="rating-count">+937 reseñas</a></span>
       </div>
 
-      <h1 class="prod-title">POWER RUSH<br><span class="flavor-name" id="title-flavor">BLUE FIZZ</span></h1>
+      <h1 class="prod-title">POWER RUSH<br><span class="flavor-name" id="title-flavor">CHERRY POP</span></h1>
 
       <p class="prod-desc">Power Rush es un energizante con la mejor combinación de nootrópicos para focus y energía, balanceado para tener la mente calma. Nada de latas ni pre&#8209;entrenos que solo buscan agitarte.</p>
 
@@ -590,18 +590,18 @@
       <div>
         <div class="sel-title">Sabores</div>
         <div class="flavor-grid">
-          <div class="flavor-card bf active" onclick="selectFlavor('bf')">
-            <div class="flavor-dot bf"></div>
-            <div>
-              <div class="flavor-card-name">Blue Fizz</div>
-              <div class="flavor-card-sub">Ácido e intenso</div>
-            </div>
-          </div>
-          <div class="flavor-card cp" onclick="selectFlavor('cp')">
+          <div class="flavor-card cp active" onclick="selectFlavor('cp')">
             <div class="flavor-dot cp"></div>
             <div>
               <div class="flavor-card-name">Cherry Pop</div>
               <div class="flavor-card-sub">Cereza refrescante</div>
+            </div>
+          </div>
+          <div class="flavor-card bf" onclick="selectFlavor('bf')">
+            <div class="flavor-dot bf"></div>
+            <div>
+              <div class="flavor-card-name">Blue Fizz</div>
+              <div class="flavor-card-sub">Ácido intenso</div>
             </div>
           </div>
         </div>
@@ -931,7 +931,7 @@
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
-          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. <strong>Blue Fizz</strong> es ácido e intenso: el más fuerte de la línea, para los que les gustan los sabores que se sienten. <strong>Cherry Pop</strong> es cereza refrescante y suave: más rico y fácil de tomar. La ciencia adentro es idéntica, elegí por gusto.</div>
+          <div class="faq-a">La fórmula es exactamente la misma en todos los sabores. <strong>Blue Fizz</strong> es ácido intenso: el más fuerte de la línea, para los que les gustan los sabores que se sienten. <strong>Cherry Pop</strong> es cereza refrescante y suave: más rico y fácil de tomar. La ciencia adentro es idéntica, elegí por gusto.</div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">¿Tiene azúcar?<span class="faq-ico">+</span></button>
@@ -1113,9 +1113,9 @@
 
 <!-- STICKY BAR -->
 <div id="sticky-bar">
-  <img class="sb-img" id="sb-img" src="assets/blue-fizz.png" alt="">
+  <img class="sb-img" id="sb-img" src="assets/CHERRY_FRENTE_SOLO.png" alt="">
   <div class="sb-info">
-    <div class="sb-name">Power Rush · <span id="sb-flavor">Blue Fizz</span></div>
+    <div class="sb-name">Power Rush · <span id="sb-flavor">Cherry Pop</span></div>
     <div class="sb-detail" id="sb-detail">1 pote · 30 porciones</div>
   </div>
   <div class="sb-price" id="sb-price">$24.999</div>
@@ -1151,7 +1151,7 @@ window.addEventListener('scroll', () => {
 });
 
 /* FLAVOR */
-let currentFlavor = 'bf';
+let currentFlavor = 'cp';
 const flavorData = {
   bf: { img: 'assets/BLUE_FIZZ_FRENTE_SOLO.png', name: 'BLUE FIZZ', lbl: 'Blue Fizz', accent: '#3B82F6', glo: 'rgba(59,130,246,0.14)' },
   cp: { img: 'assets/CHERRY_FRENTE_SOLO.png', name: 'CHERRY POP', lbl: 'Cherry Pop', accent: '#E63950', glo: 'rgba(230,57,80,0.13)' }

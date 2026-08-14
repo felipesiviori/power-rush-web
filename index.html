@@ -49,7 +49,7 @@
     .ach-ico { color: var(--yellow); flex-shrink: 0; margin-top: 2px; }
     .ach-tag { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); }
     .ach-name { font-family: var(--hd); font-weight: 700; font-size: 14px; text-transform: uppercase; }
-    .ach-desc { font-size: 11px; color: var(--gray); margin-top: 2px; }
+    .ach-desc { font-size: 11px; color: rgba(238,245,238,.72); margin-top: 2px; }
     @keyframes achIn  { to { transform: translateX(0); } }
     @keyframes achOut { to { transform: translateX(110%); opacity: 0; } }
 
@@ -260,7 +260,7 @@
     /* ===== SHARED ===== */
     section { padding: 100px 24px; }
     .wrap { max-width: 1200px; margin: 0 auto; }
-    .s-tag { display: block; font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .s-tag { display: block; font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
     .s-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(40px, 5vw, 72px); line-height: .92; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 52px; }
 
     /* Buttons */
@@ -392,7 +392,7 @@
 
     /* ===== UGC GALLERY ===== */
     .ugc-wrap { max-width: 1100px; margin: 0 auto 72px; padding: 0 24px; }
-    .ugc-label { font-family: var(--mo); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); text-align: center; margin-bottom: 24px; }
+    .ugc-label { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); text-align: center; margin-bottom: 24px; }
     .ugc-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; }
     .ugc-tile { position: relative; aspect-ratio: 9/16; overflow: hidden; border: 1px solid var(--border); background: var(--bg2); display: block; transition: border-color .25s; }
     .ugc-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s cubic-bezier(.23,1,.32,1); }
@@ -416,7 +416,7 @@
     .como-screen::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 78% 26%, rgba(0,212,122,.09), transparent 58%); pointer-events: none; }
     .como-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(0,212,122,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.04) 1px, transparent 1px); background-size: 46px 46px; }
     .como-top { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; }
-    .como-eyebrow { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
+    .como-eyebrow { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
     .como-pips { display: flex; gap: 7px; }
     .como-pip { width: 36px; height: 4px; background: rgba(238,245,238,.1); transition: background .3s, box-shadow .3s; }
     .como-pip.done { background: var(--green); }
@@ -430,10 +430,10 @@
     .cp-art.solo { aspect-ratio: auto; max-width: 520px; margin-left: auto; overflow: visible; display: flex; align-items: center; justify-content: center; }
     .cp-art.solo img { position: static; left: auto; width: auto; height: auto; max-width: 100%; max-height: 64vh; display: block; }
     .como-panel.on { opacity: 1; transform: none; }
-    .cp-tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mo); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+    .cp-tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
     .cp-tag::before { content: ''; width: 22px; height: 1px; background: var(--green); }
     .cp-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(38px, 5.6vw, 70px); line-height: .9; text-transform: uppercase; letter-spacing: -1.5px; margin-bottom: 18px; }
-    .cp-desc { font-size: 15px; color: var(--gray); line-height: 1.7; max-width: 540px; margin-bottom: 22px; }
+    .cp-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; max-width: 540px; margin-bottom: 22px; }
     .cp-desc b { color: var(--white); font-weight: 600; }
     .cp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .cp-chips span { font-family: var(--mo); font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 6px 11px; }
@@ -540,7 +540,7 @@
     .p-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
     .p-tag { font-family: var(--mo); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
     .bl .p-tag { border-color: var(--blue); color: var(--blue); } .tr .p-tag { border-color: var(--cherry); color: var(--cherry); }
-    .p-desc { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
+    .p-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; margin-bottom: 28px; }
     .p-price { font-family: var(--hd); font-weight: 900; font-size: 38px; margin-bottom: 18px; }
     .p-price span { font-size: 15px; color: var(--gray); font-weight: 400; }
     .btn-buy {
@@ -561,7 +561,7 @@
     /* ===== INGREDIENTES ===== */
     #ingredientes { background: var(--bg); }
     .ing-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; gap: 40px; }
-    .ing-note { font-family: var(--mo); font-size: 11px; color: var(--gray); text-align: right; line-height: 1.7; max-width: 240px; flex-shrink: 0; }
+    .ing-note { font-family: var(--mo); font-size: 11px; color: rgba(238,245,238,.7); text-align: right; line-height: 1.7; max-width: 240px; flex-shrink: 0; }
     .ing-list { border: 1px solid var(--border); }
     .ing-row { display: grid; grid-template-columns: 180px 72px 1fr 120px; align-items: center; gap: 20px; padding: 15px 24px; border-bottom: 1px solid var(--border); transition: background .2s; }
     .ing-row:last-child { border-bottom: none; }
@@ -572,7 +572,6 @@
     .ing-fill { height: 100%; width: 0%; background: var(--green); box-shadow: 0 0 6px rgba(0,212,122,.5); transition: width 1.3s cubic-bezier(.23,1,.32,1); }
     .ing-row:nth-child(even) .ing-fill { background: linear-gradient(90deg, var(--green), var(--yellow)); }
     .ing-f { font-family: var(--mo); font-size: 10px; color: var(--gray); text-align: right; letter-spacing: .5px; }
-
 
     /* ===== FAQ ===== */
     #faq { background: var(--bg2); border-top: 1px solid var(--border); }
@@ -592,11 +591,11 @@
     .cta-tag { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 18px; display: block; }
     .cta-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 8vw, 110px); line-height: .88; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 22px; }
     .cta-title .gr { color: var(--green); }
-    .cta-sub { font-size: 15px; color: var(--gray); line-height: 1.7; max-width: 460px; margin: 0 auto 48px; }
+    .cta-sub { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; max-width: 460px; margin: 0 auto 48px; }
     .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: stretch; }
     .cta-btns .btn-pr { padding: 17px 40px; font-size: 18px; letter-spacing: 1px; min-width: 220px; }
     .cta-btns .btn-sc { padding: 16px 32px; font-size: 16px; min-width: 180px; }
-    .cta-note { margin-top: 32px; font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; }
+    .cta-note { margin-top: 32px; font-family: var(--mo); font-size: 10px; color: rgba(238,245,238,.6); letter-spacing: 1px; }
 
     /* ===== FOOTER ===== */
     footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 44px 24px; }
@@ -611,7 +610,7 @@
     .hero-proof { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
     .proof-stars { color: var(--yellow); font-size: 16px; letter-spacing: 2px; flex-shrink: 0; }
     .proof-divider { width: 1px; height: 14px; background: var(--border); flex-shrink: 0; }
-    .proof-text { font-family: var(--mo); font-size: 11px; color: var(--gray); letter-spacing: .6px; line-height: 1.6; }
+    .proof-text { font-family: var(--mo); font-size: 11px; color: rgba(238,245,238,.72); letter-spacing: .6px; line-height: 1.6; }
     .proof-text strong { color: var(--green); }
 
     /* ===== PRESS / COMUNIDAD ===== */
@@ -779,75 +778,10 @@
 </nav>
 
 <!-- ===== HERO ===== -->
-<section id="hero" data-hv="1">
+<section id="hero">
 
-  <!-- OPCIÓN 1 · Original (split con los dos potes) -->
-  <div class="hv hv-1 on">
-  <div class="hero-grid"></div>
-  <div class="hero-scan"></div>
-  <div class="hero-bg-glow"></div>
-
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="h-overline">Suplemento cognitivo · Argentina</div>
-
-      <div class="hero-proof">
-        <span class="proof-stars">★★★★★</span>
-        <span class="proof-divider"></span>
-        <span class="proof-text"><strong>+10.000</strong> clientes satisfechos &nbsp;·&nbsp; <strong>1.000+</strong> reseñas &nbsp;·&nbsp; <strong>4.7/5</strong></span>
-      </div>
-
-      <h1 class="hero-title">
-        FOCO<br>SIN<br>CRASH<span class="h-acc">...</span>
-      </h1>
-
-      <p class="hero-copy">
-        <strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Foco limpio hasta la última ronda, sin temblor, sin crash.
-      </p>
-
-      <div class="h-pm">
-        <div class="h-pm-top"><span>NIVEL DE FOCO</span><span id="pw-status">INICIANDO...</span></div>
-        <div class="h-pm-track"><div class="h-pm-fill" id="pw-fill"></div></div>
-        <div class="h-pm-val" id="pw-val">0%</div>
-      </div>
-
-      <div class="hero-ctas">
-        <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
-        <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
-      </div>
-
-      <div class="hero-stats">
-        <div class="h-stat">
-          <div class="h-stat-n" data-count="11">0</div>
-          <div class="h-stat-l">Nootropicos</div>
-        </div>
-        <div class="h-stat">
-          <div class="h-stat-n" data-count="30">0</div>
-          <div class="h-stat-l">Porciones</div>
-        </div>
-        <div class="h-stat">
-          <div class="h-stat-n">5</div>
-          <div class="h-stat-l">Kcal</div>
-        </div>
-        <div class="h-stat">
-          <div class="h-stat-n">0g</div>
-          <div class="h-stat-l">Azúcar</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <img
-        src="assets/fizz-y-cherry.png"
-        alt="Power Rush — Blue Fizz y Cherry Pop"
-        class="hero-prod-img"
-      >
-    </div>
-  </div>
-  </div><!-- /hv-1 -->
-
-  <!-- OPCIÓN 2 · Cinematográfico full-bleed -->
-  <div class="hv hv-2">
+  <!-- Hero cinematográfico -->
+  <div class="hv hv-2 on">
     <img class="hp-bg" src="assets/HERO.png" alt="Power Rush Blue Fizz en un setup gamer">
     <div class="hp-scrim"></div>
     <div class="hp-content">
@@ -866,65 +800,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- OPCIÓN 3 · Profundidad: el texto sale de detrás del frasco -->
-  <div class="hv hv-3">
-    <img class="hp-bg" src="assets/HERO.png" alt="">
-    <div class="hp-scrim"></div>
-    <div class="hv3-inner">
-      <div class="hv3-textcol">
-        <div class="h-overline">Suplemento cognitivo · Argentina</div>
-        <h1 class="hv3-title">FOCO<br>SIN<br>CRASH<span class="h-acc">...</span></h1>
-        <p class="hero-copy"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> Foco limpio hasta la última ronda, sin temblor, sin crash.</p>
-        <div class="hero-ctas">
-          <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
-          <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
-        </div>
-      </div>
-      <img class="hv3-jar" src="assets/blue-fizz.png" alt="Power Rush Blue Fizz">
-    </div>
-  </div>
-
-  <!-- OPCIÓN 4 · Split con foto enmarcada -->
-  <div class="hv hv-4">
-    <div class="hv4-grid"></div>
-    <div class="hp-scrim"></div>
-    <div class="hv4-inner">
-      <div class="hv4-text">
-        <div class="h-overline">Suplemento cognitivo · Argentina</div>
-        <h1 class="hv4-title">FOCO<br>SIN CRASH<span class="h-acc">...</span></h1>
-        <p class="hero-copy"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Foco limpio hasta la última ronda, sin temblor, sin crash.</p>
-        <div class="hero-ctas">
-          <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
-          <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
-        </div>
-      </div>
-      <div class="hv4-frame">
-        <img src="assets/HERO.png" alt="Power Rush Blue Fizz en un setup gamer">
-        <span class="hv4-chip">En tu setup</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- OPCIÓN 5 · Tipografía gigante + zoom -->
-  <div class="hv hv-5">
-    <img class="hp-bg" src="assets/HERO.png" alt="Power Rush Blue Fizz en un setup gamer">
-    <div class="hp-scrim"></div>
-    <div class="hv5-content">
-      <div class="h-overline" style="justify-content:center">Suplemento cognitivo · Argentina</div>
-      <h1 class="hv5-title"><span><i>FOCO</i></span><span><i>SIN</i></span><span><i>CRASH<span class="h-acc">...</span></i></span></h1>
-      <p class="hv5-sub"><strong>120mg de cafeína + 100mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Sin temblor, sin crash.</p>
-      <div class="hero-ctas">
-        <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Selector de hero (P) -->
-  <div class="hero-switcher" aria-hidden="true">
-    <span class="hsw-key">P</span>
-    <span class="hsw-label">Hero <b id="hsw-n">1</b>/5 · <span class="hsw-name" id="hsw-name">Original</span></span>
   </div>
 </section>
 
@@ -965,6 +840,222 @@
         <a href="#" class="btn-buy" data-pr-add="cp">COMPRAR CHERRY POP <span aria-hidden="true">→</span></a>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews">
+  <div class="rev-head">
+    <span class="s-tag">Lo que dicen</span>
+    <h2 class="s-title" style="margin-bottom:0">Los clientes<br>hablan solos.</h2>
+  </div>
+
+  <div class="ugc-wrap rv">
+    <div class="ugc-label">En sus propias manos · #PowerRush</div>
+    <div class="ugc-grid">
+      <a href="#" class="ugc-tile" aria-label="Video de un cliente en su setup">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=SETUP" alt="Cliente Power Rush en su setup gamer">
+        <span class="ugc-dur">0:18</span>
+        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ugc-handle">@mateo.aim</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Foto de un cliente con su pote">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=POTE" alt="Cliente con su pote de Power Rush">
+        <span class="ugc-handle">@valu.cba</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Video de una partida">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=CLUTCH" alt="Cliente jugando una partida competitiva">
+        <span class="ugc-dur">0:24</span>
+        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ugc-handle">@benji.cs2</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Foto de un stream">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=STREAM" alt="Cliente en pleno stream">
+        <span class="ugc-handle">@agus.plays</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Video reseña de una clienta">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=REVIEW" alt="Reseña en video de una clienta">
+        <span class="ugc-dur">0:31</span>
+        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ugc-handle">@sofi.stream</span>
+      </a>
+      <a href="#" class="ugc-tile" aria-label="Foto estudiando para un parcial">
+        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=PARCIAL" alt="Cliente estudiando para un parcial">
+        <span class="ugc-handle">@lucas.uba</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="rev-cols">
+
+    <!-- COLUMNA 1 -->
+    <div class="rev-col">
+      <div class="rev-col-inner">
+        <!-- Set 1 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Cuatro horas de ranked y en el overtime estaba igual que en la primera ronda. Antes a esa hora ya erraba los flashes más fáciles. La diferencia es real."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">M</div>
+            <div><div class="rev-name">Mateo</div><div class="rev-role">Gamer competitivo · Rosario</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor que puedo describir."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">V</div>
+            <div><div class="rev-name">Valentina</div><div class="rev-role">Medicina 3er año · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo. El tiempo de reacción se siente diferente desde la primera partida."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">B</div>
+            <div><div class="rev-name">Benjamín</div><div class="rev-role">CS2 competitivo · Santa Fe</div></div>
+          </div>
+        </div>
+        <!-- Set 2 (duplicado para el loop infinito) -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Cuatro horas de ranked y en el overtime estaba igual que en la primera ronda. Antes a esa hora ya erraba los flashes más fáciles. La diferencia es real."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">M</div>
+            <div><div class="rev-name">Mateo</div><div class="rev-role">Gamer competitivo · Rosario</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor que puedo describir."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">V</div>
+            <div><div class="rev-name">Valentina</div><div class="rev-role">Medicina 3er año · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo. El tiempo de reacción se siente diferente desde la primera partida."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">B</div>
+            <div><div class="rev-name">Benjamín</div><div class="rev-role">CS2 competitivo · Santa Fe</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA 2 -->
+    <div class="rev-col">
+      <div class="rev-col-inner">
+        <!-- Set 1 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El pote está en el setup. Me preguntaron qué tomaba porque la energía se nota distinta desde la primera hora hasta la última. Sin nervios, sin ansiedad."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">A</div>
+            <div><div class="rev-name">Agustina</div><div class="rev-role">Streamer · Gran Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Me pasaba de entrar al tramo final del estudio y no recordar nada de lo que había leído. Ahora termino igual de enfocado que al principio. No hay otra explicación."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">L</div>
+            <div><div class="rev-name">Lucas</div><div class="rev-role">Estudiante UBA · Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Las dos horas de gaming después del trabajo siempre terminaban en lag mental. Con Power Rush son las mejores dos horas del día. Sin exagerar."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">N</div>
+            <div><div class="rev-name">Nicolás</div><div class="rev-role">Tech / Diseño · CABA</div></div>
+          </div>
+        </div>
+        <!-- Set 2 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El pote está en el setup. Me preguntaron qué tomaba porque la energía se nota distinta desde la primera hora hasta la última. Sin nervios, sin ansiedad."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">A</div>
+            <div><div class="rev-name">Agustina</div><div class="rev-role">Streamer · Gran Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Me pasaba de entrar al tramo final del estudio y no recordar nada de lo que había leído. Ahora termino igual de enfocado que al principio. No hay otra explicación."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">L</div>
+            <div><div class="rev-name">Lucas</div><div class="rev-role">Estudiante UBA · Buenos Aires</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Las dos horas de gaming después del trabajo siempre terminaban en lag mental. Con Power Rush son las mejores dos horas del día. Sin exagerar."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#3B82F6;">N</div>
+            <div><div class="rev-name">Nicolás</div><div class="rev-role">Tech / Diseño · CABA</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA 3 -->
+    <div class="rev-col">
+      <div class="rev-col-inner">
+        <!-- Set 1 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El foco que da es muy diferente al del café. Sin ansiedad, sin la mano que tiembla. Lo noto más en los streams largos, cuando normalmente ya estaría cayendo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">S</div>
+            <div><div class="rev-name">Sofía</div><div class="rev-role">Streamer · Mendoza</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Tenía el parcial a las 8 de la mañana. Me lo tomé media hora antes. Lo di sin bloquearme, sin perder el hilo. No lo puedo explicar de otra manera."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">C</div>
+            <div><div class="rev-name">Carolina</div><div class="rev-role">Ingeniería · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Lo primero que noté fue que no me quedé dormido en un stream de 5 horas. Para mí eso era imposible. El chat lo notó antes que yo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">T</div>
+            <div><div class="rev-name">Thiago</div><div class="rev-role">Streamer React · CABA</div></div>
+          </div>
+        </div>
+        <!-- Set 2 -->
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"El foco que da es muy diferente al del café. Sin ansiedad, sin la mano que tiembla. Lo noto más en los streams largos, cuando normalmente ya estaría cayendo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#F97316;">S</div>
+            <div><div class="rev-name">Sofía</div><div class="rev-role">Streamer · Mendoza</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Tenía el parcial a las 8 de la mañana. Me lo tomé media hora antes. Lo di sin bloquearme, sin perder el hilo. No lo puedo explicar de otra manera."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#FFD100;">C</div>
+            <div><div class="rev-name">Carolina</div><div class="rev-role">Ingeniería · Córdoba</div></div>
+          </div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Lo primero que noté fue que no me quedé dormido en un stream de 5 horas. Para mí eso era imposible. El chat lo notó antes que yo."</p>
+          <div class="rev-author">
+            <div class="rev-ava" style="background:#00D47A;">T</div>
+            <div><div class="rev-name">Thiago</div><div class="rev-role">Streamer React · CABA</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1203,222 +1294,6 @@
   </div>
 </section>
 
-<!-- ===== REVIEWS ===== -->
-<section id="reviews">
-  <div class="rev-head">
-    <span class="s-tag">Lo que dicen</span>
-    <h2 class="s-title" style="margin-bottom:0">Los clientes<br>hablan solos.</h2>
-  </div>
-
-  <div class="ugc-wrap rv">
-    <div class="ugc-label">En sus propias manos · #PowerRush</div>
-    <div class="ugc-grid">
-      <a href="#" class="ugc-tile" aria-label="Video de un cliente en su setup">
-        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=SETUP" alt="Cliente Power Rush en su setup gamer">
-        <span class="ugc-dur">0:18</span>
-        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="ugc-handle">@mateo.aim</span>
-      </a>
-      <a href="#" class="ugc-tile" aria-label="Foto de un cliente con su pote">
-        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=POTE" alt="Cliente con su pote de Power Rush">
-        <span class="ugc-handle">@valu.cba</span>
-      </a>
-      <a href="#" class="ugc-tile" aria-label="Video de una partida">
-        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=CLUTCH" alt="Cliente jugando una partida competitiva">
-        <span class="ugc-dur">0:24</span>
-        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="ugc-handle">@benji.cs2</span>
-      </a>
-      <a href="#" class="ugc-tile" aria-label="Foto de un stream">
-        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=STREAM" alt="Cliente en pleno stream">
-        <span class="ugc-handle">@agus.plays</span>
-      </a>
-      <a href="#" class="ugc-tile" aria-label="Video reseña de una clienta">
-        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=REVIEW" alt="Reseña en video de una clienta">
-        <span class="ugc-dur">0:31</span>
-        <span class="ugc-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="ugc-handle">@sofi.stream</span>
-      </a>
-      <a href="#" class="ugc-tile" aria-label="Foto estudiando para un parcial">
-        <img src="https://placehold.co/360x640/0C100C/2F3F33?text=PARCIAL" alt="Cliente estudiando para un parcial">
-        <span class="ugc-handle">@lucas.uba</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="rev-cols">
-
-    <!-- COLUMNA 1 -->
-    <div class="rev-col">
-      <div class="rev-col-inner">
-        <!-- Set 1 -->
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Cuatro horas de ranked y en el overtime estaba igual que en la primera ronda. Antes a esa hora ya erraba los flashes más fáciles. La diferencia es real."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#00D47A;">M</div>
-            <div><div class="rev-name">Mateo</div><div class="rev-role">Gamer competitivo · Rosario</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor que puedo describir."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#F97316;">V</div>
-            <div><div class="rev-name">Valentina</div><div class="rev-role">Medicina 3er año · Córdoba</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo. El tiempo de reacción se siente diferente desde la primera partida."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#3B82F6;">B</div>
-            <div><div class="rev-name">Benjamín</div><div class="rev-role">CS2 competitivo · Santa Fe</div></div>
-          </div>
-        </div>
-        <!-- Set 2 (duplicado para el loop infinito) -->
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Cuatro horas de ranked y en el overtime estaba igual que en la primera ronda. Antes a esa hora ya erraba los flashes más fáciles. La diferencia es real."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#00D47A;">M</div>
-            <div><div class="rev-name">Mateo</div><div class="rev-role">Gamer competitivo · Rosario</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor que puedo describir."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#F97316;">V</div>
-            <div><div class="rev-name">Valentina</div><div class="rev-role">Medicina 3er año · Córdoba</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo. El tiempo de reacción se siente diferente desde la primera partida."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#3B82F6;">B</div>
-            <div><div class="rev-name">Benjamín</div><div class="rev-role">CS2 competitivo · Santa Fe</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- COLUMNA 2 -->
-    <div class="rev-col">
-      <div class="rev-col-inner">
-        <!-- Set 1 -->
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"El pote está en el setup. Me preguntaron qué tomaba porque la energía se nota distinta desde la primera hora hasta la última. Sin nervios, sin ansiedad."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#FFD100;">A</div>
-            <div><div class="rev-name">Agustina</div><div class="rev-role">Streamer · Gran Buenos Aires</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Me pasaba de entrar al tramo final del estudio y no recordar nada de lo que había leído. Ahora termino igual de enfocado que al principio. No hay otra explicación."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#00D47A;">L</div>
-            <div><div class="rev-name">Lucas</div><div class="rev-role">Estudiante UBA · Buenos Aires</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Las dos horas de gaming después del trabajo siempre terminaban en lag mental. Con Power Rush son las mejores dos horas del día. Sin exagerar."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#3B82F6;">N</div>
-            <div><div class="rev-name">Nicolás</div><div class="rev-role">Tech / Diseño · CABA</div></div>
-          </div>
-        </div>
-        <!-- Set 2 -->
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"El pote está en el setup. Me preguntaron qué tomaba porque la energía se nota distinta desde la primera hora hasta la última. Sin nervios, sin ansiedad."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#FFD100;">A</div>
-            <div><div class="rev-name">Agustina</div><div class="rev-role">Streamer · Gran Buenos Aires</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Me pasaba de entrar al tramo final del estudio y no recordar nada de lo que había leído. Ahora termino igual de enfocado que al principio. No hay otra explicación."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#00D47A;">L</div>
-            <div><div class="rev-name">Lucas</div><div class="rev-role">Estudiante UBA · Buenos Aires</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Las dos horas de gaming después del trabajo siempre terminaban en lag mental. Con Power Rush son las mejores dos horas del día. Sin exagerar."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#3B82F6;">N</div>
-            <div><div class="rev-name">Nicolás</div><div class="rev-role">Tech / Diseño · CABA</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- COLUMNA 3 -->
-    <div class="rev-col">
-      <div class="rev-col-inner">
-        <!-- Set 1 -->
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"El foco que da es muy diferente al del café. Sin ansiedad, sin la mano que tiembla. Lo noto más en los streams largos, cuando normalmente ya estaría cayendo."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#F97316;">S</div>
-            <div><div class="rev-name">Sofía</div><div class="rev-role">Streamer · Mendoza</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Tenía el parcial a las 8 de la mañana. Me lo tomé media hora antes. Lo di sin bloquearme, sin perder el hilo. No lo puedo explicar de otra manera."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#FFD100;">C</div>
-            <div><div class="rev-name">Carolina</div><div class="rev-role">Ingeniería · Córdoba</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Lo primero que noté fue que no me quedé dormido en un stream de 5 horas. Para mí eso era imposible. El chat lo notó antes que yo."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#00D47A;">T</div>
-            <div><div class="rev-name">Thiago</div><div class="rev-role">Streamer React · CABA</div></div>
-          </div>
-        </div>
-        <!-- Set 2 -->
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"El foco que da es muy diferente al del café. Sin ansiedad, sin la mano que tiembla. Lo noto más en los streams largos, cuando normalmente ya estaría cayendo."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#F97316;">S</div>
-            <div><div class="rev-name">Sofía</div><div class="rev-role">Streamer · Mendoza</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Tenía el parcial a las 8 de la mañana. Me lo tomé media hora antes. Lo di sin bloquearme, sin perder el hilo. No lo puedo explicar de otra manera."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#FFD100;">C</div>
-            <div><div class="rev-name">Carolina</div><div class="rev-role">Ingeniería · Córdoba</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-text">"Lo primero que noté fue que no me quedé dormido en un stream de 5 horas. Para mí eso era imposible. El chat lo notó antes que yo."</p>
-          <div class="rev-author">
-            <div class="rev-ava" style="background:#00D47A;">T</div>
-            <div><div class="rev-name">Thiago</div><div class="rev-role">Streamer React · CABA</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
 <!-- ===== FAQ ===== -->
 <section id="faq">
   <div class="wrap">
@@ -1443,7 +1318,7 @@
       </div>
       <div class="faq-item rv">
         <button class="faq-q" onclick="toggleFaq(this)">¿Cuál sabor elijo?<span class="faq-ico">+</span></button>
-        <div class="faq-a">La fórmula es <strong>exactamente la misma en todos los sabores</strong> desde 2024. <strong>Blue Fizz</strong> es ácido e intenso: el más fuerte, para los que les gustan los sabores que se sienten. <strong>Cherry Pop</strong> es cereza refrescante y suave: más rico y fácil de tomar. La ciencia adentro es idéntica.</div>
+        <div class="faq-a">La fórmula es <strong>exactamente la misma en todos los sabores</strong> desde 2024. <strong>Blue Fizz</strong> es ácido intenso: el más fuerte, para los que les gustan los sabores que se sienten. <strong>Cherry Pop</strong> es cereza refrescante y suave: más rico y fácil de tomar. La ciencia adentro es idéntica.</div>
       </div>
     </div>
   </div>
@@ -1497,10 +1372,12 @@ window.addEventListener('scroll', () => {
 
 /* ===== POWER METER ===== */
 const pwFill=document.getElementById('pw-fill'), pwVal=document.getElementById('pw-val'), pwStatus=document.getElementById('pw-status');
-let pct=0;
-setTimeout(()=>{
-  const t=setInterval(()=>{ pct=Math.min(pct+2,100); pwFill.style.width=pct+'%'; pwVal.textContent=pct+'%'; if(pct>=100){clearInterval(t); pwStatus.textContent='OPERATIVO'; pwVal.textContent='MAX'; setTimeout(()=>showAch('CONECTADO','Sistema operativo','Foco activado. Tu sesión empieza ahora.'), 5000);} },28);
-},900);
+if (pwFill && pwVal && pwStatus) {
+  let pct=0;
+  setTimeout(()=>{
+    const t=setInterval(()=>{ pct=Math.min(pct+2,100); pwFill.style.width=pct+'%'; pwVal.textContent=pct+'%'; if(pct>=100){clearInterval(t); pwStatus.textContent='OPERATIVO'; pwVal.textContent='MAX'; setTimeout(()=>showAch('CONECTADO','Sistema operativo','Foco activado. Tu sesión empieza ahora.'), 5000);} },28);
+  },900);
+}
 
 /* ===== ACHIEVEMENTS ===== */
 const achWrap = document.getElementById('ach-wrap'), achSeen = new Set();
@@ -1688,32 +1565,6 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
-})();
-</script>
-<script>
-/* ===== HERO SWITCHER (tecla P) ===== */
-(function () {
-  const hero = document.getElementById('hero');
-  if (!hero) return;
-  const variants = Array.prototype.slice.call(hero.querySelectorAll('.hv'));
-  const nEl = document.getElementById('hsw-n');
-  const nameEl = document.getElementById('hsw-name');
-  const NAMES = ['Original', 'Cinematográfico', 'Profundidad', 'Foto enmarcada', 'Tipografía XL'];
-  let i = 0;
-  function show(idx) {
-    i = (idx + variants.length) % variants.length;
-    variants.forEach((v, k) => v.classList.toggle('on', k === i));
-    hero.setAttribute('data-hv', i + 1);
-    if (nEl) nEl.textContent = i + 1;
-    if (nameEl) nameEl.textContent = NAMES[i] || ('Hero ' + (i + 1));
-  }
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'p' && e.key !== 'P') return;
-    const t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    show(i + 1);
-  });
 })();
 </script>
 <script src="cart.js" defer></script>
