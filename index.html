@@ -313,131 +313,90 @@
     .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
 
     /* ===== VS SECTION ===== */
-    #vs { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 24px; }
+    #vs { position: relative; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 24px; overflow: hidden; }
+    /* Resplandor radial estático sobre la base oscura. Vive dentro de .cv1-stage y
+       va centrado en él, así queda exactamente detrás del cuadro y lo acompaña en
+       cualquier breakpoint. Es una capa absoluta, no background-attachment: fixed
+       — con fixed se desplazaría al scrollear. */
+    .vs-glow { position: absolute; z-index: 0; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      width: 210%; height: 300%; pointer-events: none;
+      background: radial-gradient(circle 1150px at 50% 50%, rgba(0,212,122,.21), transparent 72%); }
+    #vs .wrap { position: relative; z-index: 1; }
 
     .vs-intro { max-width: 640px; margin-bottom: 52px; }
     .vs-intro p { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; margin-top: 16px; }
     .vs-intro p strong { color: var(--white); }
 
-    /* ===== COMPARATIVA (tarjeta con pote flotante) =====
-       3 columnas: [ ✓ + beneficio ] [ hueco donde flota el pote ] [ ✗ ]
-       El pote se posiciona sobre la columna del medio con right/width, no con
-       translate, para que caiga exacto en el hueco en los dos breakpoints. */
-    .cmp { position: relative; margin: 84px 0 80px; --cmp-gap: 380px; --cmp-them: 240px; }
-    .cmp-card { position: relative; z-index: 1; border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); overflow: hidden; }
+    /* ===== VERSUS — tabla comparativa ===== */
+    /* Cada contendiente lleva su color en --c y su tinte de fondo en --cs */
+    .c-pr   { --c: var(--green);  --cs: rgba(0,212,122,.05);  --c-soft: rgba(0,212,122,.42); }
+    .c-lata { --c: var(--yellow); --cs: rgba(255,209,0,.035); --c-soft: rgba(255,209,0,.42); }
+    .c-pre  { --c: var(--red);    --cs: rgba(255,60,60,.035); --c-soft: rgba(255,60,60,.42); }
 
-    .cmp-head, .cmp-row { display: grid; grid-template-columns: 1fr var(--cmp-gap) var(--cmp-them); align-items: center; }
-    .cmp-head { padding: 26px 0; border-bottom: 1px solid var(--border); }
-    .cmp-brand { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 26px; text-transform: uppercase; letter-spacing: -.5px; line-height: 1; text-align: center; }
-    /* La cabecera de Power Rush se alinea con la columna de ✓, no centrada */
-    .cmp-brand.pr { color: var(--white); text-align: left; padding-left: 30px; }
-    .cmp-brand.them { color: rgba(200,80,80,.75); }
+    /* Piezas compartidas por todas las variantes */
+    .vm { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; flex: none; }
+    .vm svg { width: 13px; height: 13px; }
+    .vm.yes { background: var(--green); color: var(--bg); box-shadow: 0 0 16px rgba(0,212,122,.38); }
+    .vm.no { background: rgba(238,245,238,.07); color: rgba(238,245,238,.32); }
+    .v-num { font-family: var(--hd); font-weight: 900; font-size: 26px; line-height: 1; letter-spacing: -.4px; color: var(--c, var(--white)); white-space: nowrap; }
+    .v-stars { display: inline-flex; font-size: 15px; letter-spacing: 3px; color: var(--green); }
+    .v-stars.off { color: rgba(238,245,238,.26); }
+    .v-feat { font-size: 15px; line-height: 1.6; color: rgba(238,245,238,.92); font-weight: 500; }
+    .v-nota { margin-top: 14px; text-align: right; font-family: var(--mo); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
 
-    .cmp-row { min-height: 74px; }
-    /* La cabecera es el hijo 1, así que la primera fila es par */
-    .cmp-row:nth-child(even) { background: rgba(0,212,122,.05); }
-    .cmp-feat { display: flex; align-items: center; gap: 15px; padding: 16px 24px 16px 30px; }
-    .cmp-txt { font-size: 15px; line-height: 1.7; color: rgba(238,245,238,.92); }
-    .cmp-txt b { color: var(--white); font-weight: 600; }
+    /* Cabecera de columna: barra de color + visual + nombre */
+    .v-head { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 14px; padding: 30px 16px 22px; min-height: 312px; text-align: center; }
+    .v-head::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--c) 22%, var(--c) 78%, transparent); }
+    /* El pote ocupa el 35% del ancho del PNG, por eso se escala por altura */
+    /* Los tres envases se escalan para que el producto mida lo mismo, no el frame:
+       ocupan 67.8% / 92.7% / 82.3% del alto de su PNG respectivamente.
+       El de Power Rush viene en un PNG apaisado con mucho aire a los costados,
+       así que .v-head-crop recorta ese sobrante en vez de ensanchar la columna. */
+    .v-head-crop { width: 100%; display: flex; justify-content: center; align-items: flex-end; overflow: hidden; }
+    /* flex:none es imprescindible: sin él el flex item se encoge y deforma el PNG
+       apaisado en vez de dejar que .v-head-crop le recorte los costados.
 
-    .cmp-ico { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; flex: none; }
-    .cmp-ico svg { width: 12px; height: 12px; }
-    .cmp-ico.yes { background: var(--green); color: var(--bg); box-shadow: 0 0 14px rgba(0,212,122,.35); }
-    .cmp-ico.no { border: 1px solid rgba(255,60,60,.42); color: rgba(255,60,60,.72); }
+       translateY apoya los tres envases sobre la misma línea. Cada PNG tiene
+       distinto aire transparente bajo el producto (13.9% / 3.3% / 8.5% del alto
+       del frame); sin corregirlo, el pote de Power Rush queda flotando sobre su
+       sombra. El sobrante que baja del recuadro lo recorta el overflow. */
+    .v-head-pote { position: relative; z-index: 1; flex: none; height: 221px; width: auto; max-width: none; display: block; transform: translateY(13.9%); filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)); }
+    .v-head-pote.lata { height: 162px; transform: translateY(3.3%); }
+    .v-head-pote.pre  { height: 182px; transform: translateY(8.5%); }
+    .v-head-logo { height: 24px; width: auto; display: block; }
+    /* El pie de columna lleva alto fijo y una sola línea: si el logo y las
+       etiquetas miden distinto, la base de los envases se desalinea entre columnas. */
+    .v-head-nom { display: flex; align-items: center; justify-content: center; height: 24px; white-space: nowrap; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--c); }
 
-    /* Columna de la lata: el dato real cuando existe, ✗ cuando no ofrece nada */
-    .cmp-them { display: flex; align-items: center; justify-content: center; padding: 14px 18px; text-align: center; }
-    .cmp-val { font-family: var(--hd); font-weight: 700; font-size: 17px; line-height: 1.25; text-transform: uppercase; letter-spacing: .2px; color: rgba(212,78,78,.88); }
+    /* Presentación de los envases: halo del color detrás, sombra de apoyo en la
+       base y la competencia apagada para que el color quede en Power Rush. */
+    .v-head-crop { position: relative; }
+    .v-head-crop::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 196px; height: 196px; border-radius: 50%; background: radial-gradient(circle, var(--c-soft), transparent 66%); opacity: .5; }
+    /* La sombra va en la base del recuadro, que coincide con la base de los tres envases */
+    .v-head-crop::after { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 130px; height: 16px; border-radius: 50%; background: radial-gradient(ellipse, rgba(0,0,0,.82), transparent 72%); }
+    /* Las etiquetas conservan su color: es el mismo código de las celdas de datos */
+    .c-lata .v-head-pote,
+    .c-pre .v-head-pote { filter: grayscale(1) brightness(.6) contrast(1.06) drop-shadow(0 8px 14px rgba(0,0,0,.45)); opacity: .7; }
+    .c-lata .v-head-crop::before,
+    .c-pre .v-head-crop::before { opacity: .14; }
 
-    /* Pote flotante: desborda la tarjeta arriba y abajo */
-    .cmp-float { position: absolute; z-index: 2; top: -32px; bottom: -32px; right: calc(var(--cmp-them) + 20px); width: calc(var(--cmp-gap) - 40px);
-      border: 1px solid rgba(0,212,122,.34); border-radius: 18px; pointer-events: none;
-      background: radial-gradient(ellipse at 50% 46%, rgba(0,212,122,.22), rgba(0,212,122,.05) 46%, var(--bg2) 78%);
-      box-shadow: 0 40px 90px -30px rgba(0,0,0,.9), 0 0 80px -18px rgba(0,212,122,.34);
-      display: grid; place-items: center; padding: 0; overflow: hidden; }
-    /* El pote ocupa el 35% del ancho del PNG y está centrado, así que al 215%
-       queda a ~75% del panel y los lados transparentes los recorta el overflow */
-    .cmp-float img { width: 215%; max-width: none; height: auto; filter: drop-shadow(0 26px 46px rgba(0,0,0,.72)); }
+    /* Pista de scroll — solo aparece en el breakpoint donde la tabla se desliza */
+    .cv1-hint { display: none; align-items: center; gap: 8px; margin-top: 12px; font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+    .cv1-hint svg { width: 13px; height: 13px; flex: none; color: var(--green); }
 
-    /* ===== VARIANTES DEL VERSUS — se rotan con la tecla P ===== */
-    .vsv { display: none; }
-    .vsv.show { display: block; }
-    .vsv-brand { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -.4px; line-height: 1; }
-    .vsv-brand.pr { color: var(--white); }
-    .vsv-brand.them { color: rgba(205,80,80,.82); }
-
-    /* --- V2 · Tabla de valores: métrica | Power Rush | La lata --- */
-    .vs2 { margin: 62px 0 76px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); overflow: hidden; }
-    .vs2-head, .vs2-row { display: grid; grid-template-columns: 1.05fr 1fr 1fr; }
-    .vs2-head { border-bottom: 1px solid var(--border); }
-    .vs2-head > * { padding: 22px 24px; font-size: 24px; }
-    .vs2-head .pr, .vs2-v.pr { background: rgba(0,212,122,.06); box-shadow: inset 2px 0 0 var(--green); }
-    .vs2-row + .vs2-row, .vs2-row { border-top: 1px solid rgba(0,212,122,.1); }
-    .vs2-head + .vs2-row { border-top: none; }
-    .vs2-m { padding: 18px 24px; font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); align-self: center; }
-    .vs2-v { padding: 16px 24px; display: flex; align-items: center; gap: 11px; }
-    .vs2-num { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 21px; text-transform: uppercase; letter-spacing: -.3px; line-height: 1.06; }
-    .vs2-v.pr .vs2-num { color: var(--white); }
-    .vs2-v.them .vs2-num { color: rgba(210,75,75,.82); }
-    .vs2-sub { display: block; font-family: var(--mo); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-top: 6px; }
-
-    /* --- V3 · Fichas enfrentadas --- */
-    .vs3 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; margin: 62px 0 76px; }
-    .vs3-card { border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); overflow: hidden; }
-    .vs3-card.pr { border-color: rgba(0,212,122,.42); box-shadow: 0 0 70px -28px rgba(0,212,122,.55); }
-    .vs3-card.them { border-color: rgba(200,70,70,.22); background: var(--bg2); }
-    .vs3-h { padding: 24px 24px 20px; border-bottom: 1px solid var(--border); }
-    .vs3-card.them .vs3-h { border-bottom-color: rgba(200,70,70,.18); }
-    .vs3-h .vsv-brand { font-size: 26px; }
-    .vs3-tag { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-    .vs3-card.pr .vs3-tag { color: var(--green); }
-    .vs3-card.them .vs3-tag { color: rgba(200,80,80,.7); }
-    .vs3-r { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 24px; border-bottom: 1px solid rgba(0,212,122,.09); }
-    .vs3-card.them .vs3-r { border-bottom-color: rgba(200,70,70,.1); }
-    .vs3-r:last-child { border-bottom: none; }
-    .vs3-n { font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
-    .vs3-v { display: flex; align-items: center; gap: 10px; font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .2px; text-align: right; }
-    .vs3-card.pr .vs3-v { color: var(--white); }
-    .vs3-card.them .vs3-v { color: rgba(210,75,75,.78); }
-
-    /* --- V4 · Duelo por fila --- */
-    .vs4 { margin: 62px auto 76px; max-width: 940px; }
-    .vs4-head { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-    .vs4-head .vsv-brand { font-size: 24px; }
-    .vs4-head .pr { text-align: right; }
-    .vs4-vs { font-family: var(--hd); font-weight: 900; font-size: 15px; letter-spacing: 5px; color: rgba(86,104,90,.4); min-width: 170px; text-align: center; }
-    .vs4-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(0,212,122,.1); }
-    .vs4-side { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-    .vs4-side.pr { align-items: flex-end; text-align: right; }
-    .vs4-side.them { align-items: flex-start; text-align: left; }
-    .vs4-val { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(22px, 2.9vw, 38px); text-transform: uppercase; line-height: .96; letter-spacing: -1px; }
-    .vs4-side.pr .vs4-val { color: var(--green); }
-    .vs4-side.them .vs4-val { color: rgba(200,70,70,.52); }
-    .vs4-note { font-family: var(--mo); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray); }
-    .vs4-m { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--white); text-align: center; min-width: 170px; padding: 0 8px; }
-
-    /* --- V5 · Etiquetas enfrentadas --- */
-    .vs5 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; margin: 62px 0 76px; }
-    .vs5-label { border: 1px solid var(--border); background: var(--bg3); }
-    .vs5-label.them { border-color: rgba(200,70,70,.2); background: var(--bg2); }
-    .vs5-lh { padding: 20px 22px 16px; border-bottom: 3px solid var(--green); }
-    .vs5-label.them .vs5-lh { border-bottom-color: rgba(200,70,70,.42); }
-    .vs5-lh .vsv-brand { font-size: 24px; }
-    .vs5-ls { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-top: 7px; }
-    .vs5-r { display: flex; align-items: baseline; gap: 10px; padding: 12px 22px; border-bottom: 1px solid rgba(0,212,122,.1); }
-    .vs5-label.them .vs5-r { border-bottom-color: rgba(200,70,70,.1); }
-    .vs5-r:last-child { border-bottom: none; }
-    .vs5-n { font-family: var(--mo); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(238,245,238,.92); }
-    .vs5-label.them .vs5-n { color: var(--gray); }
-    .vs5-dots { flex: 1; border-bottom: 1px dotted rgba(238,245,238,.2); transform: translateY(-4px); }
-    .vs5-v { font-family: var(--hd); font-weight: 700; font-size: 17px; text-transform: uppercase; white-space: nowrap; letter-spacing: .2px; }
-    .vs5-label.pr .vs5-v { color: var(--white); }
-    .vs5-label.them .vs5-v { color: rgba(210,75,75,.8); }
-
-    /* Chip del switcher (dev · sacar antes de lanzar) */
-    .vs-switcher { position: fixed; left: 20px; bottom: 20px; z-index: 1500; display: inline-flex; align-items: center; gap: 9px; padding: 9px 13px 9px 9px; background: rgba(6,8,6,.86); border: 1px solid var(--border); border-radius: 40px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-family: var(--mo); font-size: 11px; color: var(--gray); letter-spacing: .4px; user-select: none; }
-    .vsw-key { display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px; background: var(--green); color: #04140C; font-weight: 700; box-shadow: 0 0 12px rgba(0,212,122,.4); }
-    .vsw-name { color: var(--green); }
+    /* ── V1 · Tabla comparativa (la referencia) ── */
+    /* La tarjeta se despega del fondo con el resplandor centrado de .vs-glow más
+       su propia sombra. No lleva elipses verdes extra por debajo: sumaban brillo
+       solo de un lado y el halo quedaba asimétrico. */
+    .cv1-stage { position: relative; margin: 62px 0 0; }
+    .cv1 { position: relative; z-index: 1; box-shadow: 0 40px 80px -34px rgba(0,0,0,.92); margin: 0; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg3); }
+    .cv1-grid { display: grid; grid-template-columns: 1.25fr 1fr 1fr 1fr; }
+    .cv1-cell { display: flex; align-items: center; justify-content: center; padding: 20px 16px; text-align: center; border-top: 1px solid rgba(238,245,238,.07); }
+    .cv1-cell.feat { justify-content: flex-start; text-align: left; padding-left: 26px; }
+    .cv1-cell.tint, .cv1-head.tint { background: var(--cs); }
+    .cv1-cell.sep, .cv1-head.sep { border-left: 1px solid rgba(238,245,238,.07); }
+    .cv1-head { border-top: none; }
+    .cv1-grid > .cv1-cell:nth-child(-n+4) { border-top: none; }
 
     .vs-close { margin-top: 40px; padding: 24px; border-left: 4px solid var(--green); background: rgba(0,212,122,.05); }
     .vs-close p { font-size: 14px; color: rgba(238,245,238,.92); line-height: 1.7; }
@@ -719,8 +678,13 @@
       .hero-right { padding: 0; }
       .hero-prod-img { max-width: 360px; }
       .ing-row { grid-template-columns: 1fr 60px; } .ing-track, .ing-f { display: none; }
-      .cmp { --cmp-gap: 260px; --cmp-them: 170px; }
-      .cmp-brand { font-size: 22px; }
+      .cv1-grid { grid-template-columns: 1fr .85fr .85fr .85fr; }
+      .v-head { min-height: 232px; padding: 24px 10px 18px; }
+      .v-head-pote { height: 148px; }
+      .v-head-pote.lata { height: 108px; }
+      .v-head-pote.pre  { height: 122px; }
+      .v-head-nom { font-size: 10px; letter-spacing: 1.8px; height: 24px; }
+      .v-num { font-size: 22px; }
       .ugc-grid { grid-template-columns: repeat(3,1fr); gap: 10px; }
     }
     @media (max-width: 768px) {
@@ -770,52 +734,25 @@
       .ach-name { font-size: 12px; }
       .ach-desc { font-size: 10px; }
 
-      /* Comparativa */
-      .cmp { margin: 52px 0 56px; --cmp-gap: 92px; --cmp-them: 84px; }
-      .cmp-card { border-radius: 12px; }
-      .cmp-head { padding: 17px 0; }
-      .cmp-brand { font-size: 14px; letter-spacing: -.2px; }
-      .cmp-brand.pr { padding-left: 13px; }
-      .cmp-them { padding: 10px 6px; }
-      .cmp-val { font-size: 12px; line-height: 1.3; }
-      .cmp-row { min-height: 60px; }
-      .cmp-feat { gap: 9px; padding: 13px 11px 13px 13px; }
-      .cmp-txt { font-size: 12.5px; line-height: 1.6; }
-      .cmp-ico { width: 18px; height: 18px; }
-      .cmp-ico svg { width: 10px; height: 10px; }
-      /* En mobile el panel va dentro de la tarjeta, como en la referencia */
-      .cmp-float { top: 14px; bottom: 14px; right: 88px; width: 96px; border-radius: 12px; }
-
-      /* Variantes del versus */
-      .vs2, .vs3, .vs4, .vs5 { margin: 40px 0 48px; }
-      /* V2: la métrica pasa a una fila propia arriba de los dos valores */
-      .vs2-head, .vs2-row { grid-template-columns: 1fr 1fr; }
-      .vs2-head > * { padding: 15px 14px; font-size: 15px; }
-      .vs2-head .vs2-sp { display: none; }
-      .vs2-m { grid-column: 1 / -1; padding: 8px 14px; background: rgba(0,0,0,.22); border-bottom: 1px solid rgba(0,212,122,.1); }
-      .vs2-v { padding: 13px 14px; }
-      .vs2-num { font-size: 16px; }
-      .vs2-sub { display: none; }
-      /* V3 y V5: las fichas se apilan */
-      .vs3, .vs5 { grid-template-columns: 1fr; gap: 16px; }
-      .vs3-h { padding: 18px 18px 15px; }
-      .vs3-h .vsv-brand, .vs5-lh .vsv-brand { font-size: 21px; }
-      .vs3-r, .vs5-r { padding: 12px 18px; gap: 12px; }
-      .vs3-v { font-size: 15px; }
-      .vs5-v { font-size: 15px; }
-      /* V4: la métrica se va a su propia línea y los valores quedan enfrentados debajo */
-      .vs4-head { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .vs4-head .vsv-brand { font-size: 16px; }
-      .vs4-head .them { text-align: right; }
-      .vs4-vs { display: none; }
-      .vs4-row { grid-template-columns: 1fr 1fr; grid-template-areas: 'm m' 'pr them'; gap: 7px 12px; padding: 15px 0; }
-      .vs4-m { grid-area: m; min-width: 0; text-align: left; padding: 0; font-size: 9px; letter-spacing: 2px; color: var(--gray); }
-      .vs4-side.pr { grid-area: pr; align-items: flex-start; text-align: left; }
-      .vs4-side.them { grid-area: them; align-items: flex-end; text-align: right; }
-      .vs4-val { font-size: 19px; letter-spacing: -.4px; }
-      .vs4-note { display: none; }
-
-      .vs-switcher { left: 12px; bottom: 12px; padding: 7px 11px 7px 7px; font-size: 10px; }
+      /* Versus — la tabla no se comprime: se desliza en horizontal y conserva
+         el tamaño de letra. min-width fija el ancho real de las 4 columnas. */
+      .cv1 { margin-top: 40px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain; }
+      .cv1::-webkit-scrollbar { display: none; }
+      .cv1-grid { min-width: 700px; grid-template-columns: 172px 1fr 1fr 1fr; }
+      /* La columna de atributos queda fija: sin ella no se sabe qué fila se está mirando */
+      .cv1-cell.feat, .cv1-cell.blank { position: sticky; left: 0; z-index: 2; background: var(--bg3); box-shadow: 1px 0 0 rgba(238,245,238,.07); }
+      .v-head { min-height: 236px; padding: 22px 12px 16px; gap: 11px; }
+      .v-head-pote { height: 165px; }
+      .v-head-pote.lata { height: 121px; }
+      .v-head-pote.pre  { height: 136px; }
+      .v-head-crop::before { width: 146px; height: 146px; }
+      .v-head-crop::after { width: 98px; height: 12px; }
+      .v-head-logo { height: 19px; }
+      .v-head-nom { height: 19px; }
+      .v-head-nom { font-size: 10px; letter-spacing: 1.6px; }
+      .cv1-cell { padding: 17px 12px; }
+      .cv1-cell.feat { padding-left: 18px; }
+      .cv1-hint { display: flex; }
 
       /* Productos */
       .prod-grid { grid-template-columns: 1fr; }
@@ -1189,264 +1126,44 @@
       </p>
     </div>
 
-    <div class="vsv vsv-1 show">
-      <div class="cmp rv d2">
-        <div class="cmp-card">
-          <div class="cmp-head">
-            <div class="cmp-brand pr">Power Rush</div>
-            <div></div>
-            <div class="cmp-brand them">La lata</div>
-          </div>
-
-
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt"><b>140mg de cafeína</b>, dosis funcional</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-val">160–300mg</span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt"><b>140mg de L-Teanina</b>, foco limpio</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-ico no" aria-label="No tiene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt">Sin azúcar, <b>5 kcal</b> por porción</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-val">27–54g · 110–230 kcal</span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt"><b>4 a 6 horas</b> de foco sostenido</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-val">60–90 min</span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt">Sin crash ni temblor</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-val">Crash a los 90 min</span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt"><b>11 nootropicos</b> con función cognitiva</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-val">1–2</span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt"><b>20mg de luteína</b> para pantallas</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-ico no" aria-label="No tiene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
-          </div>
-          <div class="cmp-row">
-            <div class="cmp-feat">
-              <span class="cmp-ico yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-              <span class="cmp-txt"><b>Dosis exactas</b> en el label</span>
-            </div>
-            <div></div>
-            <div class="cmp-them"><span class="cmp-ico no" aria-label="No tiene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
-          </div>
-        </div><!-- /cmp-card -->
-
-        <div class="cmp-float" aria-hidden="true">
-          <img src="assets/blue-fizz.png" alt="">
+    <div class="rv d2">
+      <div class="cv1-stage">
+        <div class="vs-glow" aria-hidden="true"></div>
+        <div class="cv1">
+        <div class="cv1-grid">
+          <div class="cv1-head cv1-cell blank"></div>
+          <div class="cv1-head cv1-cell sep tint c-pr" style="padding:0"><div class="v-head c-pr tint"><div class="v-head-crop"><img class="v-head-pote" src="assets/blue-fizz.png" alt=""></div><img class="v-head-logo" src="assets/logo.png" alt="Power Rush"></div></div>
+          <div class="cv1-head cv1-cell sep  c-lata" style="padding:0"><div class="v-head c-lata "><div class="v-head-crop"><img class="v-head-pote lata" src="assets/TitoNRG.png" alt=""></div><span class="v-head-nom">Lata energizante</span></div></div>
+          <div class="cv1-head cv1-cell sep  c-pre" style="padding:0"><div class="v-head c-pre "><div class="v-head-crop"><img class="v-head-pote pre" src="assets/PreWork.png" alt=""></div><span class="v-head-nom">Pre-entreno</span></div></div>
+          <div class="cv1-cell feat"><span class="v-feat">Cafeína balanceada con L-Teanina</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="vm yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="cv1-cell sep c-lata "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
+          <div class="cv1-cell sep c-pre "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
+          <div class="cv1-cell feat"><span class="v-feat">Foco y concentración</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="v-stars" aria-label="5 de 5">★★★★★</span></div>
+          <div class="cv1-cell sep c-lata "><span class="v-stars off" aria-label="2 de 5">★★</span></div>
+          <div class="cv1-cell sep c-pre "><span class="v-stars off" aria-label="3 de 5">★★★</span></div>
+          <div class="cv1-cell feat"><span class="v-feat">Sin azúcar ni crash</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="vm yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="cv1-cell sep c-lata "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
+          <div class="cv1-cell sep c-pre "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
+          <div class="cv1-cell feat"><span class="v-feat">Nootrópicos con dosis reales</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="v-num">11</span></div>
+          <div class="cv1-cell sep c-lata "><span class="v-num">0</span></div>
+          <div class="cv1-cell sep c-pre "><span class="v-num">&lt;3</span></div>
+          <div class="cv1-cell feat"><span class="v-feat">Sin taquicardia ni nervios</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="vm yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="cv1-cell sep c-lata "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
+          <div class="cv1-cell sep c-pre "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
+          <div class="cv1-cell feat"><span class="v-feat">Precio por porción</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="v-num">$833</span></div>
+          <div class="cv1-cell sep c-lata "><span class="v-num">$3.000+</span></div>
+          <div class="cv1-cell sep c-pre "><span class="v-num">$2.500+</span></div>
         </div>
       </div>
-    </div>
-
-    <div class="vsv vsv-2">
-      <div class="vs2">
-        <div class="vs2-head">
-          <div class="vs2-sp"></div>
-          <div class="vsv-brand pr">Power Rush</div>
-          <div class="vsv-brand them">La lata</div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Cafeína</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">140mg</span><span class="vs2-sub">Dosis funcional</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">160–300mg</span><span class="vs2-sub">Según la marca</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">L-Teanina</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">140mg</span><span class="vs2-sub">Modula la cafeína</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">0mg</span><span class="vs2-sub">No existe en la lata</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Azúcar</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">0g</span><span class="vs2-sub">Sin bajón glucémico</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">27–54g</span><span class="vs2-sub">Según el producto</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Calorías</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">5 kcal</span><span class="vs2-sub">Por porción</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">110–230 kcal</span><span class="vs2-sub">Por lata</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Duración del foco</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">4–6 horas</span><span class="vs2-sub">Sostenido, sin picos</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">60–90 min</span><span class="vs2-sub">Después, el bajón</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Crash</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">Ninguno</span><span class="vs2-sub">La L-Teanina lo evita</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">A los 90 min</span><span class="vs2-sub">Azúcar + cafeína alta</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Temblor</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">Ninguno</span><span class="vs2-sub">Sin jitters</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">Típico</span><span class="vs2-sub">Cafeína alta y sola</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Nootropicos</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">11</span><span class="vs2-sub">Con función cognitiva</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">1–2</span><span class="vs2-sub">El resto, saborizante</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Luteína</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">20mg</span><span class="vs2-sub">Protección ocular</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">Nada</span><span class="vs2-sub">Sin protección</span></div></div>
-        </div>
-        <div class="vs2-row">
-          <div class="vs2-m">Transparencia</div>
-          <div class="vs2-v pr"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><span class="vs2-num">Todo en el label</span><span class="vs2-sub">Cada dosis exacta</span></div></div>
-          <div class="vs2-v them"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span><div><span class="vs2-num">Mezclas propietarias</span><span class="vs2-sub">Dosis ocultas</span></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="vsv vsv-3">
-      <div class="vs3">
-        <div class="vs3-card pr">
-          <div class="vs3-h"><div class="vs3-tag">Suplemento cognitivo</div><div class="vsv-brand pr">Power Rush</div></div>
-          <div class="vs3-r"><span class="vs3-n">Cafeína</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>140mg</span></div>
-          <div class="vs3-r"><span class="vs3-n">L-Teanina</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>140mg</span></div>
-          <div class="vs3-r"><span class="vs3-n">Azúcar</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>0g</span></div>
-          <div class="vs3-r"><span class="vs3-n">Calorías</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>5 kcal</span></div>
-          <div class="vs3-r"><span class="vs3-n">Duración del foco</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>4–6 horas</span></div>
-          <div class="vs3-r"><span class="vs3-n">Crash</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Ninguno</span></div>
-          <div class="vs3-r"><span class="vs3-n">Temblor</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Ninguno</span></div>
-          <div class="vs3-r"><span class="vs3-n">Nootropicos</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>11</span></div>
-          <div class="vs3-r"><span class="vs3-n">Luteína</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>20mg</span></div>
-          <div class="vs3-r"><span class="vs3-n">Transparencia</span><span class="vs3-v"><span class="cmp-ico yes" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Todo en el label</span></div>
-        </div>
-        <div class="vs3-card them">
-          <div class="vs3-h"><div class="vs3-tag">Energizante en lata</div><div class="vsv-brand them">La lata</div></div>
-          <div class="vs3-r"><span class="vs3-n">Cafeína</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>160–300mg</span></div>
-          <div class="vs3-r"><span class="vs3-n">L-Teanina</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>0mg</span></div>
-          <div class="vs3-r"><span class="vs3-n">Azúcar</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>27–54g</span></div>
-          <div class="vs3-r"><span class="vs3-n">Calorías</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>110–230 kcal</span></div>
-          <div class="vs3-r"><span class="vs3-n">Duración del foco</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>60–90 min</span></div>
-          <div class="vs3-r"><span class="vs3-n">Crash</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>A los 90 min</span></div>
-          <div class="vs3-r"><span class="vs3-n">Temblor</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>Típico</span></div>
-          <div class="vs3-r"><span class="vs3-n">Nootropicos</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>1–2</span></div>
-          <div class="vs3-r"><span class="vs3-n">Luteína</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>Nada</span></div>
-          <div class="vs3-r"><span class="vs3-n">Transparencia</span><span class="vs3-v"><span class="cmp-ico no" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>Mezclas propietarias</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="vsv vsv-4">
-      <div class="vs4">
-        <div class="vs4-head"><div class="vsv-brand pr">Power Rush</div><div class="vs4-vs">VS</div><div class="vsv-brand them">La lata</div></div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">140mg</span><span class="vs4-note">Dosis funcional</span></div>
-          <div class="vs4-m">Cafeína</div>
-          <div class="vs4-side them"><span class="vs4-val">160–300mg</span><span class="vs4-note">Según la marca</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">140mg</span><span class="vs4-note">Modula la cafeína</span></div>
-          <div class="vs4-m">L-Teanina</div>
-          <div class="vs4-side them"><span class="vs4-val">0mg</span><span class="vs4-note">No existe en la lata</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">0g</span><span class="vs4-note">Sin bajón glucémico</span></div>
-          <div class="vs4-m">Azúcar</div>
-          <div class="vs4-side them"><span class="vs4-val">27–54g</span><span class="vs4-note">Según el producto</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">5 kcal</span><span class="vs4-note">Por porción</span></div>
-          <div class="vs4-m">Calorías</div>
-          <div class="vs4-side them"><span class="vs4-val">110–230 kcal</span><span class="vs4-note">Por lata</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">4–6 horas</span><span class="vs4-note">Sostenido, sin picos</span></div>
-          <div class="vs4-m">Duración del foco</div>
-          <div class="vs4-side them"><span class="vs4-val">60–90 min</span><span class="vs4-note">Después, el bajón</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">Ninguno</span><span class="vs4-note">La L-Teanina lo evita</span></div>
-          <div class="vs4-m">Crash</div>
-          <div class="vs4-side them"><span class="vs4-val">A los 90 min</span><span class="vs4-note">Azúcar + cafeína alta</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">Ninguno</span><span class="vs4-note">Sin jitters</span></div>
-          <div class="vs4-m">Temblor</div>
-          <div class="vs4-side them"><span class="vs4-val">Típico</span><span class="vs4-note">Cafeína alta y sola</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">11</span><span class="vs4-note">Con función cognitiva</span></div>
-          <div class="vs4-m">Nootropicos</div>
-          <div class="vs4-side them"><span class="vs4-val">1–2</span><span class="vs4-note">El resto, saborizante</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">20mg</span><span class="vs4-note">Protección ocular</span></div>
-          <div class="vs4-m">Luteína</div>
-          <div class="vs4-side them"><span class="vs4-val">Nada</span><span class="vs4-note">Sin protección</span></div>
-        </div>
-        <div class="vs4-row">
-          <div class="vs4-side pr"><span class="vs4-val">Todo en el label</span><span class="vs4-note">Cada dosis exacta</span></div>
-          <div class="vs4-m">Transparencia</div>
-          <div class="vs4-side them"><span class="vs4-val">Mezclas propietarias</span><span class="vs4-note">Dosis ocultas</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="vsv vsv-5">
-      <div class="vs5">
-        <div class="vs5-label pr">
-          <div class="vs5-lh"><div class="vsv-brand pr">Power Rush</div><div class="vs5-ls">Por porción · 8g</div></div>
-          <div class="vs5-r"><span class="vs5-n">Cafeína</span><span class="vs5-dots"></span><span class="vs5-v">140mg</span></div>
-          <div class="vs5-r"><span class="vs5-n">L-Teanina</span><span class="vs5-dots"></span><span class="vs5-v">140mg</span></div>
-          <div class="vs5-r"><span class="vs5-n">Azúcar</span><span class="vs5-dots"></span><span class="vs5-v">0g</span></div>
-          <div class="vs5-r"><span class="vs5-n">Calorías</span><span class="vs5-dots"></span><span class="vs5-v">5 kcal</span></div>
-          <div class="vs5-r"><span class="vs5-n">Duración del foco</span><span class="vs5-dots"></span><span class="vs5-v">4–6 horas</span></div>
-          <div class="vs5-r"><span class="vs5-n">Crash</span><span class="vs5-dots"></span><span class="vs5-v">Ninguno</span></div>
-          <div class="vs5-r"><span class="vs5-n">Temblor</span><span class="vs5-dots"></span><span class="vs5-v">Ninguno</span></div>
-          <div class="vs5-r"><span class="vs5-n">Nootropicos</span><span class="vs5-dots"></span><span class="vs5-v">11</span></div>
-          <div class="vs5-r"><span class="vs5-n">Luteína</span><span class="vs5-dots"></span><span class="vs5-v">20mg</span></div>
-          <div class="vs5-r"><span class="vs5-n">Transparencia</span><span class="vs5-dots"></span><span class="vs5-v">Todo en el label</span></div>
-        </div>
-        <div class="vs5-label them">
-          <div class="vs5-lh"><div class="vsv-brand them">La lata</div><div class="vs5-ls">Por lata · 473ml</div></div>
-          <div class="vs5-r"><span class="vs5-n">Cafeína</span><span class="vs5-dots"></span><span class="vs5-v">160–300mg</span></div>
-          <div class="vs5-r"><span class="vs5-n">L-Teanina</span><span class="vs5-dots"></span><span class="vs5-v">0mg</span></div>
-          <div class="vs5-r"><span class="vs5-n">Azúcar</span><span class="vs5-dots"></span><span class="vs5-v">27–54g</span></div>
-          <div class="vs5-r"><span class="vs5-n">Calorías</span><span class="vs5-dots"></span><span class="vs5-v">110–230 kcal</span></div>
-          <div class="vs5-r"><span class="vs5-n">Duración del foco</span><span class="vs5-dots"></span><span class="vs5-v">60–90 min</span></div>
-          <div class="vs5-r"><span class="vs5-n">Crash</span><span class="vs5-dots"></span><span class="vs5-v">A los 90 min</span></div>
-          <div class="vs5-r"><span class="vs5-n">Temblor</span><span class="vs5-dots"></span><span class="vs5-v">Típico</span></div>
-          <div class="vs5-r"><span class="vs5-n">Nootropicos</span><span class="vs5-dots"></span><span class="vs5-v">1–2</span></div>
-          <div class="vs5-r"><span class="vs5-n">Luteína</span><span class="vs5-dots"></span><span class="vs5-v">Nada</span></div>
-          <div class="vs5-r"><span class="vs5-n">Transparencia</span><span class="vs5-dots"></span><span class="vs5-v">Mezclas propietarias</span></div>
-        </div>
-      </div>
+      </div><!-- /cv1-stage -->
+      <div class="cv1-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>Deslizá la tabla para ver las tres columnas</div>
+      <p class="v-nota">Precios de referencia por porción</p>
     </div>
 
     <div class="vs-close rv d3">
@@ -1640,8 +1357,6 @@
     </div>
   </div>
 </footer>
-
-<div class="vs-switcher" aria-hidden="true"><span class="vsw-key">P</span><span>Versus <b class="vsw-i">1/5</b> · <span class="vsw-name">Checklist</span></span></div>
 
 <script>
 /* ===== CURSOR ===== */
@@ -1861,37 +1576,7 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   onScroll();
 })();
 
-/* ===== Rotador de variantes del versus — tecla P (dev) ===== */
-(function(){
-  const vars = Array.from(document.querySelectorAll('.vsv'));
-  if (!vars.length) return;
-  const NOMBRES = ['Checklist', 'Tabla de valores', 'Fichas enfrentadas', 'Duelo por fila', 'Etiquetas enfrentadas'];
-  const elNombre = document.querySelector('.vsw-name');
-  const elIndice = document.querySelector('.vsw-i');
-  let i = 0;
 
-  function mostrar(n){
-    i = ((n % vars.length) + vars.length) % vars.length;
-    vars.forEach((v, k) => v.classList.toggle('show', k === i));
-    // Las variantes ocultas nunca disparan el IntersectionObserver del reveal,
-    // así que al mostrarlas les damos el estado final a mano.
-    vars[i].querySelectorAll('.rv').forEach(e => e.classList.add('on'));
-    if (elNombre) elNombre.textContent = NOMBRES[i] || ('Versus ' + (i + 1));
-    if (elIndice) elIndice.textContent = (i + 1) + '/' + vars.length;
-  }
-
-  window.addEventListener('keydown', function(e){
-    if (e.key !== 'p' && e.key !== 'P') return;
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-    e.preventDefault();
-    mostrar(i + 1);
-    document.getElementById('vs').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  mostrar(0);
-})();
 </script>
 <script src="cart.js" defer></script>
 </body>

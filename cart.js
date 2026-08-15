@@ -9,14 +9,14 @@
 
   /* ---- Config de negocio ------------------------------------------------- */
   var FREE_SHIP = 44999;                 // umbral de envío gratis (= 2 potes)
-  var KEY = 'pr_cart_v1';
-  var ORDER = ['bb', 'tb'];
+  var KEY = 'pr_cart_v2';
+  var ORDER = ['bf', 'cp'];
   var PRODUCTS = {
-    bb: { id: 'bb', flavor: 'Blaze Berry', sub: 'Arándano · 30 porciones', img: 'assets/blaze-berry.png' },
-    tb: { id: 'tb', flavor: 'Tropical Bomb', sub: 'Maracuyá · 30 porciones', img: 'assets/tropical-bomb.png' }
+    bf: { id: 'bf', flavor: 'Blue Fizz', sub: 'Ácido intenso · 30 porciones', img: 'assets/blue-fizz.png' },
+    cp: { id: 'cp', flavor: 'Cherry Pop', sub: 'Cereza suave · 30 porciones', img: 'assets/cherry-pop.png' }
   };
   // TODO handoff: completar con la tienda real para activar el checkout de Shopify.
-  var SHOPIFY = { domain: '', variants: { bb: '', tb: '' } };
+  var SHOPIFY = { domain: '', variants: { bf: '', cp: '' } };
 
   /* ---- Estado ------------------------------------------------------------ */
   var state = load();
@@ -324,8 +324,8 @@
     '.pr-item-thumb{flex:none;width:106px;height:106px;border:1px solid var(--border,rgba(0,212,122,.16));border-radius:12px;background:var(--bg2,#0C100C);display:grid;place-items:center;overflow:hidden;}',
     '.pr-item-thumb img{width:96%;height:96%;object-fit:contain;}',
     '.pr-item-mid{flex:1;min-width:0;}',
-    '.pr-item-name{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1px;line-height:1.05;}',
-    '.pr-item-sub{font-size:11px;color:var(--gray,#56685A);margin-top:3px;font-family:var(--mo,"Space Mono",monospace);}',
+    '.pr-item-name{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.1px;line-height:1.05;}',
+    '.pr-item-sub{font-size:11px;color:var(--gray,#56685A);margin-top:3px;font-family:var(--mo,"Space Mono",monospace);letter-spacing:1px;text-transform:uppercase;}',
     '.pr-item-unit{font-size:12.5px;color:rgba(238,245,238,.66);margin-top:7px;}',
     '.pr-tag{display:inline-block;font-family:var(--mo,"Space Mono",monospace);font-size:9px;font-weight:700;color:var(--green,#00D47A);background:rgba(0,212,122,.12);border:1px solid var(--border,rgba(0,212,122,.16));border-radius:30px;padding:2px 7px;letter-spacing:.5px;vertical-align:middle;}',
     '.pr-item-rm{margin-top:9px;background:none;border:none;padding:0;color:var(--gray,#56685A);font-size:11px;text-decoration:underline;text-underline-offset:2px;transition:color .2s;}',
@@ -335,7 +335,7 @@
     '.pr-stepper button{width:30px;height:30px;background:var(--bg2,#0C100C);border:none;color:var(--white,#EEF5EE);font-size:15px;line-height:1;transition:background .2s,color .2s;}',
     '.pr-stepper button:hover{background:var(--green,#00D47A);color:#04140C;}',
     '.pr-stepper span{min-width:30px;text-align:center;font-family:var(--mo,"Space Mono",monospace);font-size:13px;}',
-    '.pr-item-total{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:900;font-size:17px;white-space:nowrap;}',
+    '.pr-item-total{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:17px;white-space:nowrap;}',
     /* subí de nivel (reward) */
     '.pr-reward{margin-top:18px;border:1px solid rgba(0,212,122,.3);border-radius:14px;background:linear-gradient(180deg,rgba(0,212,122,.08),rgba(0,212,122,.015));padding:14px;}',
     '.pr-reward-head{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:rgba(238,245,238,.85);line-height:1.45;margin-bottom:13px;}',
@@ -345,8 +345,8 @@
     '.pr-radd{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 8px;border:1px solid var(--border,rgba(0,212,122,.16));border-radius:11px;background:var(--bg,#080A08);transition:border-color .2s,transform .2s,background .2s;}',
     '.pr-radd:hover{border-color:rgba(0,212,122,.5);transform:translateY(-2px);background:var(--bg3,#111511);}',
     '.pr-radd img{width:96px;height:96px;object-fit:contain;}',
-    '.pr-radd-name{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:800;font-size:13px;text-transform:uppercase;text-align:center;line-height:1;}',
-    '.pr-radd-plus{font-family:var(--mo,"Space Mono",monospace);font-size:10px;color:var(--green,#00D47A);letter-spacing:.5px;}',
+    '.pr-radd-name{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:13px;text-transform:uppercase;text-align:center;line-height:1;}',
+    '.pr-radd-plus{font-family:var(--mo,"Space Mono",monospace);font-size:10px;color:var(--green,#00D47A);letter-spacing:1px;text-transform:uppercase;}',
     '.pr-maxed{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1px dashed rgba(0,212,122,.32);border-radius:12px;background:rgba(0,212,122,.04);font-family:var(--mo,"Space Mono",monospace);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--green,#00D47A);}',
     /* detalle del pedido */
     '.pr-detail{border:1px solid var(--border,rgba(0,212,122,.16));border-radius:12px;padding:13px 14px 8px;margin-bottom:14px;background:var(--bg,#080A08);}',
@@ -360,13 +360,13 @@
     '.pr-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:52px 6px 34px;}',
     '.pr-empty-ic{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid var(--border,rgba(0,212,122,.2));color:var(--green,#00D47A);margin-bottom:20px;}',
     '.pr-empty-t{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;letter-spacing:-.3px;margin:0 0 6px;line-height:1;}',
-    '.pr-empty-s{font-size:13.5px;color:var(--gray,#56685A);margin-bottom:30px;line-height:1.5;max-width:240px;}',
+    '.pr-empty-s{font-size:13.5px;color:rgba(238,245,238,.92);margin-bottom:30px;line-height:1.7;max-width:240px;}',
     '.pr-add-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;}',
     '.pr-add-card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 12px 16px;border:1px solid var(--border,rgba(0,212,122,.16));border-radius:14px;background:var(--bg2,#0C100C);transition:border-color .25s,transform .25s,background .25s;}',
     '.pr-add-card:hover{border-color:rgba(0,212,122,.45);transform:translateY(-3px);background:var(--bg3,#111511);}',
     '.pr-add-card img{width:118px;height:118px;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,0,0,.5));}',
-    '.pr-add-name{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.2px;}',
-    '.pr-add-plus{display:inline-block;font-family:var(--mo,"Space Mono",monospace);font-size:10px;color:var(--green,#00D47A);letter-spacing:.5px;border:1px solid rgba(0,212,122,.32);border-radius:30px;padding:5px 12px;}',
+    '.pr-add-name{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.2px;}',
+    '.pr-add-plus{display:inline-block;font-family:var(--mo,"Space Mono",monospace);font-size:10px;color:var(--green,#00D47A);letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(0,212,122,.32);border-radius:30px;padding:5px 12px;}',
     /* footer */
     '.pr-cart-foot{flex:none;padding:16px 22px 20px;border-top:1px solid var(--border,rgba(0,212,122,.16));background:var(--bg2,#0C100C);}',
     '.pr-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:3px;}',
@@ -374,11 +374,11 @@
     '.pr-save-pill{display:inline-block;font-family:var(--mo,"Space Mono",monospace);font-size:9px;font-weight:700;color:#04140C;background:var(--green,#00D47A);border-radius:30px;padding:3px 8px;letter-spacing:.3px;}',
     '.pr-sum-r{display:inline-flex;align-items:baseline;gap:7px;white-space:nowrap;}',
     '.pr-sum-r s{color:var(--gray,#56685A);font-size:15px;text-decoration-thickness:1px;}',
-    '.pr-summary b{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:900;font-size:26px;line-height:1;}',
-    '.pr-saved-note{font-family:var(--mo,"Space Mono",monospace);font-size:10.5px;color:var(--green,#00D47A);letter-spacing:.3px;margin-bottom:10px;}',
-    '.pr-foot-note{font-size:11px;color:var(--gray,#56685A);margin-bottom:14px;font-family:var(--mo,"Space Mono",monospace);}',
-    '.pr-checkout{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border:none;border-radius:12px;background:var(--green,#00D47A);color:#04140C;font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:.3px;transition:transform .18s ease,box-shadow .25s ease,filter .2s;box-shadow:0 12px 30px -10px rgba(0,212,122,.55);}',
-    '.pr-checkout span{font-style:normal;opacity:.78;}',
+    '.pr-summary b{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:26px;line-height:1;}',
+    '.pr-saved-note{font-family:var(--mo,"Space Mono",monospace);font-size:10.5px;color:var(--green,#00D47A);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}',
+    '.pr-foot-note{font-size:11px;color:var(--gray,#56685A);margin-bottom:14px;font-family:var(--mo,"Space Mono",monospace);letter-spacing:1px;text-transform:uppercase;}',
+    '.pr-checkout{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border:none;border-radius:12px;background:var(--green,#00D47A);color:#04140C;font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:1.5px;transition:transform .18s ease,box-shadow .25s ease,filter .2s;box-shadow:0 12px 30px -10px rgba(0,212,122,.55);}',
+    '.pr-checkout span{opacity:.78;}',
     '.pr-checkout:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 18px 38px -10px rgba(0,212,122,.7);}',
     '.pr-checkout:active{transform:translateY(0);}',
     '.pr-checkout:focus-visible{outline:2px solid #fff;outline-offset:2px;}',
