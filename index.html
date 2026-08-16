@@ -448,48 +448,6 @@
     .qe-intro { max-width: 700px; margin-bottom: 56px; }
     .qe-intro p { font-size: 16px; color: rgba(238,245,238,.92); line-height: 1.7; }
     .qe-intro p strong { color: var(--white); }
-    /* ===== CÓMO FUNCIONA (niveles con scroll) ===== */
-    #como { position: relative; height: 230vh; margin: 80px 0 40px; }
-    .como-sticky { position: sticky; top: 110px; height: calc(100vh - 134px); display: flex; align-items: center; }
-    .como-screen { position: relative; width: 100%; height: 100%; border: 1px solid var(--border); background: var(--bg2); overflow: hidden; display: flex; flex-direction: column; padding: 28px 34px 26px; }
-    .como-screen::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 78% 26%, rgba(0,212,122,.09), transparent 58%); pointer-events: none; }
-    .como-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(0,212,122,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,122,.04) 1px, transparent 1px); background-size: 46px 46px; }
-    .como-top { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; }
-    .como-eyebrow { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
-    .como-pips { display: flex; gap: 7px; }
-    .como-pip { width: 36px; height: 4px; background: rgba(238,245,238,.1); transition: background .3s, box-shadow .3s; }
-    .como-pip.done { background: var(--green); }
-    .como-pip.cur { background: var(--green); box-shadow: 0 0 10px var(--green); }
-    .como-stage { position: relative; z-index: 2; flex: 1; display: flex; }
-    .como-panel { position: absolute; inset: 0; display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: center; opacity: 0; transform: translateY(16px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; }
-    .cp-text { max-width: 560px; }
-    .cp-art { position: relative; width: 100%; max-width: 440px; margin-left: auto; overflow: hidden; aspect-ratio: 339 / 319; }
-    .cp-art img { position: absolute; top: 0; height: 100%; width: 300%; max-width: none; pointer-events: none; }
-    .cp-art.a1 img { left: 0; } .cp-art.a2 img { left: -100%; } .cp-art.a3 img { left: -200%; }
-    .cp-art.solo { aspect-ratio: auto; max-width: 520px; margin-left: auto; overflow: visible; display: flex; align-items: center; justify-content: center; }
-    .cp-art.solo img { position: static; left: auto; width: auto; height: auto; max-width: 100%; max-height: 64vh; display: block; }
-    .como-panel.on { opacity: 1; transform: none; }
-    .cp-tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
-    .cp-tag::before { content: ''; width: 22px; height: 1px; background: var(--green); }
-    .cp-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(38px, 5.6vw, 70px); line-height: .9; text-transform: uppercase; letter-spacing: -1.5px; margin-bottom: 18px; }
-    .cp-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; max-width: 540px; margin-bottom: 22px; }
-    .cp-desc b { color: var(--white); font-weight: 600; }
-    .cp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .cp-chips span { font-family: var(--mo); font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 6px 11px; }
-    .como-flash { position: absolute; z-index: 5; top: 58px; left: 50%; transform: translate(-50%,-8px); display: inline-flex; align-items: center; gap: 10px; font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(24px, 3.2vw, 40px); text-transform: uppercase; letter-spacing: -.5px; color: var(--green); text-shadow: 0 0 26px rgba(0,212,122,.5); opacity: 0; pointer-events: none; white-space: nowrap; }
-    .como-flash::before { content: '✓'; font-size: .8em; }
-    .como-flash.show { animation: comoUp 1.2s ease; }
-    @keyframes comoUp { 0% { opacity: 0; transform: translate(-50%,-18px) scale(.85); } 16% { opacity: 1; transform: translate(-50%,-8px) scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%,-8px) scale(1.04); } }
-    .como-bar { position: relative; z-index: 3; margin-top: 16px; }
-    .como-bar-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; gap: 16px; }
-    .como-lvl { font-family: var(--mo); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
-    .como-lvl b { color: var(--green); font-size: 13px; }
-    .como-xp { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 20px; color: var(--green); letter-spacing: -.5px; }
-    .como-track { position: relative; height: 13px; background: rgba(238,245,238,.05); border: 1px solid var(--border); overflow: hidden; }
-    .como-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--yellow)); box-shadow: 0 0 14px var(--green); }
-    .como-track::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, transparent 0, transparent calc(10% - 1px), rgba(8,10,8,.55) calc(10% - 1px), rgba(8,10,8,.55) 10%); }
-    .como-screen.levelup .como-fill { animation: comoFlash .5s ease; }
-    @keyframes comoFlash { 0%,100% { filter: none; } 45% { filter: brightness(1.9); } }
     .qe-formula-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; padding-top: 56px; border-top: 1px solid var(--border); }
     .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
     .qe-formula-note { font-size: 13px; color: rgba(238,245,238,.92); text-align: right; line-height: 1.7; max-width: 250px; flex-shrink: 0; }
@@ -499,17 +457,35 @@
     .wc-topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
     .wc-hint { font-family: var(--mo); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
 
-    .wc-plot { position: relative; border: 1px solid var(--border); background: #060806; padding: 16px 18px 8px; overflow: hidden; }
+    /* El texto de los ejes vive en HTML, no dentro del SVG: adentro escalaría con
+       el viewBox y en mobile terminaba en 3-4px. Afuera conserva su tamaño real. */
+    .wc-plot { position: relative; display: flex; gap: 12px; border: 1px solid var(--border); background: #060806; padding: 16px 18px 12px; overflow: hidden; }
+    .wc-yaxis { flex: none; width: 15px; align-self: stretch; display: flex; align-items: center; justify-content: center;
+      font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray);
+      white-space: nowrap; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .wc-scroll { flex: 1; min-width: 0; }
+    .wc-canvas { position: relative; }
+    .wc-ytop, .wc-ybot { position: absolute; left: 0; z-index: 2; font-family: var(--mo); font-size: 10px; letter-spacing: 1px; color: var(--gray); pointer-events: none; }
+    .wc-ytop { top: -2px; }
+    .wc-ybot { bottom: -4px; }
+    .wc-xaxis { position: relative; height: 20px; margin-top: 6px; }
+    .wc-xaxis span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap;
+      font-family: var(--mo); font-size: 11px; letter-spacing: .5px; color: var(--gray); }
+    .wc-xaxis small { font-size: .82em; opacity: .75; margin-left: 1px; }
     .wc-plot::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 28% 18%, rgba(0,212,122,.06), transparent 62%); pointer-events: none; }
-    .wc-svg { display: block; width: 100%; height: auto; position: relative; }
+    .wc-svg { display: block; width: 100%; aspect-ratio: 950 / 386; height: auto; position: relative; }
     .wc-zone-over { fill: rgba(255,60,60,.06); }
     .wc-zone-zone { fill: rgba(0,212,122,.08); }
     .wc-zone-crash { fill: rgba(255,60,60,.07); }
     .wc-zline { stroke: rgba(238,245,238,.07); stroke-width: 1; }
-    .wc-zlabel { font-family: var(--mo); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; }
-    .wc-zlabel.over { fill: rgba(255,90,90,.42); }
-    .wc-zlabel.zone { fill: rgba(0,212,122,.52); }
-    .wc-zlabel.crash { fill: rgba(255,90,90,.38); }
+    /* Rótulos de zona: son la clave de lectura del gráfico, no decoración.
+       Van en peso 700 y con más presencia, pero por debajo de las curvas. */
+    /* paint-order:stroke dibuja un contorno oscuro detrás de las letras, así los
+       rótulos se leen aunque una curva les pase por encima */
+    .wc-zlabel { font-family: var(--mo); font-weight: 700; font-size: 17px; letter-spacing: 3px; text-transform: uppercase; paint-order: stroke; stroke: #060806; stroke-width: 5px; stroke-linejoin: round; }
+    .wc-zlabel.over { fill: rgba(255,105,105,.62); }
+    .wc-zlabel.zone { fill: rgba(0,212,122,.78); }
+    .wc-zlabel.crash { fill: rgba(255,105,105,.58); }
     .wc-axis { font-family: var(--mo); font-size: 12px; fill: var(--gray); letter-spacing: .5px; }
     .wc-axis-title { font-family: var(--mo); font-size: 11px; fill: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
     .wc-area, .wc-grid, .wc-endlab { display: none; }
@@ -517,13 +493,20 @@
 
     .wc-line { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: var(--len); stroke-dashoffset: var(--len); transition: opacity .35s ease; }
     .why-chart.drawn .wc-line { stroke-dashoffset: 0; transition: stroke-dashoffset 1.7s cubic-bezier(.23,1,.32,1), opacity .35s ease; }
+    /* Las curvas entran en orden: primero el problema (lata, café) y la verde
+       cierra. El delay va escrito en la transición de stroke-dashoffset y no en
+       transition-delay, para no retrasar también el opacity del apagado al click. */
+    .why-chart.drawn .wc-line.cafe { transition: stroke-dashoffset 1.7s cubic-bezier(.23,1,.32,1) .34s, opacity .35s ease; }
+    .why-chart.drawn .wc-line.pr   { transition: stroke-dashoffset 1.7s cubic-bezier(.23,1,.32,1) .72s, opacity .35s ease; }
     .wc-line.lata { stroke: var(--red); filter: drop-shadow(0 0 5px rgba(255,60,60,.5)); }
     .wc-line.cafe { stroke: var(--orange); filter: drop-shadow(0 0 5px rgba(249,115,22,.5)); }
     .wc-line.pr   { stroke: var(--green); stroke-width: 3.5; filter: drop-shadow(0 0 6px rgba(0,212,122,.6)); }
     .wc-line.dim { opacity: .14; filter: none; }
     .wc-dot { transition: opacity .35s ease; }
     .why-chart .wc-dot { opacity: 0; }
-    .why-chart.drawn .wc-dot { opacity: 1; transition: opacity .4s ease 1.4s; }
+    .why-chart.drawn .wc-dot { opacity: 1; transition: opacity .4s ease 1.5s; }
+    .why-chart.drawn .wc-dot.cafe { transition-delay: 1.85s; }
+    .why-chart.drawn .wc-dot.pr { transition-delay: 2.2s; }
     .why-chart.drawn .wc-dot.dim { opacity: .18; }
 
     /* ===== keycaps + callout info ===== */
@@ -549,10 +532,24 @@
     .ikind-2 .kinfo .ib::before { content: ''; position: absolute; top: -6px; left: 22px; width: 10px; height: 10px; background: var(--bg2); border-left: 1px solid var(--c); border-top: 1px solid var(--c); transform: rotate(45deg); }
     .ikind-2 .kinfo .it { font-family: var(--bd); font-size: 12.5px; line-height: 1.7; color: rgba(238,245,238,.92); }
 
+    /* Remate del gráfico: cierra el argumento en vez de cortar y seguir */
+    .wc-close { margin-top: 26px; padding: 22px 26px; border-left: 4px solid var(--green); background: rgba(0,212,122,.05); }
+    .wc-close-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(22px, 2.4vw, 30px); text-transform: uppercase; letter-spacing: -.5px; line-height: 1.04; margin-bottom: 10px; }
+    .wc-close-t em { font-style: italic; color: var(--green); }
+    .wc-close p { font-size: 14px; line-height: 1.7; color: rgba(238,245,238,.92); max-width: 620px; }
+
     @media (max-width: 768px) {
-      .wc-bar.bkeys { flex-direction: column; }
-      .wc-zlabel { font-size: 9px; letter-spacing: 2px; }
-      .wc-axis { font-size: 13px; }
+      /* stretch, si no cada columna se achica al ancho de su callout y el de
+         Power Rush —que es más corto— queda con el botón más angosto */
+      .wc-bar.bkeys { flex-direction: column; align-items: stretch; }
+      /* Igual que la tabla comparativa: el gráfico no se comprime, se desliza */
+      .wc-plot { padding: 14px 12px 10px; gap: 8px; }
+      .wc-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain; }
+      .wc-scroll::-webkit-scrollbar { display: none; }
+      .wc-canvas, .wc-xaxis { min-width: 620px; }
+      .wc-zlabel { font-size: 22px; letter-spacing: 2px; }
+      .wc-xaxis span { font-size: 10px; }
+      .wc-ytop, .wc-ybot { font-size: 9px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .wc-line { stroke-dashoffset: 0 !important; transition: opacity .35s ease !important; }
@@ -693,22 +690,6 @@
       #cur, #cur-glo { display: none; }
       a, button { cursor: pointer; }
       section { padding: 64px 20px; }
-
-      /* Cómo funciona */
-      #como { height: 215vh; }
-      .como-sticky { top: 106px; height: calc(100vh - 126px); }
-      .como-screen { padding: 22px 20px 20px; }
-      .como-panel { grid-template-columns: 1fr; gap: 14px; align-content: center; justify-items: stretch; }
-      .cp-text { max-width: 100%; }
-      #como .cp-art.solo { order: -1; max-width: 100%; max-height: 26vh; margin: 0 auto; }
-      #como .cp-art.solo img { max-height: 26vh; width: auto; }
-      .cp-title { font-size: clamp(30px, 9vw, 44px); }
-      .cp-desc { font-size: 14px; }
-      .como-flash { font-size: 19px; top: 50px; }
-
-      /* Barra de anuncio */
-      .ann-msg { font-size: 10px; letter-spacing: .4px; gap: 7px; padding: 0 10px; }
-      .ann-msg svg { width: 12px; height: 12px; }
 
       /* Nav */
       nav { padding: 10px 12px; }
@@ -1190,28 +1171,23 @@
         <span class="wc-hint">Tocá cada uno para mostrar u ocultar</span>
       </div>
       <div class="wc-plot">
-        <svg class="wc-svg" viewBox="0 0 1040 446" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Energía y foco en el tiempo: Lata, Café y Power Rush">
+        <div class="wc-yaxis">Energía / Foco</div>
+        <div class="wc-scroll">
+          <div class="wc-canvas">
+            <span class="wc-ytop">100%</span>
+            <span class="wc-ybot">0%</span>
+        <svg class="wc-svg" viewBox="70 24 950 386" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Energía y foco en el tiempo: Lata, Café y Power Rush">
           <rect class="wc-zone-over" x="70" y="30" width="950" height="68.4"/>
           <rect class="wc-zone-zone" x="70" y="98.4" width="950" height="140.6"/>
           <rect class="wc-zone-crash" x="70" y="326.4" width="950" height="83.6"/>
           <line class="wc-grid" x1="70" y1="125" x2="1020" y2="125"/>
           <line class="wc-grid" x1="70" y1="220" x2="1020" y2="220"/>
           <line class="wc-grid" x1="70" y1="315" x2="1020" y2="315"/>
-          <text class="wc-zlabel over" x="86" y="58">/// Sobreestimulación ///</text>
-          <text class="wc-zlabel zone" x="86" y="152">/// Energía Real ///</text>
-          <text class="wc-zlabel crash" x="86" y="372">/// Crash ///</text>
+          <text class="wc-zlabel over" x="88" y="56">Sobreestimulación</text>
+          <text class="wc-zlabel zone" x="88" y="130">Energía real</text>
+          <text class="wc-zlabel crash" x="88" y="378">Crash</text>
           <line class="wc-zline" x1="70" y1="30" x2="1020" y2="30"/>
           <line class="wc-zline" x1="70" y1="410" x2="1020" y2="410"/>
-          <text class="wc-axis" x="60" y="35" text-anchor="end">100%</text>
-          <text class="wc-axis" x="60" y="413" text-anchor="end">0%</text>
-          <text class="wc-axis-title" x="22" y="220" text-anchor="middle" transform="rotate(-90 22 220)">Energía / Foco</text>
-          <text class="wc-axis" x="70"  y="433" text-anchor="start">0min</text>
-          <text class="wc-axis" x="175" y="433" text-anchor="middle">15min</text>
-          <text class="wc-axis" x="260" y="433" text-anchor="middle">30min</text>
-          <text class="wc-axis" x="400" y="433" text-anchor="middle">1hr</text>
-          <text class="wc-axis" x="610" y="433" text-anchor="middle">2hr</text>
-          <text class="wc-axis" x="820" y="433" text-anchor="middle">3hr</text>
-          <text class="wc-axis" x="1020" y="433" text-anchor="end">4hr</text>
           <path class="wc-area pr" data-key="pr"></path>
           <path class="wc-line cafe" data-key="cafe"></path>
           <path class="wc-line lata" data-key="lata"></path>
@@ -1223,57 +1199,23 @@
           <text class="wc-endlab lata" data-key="lata" text-anchor="end" fill="#FF3C3C"></text>
           <text class="wc-endlab pr"   data-key="pr"   text-anchor="end" fill="#00D47A"></text>
         </svg>
-        <div class="wc-scan"></div>
-      </div>
-      <div class="wc-bar" id="wc-bar"></div>
-    </div>
-
-    <div id="como">
-      <div class="como-sticky">
-        <div class="como-screen">
-          <div class="como-grid"></div>
-          <div class="como-top">
-            <span class="como-eyebrow">El mecanismo · Cómo funciona</span>
-            <div class="como-pips"><span class="como-pip"></span><span class="como-pip"></span><span class="como-pip"></span></div>
+            <div class="wc-scan"></div>
           </div>
-          <div class="como-flash" id="como-flash">¡Nivel completo!</div>
-          <div class="como-stage">
-            <div class="como-panel" data-lvl="0">
-              <div class="cp-text">
-                <span class="cp-tag">Fase 01 · Preparación</span>
-                <h3 class="cp-title">Una medida,<br>350 ml de agua</h3>
-                <p class="cp-desc">Disolvé <b>una medida de Power Rush</b> en <b>350 ml de agua fría</b> y tomalo antes de arrancar. Se mezcla en segundos: sin grumos y sin batidora.</p>
-                <div class="cp-chips"><span>1 medida · 10g</span><span>350 ml de agua</span><span>Antes de empezar</span></div>
-              </div>
-              <div class="cp-art solo"><img src="assets/PrimerSlidePolvo.png" alt="" aria-hidden="true"></div>
-            </div>
-            <div class="como-panel" data-lvl="1">
-              <div class="cp-text">
-                <span class="cp-tag">Fase 02 · El envión · 20–30 min</span>
-                <h3 class="cp-title">Foco arriba,<br>sin ansiedad</h3>
-                <p class="cp-desc">A los <b>20 a 30 minutos</b> llega el envión: la <b>cafeína</b>, la <b>L-Tirosina</b> y la <b>Colina</b> te encienden el foco. La <b>L-Teanina</b> amortigua el golpe, así que rendís concentrado y sin ansiedad ni temblor.</p>
-                <div class="cp-chips"><span>Cafeína 140mg</span><span>L-Tirosina 500mg</span><span>L-Teanina 140mg</span></div>
-              </div>
-              <div class="cp-art solo"><img src="assets/SegundoSlidePC..png" alt="" aria-hidden="true"></div>
-            </div>
-            <div class="como-panel" data-lvl="2">
-              <div class="cp-text">
-                <span class="cp-tag">Fase 03 · Sin bajón · 4–6 h</span>
-                <h3 class="cp-title">Se va parejo,<br>sin crash</h3>
-                <p class="cp-desc">Después de <b>4 a 6 horas</b> el efecto baja de forma pareja. Nada de crash ni de quedar fundido como con los energizantes: volvés a tu base, sin deuda.</p>
-                <div class="cp-chips"><span>4–6 horas</span><span>Sin crash</span><span>Sin rebote</span></div>
-              </div>
-              <div class="cp-art solo"><img src="assets/TercerSlidePila.png" alt="" aria-hidden="true"></div>
-            </div>
-          </div>
-          <div class="como-bar">
-            <div class="como-bar-head">
-              <span class="como-lvl">Nivel <b id="como-n">1</b> / 3 · <span id="como-name">Activación</span></span>
-              <span class="como-xp" id="como-pct">0%</span>
-            </div>
-            <div class="como-track"><div class="como-fill" id="como-fill"></div></div>
+          <div class="wc-xaxis">
+          <span style="left:0;transform:none">0<small>min</small></span>
+          <span style="left:11.05%">15<small>min</small></span>
+          <span style="left:20%">30<small>min</small></span>
+          <span style="left:34.74%">1<small>hr</small></span>
+          <span style="left:56.84%">2<small>hr</small></span>
+          <span style="left:78.95%">3<small>hr</small></span>
+          <span style="right:0;left:auto;transform:none">4<small>hr</small></span>
           </div>
         </div>
+      </div>
+      <div class="wc-bar" id="wc-bar"></div>
+      <div class="wc-close">
+        <div class="wc-close-t">La diferencia no está en el pico.<br>Está en la <em>hora tres</em>.</div>
+        <p>Las tres curvas suben. La lata sube más rápido y se cae antes de que termines lo que estabas haciendo. La verde sigue arriba cuando todavía te queda trabajo.</p>
       </div>
     </div>
 
@@ -1530,52 +1472,6 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   const io = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ root.classList.add('drawn'); io.disconnect(); } }); }, { threshold: 0.25 });
   io.observe(root);
 })();
-
-/* ===== CÓMO FUNCIONA — niveles con scroll ===== */
-(function(){
-  const como = document.getElementById('como');
-  if (!como) return;
-  const fill = document.getElementById('como-fill');
-  const pct = document.getElementById('como-pct');
-  const nEl = document.getElementById('como-n');
-  const nameEl = document.getElementById('como-name');
-  const flash = document.getElementById('como-flash');
-  const screen = como.querySelector('.como-screen');
-  const panels = Array.prototype.slice.call(como.querySelectorAll('.como-panel'));
-  const pips = Array.prototype.slice.call(como.querySelectorAll('.como-pip'));
-  const NAMES = ['Preparación','El envión','Sin bajón'];
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let lastLvl = -1, flashT;
-
-  function doFlash(){
-    if(reduce) return;
-    screen.classList.remove('levelup'); void screen.offsetWidth; screen.classList.add('levelup');
-    if(flash){ flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show'); clearTimeout(flashT); flashT=setTimeout(()=>flash.classList.remove('show'),1100); }
-  }
-  function onScroll(){
-    const r = como.getBoundingClientRect();
-    const scrollable = como.offsetHeight - window.innerHeight;
-    const scrolled = Math.min(Math.max(-r.top,0), scrollable);
-    const p = scrollable>0 ? scrolled/scrollable : 0;
-    const lf = Math.min(p*3, 3);
-    const lvl = Math.min(Math.floor(lf), 2);
-    let f = lf - lvl; if(f>1) f=1;
-    fill.style.width = (f*100)+'%';
-    pct.textContent = Math.round(f*100)+'%';
-    if(lvl!==lastLvl){
-      nEl.textContent = lvl+1;
-      nameEl.textContent = NAMES[lvl];
-      panels.forEach((pn,i)=>pn.classList.toggle('on', i===lvl));
-      pips.forEach((pp,i)=>{ pp.classList.toggle('done', i<lvl); pp.classList.toggle('cur', i===lvl); });
-      if(lvl>lastLvl && lastLvl>=0) doFlash();
-      lastLvl = lvl;
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  onScroll();
-})();
-
 
 </script>
 <script src="cart.js" defer></script>
