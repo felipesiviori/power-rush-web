@@ -452,6 +452,79 @@
     .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
     .qe-formula-note { font-size: 13px; color: rgba(238,245,238,.92); text-align: right; line-height: 1.7; max-width: 250px; flex-shrink: 0; }
 
+    /* ===== FOUNDER — 5 ideas, se rotan con la tecla P (dev) ===== */
+    .fv { display: none; }
+    .fv.show { display: block; }
+    .fdr-eyebrow { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .fdr-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(32px, 4vw, 54px); text-transform: uppercase; letter-spacing: -1px; line-height: .94; margin-bottom: 20px; }
+    .fdr-t em { font-style: italic; color: var(--green); }
+    .fdr-p { font-size: 15px; line-height: 1.7; color: rgba(238,245,238,.92); margin-bottom: 14px; max-width: 560px; }
+    .fdr-p b { color: var(--white); font-weight: 600; }
+    /* Firma: nombre en Barlow, rol en mono, con una línea verde arriba */
+    .fdr-sign { display: inline-flex; flex-direction: column; gap: 3px; margin-top: 22px; padding-top: 16px; border-top: 2px solid var(--green); }
+    .fdr-name { font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .4px; }
+    .fdr-role { font-family: var(--mo); font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+    /* Nota de foto: solo se ve en dev, marca qué hay que fotografiar */
+    .fdr-shot { margin-top: 10px; font-family: var(--mo); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,209,0,.7); }
+
+    /* F1 · Retrato a sangre */
+    .fdr1 { display: grid; grid-template-columns: .82fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg3); }
+    .fdr1-img { position: relative; min-height: 460px; overflow: hidden; }
+    .fdr1-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Tratamiento de color: overlay verde en multiply + degradado, como pide el manual de la web */
+    .fdr1-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 40%, var(--bg3)), linear-gradient(to top, rgba(0,212,122,.14), transparent 60%); }
+    .fdr1-txt { padding: 46px 48px; display: flex; flex-direction: column; justify-content: center; }
+
+    /* F2 · Carta firmada */
+    .fdr2 { border: 1px solid var(--border); border-radius: 14px; background: radial-gradient(ellipse at 20% 0%, rgba(0,212,122,.07), transparent 60%), var(--bg3); padding: 44px 48px; max-width: 820px; margin: 0 auto; }
+    .fdr2-top { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+    .fdr2-av { width: 76px; height: 76px; border-radius: 50%; overflow: hidden; border: 2px solid var(--green); flex: none; box-shadow: 0 0 26px -8px var(--green); }
+    .fdr2-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .fdr2 .fdr-p { max-width: none; font-size: 15.5px; }
+
+    /* F3 · Player card */
+    .fdr3 { display: grid; grid-template-columns: 300px 1fr; gap: 22px; align-items: stretch; }
+    .fdr3-card { border: 1px solid rgba(0,212,122,.4); border-radius: 14px; background: linear-gradient(180deg, rgba(0,212,122,.1), var(--bg3) 46%); padding: 24px; text-align: center; box-shadow: 0 0 60px -26px rgba(0,212,122,.6); }
+    .fdr3-av { width: 100%; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 16px; }
+    .fdr3-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .fdr3-nm { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 26px; text-transform: uppercase; letter-spacing: -.4px; line-height: 1; }
+    .fdr3-rl { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-top: 7px; }
+    .fdr3-stats { margin-top: 18px; border-top: 1px solid var(--border); }
+    .fdr3-st { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid rgba(238,245,238,.06); }
+    .fdr3-st:last-child { border-bottom: none; }
+    .fdr3-sk { font-family: var(--mo); font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--gray); }
+    .fdr3-sv { font-family: var(--hd); font-weight: 700; font-size: 16px; color: var(--white); }
+    .fdr3-txt { border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); padding: 38px 40px; display: flex; flex-direction: column; justify-content: center; }
+
+    /* F4 · Cita monumental */
+    .fdr4 { text-align: center; }
+    .fdr4-q { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(34px, 5.6vw, 76px); text-transform: uppercase; letter-spacing: -2px; line-height: .92; max-width: 1000px; margin: 0 auto 26px; }
+    .fdr4-q em { font-style: italic; color: var(--green); }
+    .fdr4 .fdr-p { margin-left: auto; margin-right: auto; text-align: center; }
+    .fdr4-img { margin-top: 34px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; position: relative; }
+    .fdr4-img img { width: 100%; height: auto; display: block; }
+    .fdr4-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,8,.78), transparent 52%), linear-gradient(0deg, rgba(0,212,122,.1), transparent 60%); }
+    .fdr4-cap { position: absolute; left: 24px; bottom: 20px; z-index: 2; text-align: left; }
+
+    /* F5 · El problema era mío */
+    .fdr5 { display: grid; grid-template-columns: .78fr 1fr; gap: 26px; align-items: stretch; }
+    .fdr5-img { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; position: relative; min-height: 440px; }
+    .fdr5-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .fdr5-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,8,.6), transparent 55%); }
+    .fdr5-col { display: flex; flex-direction: column; gap: 14px; }
+    .fdr5-b { border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); padding: 26px 28px; flex: 1; }
+    .fdr5-b.antes { border-left: 3px solid var(--red); }
+    .fdr5-b.ahora { border-left: 3px solid var(--green); }
+    .fdr5-k { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .fdr5-b.antes .fdr5-k { color: rgba(255,90,90,.85); }
+    .fdr5-b.ahora .fdr5-k { color: var(--green); }
+    .fdr5-b .fdr-p { margin-bottom: 0; }
+
+    /* Chip del rotador (dev · sacar antes de lanzar) */
+    .fdr-switcher { position: fixed; left: 20px; bottom: 20px; z-index: 1500; display: inline-flex; align-items: center; gap: 9px; padding: 9px 13px 9px 9px; background: rgba(6,8,6,.86); border: 1px solid var(--border); border-radius: 40px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-family: var(--mo); font-size: 11px; color: var(--gray); letter-spacing: .4px; user-select: none; }
+    .fdw-key { display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px; background: var(--green); color: #04140C; font-weight: 700; box-shadow: 0 0 12px rgba(0,212,122,.4); }
+    .fdw-name { color: var(--green); }
+
     /* ===== WHY CHART ===== */
     .why-chart { margin-top: 4px; }
     .wc-topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -690,6 +763,22 @@
       #cur, #cur-glo { display: none; }
       a, button { cursor: pointer; }
       section { padding: 64px 20px; }
+
+      /* Founder */
+      .fdr1, .fdr3, .fdr5 { grid-template-columns: 1fr; }
+      .fdr1-img { min-height: 340px; }
+      .fdr1-img::after { background: linear-gradient(to top, var(--bg3) 4%, transparent 46%), linear-gradient(to top, rgba(0,212,122,.14), transparent 60%); }
+      .fdr1-txt { padding: 28px 22px 32px; }
+      .fdr2 { padding: 28px 22px; }
+      .fdr2-av { width: 60px; height: 60px; }
+      .fdr3-card { padding: 20px; }
+      .fdr3-av { max-width: 220px; margin-inline: auto; }
+      .fdr3-txt { padding: 26px 22px; }
+      .fdr4-cap { left: 16px; bottom: 14px; }
+      .fdr5-img { min-height: 300px; }
+      .fdr5-b { padding: 20px 22px; }
+      .fdr-t { font-size: clamp(26px, 8vw, 36px); }
+      .fdr-switcher { left: 12px; bottom: 12px; padding: 7px 11px 7px 7px; font-size: 10px; }
 
       /* Nav */
       nav { padding: 10px 12px; }
@@ -1219,6 +1308,26 @@
       </div>
     </div>
 
+    <div id="founder" class="rv d2" style="margin: 72px 0 84px;">
+    <div class="fv fv-1 show">
+      <div class="fdr1">
+        <div class="fdr1-img"><img src="https://placehold.co/900x1200/0C100C/00D47A?text=FOTO%201%20%C2%B7%20RETRATO%20VERTICAL%203%3A4" alt="Fundador de Power Rush"></div>
+        <div class="fdr1-txt">
+          <div class="fdr-eyebrow">Quién está detrás</div>
+          <h3 class="fdr-t">Lo hice para mí.<br><em>Resultó que éramos muchos.</em></h3>
+          <p class="fdr-p">Juego desde que tengo uso de razón. Además emprendo y streameo, así que mi vida entera pasa detrás de una pantalla. Sé bien cómo se siente la hora tres, cuando los reflejos bajan y empezás a errar cosas que antes no errabas. Power Rush salió de ahí.</p>
+          <p class="fdr-p">A fines de 2025 lo tuve que frenar. Un problema contable heredado me dejó sin stock y sin capital. Me ofrecieron comprarlo con la condición de que me fuera de mi propia empresa. Dije que no, laburé un año y junté la plata para volver.</p>
+          <p class="fdr-p">Volví con la fórmula que quería desde el principio: 10 ingredientes, dosis reales, todo en el label. Doy la cara porque quiero que sepas a quién le comprás.</p>
+          <div class="fdr-sign">
+            <span class="fdr-name">[NOMBRE]</span>
+            <span class="fdr-role">Fundador · Power Rush</span>
+          </div>
+          <div class="fdr-shot">Foto: retrato vertical 3:4 · medio cuerpo, mirando a cámara, en el setup · luz baja, fondo oscuro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <div class="qe-formula-head rv">
       <h3>La fórmula,<br>sin letras chicas.</h3>
       <p class="qe-formula-note">11 ingredientes, cada uno con su nombre y su dosis exacta. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
@@ -1299,6 +1408,7 @@
     </div>
   </div>
 </footer>
+
 
 <script>
 /* ===== CURSOR ===== */
@@ -1472,6 +1582,7 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   const io = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ root.classList.add('drawn'); io.disconnect(); } }); }, { threshold: 0.25 });
   io.observe(root);
 })();
+
 
 </script>
 <script src="cart.js" defer></script>
