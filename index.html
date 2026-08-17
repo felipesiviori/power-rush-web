@@ -448,7 +448,7 @@
     .qe-intro { max-width: 700px; margin-bottom: 56px; }
     .qe-intro p { font-size: 16px; color: rgba(238,245,238,.92); line-height: 1.7; }
     .qe-intro p strong { color: var(--white); }
-    .qe-formula-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; padding-top: 56px; border-top: 1px solid var(--border); }
+    .qe-formula-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; }
     .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
     .qe-formula-note { font-size: 13px; color: rgba(238,245,238,.92); text-align: right; line-height: 1.7; max-width: 250px; flex-shrink: 0; }
 
@@ -711,6 +711,15 @@
     .fcard-cta:hover { gap: 11px; }
     .fcard-cta:hover svg { transform: translateX(3px); }
     @media (prefers-reduced-motion: reduce) { .fcard, .fcard-glow, .fcard-deco { transition: none; } }
+
+    /* ===== LA FÓRMULA ===== */
+    /* Mismo fondo que #vs: base --bg2, hairlines arriba y abajo, y un resplandor
+       radial centrado en el contenido. El overflow contiene el resplandor. */
+    #formula { position: relative; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 24px; overflow: hidden; }
+    .formula-glow { position: absolute; z-index: 0; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      width: 132%; height: 118%; pointer-events: none;
+      background: radial-gradient(circle 1150px at 50% 50%, rgba(0,212,122,.21), transparent 72%); }
+    #formula .wrap { position: relative; z-index: 1; }
 
     /* ===== FAQ ===== */
     #faq { background: var(--bg2); border-top: 1px solid var(--border); }
@@ -1349,6 +1358,13 @@
     </div>
   </div>
 
+  </div>
+</section>
+
+<!-- ===== LA FÓRMULA ===== -->
+<section id="formula">
+  <div class="formula-glow" aria-hidden="true"></div>
+  <div class="wrap">
     <div class="qe-formula-head rv">
       <h3>La fórmula,<br>sin letras chicas.</h3>
       <p class="qe-formula-note">11 ingredientes con dosis reales y la ciencia detrás. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
