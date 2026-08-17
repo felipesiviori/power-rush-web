@@ -387,21 +387,49 @@
     .faq-video { margin-top: 14px; }
     .faq-video video { width: 100%; max-width: 480px; display: block; border: 1px solid var(--border); }
 
-    /* ===== TIMELINE ===== */
-    #timeline { padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2); }
-    .tl-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    /* ===== CÓMO FUNCIONA ===== */
+    #timeline { position: relative; overflow: hidden; padding: 80px 0 96px; border-top: 1px solid var(--border); background: var(--bg); }
+    /* renglones horizontales + grid sutil (con fade en los bordes) */
+    #timeline::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(238,245,238,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(238,245,238,.02) 1px, transparent 1px);
+      background-size: 100% 46px, 46px 100%;
+      -webkit-mask-image: radial-gradient(ellipse 92% 82% at 50% 42%, #000 52%, transparent 100%);
+      mask-image: radial-gradient(ellipse 92% 82% at 50% 42%, #000 52%, transparent 100%); }
+    /* gradient de profundidad (glow verde arriba + viñeta) */
+    #timeline::after { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 760px 460px at 50% 24%, rgba(0,212,122,.10), transparent 66%),
+        linear-gradient(180deg, rgba(6,8,6,.6), transparent 20%, transparent 80%, rgba(6,8,6,.72)); }
+    .tl-wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .tl-header { margin-bottom: 56px; }
     .tl-overline { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
     .tl-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(36px, 4vw, 52px); text-transform: uppercase; line-height: .95; letter-spacing: -.5px; }
-    .tl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
-    .tl-grid::before { content: ''; position: absolute; top: 28px; left: calc(12.5%); right: calc(12.5%); height: 1px; background: linear-gradient(90deg, var(--green) 0%, rgba(0,212,122,.3) 100%); z-index: 0; }
-    .tl-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
-    .tl-dot { width: 56px; height: 56px; border: 2px solid var(--green); background: var(--bg2); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; position: relative; }
-    .tl-dot::after { content: ''; position: absolute; inset: 6px; background: var(--green); opacity: .15; }
-    .tl-dot svg { position: relative; z-index: 1; color: var(--green); }
-    .tl-time { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
-    .tl-step-title { font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; margin-bottom: 8px; }
-    .tl-step-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; }
+
+    /* Tarjetas alternadas unidas por un camino punteado.
+       El path lo dibuja el JS midiendo las tarjetas reales, así siempre las une
+       aunque cambie el texto, el idioma o el ancho de pantalla. */
+    .hw { position: relative; display: flex; flex-direction: column; gap: 20px; max-width: 940px; margin: 0 auto; }
+    .hw-path { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+    .hw-path path { fill: none; stroke: rgba(0,212,122,.45); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 8 6; animation: hwMarch 3s linear infinite; }
+    @keyframes hwMarch { to { stroke-dashoffset: -140; } }
+
+    .hw-card { --rot: 0deg; position: relative; z-index: 1; width: 100%; max-width: 412px; padding: 26px 26px 24px; border-radius: 18px; border: 1px solid var(--border); background: linear-gradient(150deg, var(--bg3), var(--bg2) 62%); transform: rotate(var(--rot)); transition: transform .35s cubic-bezier(.23,1,.32,1), border-color .3s ease, box-shadow .35s ease; }
+    .hw-card:nth-of-type(odd)  { align-self: flex-start; --rot: -2.2deg; }
+    .hw-card:nth-of-type(even) { align-self: flex-end; --rot: 2.2deg; }
+    .hw-card:hover { transform: rotate(var(--rot)) translateY(-5px) scale(1.015); z-index: 2; border-color: rgba(0,212,122,.45); box-shadow: 0 0 60px -22px rgba(0,212,122,.55); }
+
+    /* El rayo del logo reemplaza a la chinche de la referencia */
+    .hw-ico { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--border); background: rgba(0,212,122,.08); color: var(--green); margin-bottom: 18px; }
+    .hw-ico svg { width: 18px; height: 18px; }
+    .hw-n { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 46px; line-height: .9; letter-spacing: -1.5px;
+      background: linear-gradient(180deg, var(--green), var(--yellow)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hw-time { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin: 10px 0 8px; }
+    .hw-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 24px; text-transform: uppercase; letter-spacing: -.3px; line-height: 1; margin-bottom: 10px; }
+    .hw-d { font-size: 14.5px; line-height: 1.7; color: rgba(238,245,238,.92); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hw-path path { animation: none; }
+      .hw-card { transition: none; }
+    }
 
     /* ===== RESEÑAS ===== */
     #prod-reviews { padding: 80px 0; border-top: 1px solid var(--border); }
@@ -483,6 +511,15 @@
 
     /* ===== MOBILE ===== */
     @media (max-width: 768px) {
+      /* Cómo funciona — sin ancho para alternar, las tarjetas van a ancho completo.
+         El camino se conserva: con los centros alineados la curva en S degenera
+         en una vertical y sigue uniendo un paso con el siguiente. */
+      .hw { gap: 34px; }
+      .hw-card, .hw-card:nth-of-type(odd), .hw-card:nth-of-type(even) { align-self: stretch; max-width: none; padding: 22px 20px; }
+      .hw-card:nth-of-type(odd)  { --rot: -1deg; }
+      .hw-card:nth-of-type(even) { --rot: 1deg; }
+      .hw-n { font-size: 38px; }
+      .hw-t { font-size: 20px; }
       .prod-wrap { grid-template-columns: 1fr; gap: 28px; }
       .prod-img-col { position: static; padding: 24px 0 0; }
       .prod-info-col { gap: 18px; }
@@ -516,8 +553,6 @@
       .cf-pod-light { height: 60%; }
       .cf-pod-name { font-size: 24px; }
       .tabs-nav { grid-template-columns: 1fr 1fr; }
-      .tl-grid { grid-template-columns: 1fr 1fr; gap: 32px 0; }
-      .tl-grid::before { display: none; }
       .ing-row { grid-template-columns: 1fr auto; }
       .ing-row .ing-bar-wrap { display: none; }
     }
@@ -525,7 +560,6 @@
       .wc-card { flex-basis: 200px; width: 200px; height: 310px; }
       .flavor-card { padding: 12px 12px; gap: 9px; }
       .tabs-nav { grid-template-columns: 1fr 1fr; }
-      .tl-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -1051,42 +1085,39 @@
 <section id="timeline">
   <div class="tl-wrap">
     <div class="tl-header">
-      <div class="tl-overline">Efectos en tiempo real</div>
-      <h2 class="tl-title">LO QUE PASA<br>ADENTRO.</h2>
+      <div class="tl-overline">El mecanismo · Minuto a minuto</div>
+      <h2 class="tl-title">Cómo<br>funciona.</h2>
     </div>
-    <div class="tl-grid">
-      <div class="tl-step">
-        <div class="tl-dot">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </div>
-        <div class="tl-time">Minuto 0</div>
-        <div class="tl-step-title">Tomás el pote</div>
-        <div class="tl-step-desc">Mezclás, agitás, tomás. El sistema operativo está cargando.</div>
-      </div>
-      <div class="tl-step">
-        <div class="tl-dot">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </div>
-        <div class="tl-time">Minuto 20–30</div>
-        <div class="tl-step-title">Activación</div>
-        <div class="tl-step-desc">La cafeína y la L-Tirosina arrancan. Empezás a notar el foco. Sin nerviosismo, sin ansiedad.</div>
-      </div>
-      <div class="tl-step">
-        <div class="tl-dot">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="tl-time">Hora 1</div>
-        <div class="tl-step-title">Foco total</div>
-        <div class="tl-step-desc">Modo máximo. Colina y Ginseng en plena acción. Velocidad de respuesta, claridad mental, cero ruido interno.</div>
-      </div>
-      <div class="tl-step">
-        <div class="tl-dot">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="tl-time">Horas 4–6</div>
-        <div class="tl-step-title">Sin crash</div>
-        <div class="tl-step-desc">La L-Teanina hizo su trabajo. No hay bajón. No hay temblor. Terminás igual que empezaste.</div>
-      </div>
+    <div class="hw" id="hw">
+      <svg class="hw-path" aria-hidden="true" preserveAspectRatio="none"><path d=""/></svg>
+        <article class="hw-card">
+          <span class="hw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          <div class="hw-n">01</div>
+          <div class="hw-time">Minuto 0</div>
+          <h3 class="hw-t">Lo tomás</h3>
+          <p class="hw-d">Una medida en 350 ml de agua. Adentro hay once ingredientes y cada uno tiene su dosis escrita en la etiqueta. Nada de "mezcla exclusiva" que no te dice cuánto hay de qué.</p>
+        </article>
+        <article class="hw-card">
+          <span class="hw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          <div class="hw-n">02</div>
+          <div class="hw-time">Minuto 20–30</div>
+          <h3 class="hw-t">Empezás a notarlo</h3>
+          <p class="hw-d">Ahí llega la cafeína: más despierto, más rápido para reaccionar. Pero no viene sola. La L-Teanina la acompaña y evita que te ponga nervioso, así que sentís el foco sin la aceleración.</p>
+        </article>
+        <article class="hw-card">
+          <span class="hw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          <div class="hw-n">03</div>
+          <div class="hw-time">Hora 1 a 3</div>
+          <h3 class="hw-t">Se mantiene parejo</h3>
+          <p class="hw-d">Acá es donde la mayoría se cae. La L-Tirosina y la Colina siguen trabajando cuando la sesión se hace larga: te ayudan a sostener la atención y a no perder el hilo.</p>
+        </article>
+        <article class="hw-card">
+          <span class="hw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          <div class="hw-n">04</div>
+          <div class="hw-time">Hora 4 a 6</div>
+          <h3 class="hw-t">Se va sin que te des cuenta</h3>
+          <p class="hw-d">El efecto baja de a poco. No hay bajón de golpe a los noventa minutos como con una lata, ni el temblor de encadenar cafés.</p>
+        </article>
     </div>
   </div>
 </section>
@@ -1441,6 +1472,39 @@ window.addEventListener('scroll', () => {
   if (heroSection.getBoundingClientRect().bottom < 0) stickyBar.classList.add('visible');
   else stickyBar.classList.remove('visible');
 });
+
+/* ===== CÓMO FUNCIONA — el camino punteado se dibuja midiendo las tarjetas ===== */
+(function(){
+  var wrap = document.getElementById('hw');
+  if (!wrap) return;
+  var svg = wrap.querySelector('.hw-path');
+  var path = svg && svg.querySelector('path');
+  if (!path) return;
+
+  function dibujar(){
+    var cards = Array.prototype.slice.call(wrap.querySelectorAll('.hw-card'));
+    if (cards.length < 2 || getComputedStyle(svg).display === 'none') return;
+    var wr = wrap.getBoundingClientRect();
+    svg.setAttribute('viewBox', '0 0 ' + Math.round(wr.width) + ' ' + Math.round(wr.height));
+    var pts = cards.map(function(c){
+      var r = c.getBoundingClientRect();
+      return { cx: r.left - wr.left + r.width / 2, top: r.top - wr.top, bot: r.bottom - wr.top };
+    });
+    var d = '';
+    for (var i = 0; i < pts.length - 1; i++){
+      var a = pts[i], b = pts[i + 1];
+      var my = (a.bot + b.top) / 2;
+      // curva en S: sale por abajo de una tarjeta y entra por arriba de la siguiente
+      d += 'M ' + a.cx + ' ' + a.bot + ' C ' + a.cx + ' ' + my + ', ' + b.cx + ' ' + my + ', ' + b.cx + ' ' + b.top + ' ';
+    }
+    path.setAttribute('d', d.trim());
+  }
+
+  dibujar();
+  window.addEventListener('resize', dibujar);
+  window.addEventListener('load', dibujar);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(dibujar);
+})();
 </script>
 <script src="cart.js" defer></script>
 </body>
