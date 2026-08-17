@@ -692,6 +692,26 @@
     .ing-row:nth-child(even) .ing-fill { background: linear-gradient(90deg, var(--green), var(--yellow)); }
     .ing-f { font-family: var(--mo); font-size: 10px; color: var(--gray); text-align: right; letter-spacing: .5px; text-transform: uppercase; }
 
+    /* ===== FÓRMULA · cards de ingredientes ===== */
+    .fcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .fcard { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 210px; padding: 26px 24px; border-radius: 18px; border: 1px solid var(--border); background: linear-gradient(150deg, var(--bg3), var(--bg2) 62%); transition: transform .35s cubic-bezier(.23,1,.32,1), border-color .3s ease, box-shadow .35s ease; will-change: transform; }
+    .fcard:hover { transform: translateY(-6px); border-color: rgba(0,212,122,.42); box-shadow: 0 28px 52px -18px rgba(0,212,122,.22), 0 10px 24px -8px rgba(0,0,0,.5); }
+    .fcard-glow { position: absolute; right: -18%; bottom: -22%; width: 72%; height: 72%; z-index: 0; pointer-events: none; background: radial-gradient(circle, rgba(0,212,122,.18), transparent 62%); opacity: .45; transition: opacity .35s ease, transform .55s cubic-bezier(.23,1,.32,1); }
+    .fcard:hover .fcard-glow { opacity: 1; transform: scale(1.15); }
+    .fcard-deco { position: absolute; right: -22px; bottom: -22px; z-index: 0; color: rgba(0,212,122,.10); pointer-events: none; transition: transform .55s cubic-bezier(.23,1,.32,1); }
+    .fcard:hover .fcard-deco { transform: scale(1.12) rotate(10deg); color: rgba(0,212,122,.16); }
+    .fcard-body { position: relative; z-index: 1; }
+    .fcard-badge { display: inline-flex; align-items: center; gap: 8px; padding: 5px 13px; border-radius: 40px; background: rgba(6,8,6,.55); border: 1px solid var(--border); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: .5px; color: var(--white); margin-bottom: 18px; }
+    .fcard-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
+    .fcard-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 27px; text-transform: uppercase; letter-spacing: -.3px; line-height: 1; margin-bottom: 11px; }
+    .fcard-desc { font-size: 14px; line-height: 1.6; color: rgba(238,245,238,.82); max-width: 40ch; }
+    .fcard-desc b { color: var(--green); font-weight: 700; }
+    .fcard-cta { position: relative; z-index: 1; align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); text-decoration: none; transition: gap .2s ease; }
+    .fcard-cta svg { transition: transform .25s ease; }
+    .fcard-cta:hover { gap: 11px; }
+    .fcard-cta:hover svg { transform: translateX(3px); }
+    @media (prefers-reduced-motion: reduce) { .fcard, .fcard-glow, .fcard-deco { transition: none; } }
+
     /* ===== FAQ ===== */
     #faq { background: var(--bg2); border-top: 1px solid var(--border); }
     .faq-wrap { max-width: 780px; }
@@ -1315,11 +1335,12 @@
         <div class="fdr1-txt">
           <div class="fdr-eyebrow">Quién está detrás</div>
           <h3 class="fdr-t">Lo hice para mí.<br><em>Resultó que éramos muchos.</em></h3>
-          <p class="fdr-p">Juego desde que tengo uso de razón. Además emprendo y streameo, así que mi vida entera pasa detrás de una pantalla. Sé bien cómo se siente la hora tres, cuando los reflejos bajan y empezás a errar cosas que antes no errabas. Power Rush salió de ahí.</p>
-          <p class="fdr-p">A fines de 2025 lo tuve que frenar. Un problema contable heredado me dejó sin stock y sin capital. Me ofrecieron comprarlo con la condición de que me fuera de mi propia empresa. Dije que no, laburé un año y junté la plata para volver.</p>
-          <p class="fdr-p">Volví con la fórmula que quería desde el principio: 10 ingredientes, dosis reales, todo en el label. Doy la cara porque quiero que sepas a quién le comprás.</p>
+          <p class="fdr-p">Juego desde que tengo uso de razón, y encima emprendo y streameo: mi vida entera pasa frente a una pantalla. Después de varias horas ya venía cansado y me costaba concentrarme. Para bancarla empecé a tomar energizantes —llegué a dos latas por día— y no solo me caían mal, sino que se me iba un montón de guita por mes en latas. Me harté y me puse a armar lo que de verdad quería tomar. De ahí salió Power Rush.</p>
+          <p class="fdr-p">A fines de 2025 tuvimos que cerrar. Un problema contable enorme me dejó sin stock y sin capital para reactivar. Una marca grande de suplementos me ofreció comprarla, pero querían abaratar la fórmula y dejarme sin poder de decisión sobre mi propio producto. Lo rechacé en el acto y me puse a laburar un año para juntar la plata y volver.</p>
+          <p class="fdr-p">La pausa no fue en vano. Aproveché para escucharlos y mejorar todo: pulimos la fórmula, le sacamos los grumos, sumamos el shaker y sacamos un sabor mucho más intenso.</p>
+          <p class="fdr-p">Gracias a los que bancaron aunque desaparecí un tiempo —hacía falta para volver más fuertes—. Doy la cara porque quiero que sepas a quién le comprás.</p>
           <div class="fdr-sign">
-            <span class="fdr-name">[NOMBRE]</span>
+            <span class="fdr-name">Felipe</span>
             <span class="fdr-role">Fundador · Power Rush</span>
           </div>
           <div class="fdr-shot">Foto: retrato vertical 3:4 · medio cuerpo, mirando a cámara, en el setup · luz baja, fondo oscuro</div>
@@ -1330,20 +1351,99 @@
 
     <div class="qe-formula-head rv">
       <h3>La fórmula,<br>sin letras chicas.</h3>
-      <p class="qe-formula-note">11 ingredientes, cada uno con su nombre y su dosis exacta. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
+      <p class="qe-formula-note">11 ingredientes con dosis reales y la ciencia detrás. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
     </div>
-    <div class="ing-list rv d1" id="ing-list">
-      <div class="ing-row" data-pct="95"><div class="ing-n">Taurina</div><div class="ing-d">700mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neuroprotección</div></div>
-      <div class="ing-row" data-pct="88"><div class="ing-n">L-Carnitina</div><div class="ing-d">600mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Energía celular</div></div>
-      <div class="ing-row" data-pct="80"><div class="ing-n">L-Tirosina</div><div class="ing-d">500mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Dopamina · Foco</div></div>
-      <div class="ing-row" data-pct="72"><div class="ing-n">Colina</div><div class="ing-d">300mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Memoria de trabajo</div></div>
-      <div class="ing-row" data-pct="78"><div class="ing-n">Cafeína</div><div class="ing-d">140mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Alerta · Reacción</div></div>
-      <div class="ing-row" data-pct="75"><div class="ing-n">L-Teanina</div><div class="ing-d">140mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Foco limpio</div></div>
-      <div class="ing-row" data-pct="65"><div class="ing-n">Ginseng</div><div class="ing-d">50mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Adaptógeno</div></div>
-      <div class="ing-row" data-pct="62"><div class="ing-n">Luteína</div><div class="ing-d">20mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Protección visual</div></div>
-      <div class="ing-row" data-pct="70"><div class="ing-n">Vitamina B3</div><div class="ing-d">10mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Metabolismo energético</div></div>
-      <div class="ing-row" data-pct="67"><div class="ing-n">Vitamina B6</div><div class="ing-d">1.5mg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Neurotransmisores</div></div>
-      <div class="ing-row" data-pct="73"><div class="ing-n">Vitamina B12</div><div class="ing-d">3µg</div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-f">Sistema nervioso</div></div>
+    <div class="fcards rv d1" id="ing-list">
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">700mg</span>
+          <h3 class="fcard-title">Taurina</h3>
+          <p class="fcard-desc">Aminoácido que abunda en el cerebro. Participa en la función neuronal y en la regulación de la energía celular.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=taurine+brain+neuroprotection" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">600mg</span>
+          <h3 class="fcard-title">L-Carnitina</h3>
+          <p class="fcard-desc">Lleva los ácidos grasos a la mitocondria para producir energía. Es la base del metabolismo energético.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=l-carnitine+energy+metabolism" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">500mg</span>
+          <h3 class="fcard-title">L-Tirosina</h3>
+          <p class="fcard-desc">Precursor de dopamina y noradrenalina. Ayuda a sostener el foco bajo estrés, fatiga o multitarea.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=tyrosine+cognitive+performance+stress" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">300mg</span>
+          <h3 class="fcard-title">Colina</h3>
+          <p class="fcard-desc">Materia prima de la acetilcolina, el neurotransmisor de la memoria y el aprendizaje.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=choline+memory+cognition" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">140mg</span>
+          <h3 class="fcard-title">Cafeína</h3>
+          <p class="fcard-desc">Bloquea la adenosina: más alerta y mejor tiempo de reacción. Equivale a un café largo.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+alertness+reaction+time" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">140mg</span>
+          <h3 class="fcard-title">L-Teanina</h3>
+          <p class="fcard-desc">Del té verde. Con cafeína mejora la atención y baja el nerviosismo — el dúo más estudiado para foco limpio.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=l-theanine+caffeine+attention" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">50mg</span>
+          <h3 class="fcard-title">Ginseng</h3>
+          <p class="fcard-desc">Adaptógeno (Panax ginseng). Se asocia a mejor atención y a menos fatiga mental.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=panax+ginseng+cognition" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">20mg</span>
+          <h3 class="fcard-title">Luteína</h3>
+          <p class="fcard-desc">Carotenoide que se acumula en la retina y el cerebro. Se estudia por su rol frente a la luz azul.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=lutein+brain+visual" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard fcard-vit">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">Complejo B + C</span>
+          <h3 class="fcard-title">Vitaminas</h3>
+          <p class="fcard-desc"><b>B1 · B2 · B3 · B5 · B6 · B9 · B12 · C.</b> Soporte del metabolismo energético y del funcionamiento normal del sistema nervioso.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=b+vitamins+nervous+system+energy" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
     </div>
     <div class="rv d2" style="margin-top:32px;">
       <a href="#" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
