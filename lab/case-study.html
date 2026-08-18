@@ -137,8 +137,8 @@
     .pop-h em { font-style: inherit; color: var(--green); }
     .pop-h.red em { color: var(--red); }
     .pop-p { font-size: 15px; line-height: 1.55; color: rgba(238,245,238,.74); }
-    .pop-skip { display: block; margin: 14px auto 0; background: none; border: none; font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: rgba(238,245,238,.5); text-decoration: underline; text-underline-offset: 3px; }
-    .pop-skip:hover { color: var(--white); }
+    .pop-skip { display: block; margin: 14px auto 0; background: none; border: none; font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: var(--white); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(238,245,238,.45); }
+    .pop-skip:hover { text-decoration-color: var(--green); }
 
     .pop-how { margin: 18px 0 22px; display: flex; gap: 12px; align-items: center; background: var(--bg); border: 1px solid rgba(238,245,238,.08); border-radius: 10px; padding: 12px 14px; font-family: var(--mo); font-size: 12px; line-height: 1.5; letter-spacing: .3px; color: rgba(238,245,238,.82); }
     .pop-how svg { flex: none; color: var(--green); }
@@ -212,7 +212,12 @@
     .res-stat b { font-family: var(--hd); font-weight: 700; font-size: 28px; line-height: 1; letter-spacing: .005em; color: var(--white); }
     .code { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg); border: 1px dashed rgba(0,212,122,.5); border-radius: 10px; padding: 14px 16px; margin: 4px 0 16px; }
     .code .k { font-family: var(--mo); font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: rgba(238,245,238,.55); }
-    .code .v { font-family: var(--hd); font-weight: 700; font-size: 30px; line-height: 1; letter-spacing: 2px; color: var(--green); }
+    .code .v { font-family: var(--hd); font-weight: 700; font-size: 30px; line-height: 1; letter-spacing: 2px; color: var(--green); transition: filter .5s ease, opacity .5s ease; }
+    .code.locked .v { filter: blur(9px); opacity: .8; user-select: none; -webkit-user-select: none; pointer-events: none; }
+    .code .ic-lock, .code .ic-bolt { flex: none; }
+    .code.locked .ic-bolt, .code:not(.locked) .ic-lock { display: none; }
+    .code:not(.locked) .v { animation: codeIn .5s ease; }
+    @keyframes codeIn { from { transform: scale(1.06); } to { transform: none; } }
     .mail { display: flex; gap: 8px; }
     .mail input { flex: 1; min-width: 0; height: 50px; padding: 0 14px; background: var(--bg); border: 1px solid rgba(238,245,238,.16); border-radius: 8px; color: var(--white); font-family: var(--bd); font-size: 15px; }
     .mail input::placeholder { color: rgba(238,245,238,.35); }
@@ -355,7 +360,7 @@
     <!-- intro: pick a challenge -->
     <div class="pop-s on" id="s-intro">
       <span class="pop-ov2">Welcome · Earn your discount</span>
-      <h3 class="pop-h">Beat the test,<br><em>get 10% off</em></h3>
+      <h3 class="pop-h">Beat the game,<br><em>get 10% off</em></h3>
       <p class="pop-p">Ten seconds. One finger. Pick your challenge:</p>
       <div class="chals">
         <button class="chal" data-game="focus">
@@ -380,7 +385,7 @@
     <!-- single-game intro (when opened via #a / #b / #c) -->
     <div class="pop-s" id="s-gintro">
       <span class="pop-ov2" id="g-ov"></span>
-      <h3 class="pop-h">Beat the test,<br><em>get 10% off</em></h3>
+      <h3 class="pop-h">Beat the game,<br><em>get 10% off</em></h3>
       <p class="pop-p" id="g-p"></p>
       <div class="pop-how"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg><span id="g-how"></span></div>
       <button class="btn-pr pop-cta" id="g-go">Play</button>
@@ -399,12 +404,12 @@
 
     <!-- win -->
     <div class="pop-s" id="s-win">
-      <span class="pop-ov2">Test passed</span>
+      <span class="pop-ov2">Challenge complete</span>
       <h3 class="pop-h">You did it! <em>10% off</em></h3>
       <div class="res-stat" id="w-stat"></div>
-      <div class="code"><div><div class="k">Your code</div><div class="v">FOCUS10</div></div><svg width="30" height="30" viewBox="0 0 24 24" fill="#00D47A"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
-      <div class="mail" id="w-mail"><input type="email" placeholder="you@email.com" aria-label="Email"><button class="btn-pr" id="w-send">Send my 10%</button></div>
-      <p class="mail-note">We'll email your code and apply it automatically at checkout.</p>
+      <div class="code locked"><div><div class="k">Your code</div><div class="v">FOCUS10</div></div><svg class="ic-lock" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(238,245,238,.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><svg class="ic-bolt" width="30" height="30" viewBox="0 0 24 24" fill="#00D47A"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+      <div class="mail" id="w-mail"><input type="email" placeholder="you@email.com" aria-label="Email"><button class="btn-pr" id="w-send">Unlock my 10%</button></div>
+      <p class="mail-note">Enter your email to unlock the code. We'll also apply it automatically at checkout.</p>
     </div>
 
     <!-- lose -->
@@ -415,9 +420,9 @@
       <p class="pop-p" id="l-p" style="margin-bottom:18px"></p>
       <div id="l-retry" class="res-btns"><button class="btn-pr" id="l-again">Try again</button><button class="btn-sc" id="l-quit">Leave</button></div>
       <div id="l-conso" style="display:none">
-        <div class="code"><div><div class="k">Still yours</div><div class="v" style="font-size:24px">FREE SHIPPING</div></div><svg width="30" height="30" viewBox="0 0 24 24" fill="#00D47A"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
-        <div class="mail" id="l-mail"><input type="email" placeholder="you@email.com" aria-label="Email"><button class="btn-pr" id="l-send">I want it</button></div>
-        <p class="mail-note">We'll email your code and apply it automatically at checkout.</p>
+        <div class="code locked"><div><div class="k">Still yours</div><div class="v" style="font-size:24px">FREE SHIPPING</div></div><svg class="ic-lock" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(238,245,238,.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><svg class="ic-bolt" width="30" height="30" viewBox="0 0 24 24" fill="#00D47A"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+        <div class="mail" id="l-mail"><input type="email" placeholder="you@email.com" aria-label="Email"><button class="btn-pr" id="l-send">Unlock it</button></div>
+        <p class="mail-note">Enter your email to unlock the code. We'll also apply it automatically at checkout.</p>
       </div>
     </div>
   </div>
@@ -661,8 +666,15 @@
   // #a → Focus, #b → Reflexes, #c → No crash (skips the picker). No hash → picker.
   var HASH = { a: 'focus', b: 'reflex', c: 'crash' };
   function fromHash() { return HASH[(location.hash || '').replace('#', '').toLowerCase()] || null; }
+  var MAIL_HTML = { w: $('#w-mail').innerHTML, l: $('#l-mail').innerHTML };
+  function reset() { // cada apertura arranca limpia: código bloqueado y formulario vacío
+    $('#w-mail').innerHTML = MAIL_HTML.w; $('#l-mail').innerHTML = MAIL_HTML.l;
+    document.querySelectorAll('.code').forEach(function (c) { c.classList.add('locked'); });
+    $('#w-send').addEventListener('click', function () { mockSend($('#w-mail')); });
+    $('#l-send').addEventListener('click', function () { mockSend($('#l-mail')); });
+  }
   function open() {
-    tries = 0; ended = false; cur = null;
+    tries = 0; ended = false; cur = null; reset();
     ov.classList.add('on'); teaser.classList.remove('on'); document.body.style.overflow = 'hidden';
     var forced = fromHash();
     if (forced) { gintro(GAMES[forced]); } else { show('intro'); }
@@ -688,7 +700,8 @@
   function mockSend(wrap) {
     var input = wrap.querySelector('input');
     if (!input.value || input.value.indexOf('@') < 0) { input.focus(); input.style.borderColor = 'var(--red)'; setTimeout(function () { input.style.borderColor = ''; }, 900); return; }
-    wrap.innerHTML = '<div class="mail-ok">✓ Done. Check your inbox — your code is on its way.</div>';
+    var code = wrap.parentNode.querySelector('.code'); if (code) code.classList.remove('locked');
+    wrap.innerHTML = '<div class="mail-ok">✓ Unlocked. We also sent it to your inbox.</div>';
   }
 
   document.querySelectorAll('.chal').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-game')); }); });
@@ -698,8 +711,6 @@
   $('#g-go').addEventListener('click', play);
   $('#l-quit').addEventListener('click', close);
   $('#l-again').addEventListener('click', play);
-  $('#w-send').addEventListener('click', function () { mockSend($('#w-mail')); });
-  $('#l-send').addEventListener('click', function () { mockSend($('#l-mail')); });
   teaser.addEventListener('click', open);
   ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('on')) close(); });
