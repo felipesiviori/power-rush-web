@@ -636,9 +636,14 @@
   var GAMES = { focus: focus, reflex: reflex, crash: crash };
 
   /* ================= FLOW ================= */
+  // #a → Focus, #b → Reflexes, #c → No crash (skips the picker). No hash → picker.
+  var HASH = { a: 'focus', b: 'reflex', c: 'crash' };
+  function fromHash() { return HASH[(location.hash || '').replace('#', '').toLowerCase()] || null; }
   function open() {
     tries = 0; ended = false; cur = null;
-    show('intro'); ov.classList.add('on'); teaser.classList.remove('on'); document.body.style.overflow = 'hidden';
+    ov.classList.add('on'); teaser.classList.remove('on'); document.body.style.overflow = 'hidden';
+    var forced = fromHash();
+    if (forced) { cur = GAMES[forced]; play(); } else { show('intro'); }
   }
   function close() { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; teaser.classList.add('on'); }
   function pick(id) { cur = GAMES[id]; play(); }
@@ -671,6 +676,7 @@
   ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('on')) close(); });
 
+  window.addEventListener('hashchange', function () { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; open(); });
   setTimeout(open, AUTO_OPEN_MS);
 })();
 </script>
