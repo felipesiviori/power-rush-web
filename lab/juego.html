@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Power Rush Lab — Popup con juego</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Bricolage+Grotesque:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #080A08; --bg2: #0C100C; --bg3: #111511;
+      --green: #00D47A; --yellow: #FFD100; --red: #FF3C3C;
+      --white: #EEF5EE; --gray: #56685A;
+      --border: rgba(0,212,122,0.16);
+      --hd: 'Barlow Condensed', sans-serif;
+      --bd: 'Bricolage Grotesque', sans-serif;
+      --mo: 'Space Mono', monospace;
+    }
+    html { -webkit-text-size-adjust: 100%; }
+    body { background: var(--bg); color: var(--white); font-family: var(--bd); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== NAV ===== */
+    .lab-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .lab-nav .l { display: flex; align-items: center; gap: 14px; }
+    .lab-nav img { height: 26px; width: auto; display: block; }
+    .lab-tag { font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 5px 9px; border-radius: 4px; }
+    .lab-back { font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: rgba(238,245,238,.6); text-decoration: none; }
+    .lab-back:hover { color: var(--green); }
+
+    /* ===== HERO ===== */
+    .lab-hero { padding: 64px 0 44px; max-width: 760px; }
+    .ov { display: block; font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+    h1 { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(46px, 6.6vw, 88px); line-height: .9; text-transform: uppercase; letter-spacing: .005em; }
+    h1 em { font-style: inherit; color: var(--green); }
+    .lab-hero p { margin-top: 22px; font-size: 17px; color: rgba(238,245,238,.72); max-width: 580px; }
+    .lab-hero p b { color: var(--white); font-weight: 600; }
+
+    /* ===== CARDS ===== */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding-bottom: 56px; }
+    .vc { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 24px 22px 22px; display: flex; flex-direction: column; gap: 14px; position: relative; transition: border-color .2s, transform .2s; }
+    .vc:hover { border-color: rgba(0,212,122,.4); transform: translateY(-2px); }
+    .vc-top { display: flex; justify-content: space-between; align-items: center; }
+    .vc-id { font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); }
+    .vc-time { font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: rgba(238,245,238,.6); }
+    .vc-title { font-family: var(--hd); font-weight: 700; font-size: 40px; line-height: .95; text-transform: uppercase; letter-spacing: .005em; }
+    .vc-demo { font-size: 14.5px; line-height: 1.55; color: rgba(238,245,238,.72); }
+    .vc-demo b { color: var(--white); font-weight: 600; }
+    .vc-viz { height: 150px; border-radius: 10px; background: var(--bg); border: 1px solid rgba(238,245,238,.06); position: relative; overflow: hidden; }
+    .vc-viz svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .vc-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-family: var(--mo); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 5px 9px; border-radius: 4px; border: 1px solid rgba(238,245,238,.14); color: rgba(238,245,238,.72); }
+    .vc .btn-pr { margin-top: auto; width: 100%; }
+
+    /* ===== NOTES ===== */
+    .notes { border-top: 1px solid var(--border); padding: 44px 0 80px; display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
+    .notes h2 { font-family: var(--hd); font-weight: 700; font-size: 30px; line-height: 1; text-transform: uppercase; letter-spacing: .005em; }
+    .notes ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+    .notes li { font-size: 14.5px; line-height: 1.55; color: rgba(238,245,238,.72); padding-left: 16px; position: relative; }
+    .notes li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; background: var(--green); border-radius: 1px; }
+    .notes li b { color: var(--white); font-weight: 600; }
+
+    /* ===== BUTTONS (mismos que la home) ===== */
+    .btn-pr { display: inline-flex; align-items: center; justify-content: center; gap: 9px; text-align: center; text-decoration: none; padding: 15px 26px; border: none; border-radius: 8px; font-family: var(--hd); font-weight: 700; font-size: 17px; letter-spacing: 1.2px; text-transform: uppercase; background: var(--green); color: var(--bg); transition: background .16s, box-shadow .16s; white-space: nowrap; }
+    .btn-pr:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2), 0 8px 28px rgba(0,212,122,.16); }
+    .btn-pr:active { background: #00C46E; box-shadow: inset 0 2px 4px rgba(0,0,0,.2); }
+    .btn-sc { display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-align: center; text-decoration: none; padding: 14px 22px; border: 1px solid rgba(238,245,238,.28); border-radius: 8px; background: transparent; font-family: var(--hd); font-weight: 700; font-size: 16px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(238,245,238,.82); transition: border-color .16s, color .16s, background .16s; white-space: nowrap; }
+    .btn-sc:hover { border-color: rgba(0,212,122,.55); color: var(--green); background: rgba(0,212,122,.06); }
+    :is(.btn-pr, .btn-sc, .pop-x, .pop-skip):focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+
+    /* ===== POPUP ===== */
+    .pop-ov { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(4,6,4,.74); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    .pop-ov.on { display: flex; }
+    .pop { position: relative; width: 100%; max-width: 420px; background: var(--bg2); border: 1px solid rgba(0,212,122,.28); border-radius: 18px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(0,212,122,.08); animation: popIn .34s cubic-bezier(.2,.9,.3,1.15); }
+    @keyframes popIn { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+    .pop-x { position: absolute; top: 12px; right: 12px; z-index: 5; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(238,245,238,.14); background: rgba(8,10,8,.6); color: rgba(238,245,238,.7); font-size: 20px; line-height: 1; display: grid; place-items: center; transition: color .16s, border-color .16s; }
+    .pop-x:hover { color: var(--white); border-color: rgba(238,245,238,.4); }
+    .pop-s { display: none; padding: 36px 26px 26px; }
+    .pop-s.on { display: block; }
+    .pop-ov2 { display: block; font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); }
+    .pop-h { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 48px; line-height: .9; text-transform: uppercase; letter-spacing: .005em; margin: 12px 0 12px; }
+    .pop-h em { font-style: inherit; color: var(--green); }
+    .pop-h.red em { color: var(--red); }
+    .pop-p { font-size: 15px; line-height: 1.55; color: rgba(238,245,238,.74); }
+    .pop-how { margin: 18px 0 22px; display: flex; gap: 12px; align-items: center; background: var(--bg); border: 1px solid rgba(238,245,238,.08); border-radius: 10px; padding: 12px 14px; font-family: var(--mo); font-size: 12px; line-height: 1.5; letter-spacing: .3px; color: rgba(238,245,238,.82); }
+    .pop-how svg { flex: none; color: var(--green); }
+    .pop-cta { width: 100%; font-size: 19px; padding: 17px 22px; }
+    .pop-skip { display: block; margin: 14px auto 0; background: none; border: none; font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: rgba(238,245,238,.5); text-decoration: underline; text-underline-offset: 3px; }
+    .pop-skip:hover { color: var(--white); }
+
+    /* play */
+    #s-play { padding: 20px 18px 18px; }
+    .hud { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 12px; padding: 0 48px 0 4px; }
+    .hud .k { font-family: var(--mo); font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: rgba(238,245,238,.55); white-space: nowrap; }
+    .hud-l .v { font-family: var(--hd); font-weight: 700; font-size: 36px; line-height: 1; letter-spacing: .005em; font-variant-numeric: tabular-nums; margin-top: 2px; }
+    .hud-l .v small { font-size: 16px; color: rgba(238,245,238,.55); margin-left: 3px; }
+    .hud-r { width: 46%; }
+    .hud-r .k { display: flex; justify-content: space-between; }
+    .meter { height: 8px; background: rgba(238,245,238,.1); border-radius: 99px; overflow: hidden; margin-top: 7px; }
+    .meter i { display: block; height: 100%; width: 0%; background: var(--green); border-radius: 99px; transition: width .12s linear, background .2s; }
+    .meter.low i { background: var(--red); }
+    .arena { position: relative; height: 320px; border-radius: 12px; background: var(--bg); border: 1px solid rgba(0,212,122,.18); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+    .arena.shake { animation: shk .26s; }
+    @keyframes shk { 0%,100% { transform: none; } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .arena-start { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(8,10,8,.6); }
+    .arena-start b { font-family: var(--hd); font-weight: 700; font-size: 32px; text-transform: uppercase; letter-spacing: .005em; line-height: 1; }
+    .arena-start span { font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: rgba(238,245,238,.62); text-align: center; padding: 0 20px; }
+    .arena-start .pulse { width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--green); display: grid; place-items: center; color: var(--green); margin-bottom: 8px; animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,212,122,.35); } 60% { box-shadow: 0 0 0 14px rgba(0,212,122,0); } }
+    .hint { margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mo); font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; color: rgba(238,245,238,.55); padding: 0 4px; }
+    .lives i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--green); margin-left: 5px; transition: background .2s, transform .2s; }
+    .lives i.off { background: rgba(238,245,238,.15); transform: scale(.8); }
+
+    /* game A — targets */
+    .tg { position: absolute; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%; display: grid; place-items: center; animation: tgIn .14s ease-out; will-change: transform; }
+    .tg.g { background: var(--green); color: var(--bg); }
+    .tg.r { background: var(--red); color: #fff; }
+    .tg::after { content: ''; position: absolute; inset: -9px; border-radius: 50%; border: 2px solid rgba(0,212,122,.7); animation: ring var(--life) linear forwards; }
+    .tg.r::after { border-color: rgba(255,60,60,.7); }
+    @keyframes tgIn { from { transform: scale(0); } to { transform: scale(1); } }
+    @keyframes ring { from { transform: scale(1.4); opacity: 1; } to { transform: scale(1); opacity: .15; } }
+    .tg.hit { animation: tgHit .22s ease-out forwards; pointer-events: none; }
+    @keyframes tgHit { to { transform: scale(1.6); opacity: 0; } }
+    .tg.out { animation: tgOut .18s ease-in forwards; pointer-events: none; }
+    @keyframes tgOut { to { transform: scale(.4); opacity: 0; } }
+    .pts { position: absolute; font-family: var(--hd); font-weight: 700; font-size: 24px; color: var(--green); pointer-events: none; animation: ptsUp .55s ease-out forwards; margin: -46px 0 0 -12px; }
+    .pts.bad { color: var(--red); }
+    @keyframes ptsUp { to { transform: translateY(-26px); opacity: 0; } }
+
+    /* game B — reflejos */
+    .rx { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: background .06s; }
+    .rx.wait { background: var(--bg); }
+    .rx.go { background: var(--green); color: var(--bg); }
+    .rx.early { background: #2A0C0C; color: var(--red); }
+    .rx.done { background: var(--bg); }
+    .rx-big { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 66px; line-height: .9; text-transform: uppercase; letter-spacing: .005em; }
+    .rx-sub { font-family: var(--mo); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: .7; }
+    .rx-rounds { position: absolute; top: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+    .rx-rounds span { font-family: var(--mo); font-size: 11px; padding: 4px 6px; border-radius: 4px; border: 1px solid rgba(238,245,238,.14); color: rgba(238,245,238,.5); min-width: 54px; text-align: center; }
+    .rx-rounds span.d { border-color: rgba(0,212,122,.5); color: var(--green); }
+    .rx-rounds span.now { border-color: rgba(238,245,238,.55); color: var(--white); }
+    .rx.go .rx-rounds span { border-color: rgba(4,23,13,.25); color: rgba(4,23,13,.75); }
+
+    /* game C — canvas */
+    #cv { display: block; width: 100%; height: 100%; }
+
+    /* result */
+    .res-stat { display: flex; gap: 10px; align-items: baseline; font-family: var(--mo); font-size: 13px; letter-spacing: .4px; color: rgba(238,245,238,.72); margin: 0 0 18px; }
+    .res-stat b { font-family: var(--hd); font-weight: 700; font-size: 28px; line-height: 1; letter-spacing: .005em; color: var(--white); }
+    .code { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg); border: 1px dashed rgba(0,212,122,.5); border-radius: 10px; padding: 14px 16px; margin: 4px 0 16px; }
+    .code .k { font-family: var(--mo); font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: rgba(238,245,238,.55); }
+    .code .v { font-family: var(--hd); font-weight: 700; font-size: 30px; line-height: 1; letter-spacing: 2px; color: var(--green); }
+    .mail { display: flex; gap: 8px; }
+    .mail input { flex: 1; min-width: 0; height: 50px; padding: 0 14px; background: var(--bg); border: 1px solid rgba(238,245,238,.16); border-radius: 8px; color: var(--white); font-family: var(--bd); font-size: 15px; }
+    .mail input::placeholder { color: rgba(238,245,238,.35); }
+    .mail input:focus { outline: none; border-color: rgba(0,212,122,.6); }
+    .mail .btn-pr { height: 50px; padding: 0 18px; font-size: 16px; }
+    .mail-ok { font-family: var(--mo); font-size: 13px; color: var(--green); padding: 14px 0 4px; }
+    .mail-note { font-family: var(--mo); font-size: 11px; letter-spacing: .3px; color: rgba(238,245,238,.42); margin-top: 12px; }
+    .res-btns { display: flex; gap: 10px; margin-top: 4px; }
+    .res-btns .btn-pr { flex: 1.5; }
+    .res-btns .btn-sc { flex: 1; }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .notes { grid-template-columns: 1fr; gap: 20px; }
+      .notes ul { grid-template-columns: 1fr; }
+      .lab-hero { padding: 44px 0 34px; }
+    }
+    @media (max-width: 480px) {
+      .pop-ov { padding: 10px; align-items: flex-end; }
+      .pop { max-width: none; border-radius: 16px; }
+      .pop-s { padding: 32px 20px 22px; }
+      #s-play { padding: 18px 14px 14px; }
+      .arena { height: min(340px, 52vh); }
+      .pop-h { font-size: 44px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pop, .arena.shake, .arena-start .pulse { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="lab-nav">
+    <div class="l">
+      <a href="/"><img src="/assets/logo.png" alt="Power Rush"></a>
+      <span class="lab-tag">Lab</span>
+    </div>
+    <a class="lab-back" href="/">← Volver a la home</a>
+  </nav>
+
+  <header class="lab-hero">
+    <span class="ov">Popup de bienvenida · 3 variantes</span>
+    <h1>Ganate el 10%<br><em>jugando</em></h1>
+    <p>En vez de la ruleta de siempre, un test de 10 a 15 segundos que <b>demuestra lo que hace el producto</b>: foco, reflejos, energía sin crash. Cada tarjeta abre el popup completo: intro, juego, resultado. Un dedo alcanza.</p>
+  </header>
+
+  <section class="grid">
+    <!-- A -->
+    <article class="vc">
+      <div class="vc-top"><span class="vc-id">Variante A</span><span class="vc-time">15 seg</span></div>
+      <h2 class="vc-title">Foco</h2>
+      <p class="vc-demo">Aparecen rayos verdes y distracciones rojas. <b>Tocá los verdes, ignorá los rojos.</b> Diez aciertos y ganás. Es la promesa del pote hecha juego: atención sostenida bajo ruido.</p>
+      <div class="vc-viz">
+        <svg viewBox="0 0 320 150" fill="none">
+          <circle cx="62" cy="52" r="20" fill="#00D47A"/><path d="m64 41-7 13h5l-1 9 7-13h-5z" fill="#080A08"/>
+          <circle cx="62" cy="52" r="27" stroke="rgba(0,212,122,.5)" stroke-width="2"/>
+          <circle cx="170" cy="100" r="20" fill="#00D47A"/><path d="m172 89-7 13h5l-1 9 7-13h-5z" fill="#080A08"/>
+          <circle cx="250" cy="44" r="20" fill="#FF3C3C"/><path d="M250 54a2.4 2.4 0 0 0 2.4-2h-4.8a2.4 2.4 0 0 0 2.4 2zm6-6v-5a6 6 0 0 0-5-5.9V36a1 1 0 0 0-2 0v1.1a6 6 0 0 0-5 5.9v5l-2 2v1h16v-1z" fill="#fff" transform="translate(0 -6)"/>
+          <circle cx="250" cy="44" r="27" stroke="rgba(255,60,60,.5)" stroke-width="2"/>
+          <text x="204" y="118" font-family="Barlow Condensed" font-weight="700" font-size="22" fill="#00D47A">+1</text>
+          <text x="20" y="134" font-family="Space Mono" font-size="10" fill="rgba(238,245,238,.45)" letter-spacing="2">ACIERTOS 7/10</text>
+        </svg>
+      </div>
+      <div class="vc-chips"><span class="chip">1 dedo</span><span class="chip">Tap</span><span class="chip">3 vidas</span></div>
+      <button class="btn-pr" data-play="foco">Probar variante A</button>
+    </article>
+
+    <!-- B -->
+    <article class="vc">
+      <div class="vc-top"><span class="vc-id">Variante B</span><span class="vc-time">~12 seg</span></div>
+      <h2 class="vc-title">Reflejos</h2>
+      <p class="vc-demo">Pantalla oscura, esperás, y cuando se pone verde <b>tocás lo más rápido que puedas</b>. Cinco rondas. Promedio bajo 340 ms y ganás. Es lo más gamer de los tres: te da tu tiempo en milisegundos.</p>
+      <div class="vc-viz">
+        <svg viewBox="0 0 320 150" fill="none">
+          <rect x="0" y="0" width="320" height="150" fill="#00D47A"/>
+          <text x="160" y="86" text-anchor="middle" font-family="Barlow Condensed" font-weight="900" font-style="italic" font-size="58" fill="#080A08">¡TAP!</text>
+          <text x="160" y="112" text-anchor="middle" font-family="Space Mono" font-size="11" fill="rgba(4,23,13,.7)" letter-spacing="3">RONDA 3 / 5</text>
+          <g font-family="Space Mono" font-size="10" fill="rgba(4,23,13,.75)">
+            <rect x="80" y="14" width="46" height="18" rx="3" stroke="rgba(4,23,13,.3)"/><text x="103" y="27" text-anchor="middle">248ms</text>
+            <rect x="136" y="14" width="46" height="18" rx="3" stroke="rgba(4,23,13,.3)"/><text x="159" y="27" text-anchor="middle">301ms</text>
+            <rect x="192" y="14" width="46" height="18" rx="3" stroke="rgba(4,23,13,.3)"/><text x="215" y="27" text-anchor="middle">—</text>
+          </g>
+        </svg>
+      </div>
+      <div class="vc-chips"><span class="chip">1 dedo</span><span class="chip">Tap</span><span class="chip">Tiempo en ms</span></div>
+      <button class="btn-pr" data-play="reflejo">Probar variante B</button>
+    </article>
+
+    <!-- C -->
+    <article class="vc">
+      <div class="vc-top"><span class="vc-id">Variante C</span><span class="vc-time">12 seg</span></div>
+      <h2 class="vc-title">Sin crash</h2>
+      <p class="vc-demo">Tu línea de energía cae sola. <b>Mantené presionado para subir, soltá para bajar</b>, y quedate dentro de la zona verde 12 segundos. Si te salís mucho, crash. Es la curva del pote contra la de la lata.</p>
+      <div class="vc-viz">
+        <svg viewBox="0 0 320 150" fill="none" preserveAspectRatio="none">
+          <path d="M0 40 C60 20 90 100 150 84 S240 30 320 60 L320 118 C240 88 210 130 150 142 S60 78 0 98 Z" fill="rgba(0,212,122,.14)"/>
+          <path d="M0 40 C60 20 90 100 150 84 S240 30 320 60" stroke="rgba(0,212,122,.55)" stroke-width="1.5"/>
+          <path d="M0 98 C60 78 90 136 150 142 S240 88 320 118" stroke="rgba(0,212,122,.55)" stroke-width="1.5"/>
+          <path d="M0 76 C40 60 70 96 100 100 S150 90 190 92" stroke="#EEF5EE" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="190" cy="92" r="6" fill="#EEF5EE"/>
+          <circle cx="190" cy="92" r="12" fill="rgba(238,245,238,.15)"/>
+        </svg>
+      </div>
+      <div class="vc-chips"><span class="chip">1 dedo</span><span class="chip">Mantener</span><span class="chip">Física</span></div>
+      <button class="btn-pr" data-play="crash">Probar variante C</button>
+    </article>
+  </section>
+
+  <section class="notes">
+    <h2>Lo que ya está resuelto adentro del popup</h2>
+    <ul>
+      <li><b>El mail se pide después de ganar</b>, no antes. Se pide en el pico, cuando el usuario ya tiene el premio en pantalla.</li>
+      <li><b>Un reintento.</b> Si perdés dos veces, igual te llevás algo (envío gratis) y el mail no se pierde.</li>
+      <li><b>Dificultad calibrada para que gane la mayoría.</b> El objetivo es la sensación de haberlo ganado, no filtrar gente que venía a comprar.</li>
+      <li><b>Acá se abre con el botón.</b> En la home lo dispararíamos a los 8–10 s o al 40 % de scroll, una vez por sesión, y nunca con el carrito abierto.</li>
+    </ul>
+  </section>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="pop-ov" id="pop" role="dialog" aria-modal="true" aria-label="Ganate un 10% off">
+  <div class="pop">
+    <button class="pop-x" id="pop-x" aria-label="Cerrar">×</button>
+
+    <!-- intro -->
+    <div class="pop-s on" id="s-intro">
+      <span class="pop-ov2" id="i-ov"></span>
+      <h3 class="pop-h" id="i-h"></h3>
+      <p class="pop-p" id="i-p"></p>
+      <div class="pop-how"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg><span id="i-how"></span></div>
+      <button class="btn-pr pop-cta" id="i-go">Jugar</button>
+      <button class="pop-skip" id="i-skip">No, gracias. Pago precio completo</button>
+    </div>
+
+    <!-- play -->
+    <div class="pop-s" id="s-play">
+      <div class="hud">
+        <div class="hud-l"><div class="k" id="h-lk">Segundos</div><div class="v" id="h-lv">15.0</div></div>
+        <div class="hud-r"><div class="k"><span id="h-rk">Foco</span><span id="h-rv"></span></div><div class="meter" id="h-m"><i></i></div></div>
+      </div>
+      <div class="arena" id="arena"></div>
+      <div class="hint"><span id="hint-t"></span><span class="lives" id="lives"></span></div>
+    </div>
+
+    <!-- win -->
+    <div class="pop-s" id="s-win">
+      <span class="pop-ov2">Test superado</span>
+      <h3 class="pop-h">¡Ganaste! <em>10% off</em></h3>
+      <div class="res-stat" id="w-stat"></div>
+      <div class="code"><div><div class="k">Tu código</div><div class="v">FOCO10</div></div><svg width="30" height="30" viewBox="0 0 24 24" fill="#00D47A"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+      <div class="mail" id="w-mail"><input type="email" placeholder="tu@mail.com" aria-label="Email"><button class="btn-pr" id="w-send">Quiero mi 10%</button></div>
+      <p class="mail-note">Te lo mandamos al mail y lo aplicamos solo en el checkout.</p>
+    </div>
+
+    <!-- lose -->
+    <div class="pop-s" id="s-lose">
+      <span class="pop-ov2" id="l-ov">Casi</span>
+      <h3 class="pop-h red" id="l-h">Te faltó <em>foco</em></h3>
+      <div class="res-stat" id="l-stat"></div>
+      <p class="pop-p" id="l-p" style="margin-bottom:18px"></p>
+      <div id="l-retry" class="res-btns"><button class="btn-pr" id="l-again">Otra vez</button><button class="btn-sc" id="l-quit">Dejar</button></div>
+      <div id="l-conso" style="display:none">
+        <div class="code"><div><div class="k">Igual te llevás</div><div class="v" style="font-size:24px">ENVÍO GRATIS</div></div><svg width="30" height="30" viewBox="0 0 24 24" fill="#00D47A"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+        <div class="mail" id="l-mail"><input type="email" placeholder="tu@mail.com" aria-label="Email"><button class="btn-pr" id="l-send">Lo quiero</button></div>
+        <p class="mail-note">Te lo mandamos al mail y lo aplicamos solo en el checkout.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var vib = function (ms) { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
+  var BOLT = '<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>';
+  var BELL = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2H9.6A2.5 2.5 0 0 0 12 22zm6-6v-5a6 6 0 0 0-5-5.9V4a1 1 0 0 0-2 0v1.1A6 6 0 0 0 6 11v5l-2 2v1h16v-1z"/></svg>';
+
+  var ov = $('#pop'), arena = $('#arena');
+  var S = { intro: $('#s-intro'), play: $('#s-play'), win: $('#s-win'), lose: $('#s-lose') };
+  var hud = { lk: $('#h-lk'), lv: $('#h-lv'), rk: $('#h-rk'), rv: $('#h-rv'), m: $('#h-m'), mi: $('#h-m i'), hint: $('#hint-t'), lives: $('#lives') };
+  var cur = null, tries = 0, MAX_TRIES = 2, ended = false;
+
+  function show(name) { Object.keys(S).forEach(function (k) { S[k].classList.toggle('on', k === name); }); }
+
+  /* API que reciben los juegos */
+  var api = {
+    left: function (k, v) { if (k != null) hud.lk.textContent = k; hud.lv.innerHTML = v; },
+    right: function (k, v) { if (k != null) hud.rk.textContent = k; hud.rv.textContent = v || ''; },
+    meter: function (pct, low) { hud.mi.style.width = Math.max(0, Math.min(100, pct)) + '%'; hud.m.classList.toggle('low', !!low); },
+    hint: function (t) { hud.hint.textContent = t; },
+    lives: function (n, total) { var h = ''; for (var i = 0; i < total; i++) h += '<i class="' + (i < n ? '' : 'off') + '"></i>'; hud.lives.innerHTML = h; },
+    shake: function () { arena.classList.remove('shake'); void arena.offsetWidth; arena.classList.add('shake'); vib(30); },
+    win: function (stat) { if (ended) return; ended = true; cur.stop(); vib([20, 40, 60]); $('#w-stat').innerHTML = stat; setTimeout(function () { show('win'); }, 380); },
+    lose: function (stat, why) {
+      if (ended) return; ended = true; cur.stop(); vib(80);
+      $('#l-stat').innerHTML = stat;
+      var last = tries >= MAX_TRIES;
+      $('#l-ov').textContent = last ? 'Casi, casi' : 'Casi';
+      $('#l-h').innerHTML = cur.loseTitle;
+      $('#l-p').textContent = last ? 'No pasó, pero no te vamos a dejar ir con las manos vacías.' : (why || 'Tenés un intento más. Ahora ya sabés cómo va.');
+      $('#l-retry').style.display = last ? 'none' : 'flex';
+      $('#l-conso').style.display = last ? 'block' : 'none';
+      setTimeout(function () { show('lose'); }, 520);
+    }
+  };
+
+  /* ================= JUEGO A: FOCO ================= */
+  var foco = {
+    ov: 'Test de foco · 15 seg', title: 'Ganate un <em>10% off</em>',
+    p: 'Tocá los rayos verdes, ignorá las distracciones rojas. Diez aciertos en 15 segundos y el descuento es tuyo.',
+    how: 'Verde = tocá · Rojo = dejalo pasar. Tres rojos y perdés el foco.',
+    startB: 'Tocá para empezar', startS: 'El reloj arranca con tu primer toque',
+    hint: 'Verde: tocá · Rojo: dejalo pasar', loseTitle: 'Te faltó <em>foco</em>',
+    NEED: 10, TIME: 15000, LIVES: 3,
+    mount: function () { arena.innerHTML = ''; api.left('Segundos', '15.0'); api.right('Aciertos', '0/' + this.NEED); api.meter(0); api.hint(this.hint); api.lives(this.LIVES, this.LIVES); },
+    start: function () {
+      var g = this, W = arena.clientWidth, H = arena.clientHeight;
+      g.hits = 0; g.lives = g.LIVES; g.on = true; g.t0 = performance.now(); g.busy = {}; g.lastRed = false;
+      var COLS = 4, ROWS = 4;
+      function spawn() {
+        if (!g.on) return;
+        var el = performance.now() - g.t0, prog = Math.min(1, el / g.TIME);
+        var red = !g.lastRed && Math.random() < 0.28;
+        g.lastRed = red;
+        var life = 1050 - 220 * prog;
+        // celda libre
+        var tries = 0, key, c, r;
+        do { c = Math.floor(Math.random() * COLS); r = Math.floor(Math.random() * ROWS); key = c + ':' + r; tries++; } while (g.busy[key] && tries < 12);
+        g.busy[key] = 1;
+        var x = (c + 0.5) * W / COLS + (Math.random() - 0.5) * 18;
+        var y = (r + 0.5) * H / ROWS + (Math.random() - 0.5) * 18;
+        x = Math.max(34, Math.min(W - 34, x)); y = Math.max(34, Math.min(H - 34, y));
+        var t = document.createElement('div');
+        t.className = 'tg ' + (red ? 'r' : 'g');
+        t.style.left = x + 'px'; t.style.top = y + 'px'; t.style.setProperty('--life', life + 'ms');
+        t.innerHTML = red ? BELL : BOLT;
+        var done = false;
+        t.addEventListener('pointerdown', function (e) {
+          e.preventDefault(); if (done || !g.on) return; done = true;
+          delete g.busy[key];
+          if (red) {
+            t.classList.add('hit'); g.lives--; api.lives(g.lives, g.LIVES); api.shake(); pts(x, y, '−1', true);
+            if (g.lives <= 0) { g.on = false; api.lose('<b>' + g.hits + '</b> aciertos · 3 distracciones', 'Los rojos te comieron el foco. Una más, ahora ya los ves venir.'); return; }
+          } else {
+            t.classList.add('hit'); g.hits++; vib(12); pts(x, y, '+1');
+            api.right(null, g.hits + '/' + g.NEED); api.meter(g.hits / g.NEED * 100);
+            if (g.hits >= g.NEED) { g.on = false; var s = ((performance.now() - g.t0) / 1000).toFixed(1); api.win('<b>' + g.hits + '</b> aciertos en ' + s + ' s'); return; }
+          }
+          setTimeout(function () { t.remove(); }, 240);
+        });
+        arena.appendChild(t);
+        setTimeout(function () { if (!done) { done = true; delete g.busy[key]; t.classList.add('out'); setTimeout(function () { t.remove(); }, 200); } }, life);
+        g.tm = setTimeout(spawn, 680 - 220 * prog);
+      }
+      function pts(x, y, txt, bad) { var p = document.createElement('div'); p.className = 'pts' + (bad ? ' bad' : ''); p.textContent = txt; p.style.left = x + 'px'; p.style.top = y + 'px'; arena.appendChild(p); setTimeout(function () { p.remove(); }, 600); }
+      function tick() {
+        if (!g.on) return;
+        var left = g.TIME - (performance.now() - g.t0);
+        if (left <= 0) { api.left(null, '0.0'); g.on = false; api.lose('<b>' + g.hits + '</b> de ' + g.NEED + ' aciertos', 'Te quedaste a ' + (g.NEED - g.hits) + '. Una más, ahora ya le agarraste el ritmo.'); return; }
+        api.left(null, (left / 1000).toFixed(1));
+        g.raf = requestAnimationFrame(tick);
+      }
+      spawn(); tick();
+    },
+    stop: function () { this.on = false; clearTimeout(this.tm); cancelAnimationFrame(this.raf); }
+  };
+
+  /* ================= JUEGO B: REFLEJOS ================= */
+  var reflejo = {
+    ov: 'Test de reflejos · 5 rondas', title: 'Ganate un <em>10% off</em>',
+    p: 'Cuando la pantalla se ponga verde, tocá. Cinco veces. Promedio menor a 340 ms y te llevás el descuento.',
+    how: 'Esperá el verde. Ni un milisegundo antes: la salida en falso repite la ronda.',
+    startB: 'Tocá para empezar', startS: 'Después de eso, solo tocá cuando veas verde',
+    hint: 'Verde: tocá · Oscuro: esperá', loseTitle: 'Reflejos <em>en bajón</em>',
+    ROUNDS: 5, LIMIT: 340,
+    mount: function () {
+      arena.innerHTML = '<div class="rx wait" id="rx"><div class="rx-rounds" id="rxr"></div><div class="rx-big" id="rxb">Esperá</div><div class="rx-sub" id="rxs">el verde…</div></div>';
+      api.left('Última', '—<small>ms</small>'); api.right('Ronda', '0/' + this.ROUNDS); api.meter(0); api.hint(this.hint); api.lives(0, 0);
+      var h = ''; for (var i = 0; i < this.ROUNDS; i++) h += '<span>—</span>'; $('#rxr').innerHTML = h;
+    },
+    start: function () {
+      var g = this, rx = $('#rx'), big = $('#rxb'), sub = $('#rxs'), chips = $('#rxr').children;
+      g.res = []; g.state = 'idle'; g.on = true; g.falses = 0;
+      function setChip(i, txt, cls) { chips[i].textContent = txt; chips[i].className = cls || ''; }
+      function round() {
+        if (!g.on) return;
+        var i = g.res.length; setChip(i, '—', 'now');
+        rx.className = 'rx wait'; big.textContent = 'Esperá'; sub.textContent = 'el verde…';
+        g.state = 'wait';
+        g.tm = setTimeout(function () {
+          if (!g.on) return;
+          rx.className = 'rx go'; big.textContent = '¡Tap!'; sub.textContent = 'ahora'; g.state = 'go'; g.goAt = performance.now();
+        }, 900 + Math.random() * 1500);
+      }
+      function finish() {
+        var avg = Math.round(g.res.reduce(function (a, b) { return a + b; }, 0) / g.res.length);
+        var best = Math.min.apply(null, g.res);
+        var tier = avg < 230 ? 'Reflejos PRO' : avg < 290 ? 'Reflejos sólidos' : avg <= g.LIMIT ? 'Despierto' : 'En bajón';
+        rx.className = 'rx done'; big.textContent = avg + ' ms'; sub.textContent = tier;
+        var stat = '<b>' + avg + ' ms</b> promedio · mejor ' + best + ' ms';
+        if (avg <= g.LIMIT) api.win(stat); else api.lose(stat, 'El corte está en ' + g.LIMIT + ' ms. Una más: mirá el centro, no los bordes.');
+      }
+      g.onTap = function () {
+        if (!g.on) return;
+        if (g.state === 'wait') {
+          clearTimeout(g.tm); g.falses++; g.state = 'early';
+          rx.className = 'rx early'; big.textContent = 'Muy pronto'; sub.textContent = 'esa no cuenta';
+          api.shake();
+          if (g.falses >= 3) { g.on = false; api.lose('<b>3</b> salidas en falso', 'Ansiedad pura. Una más: dejá que el verde llegue a vos.'); return; }
+          g.tm = setTimeout(round, 800);
+        } else if (g.state === 'go') {
+          var ms = Math.round(performance.now() - g.goAt);
+          g.state = 'shown'; g.res.push(ms); vib(10);
+          setChip(g.res.length - 1, ms + 'ms', 'd');
+          api.left(null, ms + '<small>ms</small>'); api.right(null, g.res.length + '/' + g.ROUNDS); api.meter(g.res.length / g.ROUNDS * 100);
+          rx.className = 'rx wait'; big.textContent = ms + ' ms'; sub.textContent = ms < 230 ? 'PRO' : ms < 290 ? 'sólido' : ms <= 340 ? 'despierto' : 'lento';
+          g.tm = setTimeout(g.res.length >= g.ROUNDS ? finish : round, 550);
+        }
+      };
+      arena.addEventListener('pointerdown', g.onTap);
+      round();
+    },
+    stop: function () { this.on = false; clearTimeout(this.tm); if (this.onTap) arena.removeEventListener('pointerdown', this.onTap); }
+  };
+
+  /* ================= JUEGO C: SIN CRASH ================= */
+  var crash = {
+    ov: 'Sin crash · 12 seg', title: 'Ganate un <em>10% off</em>',
+    p: 'Tu energía cae sola. Mantené presionado para subir, soltá para bajar, y quedate dentro de la zona verde 12 segundos.',
+    how: 'Presioná = sube · Soltá = baja. Fuera de la zona, el foco se drena. Foco en cero = crash.',
+    startB: 'Mantené para empezar', startS: 'Arranca con tu primer toque. Toques cortos, no largos.',
+    hint: 'Mantener: sube · Soltar: baja', loseTitle: '<em>Crash.</em> Como la lata',
+    TIME: 12000,
+    mount: function () {
+      arena.innerHTML = '<canvas id="cv"></canvas>';
+      api.left('Segundos', '12.0'); api.right('Foco', '100%'); api.meter(100); api.hint(this.hint); api.lives(0, 0);
+    },
+    start: function () {
+      var g = this, cv = $('#cv'), ctx = cv.getContext('2d');
+      var dpr = Math.min(2, window.devicePixelRatio || 1);
+      var W = arena.clientWidth, H = arena.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.scale(dpr, dpr);
+      var PX = W * 0.28, SPEED = 140, HALF = H * 0.19;
+      var G = 560, THR = -1150, VMAX = 250;
+      var y = H / 2, vy = 0, foco = 100, hold = true, t0 = performance.now(), last = t0, trail = [], out = false;
+      g.on = true;
+      g.debug = function () { return { y: y, vy: vy, c: center((performance.now() - t0) / 1000), foco: foco, hold: hold }; };
+      function center(t) { return H * 0.5 + Math.sin(t * 0.75) * H * 0.2 + Math.sin(t * 1.9 + 1.3) * H * 0.08; }
+      g.down = function (e) { e.preventDefault(); hold = true; };
+      g.up = function () { hold = false; };
+      g.key = function (e) { if (e.code === 'Space') { e.preventDefault(); hold = e.type === 'keydown'; } };
+      arena.addEventListener('pointerdown', g.down);
+      window.addEventListener('pointerup', g.up); window.addEventListener('pointercancel', g.up);
+      window.addEventListener('keydown', g.key); window.addEventListener('keyup', g.key);
+
+      function frame(now) {
+        if (!g.on) return;
+        var dt = Math.min(0.033, (now - last) / 1000); last = now;
+        var t = (now - t0) / 1000, left = g.TIME / 1000 - t;
+        // física
+        vy += (hold ? THR + G : G) * dt; vy = Math.max(-VMAX, Math.min(VMAX, vy));
+        y += vy * dt;
+        if (y < 8) { y = 8; vy = 0; } if (y > H - 8) { y = H - 8; vy = 0; }
+        var c = center(t); out = Math.abs(y - c) > HALF;
+        if (t > 0.6) { foco += (out ? -36 : 18) * dt; foco = Math.max(0, Math.min(100, foco)); }
+        trail.push({ t: t, y: y }); while (trail.length && (t - trail[0].t) * SPEED > PX + 10) trail.shift();
+        api.left(null, Math.max(0, left).toFixed(1)); api.right(null, Math.round(foco) + '%'); api.meter(foco, foco < 35);
+
+        // dibujo
+        ctx.clearRect(0, 0, W, H);
+        ctx.save(); if (out) ctx.translate((Math.random() - 0.5) * 3, (Math.random() - 0.5) * 3);
+        ctx.strokeStyle = 'rgba(238,245,238,.05)'; ctx.lineWidth = 1;
+        for (var gx = (-(t * SPEED) % 40 + 40) % 40; gx < W; gx += 40) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+        // banda
+        ctx.beginPath();
+        for (var x = 0; x <= W; x += 4) ctx.lineTo(x, center(t + (x - PX) / SPEED) - HALF);
+        for (x = W; x >= 0; x -= 4) ctx.lineTo(x, center(t + (x - PX) / SPEED) + HALF);
+        ctx.closePath(); ctx.fillStyle = 'rgba(0,212,122,.13)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(0,212,122,.55)'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); for (x = 0; x <= W; x += 4) ctx.lineTo(x, center(t + (x - PX) / SPEED) - HALF); ctx.stroke();
+        ctx.beginPath(); for (x = 0; x <= W; x += 4) ctx.lineTo(x, center(t + (x - PX) / SPEED) + HALF); ctx.stroke();
+        // estela
+        ctx.beginPath();
+        for (var i = 0; i < trail.length; i++) { var tx = PX - (t - trail[i].t) * SPEED; if (i === 0) ctx.moveTo(tx, trail[i].y); else ctx.lineTo(tx, trail[i].y); }
+        ctx.strokeStyle = out ? 'rgba(255,60,60,.9)' : 'rgba(238,245,238,.85)'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+        // punto
+        ctx.beginPath(); ctx.arc(PX, y, 14, 0, Math.PI * 2); ctx.fillStyle = out ? 'rgba(255,60,60,.18)' : 'rgba(0,212,122,.2)'; ctx.fill();
+        ctx.beginPath(); ctx.arc(PX, y, 7, 0, Math.PI * 2); ctx.fillStyle = out ? '#FF3C3C' : '#EEF5EE'; ctx.fill();
+        // línea de tiempo (progreso)
+        ctx.fillStyle = 'rgba(0,212,122,.5)'; ctx.fillRect(0, H - 3, W * Math.min(1, t / (g.TIME / 1000)), 3);
+        ctx.restore();
+
+        if (foco <= 0) { g.on = false; crashFx(); api.lose('<b>' + t.toFixed(1) + ' s</b> sin crash', 'Toques cortos. La zona te avisa hacia dónde va: mirá adelante, no el punto.'); return; }
+        if (left <= 0) { g.on = false; api.left(null, '0.0'); api.win('<b>12 s</b> en la zona · foco ' + Math.round(foco) + '%'); return; }
+        g.raf = requestAnimationFrame(frame);
+      }
+      function crashFx() {
+        ctx.save(); ctx.fillStyle = 'rgba(255,60,60,.16)'; ctx.fillRect(0, 0, W, H);
+        ctx.font = '900 italic 64px "Barlow Condensed"'; ctx.textAlign = 'center'; ctx.fillStyle = '#FF3C3C'; ctx.fillText('CRASH', W / 2, H / 2 + 22); ctx.restore();
+        api.shake();
+      }
+      g.raf = requestAnimationFrame(frame);
+    },
+    stop: function () {
+      this.on = false; cancelAnimationFrame(this.raf);
+      if (this.down) { arena.removeEventListener('pointerdown', this.down); window.removeEventListener('pointerup', this.up); window.removeEventListener('pointercancel', this.up); window.removeEventListener('keydown', this.key); window.removeEventListener('keyup', this.key); }
+    }
+  };
+
+  var GAMES = { foco: foco, reflejo: reflejo, crash: crash };
+  window.PRLab = GAMES; // para probar/tunear desde la consola
+
+  /* ================= FLUJO DEL POPUP ================= */
+  function open(id) {
+    cur = GAMES[id]; tries = 0; ended = false;
+    $('#i-ov').textContent = cur.ov; $('#i-h').innerHTML = cur.title; $('#i-p').textContent = cur.p; $('#i-how').textContent = cur.how;
+    show('intro'); ov.classList.add('on'); document.body.style.overflow = 'hidden';
+    setTimeout(function () { $('#i-go').focus(); }, 60);
+  }
+  function close() { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; }
+  function play() {
+    tries++; ended = false; show('play');
+    cur.mount();
+    var st = document.createElement('div');
+    st.className = 'arena-start';
+    st.innerHTML = '<div class="pulse"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div><b>' + cur.startB + '</b><span>' + cur.startS + '</span>';
+    st.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); e.stopPropagation(); st.remove(); cur.start();
+      // Para el juego C el primer toque también es "mantener": reenviamos el evento.
+      if (cur === crash && cur.down) cur.down(e);
+    }, { once: true });
+    arena.appendChild(st);
+  }
+  function mockSend(wrap, ok) {
+    var input = wrap.querySelector('input');
+    if (!input.value || input.value.indexOf('@') < 0) { input.focus(); input.style.borderColor = 'var(--red)'; setTimeout(function () { input.style.borderColor = ''; }, 900); return; }
+    wrap.innerHTML = '<div class="mail-ok">✓ ' + ok + '</div>';
+  }
+
+  document.querySelectorAll('[data-play]').forEach(function (b) { b.addEventListener('click', function () { open(b.getAttribute('data-play')); }); });
+  $('#pop-x').addEventListener('click', close);
+  $('#i-skip').addEventListener('click', close);
+  $('#l-quit').addEventListener('click', close);
+  $('#i-go').addEventListener('click', play);
+  $('#l-again').addEventListener('click', play);
+  $('#w-send').addEventListener('click', function () { mockSend($('#w-mail'), 'Listo. Te llega en un minuto (prototipo: no envía nada).'); });
+  $('#l-send').addEventListener('click', function () { mockSend($('#l-mail'), 'Listo. Te llega en un minuto (prototipo: no envía nada).'); });
+  ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('on')) close(); });
+})();
+</script>
+</body>
+</html>
