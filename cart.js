@@ -8,12 +8,12 @@
   'use strict';
 
   /* ---- Config de negocio ------------------------------------------------- */
-  var FREE_SHIP = 44999;                 // umbral de envío gratis (= 2 potes)
+  var FREE_SHIP_QTY = 2;                 // envío gratis desde 2 potes (es por cantidad, no por monto)
   var KEY = 'pr_cart_v2';
   var ORDER = ['bf', 'cp'];
   var PRODUCTS = {
-    bf: { id: 'bf', flavor: 'Blue Fizz', sub: 'Ácido intenso · 30 porciones', img: 'assets/blue-fizz.png' },
-    cp: { id: 'cp', flavor: 'Cherry Pop', sub: 'Cereza suave · 30 porciones', img: 'assets/cherry-pop.png' }
+    bf: { id: 'bf', flavor: 'Blue Fizz', sub: '30 porciones', img: '/assets/blue-fizz.png' },
+    cp: { id: 'cp', flavor: 'Cherry Pop', sub: '30 porciones', img: '/assets/cherry-pop.png' }
   };
   // TODO handoff: completar con la tienda real para activar el checkout de Shopify.
   var SHOPIFY = { domain: '', variants: { bf: '', cp: '' } };
@@ -122,13 +122,14 @@
 
     /* barra de envío gratis */
     var sub = subtotal();
-    var remaining = Math.max(0, FREE_SHIP - sub);
-    var pct = Math.max(6, Math.min(100, Math.round(sub / FREE_SHIP * 100)));
-    ship.className = 'pr-ship' + (remaining === 0 ? ' done' : '');
+    var faltan = Math.max(0, FREE_SHIP_QTY - tq);
+    var freeShip = faltan === 0;
+    var pct = Math.max(6, Math.min(100, Math.round(tq / FREE_SHIP_QTY * 100)));
+    ship.className = 'pr-ship' + (freeShip ? ' done' : '');
     ship.innerHTML =
       '<div class="pr-ship-msg">' +
-        (remaining > 0
-          ? 'Te faltan <b>' + money(remaining) + '</b> para el <b>envío gratis</b>'
+        (faltan > 0
+          ? 'Sumá <b>' + faltan + (faltan === 1 ? ' pote' : ' potes') + ' más</b> y tenés <b>envío gratis</b>'
           : '<span class="pr-ship-on">✓ ¡Envío gratis desbloqueado!</span>') +
       '</div>' +
       '<div class="pr-ship-track"><div class="pr-ship-fill" style="width:' + pct + '%"></div></div>';
@@ -202,16 +203,15 @@
         '<div class="pr-detail-h">Detalle del pedido</div>' +
         '<div class="pr-drow"><span>Productos · ' + tq + (tq === 1 ? ' pote' : ' potes') + '</span><span>' + money(base) + '</span></div>' +
         (disc ? '<div class="pr-drow pr-drow-g"><span>Descuento por cantidad (−' + disc + '%)</span><span>−' + money(sav) + '</span></div>' : '') +
-        '<div class="pr-drow"><span>Envío' + (remaining === 0 ? ' <span class="pr-tag">Promo</span>' : '') + '</span>' +
-          (remaining > 0 ? '<span class="pr-muted">A calcular</span>' : '<span class="pr-drow-g2">GRATIS</span>') + '</div>' +
+        '<div class="pr-drow"><span>Envío' + (freeShip ? ' <span class="pr-tag">Promo</span>' : '') + '</span>' +
+          (freeShip ? '<span class="pr-drow-g2">GRATIS</span>' : '<span class="pr-muted">A calcular</span>') + '</div>' +
       '</div>' +
       '<div class="pr-summary">' +
         '<span class="pr-sum-l">Subtotal' + (sPct > 0 ? ' <span class="pr-save-pill">Ahorrás ' + sPct + '%</span>' : '') + '</span>' +
         '<span class="pr-sum-r">' + (sav > 0 ? '<s>' + money(base) + '</s> ' : '') + '<b>' + money(sub) + '</b></span>' +
       '</div>' +
-      (sav > 0 ? '<div class="pr-saved-note">Estás ahorrando ' + money(sav) + (remaining === 0 ? ' + envío gratis' : '') + '</div>' : '') +
       '<div class="pr-foot-note">IVA incluido</div>' +
-      '<button class="pr-checkout" data-pr-checkout>Iniciar compra <span>' + money(sub) + '</span></button>' +
+      '<button class="pr-checkout" data-pr-checkout>Comprar</button>' +
       '<div class="pr-trust">' +
         '<span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 30 días de garantía</span>' +
         '<span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pago seguro</span>' +
@@ -375,10 +375,8 @@
     '.pr-sum-r{display:inline-flex;align-items:baseline;gap:7px;white-space:nowrap;}',
     '.pr-sum-r s{color:var(--gray,#56685A);font-size:15px;text-decoration-thickness:1px;}',
     '.pr-summary b{font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:26px;line-height:1;}',
-    '.pr-saved-note{font-family:var(--mo,"Space Mono",monospace);font-size:10.5px;color:var(--green,#00D47A);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}',
     '.pr-foot-note{font-size:11px;color:var(--gray,#56685A);margin-bottom:14px;font-family:var(--mo,"Space Mono",monospace);letter-spacing:1px;text-transform:uppercase;}',
     '.pr-checkout{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border:none;border-radius:12px;background:var(--green,#00D47A);color:#04140C;font-family:var(--hd,"Barlow Condensed",sans-serif);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:1.5px;transition:transform .18s ease,box-shadow .25s ease,filter .2s;box-shadow:0 12px 30px -10px rgba(0,212,122,.55);}',
-    '.pr-checkout span{opacity:.78;}',
     '.pr-checkout:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 18px 38px -10px rgba(0,212,122,.7);}',
     '.pr-checkout:active{transform:translateY(0);}',
     '.pr-checkout:focus-visible{outline:2px solid #fff;outline-offset:2px;}',

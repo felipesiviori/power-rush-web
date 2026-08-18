@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/product.html", "destination": "/products/powerrush", "permanent": true },
+    { "source": "/product", "destination": "/products/powerrush", "permanent": true }
+  ]
+}
