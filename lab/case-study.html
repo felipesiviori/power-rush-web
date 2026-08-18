@@ -125,6 +125,10 @@
     /* ===== POPUP ===== */
     .pop-ov { position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(4,6,4,.62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: ovIn .3s ease; }
     .pop-ov.on { display: flex; }
+    /* while the popup is open nothing is selectable (holding the screen in the games was
+       starting a text selection / iOS callout); inputs get it back */
+    body.pop-open, .pop-ov, .pop-ov * { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+    .pop-ov input { user-select: text; -webkit-user-select: text; }
     @keyframes ovIn { from { opacity: 0; } to { opacity: 1; } }
     .pop { position: relative; width: 100%; max-width: 420px; background: var(--bg2); border: 1px solid rgba(0,212,122,.28); border-radius: 18px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(0,212,122,.08); animation: popIn .38s cubic-bezier(.2,.9,.3,1.15); }
     @keyframes popIn { from { opacity: 0; transform: translateY(22px) scale(.96); } to { opacity: 1; transform: none; } }
@@ -209,7 +213,7 @@
     .rx-rounds span.now { border-color: rgba(238,245,238,.55); color: var(--white); }
     .rx.go .rx-rounds span { border-color: rgba(4,23,13,.25); color: rgba(4,23,13,.75); }
     /* game: no crash */
-    #cv { display: block; width: 100%; height: 100%; }
+    #cv { display: block; width: 100%; height: 100%; -webkit-user-drag: none; }
 
     /* result */
     .res-stat { display: flex; gap: 10px; align-items: baseline; font-family: var(--mo); font-size: 13px; letter-spacing: .4px; color: rgba(238,245,238,.72); margin: 0 0 18px; }
@@ -687,11 +691,11 @@
   }
   function open() {
     tries = 0; ended = false; cur = null; reset();
-    ov.classList.add('on'); teaser.classList.remove('on'); document.body.style.overflow = 'hidden';
+    ov.classList.add('on'); teaser.classList.remove('on'); document.body.style.overflow = 'hidden'; document.body.classList.add('pop-open');
     var forced = fromHash();
     if (forced) { gintro(GAMES[forced]); } else { show('intro'); }
   }
-  function close() { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; teaser.classList.add('on'); }
+  function close() { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; document.body.classList.remove('pop-open'); teaser.classList.add('on'); }
   function pick(id) { cur = GAMES[id]; play(); }
   function gintro(g) {
     cur = g; $('#g-p').textContent = g.p; $('#g-how').innerHTML = howHTML(g.how);
@@ -728,6 +732,8 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('on')) close(); });
 
   window.addEventListener('hashchange', function () { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; open(); });
+  arena.addEventListener('contextmenu', function (e) { e.preventDefault(); }); // long-press menu on mobile
+  arena.addEventListener('selectstart', function (e) { e.preventDefault(); });
   setTimeout(open, AUTO_OPEN_MS);
 })();
 </script>
