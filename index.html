@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Power Rush — Foco Sin Crash</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23080A08'/%3E%3Cpath d='M13 3 5.5 13.5H11l-1 7.5L18.5 10H12z' fill='%2300D47A'/%3E%3C/svg%3E">
-  <meta name="description" content="El primer suplemento cognitivo argentino para gamers y estudiantes. 11 nootropicos. Dosis reales. Sin azúcar. Sin crash.">
+  <meta name="description" content="El primer suplemento cognitivo argentino para gamers y estudiantes. 7 nootropicos + vitaminas. Dosis reales. Sin azúcar. Sin crash.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Bricolage+Grotesque:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -76,16 +76,22 @@
     }
 
     /* ===== NAV ===== */
-    nav { position: fixed; top: var(--annh); left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 1200px; display: flex; align-items: center; justify-content: space-between; background: rgba(8,10,8,.88); backdrop-filter: blur(24px) saturate(1.4); border: 1px solid var(--border); padding: 12px 24px; z-index: 1000; }
+    nav { position: fixed; top: var(--annh); left: 0; right: 0; background: rgba(8,10,8,.88); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--border); padding: 12px 0; z-index: 1000; }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .nav-logo img { height: 30px; width: auto; display: block; }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a { color: var(--gray); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .4px; transition: color .2s; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { position: relative; color: rgba(238,245,238,.72); text-decoration: none; font-size: 14.5px; font-weight: 500; letter-spacing: .2px; transition: color .2s; }
+    .nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 1px; background: var(--green); transform: scaleX(0); transition: transform .22s ease; }
     .nav-links a:hover { color: var(--white); }
-    .nav-btn { background: var(--green); color: var(--bg); border: none; border-top: 1px solid rgba(255,255,255,.2); padding: 10px 22px; font-family: var(--hd); font-weight: 700; font-size: 14px; letter-spacing: .8px; text-transform: uppercase; transition: background .16s, box-shadow .16s; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .nav-btn { display: inline-flex; align-items: center; text-decoration: none; white-space: nowrap; background: var(--green); color: var(--bg); border: none; border-radius: 8px; padding: 11px 22px; font-family: var(--hd); font-weight: 700; font-size: 15px; letter-spacing: 1.2px; text-transform: uppercase; transition: background .16s, box-shadow .16s, transform .1s; }
     .nav-btn:hover { background: #06EA8A; box-shadow: 0 0 0 3px rgba(0,212,122,.2); }
+    .nav-btn:active { transform: scale(0.98); }
 
     /* ===== HERO ===== */
-    #hero { position: relative; overflow: hidden; }
+    /* full-bleed: el hero no toma el padding global de section */
+    #hero { position: relative; overflow: hidden; padding: 0; }
     .hv { display: none; }
     .hv.on { display: flex; align-items: center; width: 100%; min-height: 100vh; position: relative; }
 
@@ -108,12 +114,11 @@
     }
 
     .h-overline {
-      display: inline-flex; align-items: center; gap: 12px;
-      font-family: var(--mo); font-weight: 700; font-size: 9px;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--green); margin-bottom: 28px;
+      display: inline-flex; align-items: center; gap: 14px;
+      font-family: var(--mo); font-weight: 700; font-size: 12px;
+      letter-spacing: 2.6px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 26px;
     }
-    .h-overline::before { content: ''; width: 28px; height: 1px; background: var(--green); flex-shrink: 0; }
 
     .hero-title {
       font-family: var(--hd); font-weight: 900; font-style: italic;
@@ -124,7 +129,7 @@
     .hero-title .h-acc { color: var(--green); }
 
     .hero-copy {
-      font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7;
+      font-size: 16px; color: rgba(238,245,238,.92); line-height: 1.7;
       max-width: 400px; margin-bottom: 36px;
     }
     .hero-copy strong { color: var(--white); }
@@ -171,9 +176,11 @@
     .hv-2 .hp-scrim { background:
       linear-gradient(to left, rgba(6,8,6,.95) 0%, rgba(6,8,6,.8) 34%, rgba(6,8,6,.32) 64%, transparent 100%),
       linear-gradient(0deg, rgba(6,8,6,.55), transparent 42%); }
-    .hv-2 .hp-content { position: relative; z-index: 2; max-width: 1240px; width: 100%; margin: 0 auto; padding: 150px 32px 90px; }
+    /* alto acotado: con 100vh en pantallas altas la foto (16:9) se sobre-amplía y el pote queda gigante */
+    .hv-2.on { min-height: max(620px, min(56vw, 92vh)); }
+    .hv-2 .hp-content { position: relative; z-index: 2; max-width: 1240px; width: 100%; margin: 0 auto; padding: 124px 32px 74px; }
     .hv2-inner { max-width: 600px; margin-left: auto; }
-    .hv2-title { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(66px, 8.4vw, 128px); line-height: .84; letter-spacing: -4px; margin: 0 0 26px; }
+    .hv2-title { font-family: var(--hd); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(66px, 8.4vw, 128px); line-height: .84; letter-spacing: .005em; margin: 0 0 26px; }
     .hv-2 .hero-copy { color: rgba(238,245,238,.92); max-width: 460px; margin-bottom: 30px; }
     .hv-2 .hero-ctas { margin-bottom: 30px; }
     .hv-2.on .h-overline { animation: hvUp .6s .05s both cubic-bezier(.23,1,.32,1); }
@@ -242,19 +249,32 @@
 
     @media (min-width: 769px) {
       /* Opción 2 en desktop: pote grande a la izquierda, texto afuera a la derecha */
-      .hv-2 .hp-bg { transform: scale(1.24); transform-origin: 40% center; }
+      .hv-2 .hp-bg { transform: scale(1.08); transform-origin: 40% center; }
       .hv-2 .hp-scrim { background:
         linear-gradient(to left, rgba(6,8,6,.97) 0%, rgba(6,8,6,.9) 30%, rgba(6,8,6,.5) 50%, rgba(6,8,6,.12) 70%, transparent 82%),
-        linear-gradient(0deg, rgba(6,8,6,.5), transparent 40%); }
+        /* funde el pie de la foto con el fondo de la pagina, sin corte duro */
+        linear-gradient(0deg, #080A08 0%, rgba(8,10,8,.72) 9%, rgba(8,10,8,.3) 24%, transparent 46%); }
       .hv-2 .hp-content { padding-left: 0; padding-right: 5vw; }
       .hv2-inner { max-width: 500px; }
     }
     @media (max-width: 768px) {
       .hv-1.on { min-height: auto; }
-      .hv-2 .hp-content { padding: 118px 22px 66px; }
-      .hv-2 .hp-scrim { background: linear-gradient(0deg, rgba(6,8,6,.94) 14%, rgba(6,8,6,.55) 56%, rgba(6,8,6,.3)), linear-gradient(to left, rgba(6,8,6,.4), transparent 70%); }
+      /* La foto es 16:9 y el hero vertical: a pantalla completa cover recorta el 71%
+         del ancho y el pote se lee como textura. En mobile va como banda arriba,
+         con la escena entera visible, y el texto abajo sobre el fondo. */
+      /* el nav es fixed y mide 101px: la banda arranca debajo o le tapa el pote */
+      .hv-2 { --bandaTop: 101px; --bandaAlto: max(196px, 27vh); }
+      .hv-2 .hp-bg { top: var(--bandaTop); bottom: auto; height: var(--bandaAlto); object-position: 34% center; }
+      .hv-2 .hp-scrim { top: var(--bandaTop); bottom: auto; height: var(--bandaAlto); background:
+        linear-gradient(0deg, #080A08 0%, rgba(8,10,8,.66) 20%, rgba(8,10,8,.18) 48%, transparent 72%); }
+      .hv-2 .hp-content { padding: calc(var(--bandaTop) + var(--bandaAlto) + 6px) 22px 54px; }
+      .h-overline { font-size: 12px; letter-spacing: 1.5px; gap: 10px; margin-bottom: 22px; }
       .hv2-inner { max-width: 100%; margin-left: 0; }
-      .hv2-title { font-size: clamp(52px, 15vw, 84px); }
+      .hv-2 .hero-copy { margin-bottom: 22px; }
+      .hv-2 .hero-ctas { margin-bottom: 22px; }
+      .hero-proof { justify-content: center; width: 100%; }
+      .hv-2 .hp-content { padding-bottom: 36px; }
+      .hv2-title { font-size: clamp(52px, 15vw, 84px); line-height: .9; margin-bottom: 20px; }
       .hv-3.on { min-height: auto; }
       .hv3-inner { height: auto; padding: 116px 22px 64px; display: flex; flex-direction: column; align-items: center; text-align: center; }
       .hv3-textcol { position: static; transform: none; max-width: 100%; order: 2; }
@@ -268,6 +288,10 @@
       .hv5-title { font-size: clamp(58px, 17vw, 112px); }
       .hero-switcher { left: 12px; bottom: 12px; padding: 7px 11px 7px 7px; font-size: 10px; }
     }
+    @media (max-width: 360px) {
+      /* a 320px el overline no entra en una linea */
+      .h-overline { font-size: 10.5px; letter-spacing: 1.2px; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .hv-2.on *, .hv-3.on *, .hv-4.on *, .hv-5.on * { animation: none !important; }
     }
@@ -275,17 +299,17 @@
     /* ===== SHARED ===== */
     section { padding: 100px 24px; }
     .wrap { max-width: 1200px; margin: 0 auto; }
-    .s-tag { display: block; font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
-    .s-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(40px, 5vw, 72px); line-height: .92; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 52px; }
+    .s-tag { display: block; font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+    .s-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(40px, 5vw, 72px); line-height: .92; text-transform: uppercase; letter-spacing: .005em; margin-bottom: 52px; }
 
     /* Buttons */
     .btn-pr {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
       text-align: center; text-decoration: none;
-      padding: 14px 26px;
-      border: none; border-top: 1px solid rgba(255,255,255,.2);
-      font-family: var(--hd); font-weight: 700; font-size: 16px;
-      letter-spacing: .8px; text-transform: uppercase;
+      padding: 15px 26px;
+      border: none; border-radius: 8px;
+      font-family: var(--hd); font-weight: 700; font-size: 17px;
+      letter-spacing: 1.2px; text-transform: uppercase;
       background: var(--green); color: var(--bg);
       transition: background .16s, box-shadow .16s;
       white-space: nowrap;
@@ -296,11 +320,11 @@
     .btn-sc {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       text-align: center; text-decoration: none;
-      padding: 13px 22px;
-      border: 1px solid rgba(238,245,238,.2); background: transparent;
-      font-family: var(--hd); font-weight: 700; font-size: 14px;
-      letter-spacing: .6px; text-transform: uppercase;
-      color: rgba(238,245,238,.6);
+      padding: 14px 22px;
+      border: 1px solid rgba(238,245,238,.28); border-radius: 8px; background: transparent;
+      font-family: var(--hd); font-weight: 700; font-size: 16px;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      color: rgba(238,245,238,.82);
       transition: border-color .16s, color .16s, background .16s;
       white-space: nowrap;
     }
@@ -324,7 +348,7 @@
     #vs .wrap { position: relative; z-index: 1; }
 
     .vs-intro { max-width: 640px; margin-bottom: 52px; }
-    .vs-intro p { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; margin-top: 16px; }
+    .vs-intro p { font-size: 16px; color: rgba(238,245,238,.92); line-height: 1.7; margin-top: 16px; }
     .vs-intro p strong { color: var(--white); }
 
     /* ===== VERSUS — tabla comparativa ===== */
@@ -338,11 +362,11 @@
     .vm svg { width: 13px; height: 13px; }
     .vm.yes { background: var(--green); color: var(--bg); box-shadow: 0 0 16px rgba(0,212,122,.38); }
     .vm.no { background: rgba(238,245,238,.07); color: rgba(238,245,238,.32); }
-    .v-num { font-family: var(--hd); font-weight: 900; font-size: 26px; line-height: 1; letter-spacing: -.4px; color: var(--c, var(--white)); white-space: nowrap; }
+    .v-num { font-family: var(--mo); font-weight: 700; font-size: 21px; line-height: 1; letter-spacing: -.2px; color: var(--c, var(--white)); white-space: nowrap; }
     .v-stars { display: inline-flex; font-size: 15px; letter-spacing: 3px; color: var(--green); }
     .v-stars.off { color: rgba(238,245,238,.26); }
-    .v-feat { font-size: 15px; line-height: 1.6; color: rgba(238,245,238,.92); font-weight: 500; }
-    .v-nota { margin-top: 14px; text-align: right; font-family: var(--mo); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
+    .v-feat { font-size: 16px; line-height: 1.6; color: rgba(238,245,238,.92); font-weight: 600; }
+    .v-nota { margin-top: 14px; text-align: right; font-family: var(--mo); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(238,245,238,.6); }
 
     /* Cabecera de columna: barra de color + visual + nombre */
     .v-head { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 14px; padding: 30px 16px 22px; min-height: 312px; text-align: center; }
@@ -366,7 +390,7 @@
     .v-head-logo { height: 24px; width: auto; display: block; }
     /* El pie de columna lleva alto fijo y una sola línea: si el logo y las
        etiquetas miden distinto, la base de los envases se desalinea entre columnas. */
-    .v-head-nom { display: flex; align-items: center; justify-content: center; height: 24px; white-space: nowrap; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--c); }
+    .v-head-nom { display: flex; align-items: center; justify-content: center; height: 24px; white-space: nowrap; font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--c); }
 
     /* Presentación de los envases: halo del color detrás, sombra de apoyo en la
        base y la competencia apagada para que el color quede en Power Rush. */
@@ -381,7 +405,7 @@
     .c-pre .v-head-crop::before { opacity: .14; }
 
     /* Pista de scroll — solo aparece en el breakpoint donde la tabla se desliza */
-    .cv1-hint { display: none; align-items: center; gap: 8px; margin-top: 12px; font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+    .cv1-hint { display: none; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(238,245,238,.78); }
     .cv1-hint svg { width: 13px; height: 13px; flex: none; color: var(--green); }
 
     /* ── V1 · Tabla comparativa (la referencia) ── */
@@ -403,7 +427,7 @@
     .vs-close strong { color: var(--white); }
 
     /* ===== REVIEWS ===== */
-    #reviews { background: var(--bg); border-bottom: 1px solid var(--border); padding: 100px 0; overflow: hidden; }
+    #reviews { background: var(--bg); border-bottom: 1px solid var(--border); padding: 48px 0 100px; overflow: hidden; }
     .rev-head { text-align: center; padding: 0 24px; margin-bottom: 60px; }
     .rev-rating-global { display: flex; justify-content: center; gap: 4px; color: var(--yellow); font-size: 20px; margin-bottom: 20px; }
     .rev-cols {
@@ -420,7 +444,7 @@
     @keyframes revScroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
     .rev-card { background: var(--bg2); border: 1px solid var(--border); padding: 24px; flex-shrink: 0; transition: border-color .2s; }
     .rev-card:hover { border-color: rgba(0,212,122,.3); }
-    .rev-stars { display: flex; gap: 3px; color: var(--yellow); font-size: 12px; margin-bottom: 14px; }
+    .rev-stars { display: flex; gap: 3px; color: var(--green); font-size: 12px; margin-bottom: 14px; }
     .rev-text { font-size: 14px; color: rgba(238,245,238,.92); line-height: 1.7; margin-bottom: 18px; }
     .rev-author { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--border); }
     .rev-ava { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--hd); font-weight: 900; font-size: 14px; color: var(--bg); flex-shrink: 0; }
@@ -431,15 +455,15 @@
 
     /* ===== UGC GALLERY ===== */
     .ugc-wrap { max-width: 1100px; margin: 0 auto 72px; padding: 0 24px; }
-    .ugc-label { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); text-align: center; margin-bottom: 24px; }
+    .ugc-label { font-family: var(--mo); font-weight: 700; font-size: 12.5px; letter-spacing: 2.2px; text-transform: uppercase; color: rgba(238,245,238,.72); text-align: center; margin-bottom: 22px; }
     .ugc-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; }
     .ugc-tile { position: relative; aspect-ratio: 9/16; overflow: hidden; border: 1px solid var(--border); background: var(--bg2); display: block; transition: border-color .25s; }
     .ugc-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s cubic-bezier(.23,1,.32,1); }
     .ugc-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.74) 0%, transparent 52%); pointer-events: none; }
     .ugc-tile:hover { border-color: rgba(0,212,122,.55); }
     .ugc-tile:hover img { transform: scale(1.07); }
-    .ugc-handle { position: absolute; left: 11px; bottom: 11px; z-index: 2; font-family: var(--mo); font-size: 9px; letter-spacing: .4px; color: var(--white); }
-    .ugc-dur { position: absolute; top: 10px; right: 10px; z-index: 2; font-family: var(--mo); font-size: 9px; background: rgba(0,0,0,.55); padding: 3px 7px; color: var(--white); letter-spacing: .5px; }
+    .ugc-handle { position: absolute; left: 11px; bottom: 11px; z-index: 2; font-family: var(--mo); font-size: 11px; letter-spacing: .4px; color: var(--white); }
+    .ugc-dur { position: absolute; top: 10px; right: 10px; z-index: 2; font-family: var(--mo); font-size: 11px; background: rgba(0,0,0,.55); padding: 3px 7px; color: var(--white); letter-spacing: .5px; }
     .ugc-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2; width: 46px; height: 46px; border-radius: 50%; background: rgba(0,212,122,.92); display: flex; align-items: center; justify-content: center; color: var(--bg); transition: transform .2s, box-shadow .2s; }
     .ugc-tile:hover .ugc-play { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 0 0 7px rgba(0,212,122,.16); }
 
@@ -449,23 +473,23 @@
     .qe-intro p { font-size: 16px; color: rgba(238,245,238,.92); line-height: 1.7; }
     .qe-intro p strong { color: var(--white); }
     .qe-formula-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; }
-    .qe-formula-head h3 { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: -1px; line-height: .92; }
+    .qe-formula-head h3 { font-family: var(--hd); font-weight: 700; font-style: italic; font-size: clamp(30px,3.6vw,48px); text-transform: uppercase; letter-spacing: .005em; line-height: .96; }
     .qe-formula-note { font-size: 13px; color: rgba(238,245,238,.92); text-align: right; line-height: 1.7; max-width: 250px; flex-shrink: 0; }
 
     /* ===== FOUNDER — 5 ideas, se rotan con la tecla P (dev) ===== */
     .fv { display: none; }
     .fv.show { display: block; }
-    .fdr-eyebrow { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
-    .fdr-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(32px, 4vw, 54px); text-transform: uppercase; letter-spacing: -1px; line-height: .94; margin-bottom: 20px; }
+    .fdr-eyebrow { font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .fdr-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(32px, 4vw, 54px); text-transform: uppercase; letter-spacing: .005em; line-height: .94; margin-bottom: 20px; }
     .fdr-t em { font-style: italic; color: var(--green); }
     .fdr-p { font-size: 15px; line-height: 1.7; color: rgba(238,245,238,.92); margin-bottom: 14px; max-width: 560px; }
     .fdr-p b { color: var(--white); font-weight: 600; }
     /* Firma: nombre en Barlow, rol en mono, con una línea verde arriba */
     .fdr-sign { display: inline-flex; flex-direction: column; gap: 3px; margin-top: 22px; padding-top: 16px; border-top: 2px solid var(--green); }
     .fdr-name { font-family: var(--hd); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .4px; }
-    .fdr-role { font-family: var(--mo); font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+    .fdr-role { font-family: var(--mo); font-size: 11.5px; letter-spacing: 1.6px; text-transform: uppercase; color: rgba(238,245,238,.6); }
     /* Nota de foto: solo se ve en dev, marca qué hay que fotografiar */
-    .fdr-shot { margin-top: 10px; font-family: var(--mo); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,209,0,.7); }
+    .fdr-shot { margin-top: 10px; font-family: var(--mo); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,209,0,.7); }
 
     /* F1 · Retrato a sangre */
     .fdr1 { display: grid; grid-template-columns: .82fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg3); }
@@ -487,7 +511,7 @@
     .fdr3-card { border: 1px solid rgba(0,212,122,.4); border-radius: 14px; background: linear-gradient(180deg, rgba(0,212,122,.1), var(--bg3) 46%); padding: 24px; text-align: center; box-shadow: 0 0 60px -26px rgba(0,212,122,.6); }
     .fdr3-av { width: 100%; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 16px; }
     .fdr3-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .fdr3-nm { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 26px; text-transform: uppercase; letter-spacing: -.4px; line-height: 1; }
+    .fdr3-nm { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 26px; text-transform: uppercase; letter-spacing: .005em; line-height: 1; }
     .fdr3-rl { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-top: 7px; }
     .fdr3-stats { margin-top: 18px; border-top: 1px solid var(--border); }
     .fdr3-st { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid rgba(238,245,238,.06); }
@@ -498,7 +522,7 @@
 
     /* F4 · Cita monumental */
     .fdr4 { text-align: center; }
-    .fdr4-q { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(34px, 5.6vw, 76px); text-transform: uppercase; letter-spacing: -2px; line-height: .92; max-width: 1000px; margin: 0 auto 26px; }
+    .fdr4-q { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(34px, 5.6vw, 76px); text-transform: uppercase; letter-spacing: .005em; line-height: .92; max-width: 1000px; margin: 0 auto 26px; }
     .fdr4-q em { font-style: italic; color: var(--green); }
     .fdr4 .fdr-p { margin-left: auto; margin-right: auto; text-align: center; }
     .fdr4-img { margin-top: 34px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; position: relative; }
@@ -607,7 +631,7 @@
 
     /* Remate del gráfico: cierra el argumento en vez de cortar y seguir */
     .wc-close { margin-top: 26px; padding: 22px 26px; border-left: 4px solid var(--green); background: rgba(0,212,122,.05); }
-    .wc-close-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(22px, 2.4vw, 30px); text-transform: uppercase; letter-spacing: -.5px; line-height: 1.04; margin-bottom: 10px; }
+    .wc-close-t { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(22px, 2.4vw, 30px); text-transform: uppercase; letter-spacing: .005em; line-height: 1.04; margin-bottom: 10px; }
     .wc-close-t em { font-style: italic; color: var(--green); }
     .wc-close p { font-size: 14px; line-height: 1.7; color: rgba(238,245,238,.92); max-width: 620px; }
 
@@ -630,7 +654,9 @@
     }
 
     /* ===== PRODUCTS ===== */
-    #productos { background: var(--bg); position: relative; }
+    /* mismo patron que #vs y #formula: sin esto queda pegado al hero, ambos #080A08 */
+    #productos { background: var(--bg2); position: relative; padding-bottom: 40px;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     /* Fondo: radiales duales + puntos (mismo tratamiento que el hero de la PDP) */
     /* --edge-fade: cuánto se desvanece el fondo contra la sección de arriba y la de abajo */
     .pdp-bg { --edge-fade: 150px; position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
@@ -640,7 +666,8 @@
     .pdp-bg-spot2 { position: absolute; inset: 0; background: radial-gradient(circle 520px at 70% 540px, var(--flavor-glo), transparent); }
     .pdp-bg-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(0,212,122,.16) 1px, transparent 1px); background-size: 22px 22px; }
     #productos .wrap { position: relative; z-index: 1; }
-    .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: relative; z-index: 1; }
+    /* mismo ancho que .wrap: sin esto la grilla se va a pantalla completa */
+    .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
     .prod-card { background: transparent; padding: 48px 40px; position: relative; overflow: hidden; transition: background .3s; border-left: 1px solid var(--border); }
     .prod-card:first-child { border-left: none; }
     .prod-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
@@ -649,15 +676,15 @@
     .prod-card:hover::after { transform: scaleX(1); }
     .prod-card:hover { background: rgba(238,245,238,.03); }
     .card-inner { transform-style: preserve-3d; transition: transform .1s ease; }
-    .p-flav { font-family: var(--mo); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+    .p-flav { font-family: var(--mo); font-size: 12.5px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
     .bl .p-flav { color: var(--blue); } .tr .p-flav { color: var(--orange); }
-    .p-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 6.5vw, 86px); line-height: .88; text-transform: uppercase; letter-spacing: -2px; }
-    .p-img-wrap { display: flex; justify-content: center; margin: 28px 0; }
-    .p-img { height: 250px; width: auto; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,.55)); transition: filter .3s; }
+    .p-name { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 6.5vw, 86px); line-height: .88; text-transform: uppercase; letter-spacing: .005em; }
+    .p-img-wrap { display: flex; justify-content: center; margin: 10px 0 16px; }
+    .p-img { height: clamp(300px, 33vw, 430px); width: auto; max-width: none; object-fit: contain; margin: -9% 0 -7%; filter: drop-shadow(0 20px 40px rgba(0,0,0,.55)); transition: filter .3s; }
     .bl:hover .p-img { filter: drop-shadow(0 24px 50px rgba(59,130,246,.4)); }
     .tr:hover .p-img { filter: drop-shadow(0 24px 50px rgba(230,57,80,.4)); }
     .p-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
-    .p-tag { font-family: var(--mo); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
+    .p-tag { font-family: var(--mo); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
     .bl .p-tag { border-color: var(--blue); color: var(--blue); } .tr .p-tag { border-color: var(--cherry); color: var(--cherry); }
     .p-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; margin-bottom: 28px; }
     .p-price { font-family: var(--hd); font-weight: 700; font-size: 38px; margin-bottom: 18px; }
@@ -685,12 +712,12 @@
     .ing-row { display: grid; grid-template-columns: 180px 72px 1fr 120px; align-items: center; gap: 20px; padding: 15px 24px; border-bottom: 1px solid var(--border); transition: background .2s; }
     .ing-row:last-child { border-bottom: none; }
     .ing-row:hover { background: var(--glo-lo); }
-    .ing-n { font-family: var(--mo); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--white); }
+    .ing-n { font-family: var(--mo); font-size: 12.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--white); }
     .ing-d { font-family: var(--mo); font-size: 13px; font-weight: 700; color: var(--green); }
     .ing-track { height: 5px; background: rgba(255,255,255,.05); overflow: hidden; }
     .ing-fill { height: 100%; width: 0%; background: var(--green); box-shadow: 0 0 6px rgba(0,212,122,.5); transition: width 1.3s cubic-bezier(.23,1,.32,1); }
     .ing-row:nth-child(even) .ing-fill { background: linear-gradient(90deg, var(--green), var(--yellow)); }
-    .ing-f { font-family: var(--mo); font-size: 10px; color: var(--gray); text-align: right; letter-spacing: .5px; text-transform: uppercase; }
+    .ing-f { font-family: var(--mo); font-size: 11.5px; color: var(--gray); text-align: right; letter-spacing: .5px; text-transform: uppercase; }
 
     /* ===== FÓRMULA · cards de ingredientes ===== */
     .fcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
@@ -703,10 +730,10 @@
     .fcard-body { position: relative; z-index: 1; }
     .fcard-badge { display: inline-flex; align-items: center; gap: 8px; padding: 5px 13px; border-radius: 40px; background: rgba(6,8,6,.55); border: 1px solid var(--border); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-family: var(--mo); font-weight: 700; font-size: 12px; letter-spacing: .5px; color: var(--white); margin-bottom: 18px; }
     .fcard-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
-    .fcard-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 27px; text-transform: uppercase; letter-spacing: -.3px; line-height: 1; margin-bottom: 11px; }
+    .fcard-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: 27px; text-transform: uppercase; letter-spacing: .005em; line-height: 1; margin-bottom: 11px; }
     .fcard-desc { font-size: 14px; line-height: 1.6; color: rgba(238,245,238,.82); max-width: 40ch; }
     .fcard-desc b { color: var(--green); font-weight: 700; }
-    .fcard-cta { position: relative; z-index: 1; align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); text-decoration: none; transition: gap .2s ease; }
+    .fcard-cta { position: relative; z-index: 1; align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; font-family: var(--mo); font-weight: 700; font-size: 12.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); text-decoration: none; transition: gap .2s ease; }
     .fcard-cta svg { transition: transform .25s ease; }
     .fcard-cta:hover { gap: 11px; }
     .fcard-cta:hover svg { transform: translateX(3px); }
@@ -736,35 +763,36 @@
     /* ===== CTA FINAL ===== */
     #comprar { background: var(--bg); border-top: 1px solid var(--border); text-align: center; padding: 130px 24px; position: relative; overflow: hidden; }
     #comprar::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,212,122,.07) 0%, transparent 68%); pointer-events: none; }
-    .cta-tag { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 18px; display: block; }
-    .cta-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 8vw, 110px); line-height: .88; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 22px; }
+    .cta-tag { font-family: var(--mo); font-weight: 700; font-size: 13px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green); margin-bottom: 18px; display: block; }
+    .cta-title { font-family: var(--hd); font-weight: 900; font-style: italic; font-size: clamp(52px, 8vw, 110px); line-height: .88; text-transform: uppercase; letter-spacing: .005em; margin-bottom: 22px; }
     .cta-title .gr { color: var(--green); }
     .cta-sub { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; max-width: 460px; margin: 0 auto 48px; }
     .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: stretch; }
     .cta-btns .btn-pr { padding: 17px 40px; font-size: 18px; letter-spacing: 1px; min-width: 220px; }
     .cta-btns .btn-sc { padding: 16px 32px; font-size: 16px; min-width: 180px; }
-    .cta-note { margin-top: 32px; font-family: var(--mo); font-size: 10px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; }
+    .cta-note { margin-top: 32px; font-family: var(--mo); font-size: 12px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; }
 
     /* ===== FOOTER ===== */
     footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 44px 24px; }
     .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
     .foot-logo img { height: 26px; }
-    .foot-copy { font-family: var(--mo); font-size: 10px; color: var(--gray); letter-spacing: 1px; line-height: 1.8; text-align: center; }
+    .foot-copy { font-family: var(--mo); font-size: 11.5px; color: var(--gray); letter-spacing: 1px; line-height: 1.8; text-align: center; }
     .foot-links { display: flex; gap: 22px; }
     .foot-links a { font-size: 12px; color: var(--gray); text-decoration: none; transition: color .2s; }
     .foot-links a:hover { color: var(--white); }
 
     /* ===== HERO PROOF ===== */
-    .hero-proof { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
-    .proof-stars { color: var(--yellow); font-size: 16px; letter-spacing: 2px; flex-shrink: 0; }
-    .proof-divider { width: 1px; height: 14px; background: var(--border); flex-shrink: 0; }
-    .proof-text { font-family: var(--mo); font-size: 11px; color: rgba(238,245,238,.72); letter-spacing: .6px; line-height: 1.6; }
-    .proof-text strong { color: var(--green); }
+    /* misma fila de rating que la PDP (.prod-rating) */
+    .hero-proof { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+    .proof-stars { color: var(--green); font-size: 17px; letter-spacing: 2px; flex-shrink: 0; }
+    .proof-text { font-family: var(--mo); font-size: 13px; color: var(--white); letter-spacing: 1px; }
+    .proof-count { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(238,245,238,.45); transition: text-decoration-color .2s; }
+    .proof-count:hover { text-decoration-color: var(--green); }
 
     /* ===== PRESS / COMUNIDAD ===== */
     #prensa { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 28px 24px; }
     .press-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
-    .press-label { font-family: var(--mo); font-weight: 700; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); flex-shrink: 0; white-space: nowrap; padding-right: 12px; border-right: 1px solid var(--border); }
+    .press-label { font-family: var(--mo); font-weight: 700; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); flex-shrink: 0; white-space: nowrap; padding-right: 12px; border-right: 1px solid var(--border); }
     .press-logos { display: flex; align-items: center; gap: 44px; flex-wrap: wrap; }
     .press-logos img { height: 26px; width: auto; filter: grayscale(1) brightness(4); opacity: 0.4; transition: opacity .2s, filter .2s; }
     .press-logos img:hover { opacity: 0.75; filter: grayscale(0.5) brightness(2); }
@@ -783,7 +811,7 @@
       .v-head-pote.lata { height: 108px; }
       .v-head-pote.pre  { height: 122px; }
       .v-head-nom { font-size: 10px; letter-spacing: 1.8px; height: 24px; }
-      .v-num { font-size: 22px; }
+      .v-num { font-size: 19px; }
       .ugc-grid { grid-template-columns: repeat(3,1fr); gap: 10px; }
     }
     @media (max-width: 768px) {
@@ -792,6 +820,9 @@
       #cur, #cur-glo { display: none; }
       a, button { cursor: pointer; }
       section { padding: 64px 20px; }
+      #reviews { padding: 34px 0 64px; }
+      #productos { padding-top: 40px; padding-bottom: 26px; }
+      .s-tag, .fdr-eyebrow, .cta-tag { font-size: 11.5px; letter-spacing: 2px; }
 
       /* Founder */
       .fdr1, .fdr3, .fdr5 { grid-template-columns: 1fr; }
@@ -809,10 +840,15 @@
       .fdr-t { font-size: clamp(26px, 8vw, 36px); }
       .fdr-switcher { left: 12px; bottom: 12px; padding: 7px 11px 7px 7px; font-size: 10px; }
 
+      /* Announcement bar */
+      .ann-msg { font-size: 10px; letter-spacing: .4px; gap: 7px; padding: 0 10px; }
+      .ann-msg svg { width: 12px; height: 12px; }
+
       /* Nav */
-      nav { padding: 10px 12px; }
+      nav { padding: 10px 0; }
+      .nav-inner { padding: 0 16px; }
       .nav-links { display: none; }
-      .nav-btn { padding: 10px 14px; font-size: 12.5px; white-space: nowrap; }
+      .nav-btn { padding: 10px 14px; font-size: 13.5px; letter-spacing: .8px; white-space: nowrap; }
       .nav-actions { gap: 8px; }
 
       /* Hero — eliminar min-height para no dejar espacio negro vacío */
@@ -821,8 +857,8 @@
       .hero-prod-img { max-width: 240px; }
       .hero-right { padding-top: 0; }
       .hero-ctas { flex-direction: column; }
-      .proof-text { font-size: 10px; }
-      .proof-divider { display: none; }
+      .proof-stars { font-size: 15px; }
+      .proof-text { font-size: 11.5px; letter-spacing: .6px; }
       /* Stats — más espacio entre número y borde divisor */
       .h-stat + .h-stat { padding-left: 14px; }
       .h-stat-n { font-size: 30px; }
@@ -852,6 +888,8 @@
       .cv1-cell { padding: 17px 12px; }
       .cv1-cell.feat { padding-left: 18px; }
       .cv1-hint { display: flex; }
+      /* el hint arranca a la izquierda: la nota tiene que acompanarlo, no irse al otro extremo */
+      .v-nota { text-align: left; margin-top: 6px; }
 
       /* Productos */
       .prod-grid { grid-template-columns: 1fr; }
@@ -902,13 +940,14 @@
     </p>
     <p class="ann-msg">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span><b>11 nootropicos</b> con dosis reales, sin crash</span>
+      <span><b>7 nootropicos + vitaminas</b> con dosis reales, sin crash</span>
     </p>
   </div>
 </div>
 
 <!-- ===== NAV ===== -->
 <nav>
+  <div class="nav-inner">
   <a href="#" class="nav-logo">
     <img src="assets/logo.png" alt="Power Rush">
   </a>
@@ -922,7 +961,8 @@
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
       <span class="pr-cart-count" data-pr-count hidden>0</span>
     </button>
-    <button class="nav-btn" onclick="document.getElementById('comprar').scrollIntoView({behavior:'smooth'})">PROBALO AHORA</button>
+    <a href="product.html" class="nav-btn">PROBALO AHORA</a>
+  </div>
   </div>
 </nav>
 
@@ -939,13 +979,12 @@
         <h1 class="hv2-title">FOCO<br>SIN<br>CRASH<span class="h-acc">...</span></h1>
         <p class="hero-copy"><strong>140mg de cafeína + 140mg de L-Teanina.</strong> La combinación que ninguna lata tiene. Foco limpio hasta la última ronda, sin temblor, sin crash.</p>
         <div class="hero-ctas">
-          <a href="#comprar" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
-          <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+          <a href="product.html" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+          <a href="#formula" class="btn-sc">VER FÓRMULA</a>
         </div>
         <div class="hero-proof">
           <span class="proof-stars">★★★★★</span>
-          <span class="proof-divider"></span>
-          <span class="proof-text"><strong>+10.000</strong> clientes &nbsp;·&nbsp; <strong>4.7/5</strong></span>
+          <span class="proof-text">4.7 · <a href="#reviews" class="proof-count">+937 reseñas</a></span>
         </div>
       </div>
     </div>
@@ -1221,7 +1260,7 @@
 
     <div class="vs-intro rv d2">
       <p>
-        La lata te da <strong>90 minutos</strong> y un bajón garantizado. Lo sabés. Acá está la comparación que ningún energizante se anima a mostrar.
+        La lata te da <strong>60 minutos</strong> y un bajón garantizado. Lo sabés. Acá está la comparación que ningún energizante se anima a mostrar.
       </p>
     </div>
 
@@ -1247,17 +1286,17 @@
           <div class="cv1-cell sep c-lata "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
           <div class="cv1-cell sep c-pre "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
           <div class="cv1-cell feat"><span class="v-feat">Nootrópicos con dosis reales</span></div>
-          <div class="cv1-cell sep c-pr tint"><span class="v-num">11</span></div>
-          <div class="cv1-cell sep c-lata "><span class="v-num">0</span></div>
-          <div class="cv1-cell sep c-pre "><span class="v-num">&lt;3</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="v-num">7</span></div>
+          <div class="cv1-cell sep c-lata "><span class="v-num">1</span></div>
+          <div class="cv1-cell sep c-pre "><span class="v-num">2</span></div>
           <div class="cv1-cell feat"><span class="v-feat">Sin taquicardia ni nervios</span></div>
           <div class="cv1-cell sep c-pr tint"><span class="vm yes" aria-label="Sí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           <div class="cv1-cell sep c-lata "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
           <div class="cv1-cell sep c-pre "><span class="vm no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span></div>
           <div class="cv1-cell feat"><span class="v-feat">Precio por porción</span></div>
-          <div class="cv1-cell sep c-pr tint"><span class="v-num">$833</span></div>
-          <div class="cv1-cell sep c-lata "><span class="v-num">$3.000+</span></div>
-          <div class="cv1-cell sep c-pre "><span class="v-num">$2.500+</span></div>
+          <div class="cv1-cell sep c-pr tint"><span class="v-num">$800</span></div>
+          <div class="cv1-cell sep c-lata "><span class="v-num">$3.000</span></div>
+          <div class="cv1-cell sep c-pre "><span class="v-num">$1.500</span></div>
         </div>
       </div>
       </div><!-- /cv1-stage -->
@@ -1269,6 +1308,105 @@
       <p>
         <strong>Leé la etiqueta. La nuestra y la de ellos.</strong> En Power Rush cada ingrediente tiene nombre, dosis y función. Sin letras chicas, sin relleno, sin sorpresas. Si la competencia no hace lo mismo, ya sabés por qué.
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LA FÓRMULA ===== -->
+<section id="formula">
+  <div class="formula-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="qe-formula-head rv">
+      <h3>La fórmula,<br>sin letras chicas.</h3>
+      <p class="qe-formula-note">7 nootrópicos + vitaminas, con dosis reales y la ciencia detrás. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
+    </div>
+    <div class="fcards rv d1" id="ing-list">
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">700mg</span>
+          <h3 class="fcard-title">Taurina</h3>
+          <p class="fcard-desc">Aminoácido que abunda en el cerebro. Participa en la función neuronal y en la regulación de la energía celular.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=taurine+brain+neuroprotection" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">500mg</span>
+          <h3 class="fcard-title">L-Tirosina</h3>
+          <p class="fcard-desc">Precursor de dopamina y noradrenalina. Ayuda a sostener el foco bajo estrés, fatiga o multitarea.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=tyrosine+cognitive+performance+stress" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">300mg</span>
+          <h3 class="fcard-title">Colina</h3>
+          <p class="fcard-desc">Materia prima de la acetilcolina, el neurotransmisor de la memoria y el aprendizaje.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=choline+memory+cognition" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">140mg</span>
+          <h3 class="fcard-title">Cafeína</h3>
+          <p class="fcard-desc">Bloquea la adenosina: más alerta y mejor tiempo de reacción. Equivale a un café largo.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+alertness+reaction+time" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">140mg</span>
+          <h3 class="fcard-title">L-Teanina</h3>
+          <p class="fcard-desc">Del té verde. Con cafeína mejora la atención y baja el nerviosismo — el dúo más estudiado para foco limpio.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=l-theanine+caffeine+attention" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">200mg</span>
+          <h3 class="fcard-title">Ginseng</h3>
+          <p class="fcard-desc">Adaptógeno (Panax ginseng). Se asocia a mejor atención y a menos fatiga mental.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=panax+ginseng+cognition" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">20mg</span>
+          <h3 class="fcard-title">Luteína</h3>
+          <p class="fcard-desc">Carotenoide que se acumula en la retina y el cerebro. Se estudia por su rol frente a la luz azul.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=lutein+brain+visual" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="fcard fcard-vit">
+        <div class="fcard-glow"></div>
+        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
+        <div class="fcard-body">
+          <span class="fcard-badge">Complejo B + C</span>
+          <h3 class="fcard-title">Vitaminas</h3>
+          <p class="fcard-desc"><b>B1 · B2 · B3 · B5 · B6 · B9 · B12 · C.</b> Soporte del metabolismo energético y del funcionamiento normal del sistema nervioso.</p>
+        </div>
+        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=b+vitamins+nervous+system+energy" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+    <div class="rv d2" style="margin-top:32px;">
+      <a href="product.html" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        VER ETIQUETA
+      </a>
     </div>
   </div>
 </section>
@@ -1361,115 +1499,6 @@
   </div>
 </section>
 
-<!-- ===== LA FÓRMULA ===== -->
-<section id="formula">
-  <div class="formula-glow" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="qe-formula-head rv">
-      <h3>La fórmula,<br>sin letras chicas.</h3>
-      <p class="qe-formula-note">11 ingredientes con dosis reales y la ciencia detrás. Lo que ves es lo que tomás: sin mezclas propietarias, sin relleno.</p>
-    </div>
-    <div class="fcards rv d1" id="ing-list">
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">700mg</span>
-          <h3 class="fcard-title">Taurina</h3>
-          <p class="fcard-desc">Aminoácido que abunda en el cerebro. Participa en la función neuronal y en la regulación de la energía celular.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=taurine+brain+neuroprotection" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">600mg</span>
-          <h3 class="fcard-title">L-Carnitina</h3>
-          <p class="fcard-desc">Lleva los ácidos grasos a la mitocondria para producir energía. Es la base del metabolismo energético.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=l-carnitine+energy+metabolism" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">500mg</span>
-          <h3 class="fcard-title">L-Tirosina</h3>
-          <p class="fcard-desc">Precursor de dopamina y noradrenalina. Ayuda a sostener el foco bajo estrés, fatiga o multitarea.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=tyrosine+cognitive+performance+stress" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">300mg</span>
-          <h3 class="fcard-title">Colina</h3>
-          <p class="fcard-desc">Materia prima de la acetilcolina, el neurotransmisor de la memoria y el aprendizaje.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=choline+memory+cognition" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">140mg</span>
-          <h3 class="fcard-title">Cafeína</h3>
-          <p class="fcard-desc">Bloquea la adenosina: más alerta y mejor tiempo de reacción. Equivale a un café largo.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+alertness+reaction+time" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">140mg</span>
-          <h3 class="fcard-title">L-Teanina</h3>
-          <p class="fcard-desc">Del té verde. Con cafeína mejora la atención y baja el nerviosismo — el dúo más estudiado para foco limpio.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=l-theanine+caffeine+attention" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">50mg</span>
-          <h3 class="fcard-title">Ginseng</h3>
-          <p class="fcard-desc">Adaptógeno (Panax ginseng). Se asocia a mejor atención y a menos fatiga mental.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=panax+ginseng+cognition" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">20mg</span>
-          <h3 class="fcard-title">Luteína</h3>
-          <p class="fcard-desc">Carotenoide que se acumula en la retina y el cerebro. Se estudia por su rol frente a la luz azul.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=lutein+brain+visual" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-      <div class="fcard fcard-vit">
-        <div class="fcard-glow"></div>
-        <svg class="fcard-deco" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
-        <div class="fcard-body">
-          <span class="fcard-badge">Complejo B + C</span>
-          <h3 class="fcard-title">Vitaminas</h3>
-          <p class="fcard-desc"><b>B1 · B2 · B3 · B5 · B6 · B9 · B12 · C.</b> Soporte del metabolismo energético y del funcionamiento normal del sistema nervioso.</p>
-        </div>
-        <a class="fcard-cta" href="https://pubmed.ncbi.nlm.nih.gov/?term=b+vitamins+nervous+system+energy" target="_blank" rel="noopener">Ver evidencia <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      </div>
-    </div>
-    <div class="rv d2" style="margin-top:32px;">
-      <a href="#" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-        VER ETIQUETA
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ===== FAQ ===== -->
 <section id="faq">
   <div class="wrap">
@@ -1505,10 +1534,10 @@
   <div class="wrap">
     <span class="cta-tag rv">Próximo paso</span>
     <h2 class="cta-title rv d1">¿LO PROBÁS<br>O SEGUÍS<br><span class="gr">IGUAL?</span></h2>
-    <p class="cta-sub rv d2">30 porciones. 11 ingredientes. Sin crash. Sin azúcar.<br>Sin el corazón a 200. Hacé las cuentas.</p>
+    <p class="cta-sub rv d2">30 porciones. 7 nootrópicos + vitaminas. Sin crash. Sin azúcar.<br>Sin el corazón a 200. Hacé las cuentas.</p>
     <div class="cta-btns rv d3">
-      <a href="#" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
-      <a href="#ingredientes" class="btn-sc">VER FÓRMULA</a>
+      <a href="product.html" class="btn-pr">PROBALO AHORA <span aria-hidden="true">→</span></a>
+      <a href="#formula" class="btn-sc">VER FÓRMULA</a>
     </div>
     <p class="cta-note rv d4">Envío a todo el país · Pago seguro · Todo en el label, sin sorpresas</p>
   </div>
@@ -1585,7 +1614,7 @@ const ingObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.querySelectorAll('.ing-row').forEach((row,i) => setTimeout(()=>{ row.querySelector('.ing-fill').style.width=row.dataset.pct+'%'; },i*75));
-    showAch('FÓRMULA DESCUBIERTA','Logro desbloqueado','11 ingredientes. Dosis reales. Todo en el label.');
+    showAch('FÓRMULA DESCUBIERTA','Logro desbloqueado','7 nootrópicos + vitaminas. Dosis reales. Todo en el label.');
     ingObs.unobserve(e.target);
   });
 }, { threshold: 0.15 });
