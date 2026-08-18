@@ -140,8 +140,12 @@
     .pop-skip { display: block; margin: 14px auto 0; background: none; border: none; font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: var(--white); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(238,245,238,.45); }
     .pop-skip:hover { text-decoration-color: var(--green); }
 
-    .pop-how { margin: 18px 0 22px; display: flex; gap: 12px; align-items: center; background: var(--bg); border: 1px solid rgba(238,245,238,.08); border-radius: 10px; padding: 12px 14px; font-family: var(--mo); font-size: 12px; line-height: 1.5; letter-spacing: .3px; color: rgba(238,245,238,.82); }
-    .pop-how svg { flex: none; color: var(--green); }
+    .pop-how { margin: 18px 0 22px; display: grid; gap: 10px; background: var(--bg); border: 1px solid rgba(238,245,238,.08); border-radius: 10px; padding: 14px 16px; font-family: var(--mo); font-size: 12.5px; line-height: 1.4; letter-spacing: .3px; color: rgba(238,245,238,.85); }
+    .how-l { display: flex; gap: 12px; align-items: center; }
+    .how-l svg { flex: none; width: 20px; height: 20px; }
+    .how-l.g { color: var(--green); }
+    .how-l.r { color: var(--red); }
+    .how-l b { font-weight: 700; }
     .pop-cta { width: 100%; font-size: 19px; padding: 17px 22px; }
     /* challenge picker */
     .chals { display: grid; gap: 10px; margin: 20px 0 6px; }
@@ -384,10 +388,9 @@
 
     <!-- single-game intro (when opened via #a / #b / #c) -->
     <div class="pop-s" id="s-gintro">
-      <span class="pop-ov2" id="g-ov"></span>
       <h3 class="pop-h">Beat the game,<br><em>get 10% off</em></h3>
       <p class="pop-p" id="g-p"></p>
-      <div class="pop-how"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg><span id="g-how"></span></div>
+      <div class="pop-how" id="g-how"></div>
       <button class="btn-pr pop-cta" id="g-go">Play</button>
       <button class="pop-skip" id="g-skip">No thanks, I'll pay full price</button>
     </div>
@@ -437,6 +440,18 @@
   var BELL = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2H9.6A2.5 2.5 0 0 0 12 22zm6-6v-5a6 6 0 0 0-5-5.9V4a1 1 0 0 0-2 0v1.1A6 6 0 0 0 6 11v5l-2 2v1h16v-1z"/></svg>';
 
   var ov = $('#pop'), arena = $('#arena'), teaser = $('#teaser');
+  var IC = {
+    bolt:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>',
+    bell:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2H9.6A2.5 2.5 0 0 0 12 22zm6-6v-5a6 6 0 0 0-5-5.9V4a1 1 0 0 0-2 0v1.1A6 6 0 0 0 6 11v5l-2 2v1h16v-1z"/></svg>',
+    lives: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="19" cy="12" r="3"/></svg>',
+    wait:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    tap:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5a2 2 0 0 1 4 0v6"/><path d="M13 10.5a2 2 0 0 1 4 .5v1a2 2 0 0 1 4 .5V16a6 6 0 0 1-6 6h-2a6 6 0 0 1-4.8-2.4L4 15a2 2 0 0 1 3.2-2.4L9 14.5V11"/></svg>',
+    alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18v.5"/></svg>',
+    hold:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M4 17c2 3 5 4 8 4s6-1 8-4"/></svg>',
+    zone:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14c3-6 5-6 8 0s5 6 8 0 3-4 4-4"/></svg>',
+    crash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h5l3 12 3-9 2 5h5"/></svg>'
+  };
+  function howHTML(rows) { return rows.map(function (r) { return '<div class="how-l ' + (r[2] || '') + '">' + IC[r[0]] + '<span>' + r[1] + '</span></div>'; }).join(''); }
   var S = { intro: $('#s-intro'), gintro: $('#s-gintro'), play: $('#s-play'), win: $('#s-win'), lose: $('#s-lose') };
   var hud = { lk: $('#h-lk'), lv: $('#h-lv'), rk: $('#h-rk'), rv: $('#h-rv'), m: $('#h-m'), mi: $('#h-m i'), hint: $('#hint-t'), lives: $('#lives') };
   var cur = null, tries = 0, MAX_TRIES = 2, ended = false;
@@ -467,9 +482,8 @@
 
   /* ================= FOCUS ================= */
   var focus = {
-    ov: 'Focus test · 10 sec',
     p: 'Tap the green bolts, let the red distractions pass. Seven hits in 10 seconds and the discount is yours.',
-    how: 'Green = tap · Red = let it pass. Three reds and you lose focus.',
+    how: [['bolt', '<b>Green</b> = tap', 'g'], ['bell', '<b>Red</b> = let it pass', 'r'], ['lives', 'Three reds and you lose focus']],
     startB: 'Tap to start', startS: 'The clock starts on your first tap',
     hint: 'Green: tap · Red: let it pass', loseTitle: 'Not enough <em>focus</em>',
     NEED: 7, TIME: 10000, LIVES: 3,
@@ -527,9 +541,8 @@
 
   /* ================= REFLEXES ================= */
   var reflex = {
-    ov: 'Reflex test · 3 rounds',
     p: 'When the screen turns green, tap. Three times. Average under 340 ms and the discount is yours.',
-    how: 'Wait for green. Not a millisecond early — a false start repeats the round.',
+    how: [['wait', 'Dark screen = <b>wait</b>'], ['bolt', '<b>Green</b> = tap, fast', 'g'], ['alert', 'Too early = the round repeats', 'r']],
     startB: 'Tap to start', startS: 'After that, only tap when you see green',
     hint: 'Green: tap · Dark: wait', loseTitle: 'Reflexes <em>crashed</em>',
     ROUNDS: 3, LIMIT: 340,
@@ -585,9 +598,8 @@
 
   /* ================= NO CRASH ================= */
   var crash = {
-    ov: 'No crash · 10 sec',
     p: 'Your energy drops on its own. Hold to rise, release to fall, and stay inside the green zone for 10 seconds.',
-    how: 'Hold = rise · Release = fall. Outside the zone your focus drains. Zero focus = crash.',
+    how: [['hold', '<b>Hold</b> = rise · <b>Release</b> = fall'], ['zone', 'Stay inside the <b>green zone</b>', 'g'], ['crash', 'Outside, your focus drains. Zero = <b>crash</b>', 'r']],
     startB: 'Hold to start', startS: 'Starts on your first touch. Short taps, not long holds.',
     hint: 'Hold: rise · Release: fall', loseTitle: '<em>Crash.</em> Just like the can',
     TIME: 10000,
@@ -682,7 +694,7 @@
   function close() { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; teaser.classList.add('on'); }
   function pick(id) { cur = GAMES[id]; play(); }
   function gintro(g) {
-    cur = g; $('#g-ov').textContent = g.ov; $('#g-p').textContent = g.p; $('#g-how').textContent = g.how;
+    cur = g; $('#g-p').textContent = g.p; $('#g-how').innerHTML = howHTML(g.how);
     show('gintro');
   }
   function play() {
