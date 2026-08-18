@@ -140,6 +140,9 @@
     .pop-skip { display: block; margin: 14px auto 0; background: none; border: none; font-family: var(--mo); font-size: 12px; letter-spacing: 1px; color: rgba(238,245,238,.5); text-decoration: underline; text-underline-offset: 3px; }
     .pop-skip:hover { color: var(--white); }
 
+    .pop-how { margin: 18px 0 22px; display: flex; gap: 12px; align-items: center; background: var(--bg); border: 1px solid rgba(238,245,238,.08); border-radius: 10px; padding: 12px 14px; font-family: var(--mo); font-size: 12px; line-height: 1.5; letter-spacing: .3px; color: rgba(238,245,238,.82); }
+    .pop-how svg { flex: none; color: var(--green); }
+    .pop-cta { width: 100%; font-size: 19px; padding: 17px 22px; }
     /* challenge picker */
     .chals { display: grid; gap: 10px; margin: 20px 0 6px; }
     .chal { display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 14px 16px 14px 14px; background: var(--bg); border: 1px solid rgba(238,245,238,.1); border-radius: 12px; transition: border-color .16s, background .16s, transform .12s; }
@@ -353,25 +356,35 @@
     <div class="pop-s on" id="s-intro">
       <span class="pop-ov2">Welcome · Earn your discount</span>
       <h3 class="pop-h">Beat the test,<br><em>get 10% off</em></h3>
-      <p class="pop-p">Under 15 seconds. One finger. Pick your challenge:</p>
+      <p class="pop-p">Ten seconds. One finger. Pick your challenge:</p>
       <div class="chals">
         <button class="chal" data-game="focus">
           <span class="chal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span>
           <span><span class="chal-n">Focus</span><div class="chal-d">Tap the green bolts. Let the red ones pass.</div></span>
-          <span class="chal-t"><b>15 s</b>Tap</span>
+          <span class="chal-t"><b>10 s</b>Tap</span>
         </button>
         <button class="chal" data-game="reflex">
           <span class="chal-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span>
-          <span><span class="chal-n">Reflexes</span><div class="chal-d">Wait for green, then tap. Five rounds, in ms.</div></span>
-          <span class="chal-t"><b>~11 s</b>Tap</span>
+          <span><span class="chal-n">Reflexes</span><div class="chal-d">Wait for green, then tap. Three rounds, in ms.</div></span>
+          <span class="chal-t"><b>~7 s</b>Tap</span>
         </button>
         <button class="chal" data-game="crash">
           <span class="chal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14c3-6 5-6 8 0s5 6 8 0 3-4 4-4"/></svg></span>
           <span><span class="chal-n">No crash</span><div class="chal-d">Hold to rise, release to fall. Stay in the zone.</div></span>
-          <span class="chal-t"><b>12 s</b>Hold</span>
+          <span class="chal-t"><b>10 s</b>Hold</span>
         </button>
       </div>
       <button class="pop-skip" id="i-skip">No thanks, I'll pay full price</button>
+    </div>
+
+    <!-- single-game intro (when opened via #a / #b / #c) -->
+    <div class="pop-s" id="s-gintro">
+      <span class="pop-ov2" id="g-ov"></span>
+      <h3 class="pop-h">Beat the test,<br><em>get 10% off</em></h3>
+      <p class="pop-p" id="g-p"></p>
+      <div class="pop-how"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg><span id="g-how"></span></div>
+      <button class="btn-pr pop-cta" id="g-go">Play</button>
+      <button class="pop-skip" id="g-skip">No thanks, I'll pay full price</button>
     </div>
 
     <!-- play -->
@@ -419,7 +432,7 @@
   var BELL = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2H9.6A2.5 2.5 0 0 0 12 22zm6-6v-5a6 6 0 0 0-5-5.9V4a1 1 0 0 0-2 0v1.1A6 6 0 0 0 6 11v5l-2 2v1h16v-1z"/></svg>';
 
   var ov = $('#pop'), arena = $('#arena'), teaser = $('#teaser');
-  var S = { intro: $('#s-intro'), play: $('#s-play'), win: $('#s-win'), lose: $('#s-lose') };
+  var S = { intro: $('#s-intro'), gintro: $('#s-gintro'), play: $('#s-play'), win: $('#s-win'), lose: $('#s-lose') };
   var hud = { lk: $('#h-lk'), lv: $('#h-lv'), rk: $('#h-rk'), rv: $('#h-rv'), m: $('#h-m'), mi: $('#h-m i'), hint: $('#hint-t'), lives: $('#lives') };
   var cur = null, tries = 0, MAX_TRIES = 2, ended = false;
   var AUTO_OPEN_MS = 3000; // production: 8–10 s or 40% scroll, once per session
@@ -449,10 +462,13 @@
 
   /* ================= FOCUS ================= */
   var focus = {
+    ov: 'Focus test · 10 sec',
+    p: 'Tap the green bolts, let the red distractions pass. Seven hits in 10 seconds and the discount is yours.',
+    how: 'Green = tap · Red = let it pass. Three reds and you lose focus.',
     startB: 'Tap to start', startS: 'The clock starts on your first tap',
     hint: 'Green: tap · Red: let it pass', loseTitle: 'Not enough <em>focus</em>',
-    NEED: 10, TIME: 15000, LIVES: 3,
-    mount: function () { arena.innerHTML = ''; api.left('Seconds', '15.0'); api.right('Hits', '0/' + this.NEED); api.meter(0); api.hint(this.hint); api.lives(this.LIVES, this.LIVES); },
+    NEED: 7, TIME: 10000, LIVES: 3,
+    mount: function () { arena.innerHTML = ''; api.left('Seconds', '10.0'); api.right('Hits', '0/' + this.NEED); api.meter(0); api.hint(this.hint); api.lives(this.LIVES, this.LIVES); },
     start: function () {
       var g = this, W = arena.clientWidth, H = arena.clientHeight;
       g.hits = 0; g.lives = g.LIVES; g.on = true; g.t0 = performance.now(); g.busy = {}; g.lastRed = false;
@@ -462,7 +478,7 @@
         var el = performance.now() - g.t0, prog = Math.min(1, el / g.TIME);
         var red = !g.lastRed && Math.random() < 0.28;
         g.lastRed = red;
-        var life = 1050 - 220 * prog;
+        var life = 1000 - 200 * prog;
         var n = 0, key, c, r;
         do { c = Math.floor(Math.random() * COLS); r = Math.floor(Math.random() * ROWS); key = c + ':' + r; n++; } while (g.busy[key] && n < 12);
         g.busy[key] = 1;
@@ -489,7 +505,7 @@
         });
         arena.appendChild(t);
         setTimeout(function () { if (!done) { done = true; delete g.busy[key]; t.classList.add('out'); setTimeout(function () { t.remove(); }, 200); } }, life);
-        g.tm = setTimeout(spawn, 680 - 220 * prog);
+        g.tm = setTimeout(spawn, 620 - 180 * prog);
       }
       function pts(x, y, txt, bad) { var p = document.createElement('div'); p.className = 'pts' + (bad ? ' bad' : ''); p.textContent = txt; p.style.left = x + 'px'; p.style.top = y + 'px'; arena.appendChild(p); setTimeout(function () { p.remove(); }, 600); }
       function tick() {
@@ -506,9 +522,12 @@
 
   /* ================= REFLEXES ================= */
   var reflex = {
+    ov: 'Reflex test · 3 rounds',
+    p: 'When the screen turns green, tap. Three times. Average under 340 ms and the discount is yours.',
+    how: 'Wait for green. Not a millisecond early — a false start repeats the round.',
     startB: 'Tap to start', startS: 'After that, only tap when you see green',
     hint: 'Green: tap · Dark: wait', loseTitle: 'Reflexes <em>crashed</em>',
-    ROUNDS: 5, LIMIT: 340,
+    ROUNDS: 3, LIMIT: 340,
     mount: function () {
       arena.innerHTML = '<div class="rx wait" id="rx"><div class="rx-rounds" id="rxr"></div><div class="rx-big" id="rxb">Wait</div><div class="rx-sub" id="rxs">for green…</div></div>';
       api.left('Last', '—<small style="font-size:16px;color:rgba(238,245,238,.55);margin-left:3px">ms</small>'); api.right('Round', '0/' + this.ROUNDS); api.meter(0); api.hint(this.hint); api.lives(0, 0);
@@ -526,7 +545,7 @@
         g.tm = setTimeout(function () {
           if (!g.on) return;
           rx.className = 'rx go'; big.textContent = 'Tap!'; sub.textContent = 'now'; g.state = 'go'; g.goAt = performance.now();
-        }, 900 + Math.random() * 1500);
+        }, 800 + Math.random() * 1500);
       }
       function finish() {
         var avg = Math.round(g.res.reduce(function (a, b) { return a + b; }, 0) / g.res.length);
@@ -550,7 +569,7 @@
           setChip(g.res.length - 1, ms + 'ms', 'd');
           api.left(null, ms + '<small style="font-size:16px;color:rgba(238,245,238,.55);margin-left:3px">ms</small>'); api.right(null, g.res.length + '/' + g.ROUNDS); api.meter(g.res.length / g.ROUNDS * 100);
           rx.className = 'rx wait'; big.textContent = ms + ' ms'; sub.textContent = ms < 230 ? 'PRO' : ms < 290 ? 'solid' : ms <= 340 ? 'awake' : 'slow';
-          g.tm = setTimeout(g.res.length >= g.ROUNDS ? finish : round, 550);
+          g.tm = setTimeout(g.res.length >= g.ROUNDS ? finish : round, 500);
         }
       };
       arena.addEventListener('pointerdown', g.onTap);
@@ -561,12 +580,15 @@
 
   /* ================= NO CRASH ================= */
   var crash = {
+    ov: 'No crash · 10 sec',
+    p: 'Your energy drops on its own. Hold to rise, release to fall, and stay inside the green zone for 10 seconds.',
+    how: 'Hold = rise · Release = fall. Outside the zone your focus drains. Zero focus = crash.',
     startB: 'Hold to start', startS: 'Starts on your first touch. Short taps, not long holds.',
     hint: 'Hold: rise · Release: fall', loseTitle: '<em>Crash.</em> Just like the can',
-    TIME: 12000,
+    TIME: 10000,
     mount: function () {
       arena.innerHTML = '<canvas id="cv"></canvas>';
-      api.left('Seconds', '12.0'); api.right('Focus', '100%'); api.meter(100); api.hint(this.hint); api.lives(0, 0);
+      api.left('Seconds', '10.0'); api.right('Focus', '100%'); api.meter(100); api.hint(this.hint); api.lives(0, 0);
     },
     start: function () {
       var g = this, cv = $('#cv'), ctx = cv.getContext('2d');
@@ -617,7 +639,7 @@
         ctx.restore();
 
         if (foco <= 0) { g.on = false; crashFx(); api.lose('<b>' + t.toFixed(1) + ' s</b> without crashing', 'Short taps. The zone shows you where it’s going: look ahead, not at the dot.'); return; }
-        if (left <= 0) { g.on = false; api.left(null, '0.0'); api.win('<b>12 s</b> in the zone · focus ' + Math.round(foco) + '%'); return; }
+        if (left <= 0) { g.on = false; api.left(null, '0.0'); api.win('<b>10 s</b> in the zone · focus ' + Math.round(foco) + '%'); return; }
         g.raf = requestAnimationFrame(frame);
       }
       function crashFx() {
@@ -643,10 +665,14 @@
     tries = 0; ended = false; cur = null;
     ov.classList.add('on'); teaser.classList.remove('on'); document.body.style.overflow = 'hidden';
     var forced = fromHash();
-    if (forced) { cur = GAMES[forced]; play(); } else { show('intro'); }
+    if (forced) { gintro(GAMES[forced]); } else { show('intro'); }
   }
   function close() { if (cur) cur.stop(); ov.classList.remove('on'); document.body.style.overflow = ''; teaser.classList.add('on'); }
   function pick(id) { cur = GAMES[id]; play(); }
+  function gintro(g) {
+    cur = g; $('#g-ov').textContent = g.ov; $('#g-p').textContent = g.p; $('#g-how').textContent = g.how;
+    show('gintro');
+  }
   function play() {
     tries++; ended = false; show('play');
     cur.mount();
@@ -668,6 +694,8 @@
   document.querySelectorAll('.chal').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-game')); }); });
   $('#pop-x').addEventListener('click', close);
   $('#i-skip').addEventListener('click', close);
+  $('#g-skip').addEventListener('click', close);
+  $('#g-go').addEventListener('click', play);
   $('#l-quit').addEventListener('click', close);
   $('#l-again').addEventListener('click', play);
   $('#w-send').addEventListener('click', function () { mockSend($('#w-mail')); });
