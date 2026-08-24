@@ -124,6 +124,8 @@
     .flavor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .flavor-card { border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: none; transition: border-color .2s, background .2s, box-shadow .2s; background: linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%), var(--bg2); }
     .flavor-card:hover { border-color: rgba(255,255,255,.22); }
+    .flavor-card.flavor-out { opacity: .4; filter: grayscale(1); pointer-events: none; }
+    .flavor-card.flavor-out .flavor-card-sub { color: var(--red); }
     .flavor-card.active { border-color: var(--green); background: linear-gradient(180deg, rgba(0,212,122,.12), rgba(0,212,122,.02) 50%), rgba(0,212,122,.03); box-shadow: 0 0 22px rgba(0,212,122,.18), inset 0 0 22px rgba(0,212,122,.05); }
     .flavor-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .flavor-dot.bf { background: var(--blue); }
@@ -1281,6 +1283,50 @@ function selectQty(n, el) {
 
 /* ADD TO CART */
 function addToCart() { if (window.PowerCart) PowerCart.add(currentFlavor, currentQty); }
+
+/* ===== CATÁLOGO VIVO — precios y stock salen de Shopify (ver cart.js) ===== */
+document.addEventListener('pr:catalog', function () {
+  var C = window.PowerCart;
+  if (!C) return;
+
+  // los tres escalones de cantidad se recalculan sobre el precio real
+  document.querySelectorAll('.qty-card').forEach(function (card) {
+    var n = parseInt(card.dataset.n, 10);
+    var unit = C.unitPrice(n);
+    card.dataset.total = C.money(unit * n);
+    var per = card.querySelector('.qty-per');
+    if (per) per.textContent = C.money(unit) + ' c/u · ' + (n * 30) + ' porciones';
+    var tot = card.querySelector('.qty-total');
+    if (tot) tot.textContent = C.money(unit);
+  });
+
+  var active = document.querySelector('.qty-card.active');
+  if (active) {
+    document.getElementById('prod-price').textContent = active.dataset.total;
+    document.getElementById('sb-price').textContent = active.dataset.total;
+  }
+
+  // sabor agotado: se deshabilita la tarjeta y, si era el elegido, se pasa al otro
+  ['bf', 'cp'].forEach(function (f) {
+    var card = document.querySelector('.flavor-card.' + f);
+    if (!card) return;
+    var out = C.soldOut(f);
+    card.classList.toggle('flavor-out', out);
+    var sub = card.querySelector('.flavor-card-sub');
+    if (out && sub && !sub.dataset.orig) { sub.dataset.orig = sub.textContent; sub.textContent = 'Sin stock'; }
+    if (!out && sub && sub.dataset.orig) { sub.textContent = sub.dataset.orig; delete sub.dataset.orig; }
+  });
+  if (C.soldOut(currentFlavor)) {
+    var other = currentFlavor === 'bf' ? 'cp' : 'bf';
+    if (!C.soldOut(other)) selectFlavor(other);
+  }
+  var cta = document.querySelector('.prod-cta');
+  if (cta) {
+    var noStock = C.soldOut('bf') && C.soldOut('cp');
+    cta.disabled = noStock;
+    if (noStock) cta.textContent = 'SIN STOCK POR AHORA';
+  }
+});
 
 /* TABS */
 /* REVIEWS reales (columnas que scrollean, como la home) */

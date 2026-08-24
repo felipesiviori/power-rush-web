@@ -15,8 +15,33 @@
     bf: { id: 'bf', flavor: 'Blue Fizz', sub: '30 porciones', img: '/assets/blue-fizz.png' },
     cp: { id: 'cp', flavor: 'Cherry Pop', sub: '30 porciones', img: '/assets/cherry-pop.png' }
   };
-  // TODO handoff: completar con la tienda real para activar el checkout de Shopify.
-  var SHOPIFY = { domain: '', variants: { bf: '', cp: '' } };
+  /* Backend Shopify (headless). El token de Storefront es público por diseño:
+     solo deja leer catálogo y armar carritos, nunca administrar la tienda. */
+  var SHOPIFY = {
+    domain: '6q1n8a-jw.myshopify.com',
+    token: '86f826b1c8e239cacd6e97100784c83f',
+    api: '2026-01',
+    checkoutHost: 'checkout.powerrush.com.ar',
+    variants: {
+      bf: 'gid://shopify/ProductVariant/50221562495224',
+      cp: 'gid://shopify/ProductVariant/50221562462456'
+    }
+  };
+
+  /* Catálogo vivo: precio, stock e imágenes reales leídos de Shopify al cargar.
+     Hasta que responde (o si falla, o si la tienda no tiene precios cargados),
+     la página sigue con los valores locales de fallback. */
+  var LIVE = { ready: false, stock: {} }; // stock[id] = { avail: bool, qty: number|null }
+
+  function gql(query, cb) {
+    try {
+      fetch('https://' + SHOPIFY.domain + '/api/' + SHOPIFY.api + '/graphql.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': SHOPIFY.token },
+        body: JSON.stringify({ query: query })
+      }).then(function (r) { return r.json(); }).then(cb).catch(function () { cb(null); });
+    } catch (e) { cb(null); }
+  }
 
   /* ---- Estado ------------------------------------------------------------ */
   var state = load();
@@ -24,11 +49,23 @@
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
   function qtyOf(id) { return state[id] || 0; }
+  /* Stock: null = sin límite conocido (Shopify no lo trackea o todavía no respondió) */
+  function stockOf(id) { var s = LIVE.stock[id]; return s && s.qty != null ? s.qty : null; }
+  function soldOut(id) { var s = LIVE.stock[id]; return !!s && s.avail === false; }
+  function maxFor(id) { var q = stockOf(id); return q == null ? Infinity : q; }
   function totalQty() { var s = 0; ORDER.forEach(function (id) { s += qtyOf(id); }); return s; }
-  var BASE = 24999; // precio de 1 pote sin descuento
-  function unitPrice(tq) { tq = (tq == null) ? totalQty() : tq; return tq >= 3 ? 21250 : tq === 2 ? 22500 : BASE; }
+  var BASE_FALLBACK = 24999;                        // precio de 1 pote si Shopify todavía no respondió
+  function base() {                                 // el precio de Shopify manda cuando existe
+    var p = PRODUCTS.bf.price || PRODUCTS.cp.price;
+    return p > 0 ? p : BASE_FALLBACK;
+  }
+  function unitPrice(tq) {
+    tq = (tq == null) ? totalQty() : tq;
+    var b = base();
+    return tq >= 3 ? Math.round(b * 0.85) : tq === 2 ? Math.round(b * 0.9) : b;
+  }
   function subtotal() { var tq = totalQty(); return unitPrice(tq) * tq; }
-  function baseTotal() { return BASE * totalQty(); }
+  function baseTotal() { return base() * totalQty(); }
   function savings() { return baseTotal() - subtotal(); }
   function discPct() { var tq = totalQty(); return tq >= 3 ? 15 : tq === 2 ? 10 : 0; }
   function savePct() { var b = baseTotal(); return b > 0 ? Math.round(savings() / b * 100) : 0; }
@@ -42,8 +79,18 @@
   }
 
   /* ---- Acciones ---------------------------------------------------------- */
-  function add(id, q) { if (!PRODUCTS[id]) return; q = q || 1; state[id] = qtyOf(id) + q; save(); render(); open(); pulse(); }
-  function setQty(id, q) { if (q <= 0) { delete state[id]; } else { state[id] = q; } save(); render(); }
+  function add(id, q) {
+    if (!PRODUCTS[id] || soldOut(id)) return;
+    q = q || 1;
+    setQty(id, qtyOf(id) + q);
+    open(); pulse();
+  }
+  function setQty(id, q) {
+    var max = maxFor(id);
+    if (q > max) q = max;                                  // nunca por encima del stock real
+    if (q <= 0) { delete state[id]; } else { state[id] = q; }
+    save(); render();
+  }
   function remove(id) { delete state[id]; save(); render(); }
 
   /* ---- Drawer / DOM ------------------------------------------------------ */
@@ -261,20 +308,116 @@
     document.body.style.overflow = '';
   }
 
-  /* ---- Checkout (handoff Shopify, stub) ---------------------------------- */
+  /* ---- Checkout ----------------------------------------------------------
+     Arma un carrito en Shopify con la Cart API y manda al checkout propio
+     (checkout.powerrush.com.ar). El cupón del juego, si hay, viaja aplicado. */
+  var DISCOUNT_KEY = 'pr_discount';
+  function discountCode() { try { return localStorage.getItem(DISCOUNT_KEY) || ''; } catch (e) { return ''; } }
+
   function checkout() {
-    if (totalQty() === 0) return;
-    if (SHOPIFY.domain && SHOPIFY.variants.bb && SHOPIFY.variants.tb) {
-      var parts = ORDER.filter(function (id) { return qtyOf(id) > 0; })
-        .map(function (id) { return SHOPIFY.variants[id] + ':' + qtyOf(id); });
-      window.location.href = 'https://' + SHOPIFY.domain + '/cart/' + parts.join(',');
-      return;
+    if (totalQty() === 0 || checkout.busy) return;
+    var btn = foot.querySelector('[data-pr-checkout]');
+    checkout.busy = true;
+    if (btn) { btn.classList.add('loading'); btn.textContent = 'Preparando tu pedido…'; }
+
+    var lines = ORDER.filter(function (id) { return qtyOf(id) > 0 && SHOPIFY.variants[id]; })
+      .map(function (id) { return '{merchandiseId:"' + SHOPIFY.variants[id] + '",quantity:' + qtyOf(id) + '}'; });
+    var code = discountCode();
+    var input = 'lines:[' + lines.join(',') + ']' + (code ? ',discountCodes:["' + code.replace(/"/g, '') + '"]' : '');
+
+    gql('mutation{cartCreate(input:{' + input + '}){cart{checkoutUrl} userErrors{message}}}', function (res) {
+      var url = res && res.data && res.data.cartCreate && res.data.cartCreate.cart &&
+                res.data.cartCreate.cart.checkoutUrl;
+      if (url) { window.location.href = url; return; }
+      checkout.busy = false;
+      if (btn) { btn.classList.remove('loading'); btn.textContent = 'Comprar'; }
+      alert('No pudimos abrir el checkout. Probá de nuevo en unos segundos.');
+    });
+  }
+
+  /* ---- Sync con Shopify: precio, stock e imágenes ------------------------ */
+  function syncCatalog() {
+    var ids = ORDER.filter(function (id) { return SHOPIFY.variants[id]; })
+      .map(function (id) { return '"' + SHOPIFY.variants[id] + '"'; });
+    if (!ids.length) return;
+
+    gql('{nodes(ids:[' + ids.join(',') + ']){... on ProductVariant{id title availableForSale quantityAvailable ' +
+        'price{amount} image{url} product{featuredImage{url}}}}}', function (res) {
+      var nodes = res && res.data && res.data.nodes;
+      if (!nodes) return;                                   // sin respuesta: se queda el fallback local
+
+      var byVariant = {};
+      ORDER.forEach(function (id) { byVariant[SHOPIFY.variants[id]] = id; });
+
+      var priced = 0, found = [];
+      nodes.forEach(function (n) {
+        if (!n || !n.id) return;
+        var id = byVariant[n.id];
+        if (!id) return;
+        found.push({ id: id, n: n });
+        var img = n.image && n.image.url;                   // solo la foto de la variante, no la del producto
+        if (img) PRODUCTS[id].img = img + (img.indexOf('?') > -1 ? '&' : '?') + 'width=420';
+        var amount = n.price && parseFloat(n.price.amount);
+        if (amount > 0) { PRODUCTS[id].price = amount; priced++; }
+      });
+
+      /* Mientras la tienda no tenga precios cargados, no tomamos su stock como
+         verdad: la página seguiría con todo "sin stock" por una config a medias. */
+      if (!priced) { paintPhotos(); render(); return; }
+
+      found.forEach(function (f) {
+        LIVE.stock[f.id] = {
+          avail: f.n.availableForSale !== false,
+          qty: (typeof f.n.quantityAvailable === 'number' && f.n.quantityAvailable > 0) ? f.n.quantityAvailable : null
+        };
+      });
+
+      LIVE.ready = true;
+      ORDER.forEach(function (id) {                          // el carrito guardado no puede exceder el stock
+        var max = maxFor(id);
+        if (soldOut(id)) delete state[id];
+        else if (qtyOf(id) > max) state[id] = max;
+      });
+      save();
+      paintStock();
+      render();
+    });
+  }
+
+  /* Fotos y precio base tal como están cargados en Shopify. */
+  function paintPhotos() {
+    var px = document.querySelectorAll('[data-pr-price]');
+    for (var p = 0; p < px.length; p++) px[p].textContent = money(base());
+
+    var im = document.querySelectorAll('[data-pr-photo]');
+    for (var k = 0; k < im.length; k++) {
+      var pid = im[k].getAttribute('data-pr-photo');
+      if (PRODUCTS[pid] && PRODUCTS[pid].img) im[k].src = PRODUCTS[pid].img;
     }
-    var resumen = ORDER.filter(function (id) { return qtyOf(id) > 0; })
-      .map(function (id) { return '• ' + PRODUCTS[id].flavor + '  ×' + qtyOf(id); }).join('\n');
-    alert('Próximo paso: checkout de Shopify.\n\nTu pedido:\n' + resumen +
-      '\n\nSubtotal: ' + money(subtotal()) +
-      '\n\n(Pendiente: cargar la URL de la tienda y los variant IDs en cart.js → SHOPIFY para activar el handoff real.)');
+  }
+
+  /* Marca agotados en la página y avisa al resto del sitio. */
+  function paintStock() {
+    paintPhotos();
+    ORDER.forEach(function (id) {
+      var out = soldOut(id);
+      var nodes = document.querySelectorAll('[data-pr-add="' + id + '"]');
+      for (var i = 0; i < nodes.length; i++) {
+        var el = nodes[i];
+        el.classList.toggle('pr-out', out);
+        if (out) { el.setAttribute('aria-disabled', 'true'); if (!el.dataset.prLabel) el.dataset.prLabel = el.textContent.trim(); }
+        else el.removeAttribute('aria-disabled');
+      }
+      var flags = document.querySelectorAll('[data-pr-stock="' + id + '"]');
+      for (var j = 0; j < flags.length; j++) {
+        var q = stockOf(id);
+        flags[j].textContent = out ? 'Sin stock' : (q != null && q <= 12 ? 'Quedan ' + q : '');
+        flags[j].classList.toggle('pr-out-txt', out);
+      }
+    });
+    try {
+      document.dispatchEvent(new CustomEvent('pr:catalog', { detail: { stock: LIVE.stock, products: PRODUCTS, base: base() } }));
+    } catch (e) {}
   }
 
   /* ---- Wiring global de botones de "agregar" / "abrir" ------------------- */
@@ -288,11 +431,16 @@
   /* ---- API pública ------------------------------------------------------- */
   window.PowerCart = {
     add: add, open: open, close: close, remove: remove,
-    setQty: setQty, count: totalQty, subtotal: subtotal
+    setQty: setQty, count: totalQty, subtotal: subtotal,
+    unitPrice: unitPrice, money: money,
+    stock: function (id) { return LIVE.stock[id] || null; },
+    soldOut: soldOut, products: PRODUCTS, live: function () { return LIVE.ready; },
+    setDiscount: function (c) { try { localStorage.setItem(DISCOUNT_KEY, c || ''); } catch (e) {} },
+    refresh: syncCatalog
   };
 
   /* ---- Init -------------------------------------------------------------- */
-  function init() { buildShell(); render(); }
+  function init() { buildShell(); render(); syncCatalog(); }
 
   /* ---- Estilos ----------------------------------------------------------- */
   var CSS = [
@@ -380,6 +528,10 @@
     '.pr-checkout:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 18px 38px -10px rgba(0,212,122,.7);}',
     '.pr-checkout:active{transform:translateY(0);}',
     '.pr-checkout:focus-visible{outline:2px solid #fff;outline-offset:2px;}',
+    '.pr-checkout.loading{pointer-events:none;filter:saturate(.5) brightness(.85);}',
+    /* agotado — el stock lo dice Shopify */
+    '.pr-out{opacity:.42;pointer-events:none;filter:grayscale(1);}',
+    '.pr-out-txt{color:var(--red,#FF3C3C);}',
     '.pr-trust{display:flex;justify-content:center;gap:18px;margin-top:13px;}',
     '.pr-trust span{display:inline-flex;align-items:center;gap:5px;font-family:var(--mo,"Space Mono",monospace);font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--gray,#56685A);}',
     '.pr-trust svg{color:var(--green,#00D47A);}',

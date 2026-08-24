@@ -692,7 +692,10 @@
     .bl .p-tag { border-color: var(--blue); color: var(--blue); } .tr .p-tag { border-color: var(--cherry); color: var(--cherry); }
     .p-desc { font-size: 15px; color: rgba(238,245,238,.92); line-height: 1.7; margin-bottom: 28px; }
     .p-price { font-family: var(--hd); font-weight: 700; font-size: 38px; margin-bottom: 18px; }
-    .p-price span { font-family: var(--mo); font-weight: 400; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); }
+    .p-price span:not([data-pr-price]) { font-family: var(--mo); font-weight: 400; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); }
+    .p-stock { font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--yellow); margin-top: 10px; text-align: center; }
+    .p-stock:empty { display: none; }
+    .p-stock.pr-out-txt { color: var(--red); }
     .btn-buy {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
       width: 100%; padding: 14px 20px;
@@ -1012,14 +1015,15 @@
         <div class="p-flav">Sabor ácido intenso</div>
         <div class="p-name">BLUE<br>FIZZ</div>
         <div class="p-img-wrap">
-          <img src="assets/blue-fizz.png" alt="Blue Fizz" class="p-img">
+          <img src="assets/blue-fizz.png" alt="Blue Fizz" class="p-img" data-pr-photo="bf">
         </div>
         <div class="p-tags">
           <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
         </div>
         <p class="p-desc">El sabor más fuerte de la línea: ácido, con carácter y que se siente. Para los que van a los sabores intensos, no a los tibios.</p>
-        <div class="p-price">$24.999 <span>/ 30 porciones · 300g</span></div>
+        <div class="p-price"><span data-pr-price>$24.999</span> <span>/ 30 porciones · 300g</span></div>
         <a href="#" class="btn-buy" data-pr-add="bf">COMPRAR BLUE FIZZ <span aria-hidden="true">→</span></a>
+        <div class="p-stock" data-pr-stock="bf"></div>
       </div>
     </div>
     <div class="prod-card tr rv d2" id="card-tr">
@@ -1027,14 +1031,15 @@
         <div class="p-flav">Sabor cereza suave</div>
         <div class="p-name">CHERRY<br>POP</div>
         <div class="p-img-wrap">
-          <img src="assets/cherry-pop.png" alt="Cherry Pop" class="p-img">
+          <img src="assets/cherry-pop.png" alt="Cherry Pop" class="p-img" data-pr-photo="cp">
         </div>
         <div class="p-tags">
           <span class="p-tag">Aguante</span><span class="p-tag">Focus</span><span class="p-tag">Energía</span><span class="p-tag">Reacción</span>
         </div>
         <p class="p-desc">Cereza refrescante, suave y rica. Fácil de tomar todos los días. Para los que buscan un sabor rico sin que sea una bomba.</p>
-        <div class="p-price">$24.999 <span>/ 30 porciones · 300g</span></div>
+        <div class="p-price"><span data-pr-price>$24.999</span> <span>/ 30 porciones · 300g</span></div>
         <a href="#" class="btn-buy" data-pr-add="cp">COMPRAR CHERRY POP <span aria-hidden="true">→</span></a>
+        <div class="p-stock" data-pr-stock="cp"></div>
       </div>
     </div>
   </div>
