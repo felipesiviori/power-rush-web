@@ -1082,7 +1082,9 @@
         </div>
       </button>
     </div>
-    <p class="cf-note">Y para cualquier otra cosa que pida lo mismo: <b>concentración y energía sostenida durante un período prolongado de tiempo</b>. Si tu actividad necesita eso, también es para vos.</p>
+    <!-- El <span> mantiene el texto como un único flex item: sin él, cada tramo
+         suelto y el <b> se vuelven items independientes y el párrafo se parte en columnas. -->
+    <p class="cf-note"><span>Y para cualquier otra cosa que pida lo mismo: <b>concentración y energía sostenida durante un período prolongado de tiempo</b>. Si tu actividad necesita eso, también es para vos.</span></p>
   </div>
 </section>
 
@@ -1223,7 +1225,7 @@ const productGallery = [
   { src: '/assets/QUE_TIENE_UN_SCOOP.png',    alt: 'Qué tiene un scoop de Power Rush' },
   { src: '/assets/pq_Powe_Blue.png',          alt: 'Por qué Power Rush: más energía, foco, sin azúcar' },
   { src: '/assets/REVIEWS_FOTOS.png',         alt: 'Reseñas de clientes' },
-  { src: '/assets/INFO_BLUE_FIZZ.png',        alt: 'Información nutricional Blue Fizz' },
+  { src: '/assets/INFO_BLUE_FIZZ.png',        alt: 'Información nutricional Blue Fizz', label: true },
   { src: '/assets/BLUE_FIZZ_FRENTE_SOLO.png', alt: 'Pote Blue Fizz',  flavor: 'bf' },
   { src: '/assets/CHERRY_FRENTE_SOLO.png',    alt: 'Pote Cherry Pop', flavor: 'cp' }
 ];
@@ -1249,6 +1251,20 @@ function setGalleryIndex(i) {
     b.onclick = () => setGalleryIndex(i);
     wrap.appendChild(b);
   });
+})();
+/* "Ver etiqueta" en la home entra como /products/powerrush#etiqueta y abre
+   directo la foto de la etiqueta. Se busca por el flag `label` y no por
+   índice fijo, para que siga funcionando si cambia el orden de la galería.
+   No usamos setGalleryIndex(): su fundido de 300 ms se vería, en la carga
+   inicial, como un parpadeo de la primera foto antes de la etiqueta. */
+(function openLabelFromHash() {
+  if (location.hash !== '#etiqueta') return;
+  const i = productGallery.findIndex(g => g.label);
+  if (i < 0) return;
+  const img = document.getElementById('prod-img');
+  img.src = productGallery[i].src;
+  img.alt = productGallery[i].alt;
+  document.querySelectorAll('.prod-thumb').forEach((t, j) => t.classList.toggle('active', j === i));
 })();
 function selectFlavor(f) {
   if (currentFlavor === f) return;
