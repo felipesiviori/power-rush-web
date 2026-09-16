@@ -928,8 +928,7 @@
 
     /* ===== POPUP ETIQUETA =====
        Mismo componente que el modal de la PDP, para que la etiqueta se vea
-       igual en los dos lados. Se suma un selector de sabor: la tabla
-       nutricional es identica en ambos, cambia solo el branding. */
+       igual en los dos lados. */
     .label-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 28px 20px; }
     .label-modal.open { display: flex; }
     .label-modal-backdrop { position: absolute; inset: 0; background: rgba(4,6,4,.84); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: lmFade .3s ease; }
@@ -938,17 +937,12 @@
     .label-modal-close { position: absolute; top: -16px; right: -16px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #04140C; border: none; cursor: pointer; box-shadow: 0 6px 20px -4px rgba(0,212,122,.6); transition: transform .18s ease, filter .18s ease; z-index: 2; }
     .label-modal-close:hover { transform: scale(1.08); filter: brightness(1.05); }
     .label-modal-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-    .lm-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .lm-flavors { display: flex; gap: 8px; }
-    .lm-flav { font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(238,245,238,.7); background: var(--bg2); border: 1px solid rgba(255,255,255,.12); border-radius: 40px; padding: 8px 14px; cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
-    .lm-flav:hover { color: var(--white); border-color: rgba(255,255,255,.28); }
-    .lm-flav.active { color: var(--green); border-color: var(--green); background: rgba(0,212,122,.1); }
-    .lm-flav:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+    .lm-bar { display: flex; align-items: center; justify-content: center; }
     .lm-cta { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #04140C; background: var(--green); border-radius: 40px; padding: 10px 18px; text-decoration: none; white-space: nowrap; transition: filter .18s ease; }
     .lm-cta:hover { filter: brightness(1.08); }
     @keyframes lmFade { from { opacity: 0; } to { opacity: 1; } }
     @keyframes lmPop { from { opacity: 0; transform: translateY(16px) scale(.96); } to { opacity: 1; transform: none; } }
-    @media (max-width: 560px) { .label-modal-close { top: -14px; right: -6px; } .lm-bar { justify-content: center; } }
+    @media (max-width: 560px) { .label-modal-close { top: -14px; right: -6px; } }
     @media (prefers-reduced-motion: reduce) { .label-modal-backdrop, .label-modal-inner { animation: none; } }
   </style>
 </head>
@@ -1595,12 +1589,8 @@
     <button class="label-modal-close" onclick="closeLabelModal()" aria-label="Cerrar">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
     </button>
-    <img id="lm-img" src="/assets/INFO_CHERRY_POP.png" alt="Informacion nutricional completa de Power Rush Cherry Pop">
+    <img src="/assets/INFO_CHERRY_POP.png" alt="Informacion nutricional completa de Power Rush">
     <div class="lm-bar">
-      <div class="lm-flavors">
-        <button type="button" class="lm-flav active" data-flavor="cp" onclick="setLabelFlavor('cp', this)">Cherry Pop</button>
-        <button type="button" class="lm-flav" data-flavor="bf" onclick="setLabelFlavor('bf', this)">Blue Fizz</button>
-      </div>
       <a class="lm-cta" href="/products/powerrush">Ver producto</a>
     </div>
   </div>
@@ -1784,19 +1774,8 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
    El boton "Ver etiqueta" abre la etiqueta aca mismo en vez de mandar a la
    PDP: quien lo toca esta verificando, no comprando, y asi no pierde el
    lugar donde venia leyendo. El CTA de adentro le deja igual el camino al
-   producto. La tabla nutricional es la misma en los dos sabores, el
-   selector solo cambia el branding. */
-const LABEL_IMGS = {
-  cp: { src: '/assets/INFO_CHERRY_POP.png', alt: 'Informacion nutricional completa de Power Rush Cherry Pop' },
-  bf: { src: '/assets/INFO_BLUE_FIZZ.png',  alt: 'Informacion nutricional completa de Power Rush Blue Fizz' }
-};
-function setLabelFlavor(f, btn) {
-  const d = LABEL_IMGS[f];
-  if (!d) return;
-  const img = document.getElementById('lm-img');
-  if (img) { img.src = d.src; img.alt = d.alt; }
-  document.querySelectorAll('.lm-flav').forEach(b => b.classList.toggle('active', b === btn));
-}
+   producto. Se muestra una sola imagen: la tabla nutricional es identica
+   en los dos sabores. */
 function openLabelModal() {
   const m = document.getElementById('label-modal');
   if (!m) return;
