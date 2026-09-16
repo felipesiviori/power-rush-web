@@ -925,6 +925,31 @@
       .rv { opacity: 1; transform: none; transition: none; }
       .ing-fill { transition: none; }
     }
+
+    /* ===== POPUP ETIQUETA =====
+       Mismo componente que el modal de la PDP, para que la etiqueta se vea
+       igual en los dos lados. Se suma un selector de sabor: la tabla
+       nutricional es identica en ambos, cambia solo el branding. */
+    .label-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; padding: 28px 20px; }
+    .label-modal.open { display: flex; }
+    .label-modal-backdrop { position: absolute; inset: 0; background: rgba(4,6,4,.84); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: lmFade .3s ease; }
+    .label-modal-inner { position: relative; z-index: 1; max-width: 680px; width: 100%; max-height: 92vh; display: flex; flex-direction: column; gap: 12px; animation: lmPop .38s cubic-bezier(.23,1,.32,1); }
+    .label-modal-inner img { display: block; width: 100%; height: auto; max-height: 76vh; object-fit: contain; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 40px 90px -30px rgba(0,0,0,.85); }
+    .label-modal-close { position: absolute; top: -16px; right: -16px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #04140C; border: none; cursor: pointer; box-shadow: 0 6px 20px -4px rgba(0,212,122,.6); transition: transform .18s ease, filter .18s ease; z-index: 2; }
+    .label-modal-close:hover { transform: scale(1.08); filter: brightness(1.05); }
+    .label-modal-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    .lm-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .lm-flavors { display: flex; gap: 8px; }
+    .lm-flav { font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(238,245,238,.7); background: var(--bg2); border: 1px solid rgba(255,255,255,.12); border-radius: 40px; padding: 8px 14px; cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+    .lm-flav:hover { color: var(--white); border-color: rgba(255,255,255,.28); }
+    .lm-flav.active { color: var(--green); border-color: var(--green); background: rgba(0,212,122,.1); }
+    .lm-flav:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+    .lm-cta { font-family: var(--mo); font-weight: 700; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #04140C; background: var(--green); border-radius: 40px; padding: 10px 18px; text-decoration: none; white-space: nowrap; transition: filter .18s ease; }
+    .lm-cta:hover { filter: brightness(1.08); }
+    @keyframes lmFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes lmPop { from { opacity: 0; transform: translateY(16px) scale(.96); } to { opacity: 1; transform: none; } }
+    @media (max-width: 560px) { .label-modal-close { top: -14px; right: -6px; } .lm-bar { justify-content: center; } }
+    @media (prefers-reduced-motion: reduce) { .label-modal-backdrop, .label-modal-inner { animation: none; } }
   </style>
 </head>
 <body>
@@ -1412,10 +1437,10 @@
       </div>
     </div>
     <div class="rv d2" style="margin-top:32px;">
-      <a href="/products/powerrush#etiqueta" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center;">
+      <button type="button" onclick="openLabelModal()" class="btn-sc" style="display:inline-flex; gap:8px; align-items:center; cursor:pointer;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
         VER ETIQUETA
-      </a>
+      </button>
     </div>
   </div>
 </section>
@@ -1562,6 +1587,24 @@
   </div>
 </footer>
 
+
+<!-- ===== POPUP ETIQUETA ===== -->
+<div class="label-modal" id="label-modal" aria-hidden="true">
+  <div class="label-modal-backdrop" onclick="closeLabelModal()"></div>
+  <div class="label-modal-inner" role="dialog" aria-modal="true" aria-label="Informacion nutricional completa">
+    <button class="label-modal-close" onclick="closeLabelModal()" aria-label="Cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <img id="lm-img" src="/assets/INFO_CHERRY_POP.png" alt="Informacion nutricional completa de Power Rush Cherry Pop">
+    <div class="lm-bar">
+      <div class="lm-flavors">
+        <button type="button" class="lm-flav active" data-flavor="cp" onclick="setLabelFlavor('cp', this)">Cherry Pop</button>
+        <button type="button" class="lm-flav" data-flavor="bf" onclick="setLabelFlavor('bf', this)">Blue Fizz</button>
+      </div>
+      <a class="lm-cta" href="/products/powerrush">Ver producto</a>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ===== CURSOR ===== */
@@ -1736,6 +1779,43 @@ Object.keys(secAch).forEach(id=>{ const el=document.getElementById(id); if(el)se
   io.observe(root);
 })();
 
+
+/* POPUP ETIQUETA
+   El boton "Ver etiqueta" abre la etiqueta aca mismo en vez de mandar a la
+   PDP: quien lo toca esta verificando, no comprando, y asi no pierde el
+   lugar donde venia leyendo. El CTA de adentro le deja igual el camino al
+   producto. La tabla nutricional es la misma en los dos sabores, el
+   selector solo cambia el branding. */
+const LABEL_IMGS = {
+  cp: { src: '/assets/INFO_CHERRY_POP.png', alt: 'Informacion nutricional completa de Power Rush Cherry Pop' },
+  bf: { src: '/assets/INFO_BLUE_FIZZ.png',  alt: 'Informacion nutricional completa de Power Rush Blue Fizz' }
+};
+function setLabelFlavor(f, btn) {
+  const d = LABEL_IMGS[f];
+  if (!d) return;
+  const img = document.getElementById('lm-img');
+  if (img) { img.src = d.src; img.alt = d.alt; }
+  document.querySelectorAll('.lm-flav').forEach(b => b.classList.toggle('active', b === btn));
+}
+function openLabelModal() {
+  const m = document.getElementById('label-modal');
+  if (!m) return;
+  m.classList.add('open');
+  m.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  const c = m.querySelector('.label-modal-close');
+  setTimeout(function () { if (c) c.focus(); }, 50);
+}
+function closeLabelModal() {
+  const m = document.getElementById('label-modal');
+  if (!m || !m.classList.contains('open')) return;
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeLabelModal();
+});
 
 </script>
 <script src="cart.js" defer></script>
