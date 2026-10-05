@@ -1,6 +1,6 @@
-# Power Rush — Enter focus
+# Power Rush — Your next game starts here
 
-An immersive home page built around the official Power Rush product models. The concept uses competitive gaming language, oversized brand typography, an acid-green opening, a dark focus sequence, and two interactive flavor worlds.
+A new home page grounded in the existing PDP: near-black backgrounds, #00D47A green, Barlow Condensed italic headlines, Bricolage Grotesque body copy and Space Mono labels. Real product photography places Power Rush beside the keyboard. A scroll-driven 3D sequence leads into an interactive flavor selector, transparent formula, preparation ritual and founder story.
 
 ## Scope
 
@@ -21,7 +21,9 @@ Open `http://127.0.0.1:8765/`. No build step is required. Existing Vercel config
 - Product meshes: the user's shared `MODELO 3D/power_rush.blend`.
 - Label artwork: the original `etiqueta_bluefizz.png` and `etiqueta_cherry.png` from the same shared folder.
 - Meshes, UV coordinates, packaging proportions, lid grooves and label artwork are preserved. Production materials are simplified to portable real-time PBR. The browser uses studio environment lighting and restrained clearcoat.
-- Posters: resized copies of the official product photography already in the repository.
+- Posters and setup scenes: optimized copies of official product photography already in the repository.
+- Selective varnish masks: original UV masks supplied with the Blender model.
+- The home loads the existing cart.js; cart implementation and PDP remain unchanged.
 - Product copy and dosages: the supplied brand and product guides. All customer-facing copy remains in Argentine Spanish.
 
 ## Implementation
@@ -34,7 +36,7 @@ Open `http://127.0.0.1:8765/`. No build step is required. Existing Vercel config
 - Libraries are vendored locally. Font loading is the only external dependency of the new home.
 - The flavor renderer and Cherry Pop model load as the user approaches that section.
 - Rendering stops for offscreen scenes and hidden tabs. Mobile rendering is capped near 30 FPS and device pixel ratio is bounded.
-- Reduced-motion users receive static product poses, a shortened focus section and no continuous marquee. Static photography remains available when WebGL or model loading fails.
+- Reduced-motion users receive static product poses, a shortened focus section and no continuous animation. Static photography remains available when WebGL or model loading fails.
 - Flavor selection uses native buttons with `aria-pressed`; FAQs use native `details`; mobile navigation supports Escape, focus wrapping, and `aria-expanded`.
 
 ## Third-party notices

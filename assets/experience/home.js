@@ -1,33 +1,148 @@
 import Lenis from "./vendor/lenis.mjs";
 
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const mobile = window.matchMedia("(max-width: 700px)");
 const $ = (selector) => document.querySelector(selector);
-const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const $$ = (selector) => [...document.querySelectorAll(selector)];
+const clamp = (n, min = 0, max = 1) => Math.min(max, Math.max(min, n));
 const lerp = (a, b, t) => a + (b - a) * t;
-const ease = (t) => t * t * (3 - 2 * t);
+const smooth = (n) => n * n * (3 - 2 * n);
+const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+const mobile = window.matchMedia("(max-width: 760px)");
 const state = {
-  scroll: window.scrollY,
-  focus: 0,
-  flavor: "blue",
-  pointerX: 0,
-  pointerY: 0,
+  paused: media.matches,
+  flavor: "cherry",
+  story: 0,
+  progress: 0,
+  turn: 0,
+  pointer: 0,
   visible: true,
 };
 let lenis;
-if (!reducedMotion.matches) {
-  lenis = new Lenis({
-    duration: 1.05,
-    smoothWheel: true,
-    touchMultiplier: 1,
-    anchors: true,
-  });
-  const scrollFrame = (time) => {
-    lenis.raf(time);
-    requestAnimationFrame(scrollFrame);
-  };
-  requestAnimationFrame(scrollFrame);
+let storyTop = 0;
+let storyHeight = 0;
+let pageHeight = 0;
+let scrollPending = false;
+let revealAnimations = [];
+
+function measure() {
+  storyTop = $("#inside").getBoundingClientRect().top + window.scrollY;
+  storyHeight = $("#inside").offsetHeight;
+  pageHeight = document.documentElement.scrollHeight;
 }
+function setStory(index) {
+  if (state.story === index) return;
+  state.story = index;
+  $$(".story-panel").forEach((panel, i) => {
+    panel.classList.toggle("active", i === index);
+    panel.setAttribute("aria-hidden", String(i !== index));
+    panel.querySelectorAll("a").forEach((a) => {
+      a.tabIndex = i === index ? 0 : -1;
+    });
+  });
+  $$("[data-step]").forEach((button, i) => {
+    button.classList.toggle("active", i === index);
+    button.setAttribute("aria-pressed", String(i === index));
+  });
+}
+function updateScroll() {
+  state.progress = clamp(
+    (window.scrollY - storyTop) / Math.max(1, storyHeight - window.innerHeight),
+  );
+  setStory(
+    state.paused || document.body.classList.contains("no-webgl")
+      ? 0
+      : state.progress > 0.48
+        ? 1
+        : 0,
+  );
+  $(".track-line > span").style.transform = `scaleX(${state.progress})`;
+  $(".reading-progress > span").style.transform =
+    `scaleX(${clamp(window.scrollY / (pageHeight - window.innerHeight))})`;
+  if (!state.paused) {
+    const heroProgress = clamp(window.scrollY / $("#hero").offsetHeight);
+    $(".hero-art").style.transform =
+      `translateY(${heroProgress * (mobile.matches ? 25 : 70)}px)`;
+    $(".hero-art").style.opacity = String(1 - heroProgress * 0.4);
+  }
+  scrollPending = false;
+}
+function setupMotion() {
+  if (state.paused) {
+    lenis?.destroy();
+    lenis = null;
+    revealAnimations.forEach((animation) => {
+      animation.progress(1);
+      animation.scrollTrigger?.kill();
+    });
+    revealAnimations = [];
+    document.body.classList.add("motion-paused");
+    $(".hero-art").style.transform = "";
+    $(".hero-art").style.opacity = "";
+  } else {
+    document.body.classList.remove("motion-paused");
+    if (!lenis)
+      lenis = new Lenis({
+        duration: 0.95,
+        smoothWheel: true,
+        anchors: { offset: -110 },
+      });
+  }
+  $(".motion-toggle").setAttribute("aria-pressed", String(state.paused));
+  $(".motion-toggle").innerHTML = state.paused
+    ? 'ACTIVAR ANIMACIONES <span aria-hidden="true">▷</span>'
+    : 'PAUSAR ANIMACIONES <span aria-hidden="true">Ⅱ</span>';
+  measure();
+  updateScroll();
+}
+setupMotion();
+$(".motion-toggle").addEventListener("click", () => {
+  state.paused = !state.paused;
+  setupMotion();
+});
+media.addEventListener("change", (event) => {
+  state.paused = event.matches;
+  setupMotion();
+});
+function scrollLoop(time) {
+  lenis?.raf(time);
+  requestAnimationFrame(scrollLoop);
+}
+requestAnimationFrame(scrollLoop);
+window.addEventListener(
+  "scroll",
+  () => {
+    if (!scrollPending) {
+      scrollPending = true;
+      requestAnimationFrame(updateScroll);
+    }
+  },
+  { passive: true },
+);
+window.addEventListener("resize", () => {
+  measure();
+  updateScroll();
+});
+new ResizeObserver(measure).observe(document.body);
+document.fonts.ready.then(() => {
+  measure();
+  updateScroll();
+});
+$$("[data-step]").forEach((button) =>
+  button.addEventListener("click", () => {
+    if (state.paused || document.body.classList.contains("no-webgl")) {
+      document
+        .querySelector(button.dataset.step === "1" ? "#formula" : "#inside")
+        .scrollIntoView({ behavior: "auto" });
+      return;
+    }
+    const y =
+      storyTop +
+      (storyHeight - window.innerHeight) *
+        (button.dataset.step === "1" ? 0.82 : 0.05);
+    if (lenis) lenis.scrollTo(y);
+    else window.scrollTo({ top: y, behavior: "smooth" });
+  }),
+);
+$('.story-panel[data-story="1"] a').tabIndex = -1;
 
 const menuButton = $(".menu-toggle");
 const menu = $("#mobile-menu");
@@ -39,545 +154,429 @@ function closeMenu() {
   lenis?.start();
 }
 menuButton.addEventListener("click", () => {
-  const open = menu.hidden;
-  menu.hidden = !open;
-  menuButton.setAttribute("aria-expanded", String(open));
-  menuButton.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
-  document.body.style.overflow = open ? "hidden" : "";
-  if (open) lenis?.stop();
-  else lenis?.start();
+  if (!menu.hidden) {
+    closeMenu();
+    return;
+  }
+  menu.hidden = false;
+  menuButton.setAttribute("aria-expanded", "true");
+  menuButton.setAttribute("aria-label", "Cerrar menú");
+  document.body.style.overflow = "hidden";
+  lenis?.stop();
 });
 menu
   .querySelectorAll("a")
-  .forEach((link) => link.addEventListener("click", closeMenu));
+  .forEach((a) => a.addEventListener("click", closeMenu));
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !menu.hidden) {
+  if (menu.hidden) return;
+  if (event.key === "Escape") {
     closeMenu();
     menuButton.focus();
   }
-});
-const menuLinks = [...menu.querySelectorAll("a")];
-menu.addEventListener("keydown", (event) => {
-  if (
-    event.key === "Tab" &&
-    !event.shiftKey &&
-    document.activeElement === menuLinks.at(-1)
-  ) {
-    event.preventDefault();
-    menuButton.focus();
+  if (event.key === "Tab") {
+    const last = [...menu.querySelectorAll("a")].at(-1);
+    if (event.shiftKey && document.activeElement === menuButton) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      menuButton.focus();
+    }
   }
 });
-menuButton.addEventListener("keydown", (event) => {
-  if (event.key === "Tab" && event.shiftKey && !menu.hidden) {
-    event.preventDefault();
-    menuLinks.at(-1).focus();
-  }
+mobile.addEventListener("change", (event) => {
+  if (!event.matches) closeMenu();
 });
-
-const flavorContent = {
-  blue: {
-    words: ["BLUE", "FIZZ"],
-    note: "ÁCIDO · ELÉCTRICO · INTENSO",
-    title: "Se siente.<br>Y te queda.",
-    description:
-      "Blue Fizz va de frente. Un sabor ácido e intenso para los que no pasan desapercibidos.",
-    index: "01 / 02",
-    name: "Blue Fizz",
-    image: "/assets/experience/posters/blue-fizz.png",
+// Keep smooth scrolling in sync with the existing cart drawer.
+new MutationObserver(() => {
+  if (document.body.style.overflow === "hidden") lenis?.stop();
+  else lenis?.start();
+}).observe(document.body, { attributes: true, attributeFilter: ["style"] });
+document.addEventListener(
+  "click",
+  (event) => {
+    if (event.target.closest("[data-pr-open]") && !menu.hidden) closeMenu();
   },
+  true,
+);
+
+const flavors = {
   cherry: {
-    words: ["CHERRY", "POP"],
-    note: "CEREZA · SUAVE · REFRESCANTE",
-    title: "Dulce entrada.<br>Gran partida.",
-    description:
-      "Cherry Pop juega distinto. Cereza refrescante y suave, con toda la personalidad de Power Rush.",
-    index: "02 / 02",
+    title: "CHERRY <span>POP.</span>",
+    ghost: "CHERRY<br>POP",
     name: "Cherry Pop",
-    image: "/assets/experience/posters/cherry-pop.png",
+    note: "Cereza refrescante · Pote de 300 g",
+    code: "PR — 001 / CHERRY POP",
+    description:
+      "Cereza refrescante y suave. Para los que entran tranquilos y dejan su marca en la partida.",
+    chips: ["SUAVE", "REFRESCANTE"],
+    poster: "/assets/experience/posters/cherry-pop.png",
+  },
+  blue: {
+    title: "BLUE <span>FIZZ.</span>",
+    ghost: "BLUE<br>FIZZ",
+    name: "Blue Fizz",
+    note: "Ácido intenso · Pote de 300 g",
+    code: "PR — 002 / BLUE FIZZ",
+    description:
+      "Ácido, intenso y sin vueltas. Blue Fizz es para los que eligen sabores con carácter desde el primer sorbo.",
+    chips: ["ÁCIDO", "INTENSO"],
+    poster: "/assets/experience/posters/blue-fizz.png",
   },
 };
-function setFlavor(flavor) {
-  if (flavor === state.flavor) return;
+$$("[data-hero-flavor]").forEach((button) =>
+  button.addEventListener("click", () => {
+    const flavor = button.dataset.heroFlavor;
+    $("#hero").dataset.flavor = flavor;
+    $(".hero-flavor-name").textContent = flavors[flavor].name.toUpperCase();
+    $(".hero-flavor-note").textContent = flavors[flavor].note;
+    $$("[data-hero-flavor]").forEach((b) => {
+      b.classList.toggle("selected", b === button);
+      b.setAttribute("aria-pressed", String(b === button));
+    });
+  }),
+);
+let flavorStart = 0;
+function chooseFlavor(flavor) {
+  if (state.flavor === flavor) return;
   state.flavor = flavor;
-  const content = flavorContent[flavor];
-  $("#flavors").dataset.flavor = flavor;
-  document.querySelectorAll(".flavor-switch button").forEach((button) => {
+  state.turn = 0;
+  flavorStart = performance.now();
+  const data = flavors[flavor];
+  $("#loadout").dataset.flavor = flavor;
+  $(".flavor-title").innerHTML = data.title;
+  $(".flavor-description").textContent = data.description;
+  $(".fighter-ghost").innerHTML = data.ghost;
+  $(".fighter-code").textContent = data.code;
+  $$(".profile-chip").forEach((chip, i) => {
+    chip.textContent = data.chips[i];
+  });
+  $(".fighter-stage .model-poster").src = data.poster;
+  $(".fighter-stage .model-poster").alt = `Power Rush ${data.name}`;
+  $("#fighter-stage").setAttribute(
+    "aria-label",
+    `Power Rush ${data.name}, modelo 3D interactivo`,
+  );
+  $$(".flavor-option").forEach((button) => {
     const active = button.dataset.flavor === flavor;
-    button.classList.toggle("is-active", active);
+    button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
-  document.querySelectorAll(".flavor-word span").forEach((word, index) => {
-    word.textContent = content.words[index];
-  });
-  $(".flavor-note").textContent = content.note;
-  $(".flavor-name").innerHTML = content.title;
-  $(".flavor-description").textContent = content.description;
-  $(".flavor-index").textContent = content.index;
-  $("#flavor-canvas").setAttribute(
-    "aria-label",
-    `Pote Power Rush ${content.name} en 3D`,
-  );
-  const fallback = $(".flavor-fallback");
-  fallback.src = content.image;
-  fallback.alt = `Power Rush ${content.name}`;
-  if (window.gsap && !reducedMotion.matches) {
+  if (!state.paused && window.gsap)
     gsap.fromTo(
-      ".flavor-copy > *",
-      { y: 14, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.045,
-        duration: 0.55,
-        overwrite: true,
-        ease: "power2.out",
-      },
+      ".flavor-info",
+      { y: 10, opacity: 0.4 },
+      { y: 0, opacity: 1, duration: 0.45, overwrite: true },
     );
-    gsap.fromTo(
-      ".flavor-word",
-      { y: 22, opacity: 0.25 },
-      { y: 0, opacity: 1, duration: 0.65, overwrite: true },
-    );
-  }
 }
-document
-  .querySelectorAll(".flavor-switch button")
-  .forEach((button) =>
-    button.addEventListener("click", () => setFlavor(button.dataset.flavor)),
-  );
-$("#year").textContent = String(new Date().getFullYear());
-
-let heroHeight = $(".hero").offsetHeight;
-let focusHeight = $("#focus").offsetHeight;
-let viewportHeight = window.innerHeight;
-let documentHeight = document.documentElement.scrollHeight;
-function measure() {
-  heroHeight = $(".hero").offsetHeight;
-  focusHeight = $("#focus").offsetHeight;
-  viewportHeight = window.innerHeight;
-  documentHeight = document.documentElement.scrollHeight;
-}
-const focusCopy = $(".focus-copy");
-const noise = $(".noise-field");
-const focusMeter = $(".focus-meter span");
-const progress = $(".page-progress span");
-let scrollPending = false;
-function updateScroll() {
-  state.scroll = window.scrollY;
-  state.focus = clamp(
-    (state.scroll - heroHeight + viewportHeight * 0.55) /
-      (focusHeight - viewportHeight * 0.35),
-  );
-  const localProgress = clamp(
-    (state.scroll - heroHeight) / Math.max(1, focusHeight - viewportHeight),
-  );
-  focusMeter.style.transform = `scaleX(${reducedMotion.matches ? 1 : localProgress})`;
-  $(".focus-percent").textContent =
-    `${String(Math.round((reducedMotion.matches ? 1 : localProgress) * 100)).padStart(2, "0")}%`;
-  progress.style.transform = `scaleX(${clamp(state.scroll / (documentHeight - viewportHeight))})`;
-  if (!reducedMotion.matches) {
-    noise.style.opacity = lerp(0.2, 0.012, ease(clamp(localProgress * 1.7)));
-    noise.style.transform = `scale(${1 + localProgress * 0.35})`;
-    noise.style.filter = `blur(${2 + localProgress * 12}px)`;
-    focusCopy.style.transform = `translateY(${lerp(28, -12, localProgress)}px)`;
-  }
-  scrollPending = false;
-}
-window.addEventListener(
-  "scroll",
-  () => {
-    if (!scrollPending) {
-      requestAnimationFrame(updateScroll);
-      scrollPending = true;
-    }
-  },
-  { passive: true },
+$$(".flavor-option").forEach((button) =>
+  button.addEventListener("click", () => chooseFlavor(button.dataset.flavor)),
 );
-window.addEventListener("resize", () => {
-  measure();
-  updateScroll();
+$$("[data-rotate]").forEach((button) =>
+  button.addEventListener("click", () => {
+    state.turn += (Number(button.dataset.rotate) * Math.PI) / 4;
+  }),
+);
+let dragStart = null;
+$("#fighter-stage").addEventListener("pointerdown", (event) => {
+  dragStart = { x: event.clientX, turn: state.turn, id: event.pointerId };
+  if (event.pointerType === "mouse")
+    event.currentTarget.setPointerCapture(event.pointerId);
 });
-new ResizeObserver(measure).observe(document.body);
-updateScroll();
+$("#fighter-stage").addEventListener("pointermove", (event) => {
+  if (dragStart) {
+    state.turn = dragStart.turn + (event.clientX - dragStart.x) * 0.009;
+    return;
+  }
+  if (event.pointerType !== "mouse" || state.paused) return;
+  const rect = event.currentTarget.getBoundingClientRect();
+  state.pointer = ((event.clientX - rect.left) / rect.width - 0.5) * 0.2;
+});
+for (const event of ["pointerup", "pointercancel", "lostpointercapture"])
+  $("#fighter-stage").addEventListener(event, () => {
+    dragStart = null;
+  });
+$("#fighter-stage").addEventListener("pointerleave", () => {
+  state.pointer = 0;
+  dragStart = null;
+});
+document.addEventListener("visibilitychange", () => {
+  state.visible = !document.hidden;
+});
 
-if (window.gsap && window.ScrollTrigger && !reducedMotion.matches) {
+if (window.gsap && window.ScrollTrigger && !state.paused) {
   gsap.registerPlugin(ScrollTrigger);
-  gsap.from(".hero-kicker, .hero-caption, .hero-bottom", {
+  gsap.from(".hero-content > *", {
+    y: 18,
     opacity: 0,
-    y: 16,
     duration: 0.85,
-    stagger: 0.08,
-    delay: 0.1,
-    ease: "power2.out",
-  });
-  gsap.from(".hero-title > span", {
-    yPercent: 16,
-    opacity: 0,
-    duration: 1.15,
-    stagger: 0.09,
+    stagger: 0.075,
     ease: "power3.out",
-    delay: 0.05,
+    delay: 0.15,
   });
-  document
-    .querySelectorAll(
-      ".formula-heading, .ingredient, .ritual-heading, .ritual-steps article, .faq-section > div",
-    )
-    .forEach((element) => {
+  gsap.from(".hero-art", { scale: 1.06, duration: 1.6, ease: "power2.out" });
+  $$(
+    ".section-heading, .formula-feature, .formula-ingredients, .ritual-grid article, .origin-content > div, .faq-section > div",
+  ).forEach((element) => {
+    revealAnimations.push(
       gsap.from(element, {
-        scrollTrigger: { trigger: element, start: "top 92%", once: true },
-        y: 30,
+        y: 28,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.85,
         ease: "power2.out",
-      });
-    });
-  gsap.to(".ring-b", {
-    rotate: 115,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".formula-section",
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1,
-    },
-  });
-  gsap.to(".ring-c", {
-    rotate: -115,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".formula-section",
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 1,
-    },
+        scrollTrigger: { trigger: element, start: "top 93%", once: true },
+      }),
+    );
   });
 }
 
-async function createProductExperience() {
+async function setupProducts() {
   const THREE = await import("three");
   const [{ GLTFLoader }, { RoomEnvironment }] = await Promise.all([
     import("./vendor/loaders/GLTFLoader.js"),
     import("./vendor/environments/RoomEnvironment.js"),
   ]);
   const loader = new GLTFLoader();
-  const modelPromises = {
-    blue: loader.loadAsync("/assets/experience/models/blue-fizz.glb"),
-    cherry: null,
-  };
+  const models = {};
   const views = [];
-  let failed = false;
-  function createView(container, kind) {
+  const getModel = (flavor) => {
+    if (!models[flavor])
+      models[flavor] = loader.loadAsync(
+        `/assets/experience/models/${flavor === "blue" ? "blue-fizz" : "cherry-pop"}.glb`,
+      );
+    return models[flavor];
+  };
+  function makeView(container, kind) {
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(
-      Math.min(window.devicePixelRatio || 1, mobile.matches ? 1.5 : 1.75),
-    );
     renderer.setClearColor(0, 0);
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio || 1, mobile.matches ? 1.6 : 2),
+    );
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NeutralToneMapping;
-    renderer.toneMappingExposure = 0.9;
+    renderer.toneMappingExposure = 0.85;
     container.appendChild(renderer.domElement);
     renderer.domElement.setAttribute("aria-hidden", "true");
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-    camera.position.set(0, 0, 9);
-    const pmrem = new THREE.PMREMGenerator(renderer);
+    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+    camera.position.z = 9;
+    const generator = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
-    const environment = pmrem.fromScene(room, 0.035);
+    const environment = generator.fromScene(room, 0.035);
     scene.environment = environment.texture;
+    generator.dispose();
     room.dispose();
-    pmrem.dispose();
-    scene.add(new THREE.AmbientLight(0xffffff, 0.25));
     const key = new THREE.DirectionalLight(0xffffff, 2.1);
-    key.position.set(-3, 5, 5);
+    key.position.set(-3, 5, 6);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0xe6f6ff, 0.65);
+    const fill = new THREE.DirectionalLight(0xbde3ff, 0.65);
     fill.position.set(4, 1, 4);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(0xc6f85c, 1.7);
-    rim.position.set(2, 4, -3);
+    const rim = new THREE.DirectionalLight(
+      kind === "inside" ? 0x00d47a : 0xe63950,
+      2.4,
+    );
+    rim.position.set(3, 3, -3);
     scene.add(rim);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.2));
     const group = new THREE.Group();
     scene.add(group);
     const view = {
+      container,
+      kind,
       renderer,
       scene,
       camera,
       group,
-      container,
-      kind,
-      models: {},
-      visible: true,
-      flavorMix: 0,
-      ready: false,
-      dirty: true,
       rim,
-      environment,
+      models: {},
+      ready: false,
+      visible: true,
+      dirty: true,
+      lastTurn: null,
+      lastFlavor: null,
+      angle: 0,
     };
-    const resize = () => {
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+    new ResizeObserver(() => {
+      const width = container.clientWidth,
+        height = container.clientHeight;
       if (!width || !height) return;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
       view.dirty = true;
-    };
-    new ResizeObserver(resize).observe(container);
-    resize();
-    const observer = new IntersectionObserver(
+    }).observe(container);
+    new IntersectionObserver(
       ([entry]) => {
         view.visible = entry.isIntersecting;
         view.dirty = true;
       },
-      { rootMargin: "100px" },
-    );
-    observer.observe(kind === "hero" ? $("#opening") : container);
+      { rootMargin: "50px" },
+    ).observe(container);
     renderer.domElement.addEventListener("webglcontextlost", (event) => {
       event.preventDefault();
       view.visible = false;
-      container.classList.remove("is-ready");
-      if (kind === "hero") {
-        document.body.classList.remove("webgl-ready");
+      view.ready = false;
+      container.classList.remove("ready");
+      if (kind === "inside") {
         document.body.classList.add("no-webgl");
+        measure();
+        updateScroll();
       }
-    });
-    renderer.domElement.addEventListener("webglcontextrestored", () => {
-      window.location.reload();
     });
     views.push(view);
     return view;
   }
-  function attachModel(view, gltf, flavor) {
-    const model = gltf.scene.clone(true);
-    const bounds = new THREE.Box3().setFromObject(model);
-    const center = bounds.getCenter(new THREE.Vector3());
-    const size = bounds.getSize(new THREE.Vector3());
+  function attach(view, asset, flavor) {
+    const model = asset.scene.clone(true);
+    const box = new THREE.Box3().setFromObject(model),
+      center = box.getCenter(new THREE.Vector3()),
+      size = box.getSize(new THREE.Vector3());
     model.position.sub(center);
-    const wrapper = new THREE.Group();
-    wrapper.add(model);
-    const scale = 3.2 / size.y;
-    wrapper.scale.setScalar(scale);
-    model.traverse((object) => {
-      if (!object.isMesh) return;
-      object.material = object.material.clone();
-      object.material.envMapIntensity = 0.28;
-      if (object.material.name.includes("etiqueta")) {
-        object.material.roughness = 0.55;
-        object.material.clearcoat = 0.12;
-        object.material.clearcoatRoughness = 0.25;
+    model.traverse((mesh) => {
+      if (!mesh.isMesh) return;
+      mesh.material = mesh.material.clone();
+      mesh.material.envMapIntensity = 0.35;
+      if (mesh.material.name.includes("etiqueta")) {
+        mesh.material.roughness = 0.58;
+        mesh.material.specularIntensity = 0.18;
+        mesh.material.clearcoat = 0.4;
+        mesh.material.clearcoatRoughness = 0.22;
+        mesh.material.clearcoatNormalMap = null;
+        const mask = new THREE.TextureLoader().load(
+          `/assets/experience/models/varnish-${flavor}.png`,
+          () => {
+            view.dirty = true;
+          },
+        );
+        mask.flipY = false;
+        mesh.material.clearcoatMap = mask;
       }
-      if (object.material.map)
-        object.material.map.anisotropy = Math.min(
+      if (mesh.material.map)
+        mesh.material.map.anisotropy = Math.min(
           8,
           view.renderer.capabilities.getMaxAnisotropy(),
         );
     });
+    const wrapper = new THREE.Group();
+    wrapper.add(model);
+    wrapper.scale.setScalar(3.2 / size.y);
+    wrapper.visible = false;
     view.group.add(wrapper);
     view.models[flavor] = wrapper;
-    return wrapper;
+    view.dirty = true;
   }
-  const heroView = createView($("#product-canvas"), "hero");
-  const portal = new THREE.Group();
-  const portalMaterial = new THREE.LineBasicMaterial({
-    color: 0xc6f85c,
-    transparent: true,
-    opacity: 0,
-  });
-  for (let ring = 0; ring < 3; ring++) {
-    const points = [];
-    const radius = 1.98 + ring * 0.19;
-    for (let n = 0; n <= 120; n++) {
-      const a = (n / 120) * Math.PI * (ring === 1 ? 1.6 : 2);
-      points.push(
-        new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0),
-      );
-    }
-    const circle = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints(points),
-      portalMaterial,
+  const observeScene = (selector, kind) => {
+    const observer = new IntersectionObserver(
+      async ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        let view;
+        try {
+          view = makeView($(selector), kind);
+          attach(view, await getModel("cherry"), "cherry");
+          view.models.cherry.visible = true;
+          view.ready = true;
+          view.container.classList.add("ready");
+          if (kind === "fighter") {
+            attach(view, await getModel("blue"), "blue");
+          }
+        } catch (error) {
+          console.warn(
+            "Product photography remains available because the 3D view could not load.",
+            error,
+          );
+          view?.container.classList.remove("ready");
+          if (kind === "inside") {
+            document.body.classList.add("no-webgl");
+            measure();
+            updateScroll();
+          }
+        }
+      },
+      { rootMargin: "500px" },
     );
-    circle.rotation.z = ring * 0.8;
-    portal.add(circle);
-  }
-  const ticks = [];
-  for (let n = 0; n < 64; n++) {
-    const a = (n / 64) * Math.PI * 2;
-    ticks.push(
-      Math.cos(a) * 2.52,
-      Math.sin(a) * 2.52,
-      0,
-      Math.cos(a) * (n % 4 === 0 ? 2.42 : 2.48),
-      Math.sin(a) * (n % 4 === 0 ? 2.42 : 2.48),
-      0,
-    );
-  }
-  const tickGeometry = new THREE.BufferGeometry();
-  tickGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(ticks, 3),
-  );
-  portal.add(new THREE.LineSegments(tickGeometry, portalMaterial));
-  portal.position.set(1.4, 0, -1);
-  heroView.scene.add(portal);
-  const blueModel = await modelPromises.blue;
-  attachModel(heroView, blueModel, "blue");
-  heroView.ready = true;
-  document.body.classList.add("webgl-ready");
-  // The second renderer and flavor model are loaded only near the flavor section.
-  const lazyObserver = new IntersectionObserver(
-    async ([entry]) => {
-      if (!entry.isIntersecting) return;
-      lazyObserver.disconnect();
-      try {
-        const view = createView($("#flavor-canvas"), "flavor");
-        attachModel(view, blueModel, "blue");
-        view.ready = true;
-        view.container.classList.add("is-ready");
-        modelPromises.cherry = loader.loadAsync(
-          "/assets/experience/models/cherry-pop.glb",
-        );
-        const cherryModel = await modelPromises.cherry;
-        attachModel(view, cherryModel, "cherry");
-        view.models.cherry.visible = false;
-        view.dirty = true;
-      } catch (error) {
-        console.warn(
-          "Flavor 3D is unavailable; product photography remains available.",
-          error,
-        );
-        $("#flavor-canvas").classList.remove("is-ready");
-      }
-    },
-    { rootMargin: "900px" },
-  );
-  lazyObserver.observe($("#flavors"));
-
-  const pointer = (event) => {
-    if (event.pointerType === "touch" || reducedMotion.matches) return;
-    const rect = $("#flavor-canvas").getBoundingClientRect();
-    state.pointerX =
-      clamp((event.clientX - rect.left) / rect.width, 0, 1) * 2 - 1;
-    state.pointerY =
-      clamp((event.clientY - rect.top) / rect.height, 0, 1) * 2 - 1;
+    observer.observe($(selector));
   };
-  $("#flavor-canvas").addEventListener("pointermove", pointer);
-  $("#flavor-canvas").addEventListener("pointerleave", () => {
-    state.pointerX = 0;
-    state.pointerY = 0;
-  });
-  document.addEventListener("visibilitychange", () => {
-    state.visible = !document.hidden;
-  });
-  let previous = 0;
-  let introStart = performance.now();
-  let smoothPointerX = 0;
-  let smoothPointerY = 0;
-  let lastFlavor = state.flavor;
-  let flavorTransitionStart = 0;
+  observeScene("#inside-stage", "inside");
+  observeScene("#fighter-stage", "fighter");
+  let lastFrame = 0;
   function render(time) {
     requestAnimationFrame(render);
-    if (!state.visible || failed) return;
-    if (mobile.matches && time - previous < 30) return;
-    previous = time;
-    const seconds = time / 1000;
-    const entrance = reducedMotion.matches
-      ? 1
-      : ease(clamp((time - introStart) / 1400));
-    const float = reducedMotion.matches ? 0 : Math.sin(seconds * 0.75) * 0.055;
-    smoothPointerX = lerp(smoothPointerX, state.pointerX, 0.06);
-    smoothPointerY = lerp(smoothPointerY, state.pointerY, 0.06);
-    if (lastFlavor !== state.flavor) {
-      lastFlavor = state.flavor;
-      flavorTransitionStart = time;
-    }
+    if (!state.visible || (mobile.matches && time - lastFrame < 30)) return;
+    lastFrame = time;
+    const t = time / 1000;
     for (const view of views) {
-      if (!view.visible || !view.ready) continue;
+      if (!view.ready || !view.visible) continue;
       if (
-        reducedMotion.matches &&
+        state.paused &&
         !view.dirty &&
-        view.lastFlavor === state.flavor &&
-        view.lastScroll === state.scroll
+        view.lastTurn === state.turn &&
+        view.lastFlavor === state.flavor
       )
         continue;
-      const isMobile = mobile.matches;
-      if (view.kind === "hero") {
-        const t = reducedMotion.matches
-          ? state.scroll > heroHeight * 0.8
-            ? 1
-            : 0
-          : ease(state.focus);
-        const intro = 1 - entrance;
-        view.group.position.set(
-          lerp(isMobile ? 0.05 : 1.05, isMobile ? (window.innerWidth < 360 ? 0.3 : 0.42) : 1.4, t),
-          lerp(isMobile ? -0.55 : -0.15, isMobile ? -0.55 : 0.05, t) +
-            float -
-            intro * 0.8,
-          0,
-        );
+      if (view.kind === "inside") {
+        const p = state.paused ? 0 : smooth(state.progress);
+        const narrow = mobile.matches;
+        view.group.position.set(narrow ? 0 : -0.03, narrow ? 0 : 0.05, 0);
         view.group.rotation.set(
-          lerp(0.14, -0.05, t),
-          -0.2 + t * Math.PI * 2 + intro * 0.9,
-          lerp(-0.22, 0.13, t),
+          0.07 - p * 0.1,
+          -0.26 + p * Math.PI * 2,
+          lerp(0.12, -0.1, p),
         );
-        const scale =
-          lerp(isMobile ? 0.53 : 0.87, isMobile ? (window.innerWidth < 360 ? 0.38 : 0.42) : 0.83, t) *
-          lerp(0.86, 1, entrance);
-        view.group.scale.setScalar(scale);
-        view.rim.color.set(t > 0.3 ? 0xc6f85c : 0xffffff);
-        portalMaterial.opacity = clamp((t - 0.12) * 1.7) * 0.35;
-        portal.position.x = isMobile ? (window.innerWidth < 360 ? 0.3 : 0.42) : 1.4;
-        portal.position.y = isMobile ? -0.55 : 0.05;
-        portal.scale.setScalar(isMobile ? 0.47 : 0.9);
-        portal.rotation.y = Math.sin(t * Math.PI) * 0.65;
-        portal.rotation.z = reducedMotion.matches ? 0 : seconds * 0.025;
+        view.group.scale.setScalar(narrow ? 0.98 : 1.02);
+        if (!state.paused) view.group.position.y += Math.sin(t * 0.6) * 0.035;
       } else {
-        const transition = reducedMotion.matches
-          ? 1
-          : ease(clamp((time - flavorTransitionStart) / 800));
-        const switching = transition < 1;
-        const currentModel = view.models[state.flavor];
-        if (!currentModel) {
-          // Keep the chosen flavor truthful while its model is still loading.
+        const model = view.models[state.flavor];
+        if (!model) {
+          view.container.classList.remove("ready");
           view.renderer.domElement.style.visibility = "hidden";
-          view.container.classList.remove("is-ready");
           continue;
         }
+        view.container.classList.add("ready");
         view.renderer.domElement.style.visibility = "";
-        view.container.classList.add("is-ready");
-        Object.entries(view.models).forEach(([flavor, model]) => {
-          model.visible = flavor === state.flavor;
+        Object.entries(view.models).forEach(([key, object]) => {
+          object.visible = key === state.flavor;
         });
-        view.group.position.set(0, isMobile ? 0.0 : 0.05, 0);
+        const entrance = state.paused
+          ? 1
+          : smooth(clamp((time - flavorStart) / 850));
+        view.angle = state.paused
+          ? state.turn
+          : lerp(view.angle, state.turn + state.pointer, 0.085);
         view.group.rotation.set(
-          0.12 + smoothPointerY * 0.1,
-          -0.12 +
-            smoothPointerX * 0.6 +
-            (switching ? (1 - transition) * 1.2 : 0),
-          0.15 + Math.sin(seconds * 0.5) * (reducedMotion.matches ? 0 : 0.018),
+          0.1,
+          -0.18 + view.angle + (1 - entrance) * 0.75,
+          -0.08,
         );
-        view.group.position.y += float;
+        view.group.position.set(
+          0,
+          state.paused ? 0.05 : 0.05 + Math.sin(t * 0.65) * 0.04,
+          0,
+        );
         view.group.scale.setScalar(
-          (isMobile ? 0.82 : 1.12) *
-            (switching ? lerp(0.87, 1, transition) : 1),
+          (mobile.matches ? 1.1 : 1.12) * lerp(0.9, 1, entrance),
         );
-        view.rim.color.set(state.flavor === "blue" ? 0x75d7ff : 0xff7192);
+        view.rim.color.set(state.flavor === "blue" ? 0x3b82f6 : 0xe63950);
       }
       view.renderer.render(view.scene, view.camera);
       view.dirty = false;
+      view.lastTurn = state.turn;
       view.lastFlavor = state.flavor;
-      view.lastScroll = state.scroll;
     }
   }
   requestAnimationFrame(render);
 }
-createProductExperience().catch((error) => {
+setupProducts().catch((error) => {
   console.warn(
-    "3D is unavailable; the page uses official product photography.",
+    "Interactive 3D could not initialize; using product photography.",
     error,
   );
   document.body.classList.add("no-webgl");
+  measure();
+  updateScroll();
 });
