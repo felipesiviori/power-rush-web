@@ -2,7 +2,11 @@
 
 An interactive home built around a continuous real-time product world. It retains the PDP's near-black surfaces, #00D47A green, Barlow Condensed italic headlines, Bricolage Grotesque body copy and Space Mono labels.
 
-The opening is a three-act sequence: enter the arena, leave the day behind, then open the product to expose the formula. One WebGL scene persists through all three acts. Scroll controls the product pose and lid separation; pointer movement changes its perspective; the reversible Rush button changes camera distance, rim light, particle speed and orbit spread. Flavor changes swap the official model with an animated entrance and change the environment color. Mobile uses a separate choreography to preserve text legibility.
+The opening now tells a five-chapter story: entry, focus, energy, reaction and formula. Chapter navigation and native scrolling work in both directions. Official Cherry Pop and Blue Fizz models alternate automatically between chapters, with manual flavor selection available until the next chapter.
+
+Three original illustrated game environments fill the viewport: a fantasy forest battle map, a futuristic racing circuit and an industrial shooter arena. Canvas overlays add units, projectiles, beacons, racing streaks and hit bursts. Clicking the forest places a rally marker; the cursor influences the racing vanishing point; native arena target buttons cycle and count successful hits. These scenes are playful visual metaphors, not measurements of product effects. Both flavors have the same formula.
+
+The environment images were generated using the built-in image tool and optimized to WebP (approximately 930 KB combined). The product meshes, textures and packaging are the official supplied assets. `game-worlds.js` renders decorative action with bounded resolution and frame rate, pauses for hidden/offscreen views and respects reduced motion. Reduced motion and model-load failures retain a static benefit summary.
 
 The lower page provides the interactive flavor selector, transparent ingredient list, preparation ritual, real setup photography and founder story.
 
@@ -52,6 +56,6 @@ Open `http://127.0.0.1:8765/`. No build step is required. Existing Vercel config
 
 ## Review notes
 
-Browser validation covers desktop 1440px, mobile 390px and narrow 320px; Rush activation, flavor switching, scroll composition, model rotation, reduced motion and intentional model-load failure.
+Browser validation covers desktop and mobile layouts; forward and backward chapter navigation; automatic Blue Fizz / Cherry Pop changes; two successful target hits; Rush activation; reduced-motion benefit summaries; and JavaScript syntax / whitespace checks. Earlier static model-failure fallback remains in place.
 
 This is a home-page implementation for design review. Do not merge it to production until the visual direction has been reviewed. The source Blender scene and full-resolution source textures are intentionally excluded from the web repository.

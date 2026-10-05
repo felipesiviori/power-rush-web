@@ -1,4 +1,5 @@
 import Lenis from "./vendor/lenis.mjs";
+import { createGameWorld } from "./game-worlds.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -15,49 +16,34 @@ const state = {
   turn: 0,
   pointer: 0,
   heroFlavor: "cherry",
+  previousHeroFlavor: "cherry",
+  chapter: 0,
+  chapterProgress: 0,
+  hits: 0,
+  target: 0,
   heroFlavorStart: 0,
   rush: false,
   cursorX: 0,
   cursorY: 0,
   visible: true,
 };
+createGameWorld($("#hero"), () => state);
 let lenis;
 let storyTop = 0;
 let storyHeight = 0;
 let pageHeight = 0;
 let scrollPending = false;
 let revealAnimations = [];
+let storyReady = false;
 
 function measure() {
   storyTop = $("#inside").getBoundingClientRect().top + window.scrollY;
   storyHeight = $("#inside").offsetHeight;
   pageHeight = document.documentElement.scrollHeight;
 }
-function setStory(index) {
-  if (state.story === index) return;
-  state.story = index;
-  $$(".story-panel").forEach((panel, i) => {
-    panel.classList.toggle("active", i === index);
-    panel.setAttribute("aria-hidden", String(i !== index));
-    panel.querySelectorAll("a").forEach((a) => {
-      a.tabIndex = i === index ? 0 : -1;
-    });
-  });
-  $$("[data-step]").forEach((button, i) => {
-    button.classList.toggle("active", i === index);
-    button.setAttribute("aria-pressed", String(i === index));
-  });
-}
 function updateScroll() {
   state.progress = clamp(
     (window.scrollY - storyTop) / Math.max(1, storyHeight - window.innerHeight),
-  );
-  setStory(
-    state.paused || document.body.classList.contains("no-webgl")
-      ? 0
-      : state.progress > 0.48
-        ? 1
-        : 0,
   );
   $(".track-line > span").style.transform = `scaleX(${state.progress})`;
   $(".reading-progress > span").style.transform =
@@ -76,24 +62,66 @@ function updateScroll() {
       (a) => (a.tabIndex = opacity < 0.02 ? -1 : 0),
     );
   };
-  const intro = 1 - smooth(clamp(p / 0.23));
-  fade(".portal-intro", intro, -p * 150);
+  const boundaries = [0, 0.16, 0.36, 0.56, 0.78, 1.01];
+  const chapter = p < 0.16 ? 0 : p < 0.36 ? 1 : p < 0.56 ? 2 : p < 0.78 ? 3 : 4;
+  const local = clamp(
+    (p - boundaries[chapter]) / (boundaries[chapter + 1] - boundaries[chapter]),
+  );
+  state.chapterProgress = local;
+  if (storyReady && state.chapter !== chapter) {
+    state.chapter = chapter;
+    selectHeroFlavor(["cherry", "cherry", "blue", "cherry", "blue"][chapter]);
+    $$("button[data-chapter]").forEach((button, i) =>
+      button.setAttribute("aria-current", i === chapter ? "step" : "false"),
+    );
+  }
+  $("#hero").dataset.chapter = chapter;
+  const intro = 1 - smooth(clamp((p - 0.075) / 0.065));
+  fade(".portal-intro", intro, -p * 180);
   fade(".portal-tag", intro);
-  const focus =
-    smooth(clamp((p - 0.2) / 0.15)) * (1 - smooth(clamp((p - 0.53) / 0.12)));
-  fade(".portal-focus", focus, (1 - focus) * 45);
-  const formula = smooth(clamp((p - 0.62) / 0.14));
-  fade(".portal-formula", formula, (1 - formula) * 45);
-  fade(".portal-dose", formula);
-  $(".portal-word").style.opacity = 1 - smooth(clamp(p / 0.21));
+  const chapterOpacity =
+    chapter === 0
+      ? 0
+      : smooth(clamp(local / 0.13)) *
+        (chapter === 4 ? 1 : 1 - smooth(clamp((local - 0.87) / 0.13)));
+  [
+    ".portal-focus",
+    ".portal-energy",
+    ".portal-reaction",
+    ".portal-formula",
+  ].forEach((selector, i) =>
+    fade(
+      selector,
+      chapter === i + 1 ? chapterOpacity : 0,
+      chapter === i + 1 ? (1 - chapterOpacity) * 35 : 35,
+    ),
+  );
+  fade(".portal-dose", chapter === 4 ? chapterOpacity : 0);
+  const playing = chapter > 0 && chapter < 4;
+  fade(
+    ".game-window",
+    playing ? chapterOpacity : 0,
+    playing ? (1 - chapterOpacity) * 25 : 25,
+  );
+  $$(".reaction-target").forEach(
+    (b) => (b.tabIndex = chapter === 3 && chapterOpacity > 0.5 ? 0 : -1),
+  );
+  $(".world-hint").textContent =
+    chapter === 1
+      ? "HACÉ CLICK EN EL MAPA. MARCÁ TU JUGADA."
+      : chapter === 2
+        ? "MOVÉ EL CURSOR. ELEGÍ TU LÍNEA."
+        : "";
+  $(".portal-word").style.opacity = 1 - smooth(clamp(p / 0.14));
   $(".portal-word").style.transform =
     `translateY(${-p * 300}px) scale(${1 + p * 0.5})`;
-  $(".portal-status").textContent =
-    p < 0.24
-      ? "01 / LISTO PARA ENTRAR"
-      : p < 0.63
-        ? "02 / ENTRANDO EN FOCO"
-        : "03 / TU FÓRMULA, ABIERTA";
+  $(".portal-status").textContent = [
+    "01 / LISTO PARA ENTRAR",
+    "02 / MÁS FOCO",
+    "03 / MÁS ENERGÍA",
+    "04 / MÁS REACCIÓN",
+    "05 / TU FÓRMULA, ABIERTA",
+  ][chapter];
   scrollPending = false;
 }
 function setupMotion() {
@@ -237,21 +265,72 @@ const flavors = {
     poster: "/assets/experience/posters/blue-fizz.png",
   },
 };
-$$("[data-hero-flavor]").forEach((button) =>
-  button.addEventListener("click", () => {
-    const flavor = button.dataset.heroFlavor;
+function selectHeroFlavor(flavor) {
+  if (state.heroFlavor !== flavor) {
+    state.previousHeroFlavor = state.heroFlavor;
     state.heroFlavor = flavor;
     state.heroFlavorStart = performance.now();
-    $("#inside-stage .model-poster").src = flavors[flavor].poster;
-    $("#hero").dataset.flavor = flavor;
-    $(".hero-flavor-name").textContent = flavors[flavor].name.toUpperCase();
-    $(".hero-flavor-note").textContent = flavors[flavor].note;
-    $$("[data-hero-flavor]").forEach((b) => {
-      b.classList.toggle("selected", b === button);
-      b.setAttribute("aria-pressed", String(b === button));
-    });
+  }
+  $("#inside-stage .model-poster").src = flavors[flavor].poster;
+  $("#hero").dataset.flavor = flavor;
+  $(".hero-flavor-name").textContent = flavors[flavor].name.toUpperCase();
+  $(".hero-flavor-note").textContent = flavors[flavor].note;
+  $$("[data-hero-flavor]").forEach((b) => {
+    const selected = b.dataset.heroFlavor === flavor;
+    b.classList.toggle("selected", selected);
+    b.setAttribute("aria-pressed", String(selected));
+  });
+}
+$$("[data-hero-flavor]").forEach((button) =>
+  button.addEventListener("click", () =>
+    selectHeroFlavor(button.dataset.heroFlavor),
+  ),
+);
+$$("button[data-chapter]").forEach((button) =>
+  button.addEventListener("click", () => {
+    const chapter = Number(button.dataset.chapter);
+    measure();
+    const target =
+      storyTop +
+      (storyHeight - innerHeight) * [0, 0.25, 0.45, 0.66, 0.9][chapter];
+    if (state.paused || document.body.classList.contains("no-webgl")) {
+      $(
+        chapter === 4
+          ? "#formula"
+          : chapter === 0
+            ? "#main"
+            : ".static-benefits",
+      ).scrollIntoView({ behavior: "auto" });
+      return;
+    }
+    if (lenis)
+      lenis.scrollTo(target, { duration: 1.4, force: true, lock: true });
+    else window.scrollTo({ top: target, behavior: "smooth" });
   }),
 );
+function lightTarget() {
+  $$(".reaction-target").forEach((b, i) =>
+    b.classList.toggle("is-target", i === state.target),
+  );
+}
+$$(".reaction-target").forEach((button) =>
+  button.addEventListener("click", () => {
+    if (Number(button.dataset.target) !== state.target) return;
+    $("#hero").dispatchEvent(
+      new CustomEvent("rush-hit", {
+        detail: { rect: button.getBoundingClientRect() },
+      }),
+    );
+    state.hits++;
+    state.target = [2, 0, 1][state.target];
+    $(".reaction-score").textContent =
+      `${state.hits} ${state.hits === 1 ? "ACIERTO" : "ACIERTOS"}`;
+    lightTarget();
+  }),
+);
+lightTarget();
+storyReady = true;
+updateScroll();
 let flavorStart = 0;
 function chooseFlavor(flavor) {
   if (state.flavor === flavor) return;
@@ -348,7 +427,7 @@ $("[data-explore]").addEventListener("click", (event) => {
   if (state.paused || document.body.classList.contains("no-webgl")) {
     $("#formula").scrollIntoView({ behavior: "auto" });
   } else {
-    const target = storyTop + (storyHeight - innerHeight) * 0.4;
+    const target = storyTop + (storyHeight - innerHeight) * 0.25;
     if (lenis) lenis.scrollTo(target, { duration: 1.6 });
     else window.scrollTo({ top: target, behavior: "smooth" });
   }
@@ -606,6 +685,7 @@ async function setupProducts() {
     const wrapper = new THREE.Group();
     wrapper.add(model);
     wrapper.scale.setScalar(3.2 / size.y);
+    wrapper.userData.baseScale = 3.2 / size.y;
     wrapper.visible = false;
     view.group.add(wrapper);
     wrapper.userData.lids = [];
@@ -690,11 +770,24 @@ async function setupProducts() {
           state.paused ? 0 : state.cursorY,
           0.035,
         );
-        const move = smooth(clamp((p - 0.12) / 0.28));
-        const open = smooth(clamp((p - 0.57) / 0.2));
+        const move = smooth(clamp((p - 0.09) / 0.1));
+        const open = smooth(clamp((p - 0.8) / 0.12));
         const color = state.heroFlavor === "blue" ? 0x3b82f6 : 0x00d47a;
         Object.entries(view.models).forEach(([key, object]) => {
-          object.visible = key === state.heroFlavor;
+          object.visible =
+            key === state.heroFlavor ||
+            (key === state.previousHeroFlavor && flavorEntrance < 1);
+          const active = key === state.heroFlavor;
+          object.scale.setScalar(
+            object.userData.baseScale *
+              (active ? lerp(0.35, 1, flavorEntrance) : 1 - flavorEntrance),
+          );
+          object.position.x = active
+            ? (1 - flavorEntrance) * 2.8
+            : -flavorEntrance * 2.8;
+          object.rotation.y = active
+            ? (1 - flavorEntrance) * -0.8
+            : flavorEntrance * 0.8;
         });
         if (!view.models[state.heroFlavor]) {
           view.container.classList.remove("ready");
@@ -702,21 +795,30 @@ async function setupProducts() {
         }
         view.container.classList.add("ready");
         view.group.position.set(
-          narrow ? -0.15 * open : lerp(0.15, 1.65, move) - open * 1.25,
-          narrow ? -0.1 - move * 1.25 : -0.05 + open * 0.1,
+          narrow
+            ? lerp(0, 1.25, move) * (1 - open)
+            : (lerp(0.15, 2.75, move) - open * 2.35) *
+                Math.min(1, view.camera.aspect / 1.6),
+          narrow
+            ? -0.1 - move * 1.5 + open * 0.6
+            : -0.05 - move * 1.05 + open * 1.2,
           0,
         );
         view.group.rotation.set(
           0.12 + view.pointerY * 0.055 - open * 0.12,
           -0.3 +
             move * Math.PI * 2 +
+            (state.chapter > 0 && state.chapter < 4
+              ? Math.sin(state.chapterProgress * Math.PI) * 0.35
+              : 0) +
             view.pointerX * 0.16 +
             (1 - flavorEntrance) * 1.1,
           -0.22 + move * 0.27 + view.boost * 0.09,
         );
         view.group.scale.setScalar(
-          (narrow ? 0.83 - move * 0.18 - open * 0.12 : 1.02 - open * 0.22) *
-            lerp(0.84, 1, flavorEntrance),
+          (narrow
+            ? 0.83 - move * 0.4 + open * 0.1
+            : 1.02 - move * 0.5 + open * 0.28) * lerp(0.84, 1, flavorEntrance),
         );
         if (!state.paused) view.group.position.y += Math.sin(t * 0.9) * 0.07;
         for (const model of Object.values(view.models))
@@ -725,6 +827,7 @@ async function setupProducts() {
             lid.mesh.position.y += open * lid.height * 0.36;
           }
         view.camera.position.z = 9 - view.boost * 0.65 + open * 0.3;
+        view.world.visible = state.chapter === 0 || state.chapter === 4;
         view.world.position.x = narrow ? 0 : move * 1.2 - open * 0.9;
         view.world.scale.setScalar(1 + view.boost * 0.16 - open * 0.1);
         view.rings.forEach((ring, i) => {

@@ -559,3 +559,783 @@
     top: 445px;
   }
 }
+/* Benefit story: five scroll chapters and three playable visual metaphors. */
+.portal-runway {
+  height: 600svh;
+}
+.story-jumps {
+  position: absolute;
+  top: 127px;
+  right: var(--gutter);
+  display: flex;
+  gap: 6px;
+  z-index: 6;
+}
+.story-jumps button {
+  border: 1px solid #eef5ee17;
+  border-radius: 4px;
+  background: #080a0877;
+  color: #83958a;
+  padding: 9px 12px;
+  font: 7px var(--mo);
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+.story-jumps button:hover,
+.story-jumps button[aria-current="step"] {
+  border-color: #00d47a66;
+  color: var(--green);
+  background: #0c2016;
+}
+.portal-screen[data-chapter="1"] .portal-controls .rush-trigger,
+.portal-screen[data-chapter="2"] .portal-controls .rush-trigger,
+.portal-screen[data-chapter="3"] .portal-controls .rush-trigger {
+  transform: scale(0.85);
+  transform-origin: center bottom;
+}
+.portal-screen[data-chapter="1"] .portal-chapter,
+.portal-screen[data-chapter="2"] .portal-chapter,
+.portal-screen[data-chapter="3"] .portal-chapter {
+  top: 24%;
+  width: 48%;
+}
+.portal-screen[data-chapter="1"] .portal-chapter h2,
+.portal-screen[data-chapter="2"] .portal-chapter h2,
+.portal-screen[data-chapter="3"] .portal-chapter h2 {
+  font-size: clamp(64px, 7vw, 108px);
+}
+.portal-chapter .benefit-ingredient {
+  display: block;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #6d8e78;
+  margin-top: 21px;
+}
+.game-window {
+  position: absolute;
+  left: var(--gutter);
+  top: 58%;
+  width: 36%;
+  max-width: 490px;
+  z-index: 4;
+  border: 1px solid #00d47a40;
+  background: linear-gradient(135deg, #07160fee, #080a08de);
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 18px 50px #0004;
+}
+.game-toolbar {
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid #00d47a20;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #a4baac;
+}
+.game-indicator {
+  color: var(--green);
+  font-size: 6px;
+}
+.game-scene {
+  height: 170px;
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+.portal-screen[data-chapter="1"] .game-focus,
+.portal-screen[data-chapter="2"] .game-energy,
+.portal-screen[data-chapter="3"] .game-reaction {
+  display: block;
+}
+.game-focus svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.game-readout {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  font: 6px var(--mo);
+  letter-spacing: 1px;
+  color: var(--green);
+}
+.game-footnote {
+  display: block;
+  font: 5px var(--mo);
+  letter-spacing: 0.5px;
+  color: #7d9486;
+  padding: 9px 14px;
+  border-top: 1px solid #00d47a16;
+}
+.target-pulse {
+  transform-origin: 0 0;
+  animation: target-pulse 2.5s ease-out infinite;
+}
+@keyframes target-pulse {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.race-world {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 30%, #3b82f62a, transparent 70%);
+  perspective: 160px;
+}
+.race-grid {
+  position: absolute;
+  inset: 25% -50% -120%;
+  background:
+    linear-gradient(#3b82f660 1px, transparent 1px),
+    linear-gradient(90deg, #3b82f660 1px, transparent 1px);
+  background-size: 35px 35px;
+  transform: rotateX(55deg);
+  transform-origin: center top;
+  animation: road-run 1s linear infinite;
+}
+@keyframes road-run {
+  to {
+    background-position: 0 35px;
+  }
+}
+.race-gate {
+  position: absolute;
+  width: 46%;
+  height: 70%;
+  left: 27%;
+  top: 15%;
+  border: 2px solid #3b82f6;
+  border-bottom: 0;
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  animation: gate-pass 3.6s linear infinite;
+  box-shadow: 0 0 15px #3b82f650;
+}
+.gate-two {
+  animation-delay: -1.2s;
+}
+.gate-three {
+  animation-delay: -2.4s;
+}
+@keyframes gate-pass {
+  0% {
+    transform: scale(0.15);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.race-ship {
+  position: absolute;
+  width: 32px;
+  height: 27px;
+  left: calc(50% - 16px);
+  bottom: 38px;
+  background: #eef5ee;
+  clip-path: polygon(50% 0, 100% 100%, 50% 72%, 0 100%);
+  filter: drop-shadow(0 0 15px #3b82f6);
+  transition: transform 0.15s linear;
+}
+.energy-meter {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font: 6px var(--mo);
+  color: #b4c5d6;
+}
+.energy-meter > div {
+  flex: 1;
+  height: 5px;
+  background: #eef5ee15;
+  overflow: hidden;
+}
+.energy-meter i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #00d47a);
+  transform-origin: left;
+}
+.energy-meter b {
+  font-weight: 400;
+  color: var(--green);
+}
+.reaction-instruction {
+  position: absolute;
+  top: 14px;
+  left: 15px;
+  font: 6px var(--mo);
+  color: #a1b6a8;
+  letter-spacing: 1px;
+}
+.reaction-target {
+  position: absolute;
+  top: 48px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid #eef5ee22;
+  background: #eef5ee03;
+  color: #eef5ee45;
+  font: 30px var(--mo);
+  cursor: crosshair;
+  transition:
+    background 0.18s,
+    box-shadow 0.18s,
+    color 0.18s,
+    transform 0.18s;
+}
+.reaction-target[data-target="0"] {
+  left: 14%;
+}
+.reaction-target[data-target="1"] {
+  left: calc(50% - 29px);
+}
+.reaction-target[data-target="2"] {
+  right: 14%;
+}
+.reaction-target.is-target {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow:
+    0 0 25px #00d47a28,
+    inset 0 0 25px #00d47a18;
+  background: #00d47a12;
+  transform: scale(1.1);
+}
+.reaction-target:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 5px;
+}
+.reaction-score {
+  position: absolute;
+  bottom: 13px;
+  right: 16px;
+  font: 7px var(--mo);
+  color: var(--green);
+  letter-spacing: 1px;
+}
+.portal-screen[data-chapter="2"] .portal-atmosphere {
+  background: radial-gradient(ellipse at 65% 55%, #3b82f62e, transparent 60%);
+}
+.static-benefits {
+  display: none;
+}
+.motion-paused .static-benefits,
+.no-webgl .static-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+  padding-top: 65px;
+  padding-bottom: 65px;
+}
+.static-benefits article {
+  border-top: 1px solid var(--green);
+  padding-top: 20px;
+}
+.static-benefits span {
+  font: 9px var(--mo);
+  color: var(--green);
+}
+.static-benefits h2 {
+  font: 900 italic 40px/0.9 var(--hd);
+  margin: 20px 0;
+}
+.static-benefits p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #94a59a;
+}
+.motion-paused .game-window,
+.no-webgl .game-window {
+  display: none;
+}
+@media (max-width: 1000px) and (min-width: 761px) {
+  .game-window {
+    width: 42%;
+    top: 59%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: 7vw;
+  }
+  .portal-chapter .benefit-ingredient {
+    font-size: 6px;
+  }
+  .story-jumps {
+    top: 117px;
+  }
+  .portal-screen .portal-chapter > p:not(.eyebrow) {
+    font-size: 12px;
+  }
+}
+@media (max-width: 760px) {
+  .portal-runway {
+    height: 550svh;
+  }
+  .story-jumps {
+    top: 108px;
+    left: var(--gutter);
+    right: var(--gutter);
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .story-jumps button {
+    font-size: 6px;
+    padding: 8px 7px;
+    letter-spacing: 0.3px;
+  }
+  .portal-intro {
+    top: 156px;
+  }
+  .portal-word {
+    top: 28%;
+  }
+  .portal-stage.inside-stage {
+    inset: 28% -25% 24%;
+  }
+  .portal-intro > p:not(.eyebrow) {
+    top: 395px;
+  }
+  .portal-intro .text-link {
+    top: 449px;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 166px;
+    width: 90%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: 14vw;
+  }
+  .portal-chapter .eyebrow {
+    margin-bottom: 12px;
+    font-size: 6px;
+  }
+  .portal-chapter > p:not(.eyebrow) {
+    margin-top: 13px;
+    font-size: 10px;
+  }
+  .portal-chapter .benefit-ingredient {
+    font-size: 5px;
+    letter-spacing: 0.5px;
+    margin-top: 11px;
+  }
+  .game-window {
+    top: auto;
+    bottom: 176px;
+    left: var(--gutter);
+    width: calc(100% - var(--gutter) * 2);
+    max-width: none;
+  }
+  .game-toolbar {
+    height: 24px;
+    font-size: 6px;
+    padding: 0 10px;
+  }
+  .game-scene {
+    height: 122px;
+  }
+  .game-footnote {
+    font-size: 4px;
+    padding: 7px 10px;
+  }
+  .reaction-target {
+    width: 43px;
+    height: 43px;
+    top: 42px;
+    font-size: 24px;
+  }
+  .reaction-target[data-target="1"] {
+    left: calc(50% - 21.5px);
+  }
+  .reaction-score {
+    bottom: 7px;
+    font-size: 6px;
+  }
+  .reaction-instruction {
+    top: 10px;
+    font-size: 5px;
+  }
+  .portal-formula {
+    top: 167px;
+  }
+  .portal-formula h2 {
+    font-size: 13vw;
+  }
+  .portal-screen[data-chapter="1"] .portal-controls .rush-trigger,
+  .portal-screen[data-chapter="2"] .portal-controls .rush-trigger,
+  .portal-screen[data-chapter="3"] .portal-controls .rush-trigger {
+    transform: none;
+  }
+  .motion-paused .static-benefits,
+  .no-webgl .static-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 360px) {
+  .portal-intro > p:not(.eyebrow) {
+    top: 350px;
+  }
+  .portal-intro .text-link {
+    top: 412px;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 160px;
+  }
+  .game-window {
+    bottom: 169px;
+  }
+  .game-scene {
+    height: 102px;
+  }
+  .reaction-target {
+    top: 35px;
+    width: 35px;
+    height: 35px;
+  }
+  .reaction-target[data-target="1"] {
+    left: calc(50% - 17.5px);
+  }
+  .portal-chapter .benefit-ingredient {
+    display: none;
+  }
+}
+.motion-paused .game-scene *,
+.no-webgl .game-scene * {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-scene * {
+    animation: none !important;
+  }
+  .portal-runway {
+    height: 100svh;
+  }
+}
+@media (min-width: 761px) {
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: clamp(62px, 6.6vw, 102px);
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter > p:not(.eyebrow),
+  .portal-screen[data-chapter="2"] .portal-chapter > p:not(.eyebrow),
+  .portal-screen[data-chapter="3"] .portal-chapter > p:not(.eyebrow) {
+    margin-top: 17px;
+  }
+}
+@media (min-width: 761px) {
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 22%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: min(6.6vw, 10svh);
+  }
+  .portal-chapter .benefit-ingredient {
+    margin-top: 12px;
+  }
+  .game-window {
+    top: 56%;
+  }
+  .game-scene {
+    height: clamp(100px, 18svh, 170px);
+  }
+}
+/* Game worlds take over the entire viewport. */
+.game-worlds {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.65s;
+}
+.portal-screen[data-chapter="1"] .game-worlds,
+.portal-screen[data-chapter="2"] .game-worlds,
+.portal-screen[data-chapter="3"] .game-worlds {
+  opacity: 1;
+}
+.world-backdrop {
+  position: absolute;
+  inset: -4%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.75s;
+  transform: scale(1.045) translateY(calc(var(--world-drift, 0px) * -0.5));
+  will-change: transform, opacity;
+}
+.world-forest {
+  background-image: url("./scenes/world-forest.webp");
+}
+.world-circuit {
+  background-image: url("./scenes/world-circuit.webp");
+}
+.world-arena {
+  background-image: url("./scenes/world-arena.webp");
+}
+.portal-screen[data-chapter="1"] .world-forest,
+.portal-screen[data-chapter="2"] .world-circuit,
+.portal-screen[data-chapter="3"] .world-arena {
+  opacity: 1;
+}
+.world-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #030a07cf 0%, #030a0745 37%, transparent 65%),
+    linear-gradient(0deg, #030806cc, transparent 40%, #03080644);
+  z-index: 1;
+}
+.world-effects {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.world-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, #0003 3px 4px);
+  z-index: 3;
+}
+.portal-screen[data-chapter="1"] .portal-atmosphere,
+.portal-screen[data-chapter="2"] .portal-atmosphere,
+.portal-screen[data-chapter="3"] .portal-atmosphere,
+.portal-screen[data-chapter="1"] .portal-orbit,
+.portal-screen[data-chapter="2"] .portal-orbit,
+.portal-screen[data-chapter="3"] .portal-orbit {
+  opacity: 0;
+}
+.portal-screen[data-chapter="1"] .portal-vignette,
+.portal-screen[data-chapter="2"] .portal-vignette,
+.portal-screen[data-chapter="3"] .portal-vignette {
+  background: linear-gradient(0deg, #080a08 0%, transparent 19%);
+}
+.portal-screen[data-chapter="1"] .portal-chapter,
+.portal-screen[data-chapter="2"] .portal-chapter,
+.portal-screen[data-chapter="3"] .portal-chapter {
+  top: 28%;
+  width: 46%;
+  text-shadow: 0 4px 22px #0006;
+}
+.portal-chapter .benefit-ingredient {
+  color: #a5cbb5;
+}
+.game-window {
+  inset: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.game-toolbar,
+.game-footnote,
+.game-focus,
+.game-energy {
+  display: none !important;
+}
+.game-reaction {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.reaction-instruction {
+  top: auto;
+  bottom: 185px;
+  left: var(--gutter);
+  font-size: 8px;
+  color: #c3ddce;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 10px #000;
+}
+.reaction-score {
+  top: auto;
+  bottom: 155px;
+  left: var(--gutter);
+  right: auto;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--green);
+}
+.reaction-target {
+  pointer-events: auto;
+  width: 54px;
+  height: 54px;
+  top: auto;
+  background: #07160f33;
+  backdrop-filter: blur(1px);
+  border-color: #b9ddcc55;
+  color: #d0eadd66;
+  box-shadow: 0 0 20px #0008;
+  font-size: 26px;
+}
+.reaction-target[data-target="0"] {
+  left: 53%;
+  top: 36%;
+  right: auto;
+}
+.reaction-target[data-target="1"] {
+  left: 74%;
+  top: 46%;
+  right: auto;
+}
+.reaction-target[data-target="2"] {
+  left: 60%;
+  top: 59%;
+  right: auto;
+}
+.reaction-target.is-target {
+  background: #00d47a20;
+  box-shadow:
+    0 0 0 8px #00d47a12,
+    0 0 45px #00d47a77,
+    inset 0 0 25px #00d47a30;
+}
+.story-jumps button {
+  background: #080a0880;
+  backdrop-filter: blur(8px);
+}
+@media (max-width: 760px) {
+  .world-backdrop {
+    background-position: 60% center;
+    inset: -2% -22%;
+    transform: scale(1.03) translateY(calc(var(--world-drift, 0px) * -0.25));
+  }
+  .world-shade {
+    background: linear-gradient(
+      180deg,
+      #030a07ba 0%,
+      #030a0744 34%,
+      transparent 55%,
+      #030806dd 90%
+    );
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 170px;
+    width: 90%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: 13vw;
+  }
+  .portal-chapter > p:not(.eyebrow) {
+    color: #c3d1c8;
+    text-shadow: 0 2px 10px #000;
+  }
+  .reaction-target {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+  .reaction-target[data-target="0"] {
+    left: 25%;
+    top: 47%;
+  }
+  .reaction-target[data-target="1"] {
+    left: 65%;
+    top: 52%;
+  }
+  .reaction-target[data-target="2"] {
+    left: 40%;
+    top: 61%;
+  }
+  .reaction-instruction {
+    bottom: 215px;
+    font-size: 6px;
+  }
+  .reaction-score {
+    bottom: 183px;
+    font-size: 15px;
+  }
+}
+.world-backdrop {
+  transform: scale(1.055)
+    translate3d(var(--world-pan, 0px), calc(var(--world-drift, 0px) * -0.5), 0);
+}
+@media (max-width: 760px) {
+  .world-backdrop {
+    transform: scale(1.035)
+      translate3d(0, calc(var(--world-drift, 0px) * -0.25), 0);
+  }
+}
+.world-backdrop {
+  transform: scale(var(--world-scale, 1.055))
+    translate3d(var(--world-pan, 0px), calc(var(--world-drift, 0px) * -0.5), 0);
+}
+@media (max-width: 760px) {
+  .world-backdrop {
+    transform: scale(var(--world-scale, 1.035))
+      translate3d(0, calc(var(--world-drift, 0px) * -0.25), 0);
+  }
+}
+.world-hint {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 170px;
+  z-index: 3;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #c5dbce;
+  text-shadow: 0 2px 12px #000;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .world-hint {
+    bottom: 182px;
+    font-size: 5px;
+    letter-spacing: 0.5px;
+  }
+  .portal-screen[data-chapter="2"] .world-hint {
+    display: none;
+  }
+}
