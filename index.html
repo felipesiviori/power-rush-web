@@ -29,6 +29,7 @@
     <script src="/assets/experience/vendor/ScrollTrigger.min.js" defer></script>
     <script type="module" src="/assets/experience/home.js"></script>
     <script src="/cart.js" defer></script>
+    <link rel="stylesheet" href="/assets/experience/portal.css" />
   </head>
   <body>
     <a href="#main" class="skip-link">Ir al contenido</a>
@@ -43,7 +44,7 @@
           ><img src="/assets/logo.png" alt="Power Rush" width="157" height="31"
         /></a>
         <nav class="desktop-nav" aria-label="Navegación principal">
-          <a href="#inside">Qué tiene</a><a href="#loadout">Sabores</a
+          <a href="#formula">Qué tiene</a><a href="#loadout">Sabores</a
           ><a href="#origin">Nuestra historia</a>
         </nav>
         <div class="nav-actions">
@@ -70,205 +71,109 @@
       aria-label="Navegación móvil"
       hidden
     >
-      <a href="#inside">Qué tiene <span>01</span></a
+      <a href="#formula">Qué tiene <span>01</span></a
       ><a href="#loadout">Sabores <span>02</span></a
       ><a href="#origin">Nuestra historia <span>03</span></a
       ><a href="/products/powerrush">Elegí tu Rush ↗</a>
     </nav>
     <main id="main">
       <section
-        class="hero"
-        id="hero"
-        data-flavor="cherry"
-        aria-labelledby="hero-title"
-      >
-        <div class="hero-art" aria-hidden="true">
-          <img
-            class="hero-shot cherry-shot"
-            src="/assets/experience/scenes/setup-cherry.webp"
-            alt=""
-            width="1254"
-            height="1254"
-            fetchpriority="high"
-          /><img
-            class="hero-shot blue-shot"
-            src="/assets/experience/scenes/setup-blue.webp"
-            alt=""
-            width="1600"
-            height="901"
-          />
-          <div class="hero-art-shade"></div>
-          <div class="hero-scan"></div>
-        </div>
-        <div class="hero-grid" aria-hidden="true"></div>
-        <div class="hero-content wrap">
-          <p class="eyebrow">
-            <span class="live-dot"></span> PARA LOS QUE SIEMPRE JUEGAN UNA MÁS
-          </p>
-          <h1 id="hero-title">FOCO<br />SIN <span>CRASH.</span></h1>
-          <p class="hero-lead">
-            Tu día fue largo.<br /><strong>Tu partida recién empieza.</strong>
-          </p>
-          <p class="hero-description">
-            7 nootrópicos + vitaminas. Una fórmula para acompañarte del primer
-            click a la última ronda.
-          </p>
-          <div class="hero-actions">
-            <a href="/products/powerrush" class="button button-primary"
-              >ELEGÍ TU POWER RUSH
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 12h16M13 5l7 7-7 7" /></svg></a
-            ><a href="#inside" class="text-link"
-              >Conocé la fórmula <span aria-hidden="true">↓</span></a
-            >
-          </div>
-          <div class="hero-proof">
-            <span><b>30</b> PORCIONES</span><span><b>0 g</b> AZÚCARES</span
-            ><span><b>AR</b> INDUSTRIA ARGENTINA</span>
-          </div>
-        </div>
-        <div class="hero-product-tag">
-          <span class="corner" aria-hidden="true"></span
-          ><span class="micro">EN TU SETUP</span
-          ><strong class="hero-flavor-name">CHERRY POP</strong
-          ><span class="hero-flavor-note"
-            >Cereza refrescante · Pote de 300 g</span
-          >
-        </div>
-        <div class="hero-base wrap">
-          <a href="#inside" class="scroll-prompt"
-            ><span class="mouse-icon" aria-hidden="true"></span
-            ><span>BAJÁ PARA ENTRAR EN FOCO</span></a
-          >
-          <div
-            class="hero-selector"
-            role="group"
-            aria-label="Elegir sabor del setup"
-          >
-            <button
-              data-hero-flavor="cherry"
-              class="selected"
-              aria-pressed="true"
-            >
-              <i class="cherry-dot"></i> CHERRY POP</button
-            ><button data-hero-flavor="blue" aria-pressed="false">
-              <i class="blue-dot"></i> BLUE FIZZ
-            </button>
-          </div>
-          <span class="hero-chapter micro">01 <span>/</span> EL SETUP</span>
-        </div>
-      </section>
-      <div class="benefit-strip">
-        <div class="wrap">
-          <span
-            ><svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m13 2-8 12h6l-1 8 9-13h-7Z" />
-            </svg>
-            7 NOOTRÓPICOS + VITAMINAS</span
-          ><span
-            ><svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 7v5l3 2" />
-            </svg>
-            TU RITUAL ANTES DE JUGAR</span
-          ><span
-            ><svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m5 12 4 4L19 6" />
-            </svg>
-            SIN AZÚCAR</span
-          ><span
-            ><svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m12 3 8 4v6c0 4-8 8-8 8s-8-4-8-8V7Z" />
-            </svg>
-            HECHO EN ARGENTINA</span
-          >
-        </div>
-      </div>
-      <section
-        class="inside-section"
         id="inside"
-        aria-labelledby="inside-title"
+        class="portal-runway"
+        aria-label="Entrá en tu próxima partida"
       >
-        <div class="inside-sticky">
-          <div class="inside-backdrop" aria-hidden="true">
-            <div class="floor-grid"></div>
-            <div class="inside-glow"></div>
-            <span class="backdrop-word">FOCUS</span>
+        <div id="hero" class="portal-screen" data-flavor="cherry">
+          <div class="hero-art portal-atmosphere" aria-hidden="true"></div>
+          <div class="portal-orbit" aria-hidden="true"></div>
+          <div class="portal-word" aria-hidden="true">
+            <span>POWER</span><span>RUSH</span>
           </div>
-          <div class="inside-top wrap">
-            <span class="section-index"><b>02</b> / EL UPGRADE</span
-            ><span class="micro inside-top-note"
-              >TODO LO QUE IMPORTA. EN UN SCOOP.</span
-            >
-          </div>
-          <div id="inside-stage" class="inside-stage" aria-hidden="true">
+          <div
+            id="inside-stage"
+            class="inside-stage portal-stage"
+            aria-hidden="true"
+          >
             <img
               class="model-poster"
               src="/assets/experience/posters/cherry-pop.png"
               alt=""
-              loading="lazy"
             />
           </div>
-          <div class="inside-copy wrap">
-            <div class="story-panel active" data-story="0">
-              <span class="eyebrow">QUE NADA TE SAQUE DE LA PARTIDA.</span>
-              <h2 id="inside-title">
-                MENOS<br />RUIDO.<br /><em>MÁS JUEGO.</em>
-              </h2>
-              <p>
-                El Discord, los pendientes, el día entero.<br />Ahora el momento
-                es tuyo.
-              </p>
-              <div class="story-note">
-                <span class="tiny-cross" aria-hidden="true">+</span
-                ><span>FOCO SIN CRASH.<br />ESA ES LA IDEA.</span>
-              </div>
-            </div>
-            <div class="story-panel" data-story="1" aria-hidden="true">
-              <span class="eyebrow">LA DUPLA DETRÁS DEL FOCO.</span>
-              <h2>EL MATCH<br /><em>PERFECTO.</em></h2>
-              <p>
-                Cafeína + L-Teanina.<br />Dos ingredientes. La misma dirección.
-              </p>
-              <div class="match-stats">
-                <div>
-                  <b>140<span>mg</span></b
-                  ><small>CAFEÍNA</small>
-                </div>
-                <span class="match-plus">+</span>
-                <div>
-                  <b>140<span>mg</span></b
-                  ><small>L-TEANINA</small>
-                </div>
-              </div>
-              <a class="text-link" href="#formula"
-                >Mirá la fórmula completa <span aria-hidden="true">↗</span></a
-              >
-            </div>
-          </div>
-          <div class="inside-bottom wrap">
-            <div class="chapter-track">
-              <button
-                class="active"
-                data-step="0"
-                aria-label="Ver capítulo: Tu momento"
-                aria-pressed="true"
-              >
-                <span>01</span> TU MOMENTO
-              </button>
-              <div class="track-line"><span></span></div>
-              <button
-                data-step="1"
-                aria-label="Ver capítulo: La fórmula"
-                aria-pressed="false"
-              >
-                <span>02</span> LA FÓRMULA
-              </button>
-            </div>
-            <span class="micro"
-              >SEGUÍ BAJANDO <span aria-hidden="true">↓</span></span
+          <div class="portal-vignette" aria-hidden="true"></div>
+          <div class="portal-intro">
+            <p class="eyebrow">
+              <span class="live-dot"></span> TU DÍA TERMINA. TU PARTIDA EMPIEZA.
+            </p>
+            <h1 id="hero-title">ENTRÁ EN<br /><em>TU ZONA.</em></h1>
+            <p>
+              El ritual antes de una más.<br />7 nootrópicos + vitaminas. Cero
+              azúcar.
+            </p>
+            <a class="text-link" href="/products/powerrush"
+              >ELEGÍ TU POWER RUSH <span>↗</span></a
             >
           </div>
+          <div class="portal-tag">
+            <span class="micro">PLAYER 01 / EQUIPADO</span
+            ><strong class="hero-flavor-name">CHERRY POP</strong
+            ><span class="hero-flavor-note"
+              >Cereza refrescante · Pote de 300 g</span
+            >
+          </div>
+          <div class="portal-chapter portal-focus" aria-hidden="true">
+            <p class="eyebrow">01 / DEJÁ EL DÍA AFUERA</p>
+            <h2>MENOS<br />RUIDO.<br /><em>MÁS JUEGO.</em></h2>
+            <p>
+              El Discord, los pendientes, el día entero.<br />Ahora el momento
+              es tuyo.
+            </p>
+          </div>
+          <div class="portal-chapter portal-formula" aria-hidden="true">
+            <p class="eyebrow">02 / MIRÁ LO QUE HAY ADENTRO</p>
+            <h2>ABRÍ TU<br /><em>PRÓXIMO NIVEL.</em></h2>
+            <p>Sin mezclas secretas.<br />Cada ingrediente, a la vista.</p>
+            <a href="#formula" class="text-link" tabindex="-1"
+              >EXPLORAR LA FÓRMULA ↗</a
+            >
+          </div>
+          <div class="portal-dose" aria-hidden="true">
+            <span>EL MATCH DEL FOCO</span
+            ><strong>140<small>mg</small> <i>+</i> 140<small>mg</small></strong
+            ><span>CAFEÍNA <b>×</b> L-TEANINA</span>
+          </div>
+          <div class="portal-controls">
+            <div
+              class="hero-selector"
+              role="group"
+              aria-label="Elegir sabor de la experiencia"
+            >
+              <button
+                data-hero-flavor="cherry"
+                class="selected"
+                aria-pressed="true"
+              >
+                <i class="cherry-dot"></i> CHERRY POP</button
+              ><button data-hero-flavor="blue" aria-pressed="false">
+                <i class="blue-dot"></i> BLUE FIZZ
+              </button>
+            </div>
+            <button class="rush-trigger" aria-pressed="false">
+              <span class="rush-trigger-icon">↗</span
+              ><span
+                ><b>ACTIVÁ EL RUSH</b
+                ><small>HACÉ CLICK Y ENTRÁ EN MODO JUEGO</small></span
+              >
+            </button>
+            <a class="portal-scroll" href="#inside" data-explore
+              ><span>SCROLL PARA EXPLORAR</span><b>↓</b></a
+            >
+          </div>
+          <div class="portal-timeline">
+            <span class="micro portal-status">01 / LISTO PARA ENTRAR</span>
+            <div class="track-line"><span></span></div>
+            <span class="micro">POWER RUSH EXPERIENCE</span>
+          </div>
+          <span class="portal-live" aria-live="polite"></span>
         </div>
       </section>
       <section

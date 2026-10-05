@@ -14,6 +14,11 @@ const state = {
   progress: 0,
   turn: 0,
   pointer: 0,
+  heroFlavor: "cherry",
+  heroFlavorStart: 0,
+  rush: false,
+  cursorX: 0,
+  cursorY: 0,
   visible: true,
 };
 let lenis;
@@ -57,12 +62,38 @@ function updateScroll() {
   $(".track-line > span").style.transform = `scaleX(${state.progress})`;
   $(".reading-progress > span").style.transform =
     `scaleX(${clamp(window.scrollY / (pageHeight - window.innerHeight))})`;
-  if (!state.paused) {
-    const heroProgress = clamp(window.scrollY / $("#hero").offsetHeight);
-    $(".hero-art").style.transform =
-      `translateY(${heroProgress * (mobile.matches ? 25 : 70)}px)`;
-    $(".hero-art").style.opacity = String(1 - heroProgress * 0.4);
-  }
+  const p =
+    state.paused || document.body.classList.contains("no-webgl")
+      ? 0
+      : state.progress;
+  const fade = (selector, opacity, y = 0) => {
+    const el = $(selector);
+    el.style.opacity = opacity;
+    el.style.transform = `translateY(${y}px)`;
+    el.style.visibility = opacity < 0.02 ? "hidden" : "visible";
+    el.setAttribute("aria-hidden", String(opacity < 0.02));
+    el.querySelectorAll("a").forEach(
+      (a) => (a.tabIndex = opacity < 0.02 ? -1 : 0),
+    );
+  };
+  const intro = 1 - smooth(clamp(p / 0.23));
+  fade(".portal-intro", intro, -p * 150);
+  fade(".portal-tag", intro);
+  const focus =
+    smooth(clamp((p - 0.2) / 0.15)) * (1 - smooth(clamp((p - 0.53) / 0.12)));
+  fade(".portal-focus", focus, (1 - focus) * 45);
+  const formula = smooth(clamp((p - 0.62) / 0.14));
+  fade(".portal-formula", formula, (1 - formula) * 45);
+  fade(".portal-dose", formula);
+  $(".portal-word").style.opacity = 1 - smooth(clamp(p / 0.21));
+  $(".portal-word").style.transform =
+    `translateY(${-p * 300}px) scale(${1 + p * 0.5})`;
+  $(".portal-status").textContent =
+    p < 0.24
+      ? "01 / LISTO PARA ENTRAR"
+      : p < 0.63
+        ? "02 / ENTRANDO EN FOCO"
+        : "03 / TU FÓRMULA, ABIERTA";
   scrollPending = false;
 }
 function setupMotion() {
@@ -126,24 +157,6 @@ document.fonts.ready.then(() => {
   measure();
   updateScroll();
 });
-$$("[data-step]").forEach((button) =>
-  button.addEventListener("click", () => {
-    if (state.paused || document.body.classList.contains("no-webgl")) {
-      document
-        .querySelector(button.dataset.step === "1" ? "#formula" : "#inside")
-        .scrollIntoView({ behavior: "auto" });
-      return;
-    }
-    const y =
-      storyTop +
-      (storyHeight - window.innerHeight) *
-        (button.dataset.step === "1" ? 0.82 : 0.05);
-    if (lenis) lenis.scrollTo(y);
-    else window.scrollTo({ top: y, behavior: "smooth" });
-  }),
-);
-$('.story-panel[data-story="1"] a').tabIndex = -1;
-
 const menuButton = $(".menu-toggle");
 const menu = $("#mobile-menu");
 function closeMenu() {
@@ -227,6 +240,9 @@ const flavors = {
 $$("[data-hero-flavor]").forEach((button) =>
   button.addEventListener("click", () => {
     const flavor = button.dataset.heroFlavor;
+    state.heroFlavor = flavor;
+    state.heroFlavorStart = performance.now();
+    $("#inside-stage .model-poster").src = flavors[flavor].poster;
     $("#hero").dataset.flavor = flavor;
     $(".hero-flavor-name").textContent = flavors[flavor].name.toUpperCase();
     $(".hero-flavor-note").textContent = flavors[flavor].note;
@@ -306,15 +322,12 @@ document.addEventListener("visibilitychange", () => {
 
 if (window.gsap && window.ScrollTrigger && !state.paused) {
   gsap.registerPlugin(ScrollTrigger);
-  gsap.from(".hero-content > *", {
-    y: 18,
+  gsap.from(".portal-word", {
+    y: 100,
     opacity: 0,
-    duration: 0.85,
-    stagger: 0.075,
+    duration: 1.5,
     ease: "power3.out",
-    delay: 0.15,
   });
-  gsap.from(".hero-art", { scale: 1.06, duration: 1.6, ease: "power2.out" });
   $$(
     ".section-heading, .formula-feature, .formula-ingredients, .ritual-grid article, .origin-content > div, .faq-section > div",
   ).forEach((element) => {
@@ -329,6 +342,41 @@ if (window.gsap && window.ScrollTrigger && !state.paused) {
     );
   });
 }
+
+$("[data-explore]").addEventListener("click", (event) => {
+  event.preventDefault();
+  if (state.paused || document.body.classList.contains("no-webgl")) {
+    $("#formula").scrollIntoView({ behavior: "auto" });
+  } else {
+    const target = storyTop + (storyHeight - innerHeight) * 0.4;
+    if (lenis) lenis.scrollTo(target, { duration: 1.6 });
+    else window.scrollTo({ top: target, behavior: "smooth" });
+  }
+});
+$(".rush-trigger").addEventListener("click", () => {
+  state.rush = !state.rush;
+  $("#hero").classList.toggle("rush-on", state.rush);
+  $(".rush-trigger").setAttribute("aria-pressed", String(state.rush));
+  $(".rush-trigger b").textContent = state.rush
+    ? "ESTÁS EN TU ZONA"
+    : "ACTIVÁ EL RUSH";
+  $(".rush-trigger small").textContent = state.rush
+    ? "VOLVÉ A HACER CLICK PARA SALIR"
+    : "HACÉ CLICK Y ENTRÁ EN MODO JUEGO";
+  $(".portal-live").textContent = state.rush
+    ? "Modo Rush activado"
+    : "Modo Rush desactivado";
+});
+$("#hero").addEventListener("pointermove", (event) => {
+  if (event.pointerType !== "mouse") return;
+  const box = $("#hero").getBoundingClientRect();
+  state.cursorX = (event.clientX / box.width - 0.5) * 2;
+  state.cursorY = ((event.clientY - box.top) / box.height - 0.5) * 2;
+});
+$("#hero").addEventListener("pointerleave", () => {
+  state.cursorX = 0;
+  state.cursorY = 0;
+});
 
 async function setupProducts() {
   const THREE = await import("three");
@@ -428,6 +476,99 @@ async function setupProducts() {
         updateScroll();
       }
     });
+    if (kind === "inside") {
+      const world = new THREE.Group();
+      scene.add(world);
+      view.world = world;
+      const rings = [];
+      for (let i = 0; i < 3; i++) {
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(2.6 + i * 0.32, 0.012, 8, 160),
+          new THREE.MeshBasicMaterial({
+            color: 0x00d47a,
+            transparent: true,
+            opacity: 0.35 - i * 0.08,
+          }),
+        );
+        ring.rotation.set(0.25 + i * 0.18, 0.3 + i * 0.13, i * 0.35);
+        ring.position.z = -1.6 - i * 0.25;
+        world.add(ring);
+        rings.push(ring);
+      }
+      view.rings = rings;
+      const ticks = new THREE.Group();
+      for (let i = 0; i < 80; i++) {
+        const angle = (i / 80) * Math.PI * 2;
+        const tick = new THREE.Mesh(
+          new THREE.BoxGeometry(
+            i % 5 === 0 ? 0.025 : 0.012,
+            i % 5 === 0 ? 0.14 : 0.045,
+            0.012,
+          ),
+          new THREE.MeshBasicMaterial({
+            color: 0x00d47a,
+            transparent: true,
+            opacity: i % 5 === 0 ? 0.7 : 0.3,
+          }),
+        );
+        tick.position.set(Math.cos(angle) * 3.05, Math.sin(angle) * 3.05, -2);
+        tick.rotation.z = angle - Math.PI / 2;
+        ticks.add(tick);
+      }
+      world.add(ticks);
+      view.ticks = ticks;
+      const shards = new THREE.Group();
+      const shardMaterial = new THREE.MeshStandardMaterial({
+        color: 0x172c22,
+        metalness: 0.85,
+        roughness: 0.25,
+        emissive: 0x00d47a,
+        emissiveIntensity: 0.15,
+      });
+      for (let i = 0; i < 22; i++) {
+        const a = i * 2.39996,
+          radius = 2.4 + (i % 5) * 0.35;
+        const shard = new THREE.Mesh(
+          new THREE.OctahedronGeometry(0.05 + (i % 4) * 0.035, 0),
+          shardMaterial,
+        );
+        shard.position.set(
+          Math.cos(a) * radius,
+          Math.sin(a) * radius * 0.75,
+          -0.8 + (i % 6) * 0.25,
+        );
+        shard.scale.set(1, 0.6, 2.8);
+        shard.rotation.set(a, a * 0.4, a * 0.8);
+        shards.add(shard);
+      }
+      world.add(shards);
+      view.shards = shards;
+      const geometry = new THREE.BufferGeometry();
+      const points = [];
+      for (let i = 0; i < 220; i++) {
+        const a = i * 2.39996,
+          r = 1.8 + (i % 19) * 0.23;
+        points.push(Math.cos(a) * r, Math.sin(a) * r, -5 + (i % 29) * 0.27);
+      }
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(points, 3),
+      );
+      const dust = new THREE.Points(
+        geometry,
+        new THREE.PointsMaterial({
+          color: 0x76ffb8,
+          size: 0.018,
+          transparent: true,
+          opacity: 0.65,
+        }),
+      );
+      world.add(dust);
+      view.dust = dust;
+      view.boost = 0;
+      view.pointerX = 0;
+      view.pointerY = 0;
+    }
     views.push(view);
     return view;
   }
@@ -467,6 +608,16 @@ async function setupProducts() {
     wrapper.scale.setScalar(3.2 / size.y);
     wrapper.visible = false;
     view.group.add(wrapper);
+    wrapper.userData.lids = [];
+    model.traverse((mesh) => {
+      if (mesh.isMesh && /tapa/i.test(mesh.name)) {
+        wrapper.userData.lids.push({
+          mesh,
+          origin: mesh.position.clone(),
+          height: size.y,
+        });
+      }
+    });
     view.models[flavor] = wrapper;
     view.dirty = true;
   }
@@ -482,9 +633,7 @@ async function setupProducts() {
           view.models.cherry.visible = true;
           view.ready = true;
           view.container.classList.add("ready");
-          if (kind === "fighter") {
-            attach(view, await getModel("blue"), "blue");
-          }
+          attach(view, await getModel("blue"), "blue");
         } catch (error) {
           console.warn(
             "Product photography remains available because the 3D view could not load.",
@@ -516,20 +665,86 @@ async function setupProducts() {
         state.paused &&
         !view.dirty &&
         view.lastTurn === state.turn &&
-        view.lastFlavor === state.flavor
+        view.lastFlavor === state.flavor &&
+        view.lastHeroFlavor === state.heroFlavor
       )
         continue;
       if (view.kind === "inside") {
-        const p = state.paused ? 0 : smooth(state.progress);
+        const p = state.paused ? 0 : state.progress;
         const narrow = mobile.matches;
-        view.group.position.set(narrow ? 0 : -0.03, narrow ? 0 : 0.05, 0);
-        view.group.rotation.set(
-          0.07 - p * 0.1,
-          -0.26 + p * Math.PI * 2,
-          lerp(0.12, -0.1, p),
+        const flavorEntrance = state.paused
+          ? 1
+          : smooth(clamp((time - state.heroFlavorStart) / 900));
+        view.boost = lerp(
+          view.boost,
+          state.rush && !state.paused ? 1 : 0,
+          0.045,
         );
-        view.group.scale.setScalar(narrow ? 0.98 : 1.02);
-        if (!state.paused) view.group.position.y += Math.sin(t * 0.6) * 0.035;
+        view.pointerX = lerp(
+          view.pointerX,
+          state.paused ? 0 : state.cursorX,
+          0.035,
+        );
+        view.pointerY = lerp(
+          view.pointerY,
+          state.paused ? 0 : state.cursorY,
+          0.035,
+        );
+        const move = smooth(clamp((p - 0.12) / 0.28));
+        const open = smooth(clamp((p - 0.57) / 0.2));
+        const color = state.heroFlavor === "blue" ? 0x3b82f6 : 0x00d47a;
+        Object.entries(view.models).forEach(([key, object]) => {
+          object.visible = key === state.heroFlavor;
+        });
+        if (!view.models[state.heroFlavor]) {
+          view.container.classList.remove("ready");
+          continue;
+        }
+        view.container.classList.add("ready");
+        view.group.position.set(
+          narrow ? -0.15 * open : lerp(0.15, 1.65, move) - open * 1.25,
+          narrow ? -0.1 - move * 1.25 : -0.05 + open * 0.1,
+          0,
+        );
+        view.group.rotation.set(
+          0.12 + view.pointerY * 0.055 - open * 0.12,
+          -0.3 +
+            move * Math.PI * 2 +
+            view.pointerX * 0.16 +
+            (1 - flavorEntrance) * 1.1,
+          -0.22 + move * 0.27 + view.boost * 0.09,
+        );
+        view.group.scale.setScalar(
+          (narrow ? 0.83 - move * 0.18 - open * 0.12 : 1.02 - open * 0.22) *
+            lerp(0.84, 1, flavorEntrance),
+        );
+        if (!state.paused) view.group.position.y += Math.sin(t * 0.9) * 0.07;
+        for (const model of Object.values(view.models))
+          for (const lid of model.userData.lids) {
+            lid.mesh.position.copy(lid.origin);
+            lid.mesh.position.y += open * lid.height * 0.36;
+          }
+        view.camera.position.z = 9 - view.boost * 0.65 + open * 0.3;
+        view.world.position.x = narrow ? 0 : move * 1.2 - open * 0.9;
+        view.world.scale.setScalar(1 + view.boost * 0.16 - open * 0.1);
+        view.rings.forEach((ring, i) => {
+          ring.material.color.set(color);
+          ring.rotation.z =
+            (state.paused ? 0 : t * (0.06 + i * 0.025)) + p * 1.5;
+          ring.rotation.y = 0.3 + Math.sin(t * 0.3 + i) * 0.15;
+          ring.material.opacity = 0.18 + view.boost * 0.3;
+        });
+        view.ticks.rotation.z = state.paused
+          ? 0
+          : -t * 0.025 - view.boost * 0.35;
+        view.shards.rotation.z = state.paused ? 0 : t * 0.035 + p * 0.8;
+        view.shards.scale.setScalar(1 + view.boost * 0.45 + open * 0.1);
+        view.dust.rotation.z = state.paused
+          ? 0
+          : t * (0.015 + view.boost * 0.08);
+        view.dust.material.color.set(color);
+        view.rim.color.set(color);
+        view.rim.intensity = 2.4 + view.boost * 3;
       } else {
         const model = view.models[state.flavor];
         if (!model) {
@@ -567,6 +782,7 @@ async function setupProducts() {
       view.dirty = false;
       view.lastTurn = state.turn;
       view.lastFlavor = state.flavor;
+      view.lastHeroFlavor = state.heroFlavor;
     }
   }
   requestAnimationFrame(render);
