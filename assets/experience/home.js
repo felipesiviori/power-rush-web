@@ -108,9 +108,9 @@ function updateScroll() {
   );
   $(".world-hint").textContent =
     chapter === 1
-      ? "HACÉ CLICK EN EL MAPA. MARCÁ TU JUGADA."
+      ? "ELEGÍ UN PUNTO DEL CAMINO. TU EQUIPO TE SIGUE."
       : chapter === 2
-        ? "MOVÉ EL CURSOR. ELEGÍ TU LÍNEA."
+        ? ""
         : "";
   $(".portal-word").style.opacity = 1 - smooth(clamp(p / 0.14));
   $(".portal-word").style.transform =
@@ -315,7 +315,17 @@ function lightTarget() {
 }
 $$(".reaction-target").forEach((button) =>
   button.addEventListener("click", () => {
-    if (Number(button.dataset.target) !== state.target) return;
+    if (button.classList.contains("destroyed")) return;
+    if (Number(button.dataset.target) !== state.target) {
+      $("#hero").dispatchEvent(
+        new CustomEvent("rush-miss", {
+          detail: { rect: button.getBoundingClientRect() },
+        }),
+      );
+      return;
+    }
+    button.classList.add("destroyed");
+    setTimeout(() => button.classList.remove("destroyed"), 600);
     $("#hero").dispatchEvent(
       new CustomEvent("rush-hit", {
         detail: { rect: button.getBoundingClientRect() },

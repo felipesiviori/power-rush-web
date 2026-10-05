@@ -162,24 +162,51 @@
                 aria-label="Objetivo izquierdo"
                 tabindex="-1"
               >
-                +</button
+                <img
+                  class="drone-art"
+                  src="/assets/experience/scenes/arena-drone.webp"
+                  alt=""
+                /><span class="target-lock" aria-hidden="true"></span></button
               ><button
                 class="reaction-target"
                 data-target="1"
                 aria-label="Objetivo central"
                 tabindex="-1"
               >
-                +</button
+                <img
+                  class="drone-art"
+                  src="/assets/experience/scenes/arena-drone.webp"
+                  alt=""
+                /><span class="target-lock" aria-hidden="true"></span></button
               ><button
                 class="reaction-target"
                 data-target="2"
                 aria-label="Objetivo derecho"
                 tabindex="-1"
               >
-                +</button
+                <img
+                  class="drone-art"
+                  src="/assets/experience/scenes/arena-drone.webp"
+                  alt=""
+                /><span class="target-lock" aria-hidden="true"></span></button
               ><span class="reaction-score" aria-live="polite">0 ACIERTOS</span>
             </div>
           </div>
+          <div class="battle-status" aria-hidden="true">
+            TU EQUIPO AVANZA POR LA LÍNEA
+          </div>
+          <div class="race-controls">
+            <span class="race-status">EN PISTA · VOS MANEJÁS</span>
+            <div>
+              <button data-steer="-1" aria-label="Doblar a la izquierda">
+                ←</button
+              ><span>MANEJÁ CON EL MOUSE O LAS FLECHAS</span
+              ><button data-steer="1" aria-label="Doblar a la derecha">
+                →
+              </button>
+            </div>
+          </div>
+          <span class="hit-feedback" aria-live="polite"></span>
           <span class="world-hint" aria-hidden="true"></span>
           <nav class="story-jumps" aria-label="Capítulos de la experiencia">
             <button data-chapter="0" aria-current="step">INICIO</button

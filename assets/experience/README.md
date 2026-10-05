@@ -4,9 +4,9 @@ An interactive home built around a continuous real-time product world. It retain
 
 The opening now tells a five-chapter story: entry, focus, energy, reaction and formula. Chapter navigation and native scrolling work in both directions. Official Cherry Pop and Blue Fizz models alternate automatically between chapters, with manual flavor selection available until the next chapter.
 
-Three original illustrated game environments fill the viewport: a fantasy forest battle map, a futuristic racing circuit and an industrial shooter arena. Canvas overlays add units, projectiles, beacons, racing streaks and hit bursts. Clicking the forest places a rally marker; the cursor influences the racing vanishing point; native arena target buttons cycle and count successful hits. These scenes are playful visual metaphors, not measurements of product effects. Both flavors have the same formula.
+Three original illustrated game environments fill the viewport: a fantasy forest battle map, a futuristic racing circuit and an industrial shooter arena. The background artwork and animated objects share one image-space projection, including zoom, responsive cropping and camera kick. Armored squads follow the mapped stone lane toward an opposing squad; clicking chooses a reachable position on that lane. A rear-view car steers with the pointer, arrow keys or touch buttons, with road motion aligned to the circuit vanishing point and a Rush boost. Floating robotic targets cast ground shadows and respond to shots with tracers, sparks, hit markers and combo feedback; successful hits advance the active target. These scenes are playful visual metaphors, not measurements of product effects. Both flavors have the same formula.
 
-The environment images were generated using the built-in image tool and optimized to WebP (approximately 930 KB combined). The product meshes, textures and packaging are the official supplied assets. `game-worlds.js` renders decorative action with bounded resolution and frame rate, pauses for hidden/offscreen views and respects reduced motion. Reduced motion and model-load failures retain a static benefit summary.
+The environment images were generated using the built-in image tool and optimized to WebP (approximately 930 KB combined). The car and drone are original transparent sprites generated with the same built-in image tool. The product meshes, textures and packaging are the official supplied assets. `game-worlds.js` renders decorative action with bounded resolution and frame rate, pauses for hidden/offscreen views and respects reduced motion. Reduced motion and model-load failures retain a static benefit summary.
 
 The lower page provides the interactive flavor selector, transparent ingredient list, preparation ritual, real setup photography and founder story.
 
@@ -36,6 +36,8 @@ Open `http://127.0.0.1:8765/`. No build step is required. Existing Vercel config
 
 ## Implementation
 
+- `world-projection.js`: shared artwork/effect coordinates and walkable forest lane.
+- `game-worlds.js`: squad orders, steering and arena effects.
 - `home.js`: navigation, flavor selection, scroll state, progressive 3D enhancement and accessibility behavior.
 - `home.css`: shared home styles. `portal.css`: continuous opening composition and responsive choreography.
 - Three.js 0.170.0 renders the exported GLB models, with a generated studio environment. GLB files are about 1.2 MB and 1.0 MB.
@@ -56,6 +58,6 @@ Open `http://127.0.0.1:8765/`. No build step is required. Existing Vercel config
 
 ## Review notes
 
-Browser validation covers desktop and mobile layouts; forward and backward chapter navigation; automatic Blue Fizz / Cherry Pop changes; two successful target hits; Rush activation; reduced-motion benefit summaries; and JavaScript syntax / whitespace checks. Earlier static model-failure fallback remains in place.
+Browser validation covers desktop (1440 px), mobile (390 px) and narrow mobile (320 px) layouts; forest click-to-order completion; left/right steering controls; forward and backward chapter navigation; automatic Blue Fizz / Cherry Pop changes; two successful target hits; Rush activation; reduced-motion benefit summaries; and JavaScript syntax / whitespace checks. Projection round trips, full-bleed coverage and nearest-lane targeting were checked at all three viewport sizes. Earlier static model-failure fallback remains in place.
 
 This is a home-page implementation for design review. Do not merge it to production until the visual direction has been reviewed. The source Blender scene and full-resolution source textures are intentionally excluded from the web repository.

@@ -1339,3 +1339,206 @@
     display: none;
   }
 }
+/* Gameplay and images now share a single projection; no independent parallax. */
+.world-backdrop {
+  inset: 0 !important;
+  transform: none !important;
+  background-repeat: no-repeat;
+  will-change: opacity;
+}
+.game-window {
+  transform: none !important;
+}
+.battle-status,
+.race-controls,
+.hit-feedback {
+  position: absolute;
+  z-index: 5;
+  left: var(--gutter);
+  bottom: 200px;
+  color: #bbd7c9;
+  font: 8px var(--mo);
+  letter-spacing: 1px;
+  display: none;
+  text-shadow: 0 2px 10px #000;
+}
+.portal-screen[data-chapter="1"] .battle-status {
+  display: block;
+}
+.portal-screen[data-chapter="2"] .race-controls {
+  display: block;
+}
+.race-controls {
+  bottom: 165px;
+}
+.race-status {
+  display: block;
+  margin-bottom: 12px;
+  color: #b9e6ff;
+  font-size: 9px;
+}
+.race-controls > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.race-controls > div > span {
+  font-size: 6px;
+  max-width: 150px;
+  line-height: 1.7;
+}
+.race-controls button {
+  width: 38px;
+  height: 34px;
+  border: 1px solid #8fd0ff77;
+  border-radius: 5px;
+  background: #051422b0;
+  color: #c1e5ff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.race-controls button:hover {
+  background: #255584;
+}
+.reaction-target,
+.reaction-target.is-target {
+  padding: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none;
+  overflow: visible;
+  transition:
+    opacity 0.15s,
+    filter 0.2s;
+  opacity: 0.65;
+}
+.reaction-target.is-target {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px #ffa64c66);
+}
+.drone-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.target-lock {
+  position: absolute;
+  inset: -8%;
+  border: 1px solid #ffad6055;
+  clip-path: polygon(
+    0 0,
+    22% 0,
+    22% 4%,
+    4% 4%,
+    4% 22%,
+    0 22%,
+    0 0,
+    100% 0,
+    100% 22%,
+    96% 22%,
+    96% 4%,
+    78% 4%,
+    78% 0,
+    100% 0,
+    100% 100%,
+    78% 100%,
+    78% 96%,
+    96% 96%,
+    96% 78%,
+    100% 78%,
+    100% 100%,
+    0 100%,
+    0 78%,
+    4% 78%,
+    4% 96%,
+    22% 96%,
+    22% 100%,
+    0 100%
+  );
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.is-target .target-lock {
+  opacity: 0.8;
+}
+.reaction-target.destroyed {
+  opacity: 0 !important;
+  pointer-events: none;
+  filter: brightness(3);
+}
+.hit-feedback {
+  left: 50%;
+  top: 44%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  font: 900 italic 30px var(--hd);
+  color: #ffca85;
+  pointer-events: none;
+  opacity: 0;
+}
+.portal-screen[data-chapter="3"] .hit-feedback {
+  display: block;
+}
+.hit-feedback.pop {
+  animation: hit-confirm 0.65s ease-out forwards;
+}
+@keyframes hit-confirm {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -35%) scale(0.8);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -90%) scale(1);
+  }
+}
+@media (max-width: 760px) {
+  .battle-status {
+    bottom: 208px;
+    font-size: 6px;
+  }
+  .race-controls {
+    bottom: 176px;
+  }
+  .race-status {
+    font-size: 7px;
+    margin-bottom: 8px;
+  }
+  .race-controls > div > span {
+    font-size: 5px;
+    max-width: 110px;
+  }
+  .race-controls button {
+    width: 35px;
+    height: 30px;
+  }
+  .hit-feedback {
+    top: 42%;
+    font-size: 24px;
+  }
+  .portal-screen[data-chapter="2"] .portal-stage {
+    opacity: 0.8;
+  }
+}
+.motion-paused .race-controls,
+.motion-paused .battle-status,
+.no-webgl .race-controls,
+.no-webgl .battle-status {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hit-feedback.pop {
+    animation: none;
+    opacity: 0;
+  }
+}
