@@ -1848,3 +1848,12 @@ html.lenis body {
     max-width: 155px;
   }
 }
+
+/* Match fallback photography to the real-time product framing. */
+.product-fallback { top: 140px; left: 43%; width: 40%; height: 430px; }
+@media(max-width:700px){.product-fallback{top:335px;left:10%;width:80%;height:340px}}
+@media(max-width:375px){.brand{width:110px}.header-actions{gap:4px}.header-shop{font-size:9px;padding:8px 10px;gap:8px}.menu-toggle{width:34px;padding:6px}}
+
+/* Contain decorative orbital strokes on narrow screens without changing sticky flow. */
+body { overflow-x: clip; }
+.formula-section, .ritual-section { overflow: clip; }

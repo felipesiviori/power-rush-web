@@ -512,7 +512,7 @@ async function createProductExperience() {
           : ease(state.focus);
         const intro = 1 - entrance;
         view.group.position.set(
-          lerp(isMobile ? 0.05 : 1.05, isMobile ? 0.42 : 1.4, t),
+          lerp(isMobile ? 0.05 : 1.05, isMobile ? (window.innerWidth < 360 ? 0.3 : 0.42) : 1.4, t),
           lerp(isMobile ? -0.55 : -0.15, isMobile ? -0.55 : 0.05, t) +
             float -
             intro * 0.8,
@@ -524,12 +524,12 @@ async function createProductExperience() {
           lerp(-0.22, 0.13, t),
         );
         const scale =
-          lerp(isMobile ? 0.53 : 0.87, isMobile ? 0.42 : 0.83, t) *
+          lerp(isMobile ? 0.53 : 0.87, isMobile ? (window.innerWidth < 360 ? 0.38 : 0.42) : 0.83, t) *
           lerp(0.86, 1, entrance);
         view.group.scale.setScalar(scale);
         view.rim.color.set(t > 0.3 ? 0xc6f85c : 0xffffff);
         portalMaterial.opacity = clamp((t - 0.12) * 1.7) * 0.35;
-        portal.position.x = isMobile ? 0.42 : 1.4;
+        portal.position.x = isMobile ? (window.innerWidth < 360 ? 0.3 : 0.42) : 1.4;
         portal.position.y = isMobile ? -0.55 : 0.05;
         portal.scale.setScalar(isMobile ? 0.47 : 0.9);
         portal.rotation.y = Math.sin(t * Math.PI) * 0.65;
