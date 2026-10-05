@@ -1,0 +1,1544 @@
+/* One continuous product world, choreographed by scroll. */
+.portal-runway {
+  height: 350svh;
+  position: relative;
+  background: #080a08;
+}
+.portal-screen {
+  height: 100svh;
+  min-height: 740px;
+  position: sticky;
+  top: 0;
+  overflow: clip;
+  isolation: isolate;
+  background: #080a08;
+  --portal-color: #00d47a;
+}
+.portal-atmosphere {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 54% 48%, #00d47a20, transparent 58%);
+  z-index: -4;
+  transition: background 1s;
+}
+.portal-screen[data-flavor="blue"] .portal-atmosphere {
+  background: radial-gradient(ellipse at 54% 48%, #3b82f62a, transparent 58%);
+}
+.portal-word {
+  position: absolute;
+  inset: 15% 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font: 900 italic clamp(150px, 22vw, 350px) / 0.73 var(--hd);
+  letter-spacing: -0.025em;
+  color: #eef5ee;
+  z-index: -2;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.portal-word span:last-child {
+  color: transparent;
+  -webkit-text-stroke: 1px #00d47a85;
+  margin-left: 12vw;
+}
+.portal-stage.inside-stage {
+  inset: 7% 0 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.portal-stage .model-poster {
+  inset: 20% 30%;
+  width: 40%;
+  height: 65%;
+  transform: rotate(-15deg);
+}
+.portal-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    #080a08 0%,
+    transparent 23%,
+    transparent 90%,
+    #080a08
+  );
+  z-index: 1;
+}
+.portal-orbit {
+  position: absolute;
+  width: 75vw;
+  height: 75vw;
+  left: 12%;
+  top: -5%;
+  border: 1px solid #00d47a12;
+  border-radius: 50%;
+  transform: rotateX(50deg);
+  pointer-events: none;
+  z-index: -3;
+}
+.portal-intro {
+  position: absolute;
+  z-index: 3;
+  left: var(--gutter);
+  top: 48%;
+  width: 26%;
+  will-change: transform, opacity;
+}
+.portal-intro .eyebrow {
+  font-size: 8px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  margin-bottom: 17px;
+}
+.portal-intro h1 {
+  font: 900 italic clamp(50px, 5vw, 80px) / 0.85 var(--hd);
+  letter-spacing: 0;
+}
+.portal-intro h1 em,
+.portal-chapter em {
+  color: var(--green);
+  font-style: italic;
+}
+.portal-intro > p:not(.eyebrow) {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #aab7ae;
+  margin: 20px 0;
+}
+.portal-intro .text-link {
+  font-size: 10px;
+}
+.portal-tag {
+  position: absolute;
+  right: var(--gutter);
+  top: 48%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 3;
+  text-align: right;
+  will-change: transform, opacity;
+}
+.portal-tag strong {
+  font: 900 italic 34px/0.9 var(--hd);
+}
+.portal-tag > span:last-child {
+  font: 9px var(--bd);
+  color: #7c9284;
+}
+.portal-tag .micro {
+  font-size: 8px;
+}
+.portal-controls {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 5;
+  gap: 20px;
+}
+.portal-controls .hero-selector {
+  position: static;
+  transform: none;
+  display: flex;
+}
+.rush-trigger {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #0c160f;
+  border: 1px solid #00d47a66;
+  border-radius: 60px;
+  padding: 10px 25px 10px 10px;
+  color: var(--white);
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+.rush-trigger:hover {
+  background: #123323;
+  box-shadow: 0 0 35px #00d47a25;
+  transform: translateY(-3px);
+}
+.rush-trigger-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  background: var(--green);
+  color: #080a08;
+  border-radius: 50%;
+  font-size: 29px;
+}
+.rush-trigger b {
+  display: block;
+  text-align: left;
+  font: 900 italic 21px var(--hd);
+}
+.rush-trigger small {
+  display: block;
+  font: 6px var(--mo);
+  letter-spacing: 0.7px;
+  margin-top: 3px;
+  color: #8aa695;
+}
+.rush-trigger[aria-pressed="true"] {
+  background: var(--green);
+  color: #080a08;
+  box-shadow: 0 0 65px #00d47a45;
+}
+.rush-trigger[aria-pressed="true"] small {
+  color: #173d2b;
+}
+.rush-trigger[aria-pressed="true"] .rush-trigger-icon {
+  background: #080a08;
+  color: var(--green);
+}
+.portal-scroll {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #94a59a;
+}
+.portal-scroll b {
+  font-size: 25px;
+  color: var(--green);
+}
+.portal-timeline {
+  position: absolute;
+  bottom: 24px;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  gap: 35px;
+  align-items: center;
+  z-index: 4;
+}
+.portal-timeline .micro {
+  font-size: 7px;
+  white-space: nowrap;
+}
+.portal-timeline .track-line {
+  flex: 1;
+  height: 1px;
+  background: #ffffff17;
+}
+.portal-timeline .track-line > span {
+  display: block;
+  height: 1px;
+  background: var(--green);
+  transform-origin: left;
+}
+.portal-chapter {
+  position: absolute;
+  top: 30%;
+  left: var(--gutter);
+  width: 44%;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+.portal-chapter h2 {
+  font: 900 italic clamp(66px, 8vw, 125px) / 0.85 var(--hd);
+}
+.portal-chapter .eyebrow {
+  font-size: 9px;
+  margin-bottom: 25px;
+}
+.portal-chapter > p:not(.eyebrow) {
+  font-size: 14px;
+  color: #9cb0a3;
+  line-height: 1.8;
+  margin-top: 27px;
+}
+.portal-chapter .text-link {
+  font-size: 10px;
+  margin-top: 25px;
+}
+.portal-dose {
+  position: absolute;
+  right: 7%;
+  top: 44%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.portal-dose > span {
+  font: 8px var(--mo);
+  letter-spacing: 1px;
+  color: #a9b6ad;
+}
+.portal-dose strong {
+  font: 900 italic 75px/0.85 var(--hd);
+}
+.portal-dose small {
+  font: 10px var(--mo);
+}
+.portal-dose i {
+  font-size: 26px;
+  color: var(--green);
+}
+.portal-dose b {
+  color: var(--green);
+  margin: 0 20px;
+}
+.portal-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.portal-screen.rush-on .portal-word {
+  filter: drop-shadow(0 0 22px #00d47a40);
+}
+.portal-runway + .loadout-section {
+  position: relative;
+  background: var(--bg);
+  z-index: 2;
+}
+@media (min-width: 1500px) {
+  .portal-intro {
+    left: 6%;
+  }
+  .portal-tag {
+    right: 6%;
+  }
+}
+@media (max-width: 1000px) {
+  .portal-controls {
+    gap: 12px;
+  }
+  .portal-scroll {
+    display: none;
+  }
+  .portal-intro {
+    width: 32%;
+  }
+  .portal-dose {
+    right: 5%;
+  }
+  .portal-dose strong {
+    font-size: 54px;
+  }
+  .portal-tag {
+    top: 53%;
+  }
+  .portal-tag strong {
+    font-size: 25px;
+  }
+  .portal-tag > span:last-child {
+    max-width: 135px;
+  }
+}
+@media (max-width: 760px) {
+  .portal-runway {
+    height: 310svh;
+  }
+  .portal-screen {
+    min-height: 760px;
+  }
+  .portal-word {
+    top: 20%;
+    font-size: 28vw;
+    line-height: 0.78;
+  }
+  .portal-word span:last-child {
+    margin-left: 4vw;
+  }
+  .portal-stage.inside-stage {
+    inset: 21% -25% 21%;
+  }
+  .portal-intro {
+    top: 115px;
+    left: var(--gutter);
+    width: 90%;
+  }
+  .portal-intro .eyebrow {
+    font-size: 7px;
+    margin-bottom: 13px;
+  }
+  .portal-intro h1 {
+    font-size: 45px;
+    line-height: 0.87;
+  }
+  .portal-intro h1 br {
+    display: none;
+  }
+  .portal-intro h1 em {
+    margin-left: 8px;
+  }
+  .portal-intro > p:not(.eyebrow) {
+    position: absolute;
+    top: 425px;
+    font-size: 11px;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 210px;
+  }
+  .portal-intro .text-link {
+    position: absolute;
+    top: 485px;
+    font-size: 9px;
+  }
+  .portal-tag {
+    right: var(--gutter);
+    top: auto;
+    bottom: 232px;
+    gap: 7px;
+  }
+  .portal-tag .micro {
+    display: none;
+  }
+  .portal-tag strong {
+    font-size: 20px;
+  }
+  .portal-tag > span:last-child {
+    font-size: 7px;
+    max-width: 115px;
+  }
+  .portal-controls {
+    bottom: 63px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 13px;
+    justify-items: center;
+  }
+  .portal-controls .hero-selector button {
+    font-size: 7px;
+    padding: 11px 15px;
+  }
+  .rush-trigger {
+    padding: 7px 20px 7px 7px;
+    gap: 12px;
+  }
+  .rush-trigger-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 23px;
+  }
+  .rush-trigger b {
+    font-size: 18px;
+  }
+  .rush-trigger small {
+    font-size: 5px;
+  }
+  .portal-timeline {
+    bottom: 23px;
+    gap: 20px;
+  }
+  .portal-timeline > .micro:last-child {
+    display: none;
+  }
+  .portal-chapter {
+    top: 145px;
+    width: 90%;
+  }
+  .portal-chapter h2 {
+    font-size: 16vw;
+    line-height: 0.84;
+  }
+  .portal-chapter .eyebrow {
+    font-size: 7px;
+    margin-bottom: 16px;
+  }
+  .portal-chapter > p:not(.eyebrow) {
+    font-size: 11px;
+    margin-top: 18px;
+  }
+  .portal-formula h2 {
+    font-size: 14vw;
+  }
+  .portal-formula .text-link {
+    font-size: 8px;
+    margin-top: 10px;
+  }
+  .portal-dose {
+    right: var(--gutter);
+    top: auto;
+    bottom: 245px;
+    gap: 12px;
+  }
+  .portal-dose strong {
+    font-size: 42px;
+  }
+  .portal-dose > span {
+    font-size: 6px;
+  }
+  .portal-dose b {
+    margin: 0 10px;
+  }
+}
+@media (max-width: 360px) {
+  .portal-intro h1 {
+    font-size: 38px;
+  }
+  .portal-tag {
+    bottom: 227px;
+  }
+  .portal-intro > p:not(.eyebrow) {
+    max-width: 165px;
+    font-size: 10px;
+  }
+  .portal-intro .text-link {
+    top: 482px;
+  }
+}
+.motion-paused .portal-runway,
+.no-webgl .portal-runway {
+  height: 100svh;
+  min-height: 760px;
+}
+.motion-paused .portal-screen,
+.no-webgl .portal-screen {
+  position: relative;
+}
+.motion-paused .rush-trigger,
+.no-webgl .rush-trigger {
+  display: none;
+}
+.no-webgl .portal-controls {
+  bottom: 50px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-runway {
+    height: 100svh;
+    min-height: 760px;
+  }
+  .portal-screen {
+    position: relative;
+  }
+  .rush-trigger {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .portal-word {
+    top: 24%;
+  }
+  .portal-stage.inside-stage {
+    inset: 24% -25% 27%;
+  }
+}
+@media (max-width: 760px) {
+  .portal-dose {
+    bottom: 175px;
+    right: var(--gutter);
+    gap: 8px;
+  }
+  .portal-dose strong {
+    font-size: 34px;
+  }
+}
+@media (max-width: 760px) {
+  .no-webgl .portal-stage .model-poster {
+    height: 55%;
+    top: 18%;
+  }
+}
+@media (max-width: 360px) {
+  .portal-intro > p:not(.eyebrow) {
+    top: 385px;
+    max-width: 145px;
+  }
+  .portal-intro .text-link {
+    top: 445px;
+  }
+}
+/* Benefit story: five scroll chapters and three playable visual metaphors. */
+.portal-runway {
+  height: 600svh;
+}
+.story-jumps {
+  position: absolute;
+  top: 127px;
+  right: var(--gutter);
+  display: flex;
+  gap: 6px;
+  z-index: 6;
+}
+.story-jumps button {
+  border: 1px solid #eef5ee17;
+  border-radius: 4px;
+  background: #080a0877;
+  color: #83958a;
+  padding: 9px 12px;
+  font: 7px var(--mo);
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+.story-jumps button:hover,
+.story-jumps button[aria-current="step"] {
+  border-color: #00d47a66;
+  color: var(--green);
+  background: #0c2016;
+}
+.portal-screen[data-chapter="1"] .portal-controls .rush-trigger,
+.portal-screen[data-chapter="2"] .portal-controls .rush-trigger,
+.portal-screen[data-chapter="3"] .portal-controls .rush-trigger {
+  transform: scale(0.85);
+  transform-origin: center bottom;
+}
+.portal-screen[data-chapter="1"] .portal-chapter,
+.portal-screen[data-chapter="2"] .portal-chapter,
+.portal-screen[data-chapter="3"] .portal-chapter {
+  top: 24%;
+  width: 48%;
+}
+.portal-screen[data-chapter="1"] .portal-chapter h2,
+.portal-screen[data-chapter="2"] .portal-chapter h2,
+.portal-screen[data-chapter="3"] .portal-chapter h2 {
+  font-size: clamp(64px, 7vw, 108px);
+}
+.portal-chapter .benefit-ingredient {
+  display: block;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #6d8e78;
+  margin-top: 21px;
+}
+.game-window {
+  position: absolute;
+  left: var(--gutter);
+  top: 58%;
+  width: 36%;
+  max-width: 490px;
+  z-index: 4;
+  border: 1px solid #00d47a40;
+  background: linear-gradient(135deg, #07160fee, #080a08de);
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 18px 50px #0004;
+}
+.game-toolbar {
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid #00d47a20;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #a4baac;
+}
+.game-indicator {
+  color: var(--green);
+  font-size: 6px;
+}
+.game-scene {
+  height: 170px;
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+.portal-screen[data-chapter="1"] .game-focus,
+.portal-screen[data-chapter="2"] .game-energy,
+.portal-screen[data-chapter="3"] .game-reaction {
+  display: block;
+}
+.game-focus svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.game-readout {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  font: 6px var(--mo);
+  letter-spacing: 1px;
+  color: var(--green);
+}
+.game-footnote {
+  display: block;
+  font: 5px var(--mo);
+  letter-spacing: 0.5px;
+  color: #7d9486;
+  padding: 9px 14px;
+  border-top: 1px solid #00d47a16;
+}
+.target-pulse {
+  transform-origin: 0 0;
+  animation: target-pulse 2.5s ease-out infinite;
+}
+@keyframes target-pulse {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.race-world {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 30%, #3b82f62a, transparent 70%);
+  perspective: 160px;
+}
+.race-grid {
+  position: absolute;
+  inset: 25% -50% -120%;
+  background:
+    linear-gradient(#3b82f660 1px, transparent 1px),
+    linear-gradient(90deg, #3b82f660 1px, transparent 1px);
+  background-size: 35px 35px;
+  transform: rotateX(55deg);
+  transform-origin: center top;
+  animation: road-run 1s linear infinite;
+}
+@keyframes road-run {
+  to {
+    background-position: 0 35px;
+  }
+}
+.race-gate {
+  position: absolute;
+  width: 46%;
+  height: 70%;
+  left: 27%;
+  top: 15%;
+  border: 2px solid #3b82f6;
+  border-bottom: 0;
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  animation: gate-pass 3.6s linear infinite;
+  box-shadow: 0 0 15px #3b82f650;
+}
+.gate-two {
+  animation-delay: -1.2s;
+}
+.gate-three {
+  animation-delay: -2.4s;
+}
+@keyframes gate-pass {
+  0% {
+    transform: scale(0.15);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.race-ship {
+  position: absolute;
+  width: 32px;
+  height: 27px;
+  left: calc(50% - 16px);
+  bottom: 38px;
+  background: #eef5ee;
+  clip-path: polygon(50% 0, 100% 100%, 50% 72%, 0 100%);
+  filter: drop-shadow(0 0 15px #3b82f6);
+  transition: transform 0.15s linear;
+}
+.energy-meter {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font: 6px var(--mo);
+  color: #b4c5d6;
+}
+.energy-meter > div {
+  flex: 1;
+  height: 5px;
+  background: #eef5ee15;
+  overflow: hidden;
+}
+.energy-meter i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #00d47a);
+  transform-origin: left;
+}
+.energy-meter b {
+  font-weight: 400;
+  color: var(--green);
+}
+.reaction-instruction {
+  position: absolute;
+  top: 14px;
+  left: 15px;
+  font: 6px var(--mo);
+  color: #a1b6a8;
+  letter-spacing: 1px;
+}
+.reaction-target {
+  position: absolute;
+  top: 48px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid #eef5ee22;
+  background: #eef5ee03;
+  color: #eef5ee45;
+  font: 30px var(--mo);
+  cursor: crosshair;
+  transition:
+    background 0.18s,
+    box-shadow 0.18s,
+    color 0.18s,
+    transform 0.18s;
+}
+.reaction-target[data-target="0"] {
+  left: 14%;
+}
+.reaction-target[data-target="1"] {
+  left: calc(50% - 29px);
+}
+.reaction-target[data-target="2"] {
+  right: 14%;
+}
+.reaction-target.is-target {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow:
+    0 0 25px #00d47a28,
+    inset 0 0 25px #00d47a18;
+  background: #00d47a12;
+  transform: scale(1.1);
+}
+.reaction-target:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 5px;
+}
+.reaction-score {
+  position: absolute;
+  bottom: 13px;
+  right: 16px;
+  font: 7px var(--mo);
+  color: var(--green);
+  letter-spacing: 1px;
+}
+.portal-screen[data-chapter="2"] .portal-atmosphere {
+  background: radial-gradient(ellipse at 65% 55%, #3b82f62e, transparent 60%);
+}
+.static-benefits {
+  display: none;
+}
+.motion-paused .static-benefits,
+.no-webgl .static-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+  padding-top: 65px;
+  padding-bottom: 65px;
+}
+.static-benefits article {
+  border-top: 1px solid var(--green);
+  padding-top: 20px;
+}
+.static-benefits span {
+  font: 9px var(--mo);
+  color: var(--green);
+}
+.static-benefits h2 {
+  font: 900 italic 40px/0.9 var(--hd);
+  margin: 20px 0;
+}
+.static-benefits p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #94a59a;
+}
+.motion-paused .game-window,
+.no-webgl .game-window {
+  display: none;
+}
+@media (max-width: 1000px) and (min-width: 761px) {
+  .game-window {
+    width: 42%;
+    top: 59%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: 7vw;
+  }
+  .portal-chapter .benefit-ingredient {
+    font-size: 6px;
+  }
+  .story-jumps {
+    top: 117px;
+  }
+  .portal-screen .portal-chapter > p:not(.eyebrow) {
+    font-size: 12px;
+  }
+}
+@media (max-width: 760px) {
+  .portal-runway {
+    height: 550svh;
+  }
+  .story-jumps {
+    top: 108px;
+    left: var(--gutter);
+    right: var(--gutter);
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .story-jumps button {
+    font-size: 6px;
+    padding: 8px 7px;
+    letter-spacing: 0.3px;
+  }
+  .portal-intro {
+    top: 156px;
+  }
+  .portal-word {
+    top: 28%;
+  }
+  .portal-stage.inside-stage {
+    inset: 28% -25% 24%;
+  }
+  .portal-intro > p:not(.eyebrow) {
+    top: 395px;
+  }
+  .portal-intro .text-link {
+    top: 449px;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 166px;
+    width: 90%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: 14vw;
+  }
+  .portal-chapter .eyebrow {
+    margin-bottom: 12px;
+    font-size: 6px;
+  }
+  .portal-chapter > p:not(.eyebrow) {
+    margin-top: 13px;
+    font-size: 10px;
+  }
+  .portal-chapter .benefit-ingredient {
+    font-size: 5px;
+    letter-spacing: 0.5px;
+    margin-top: 11px;
+  }
+  .game-window {
+    top: auto;
+    bottom: 176px;
+    left: var(--gutter);
+    width: calc(100% - var(--gutter) * 2);
+    max-width: none;
+  }
+  .game-toolbar {
+    height: 24px;
+    font-size: 6px;
+    padding: 0 10px;
+  }
+  .game-scene {
+    height: 122px;
+  }
+  .game-footnote {
+    font-size: 4px;
+    padding: 7px 10px;
+  }
+  .reaction-target {
+    width: 43px;
+    height: 43px;
+    top: 42px;
+    font-size: 24px;
+  }
+  .reaction-target[data-target="1"] {
+    left: calc(50% - 21.5px);
+  }
+  .reaction-score {
+    bottom: 7px;
+    font-size: 6px;
+  }
+  .reaction-instruction {
+    top: 10px;
+    font-size: 5px;
+  }
+  .portal-formula {
+    top: 167px;
+  }
+  .portal-formula h2 {
+    font-size: 13vw;
+  }
+  .portal-screen[data-chapter="1"] .portal-controls .rush-trigger,
+  .portal-screen[data-chapter="2"] .portal-controls .rush-trigger,
+  .portal-screen[data-chapter="3"] .portal-controls .rush-trigger {
+    transform: none;
+  }
+  .motion-paused .static-benefits,
+  .no-webgl .static-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 360px) {
+  .portal-intro > p:not(.eyebrow) {
+    top: 350px;
+  }
+  .portal-intro .text-link {
+    top: 412px;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 160px;
+  }
+  .game-window {
+    bottom: 169px;
+  }
+  .game-scene {
+    height: 102px;
+  }
+  .reaction-target {
+    top: 35px;
+    width: 35px;
+    height: 35px;
+  }
+  .reaction-target[data-target="1"] {
+    left: calc(50% - 17.5px);
+  }
+  .portal-chapter .benefit-ingredient {
+    display: none;
+  }
+}
+.motion-paused .game-scene *,
+.no-webgl .game-scene * {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-scene * {
+    animation: none !important;
+  }
+  .portal-runway {
+    height: 100svh;
+  }
+}
+@media (min-width: 761px) {
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: clamp(62px, 6.6vw, 102px);
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter > p:not(.eyebrow),
+  .portal-screen[data-chapter="2"] .portal-chapter > p:not(.eyebrow),
+  .portal-screen[data-chapter="3"] .portal-chapter > p:not(.eyebrow) {
+    margin-top: 17px;
+  }
+}
+@media (min-width: 761px) {
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 22%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: min(6.6vw, 10svh);
+  }
+  .portal-chapter .benefit-ingredient {
+    margin-top: 12px;
+  }
+  .game-window {
+    top: 56%;
+  }
+  .game-scene {
+    height: clamp(100px, 18svh, 170px);
+  }
+}
+/* Game worlds take over the entire viewport. */
+.game-worlds {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.65s;
+}
+.portal-screen[data-chapter="1"] .game-worlds,
+.portal-screen[data-chapter="2"] .game-worlds,
+.portal-screen[data-chapter="3"] .game-worlds {
+  opacity: 1;
+}
+.world-backdrop {
+  position: absolute;
+  inset: -4%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.75s;
+  transform: scale(1.045) translateY(calc(var(--world-drift, 0px) * -0.5));
+  will-change: transform, opacity;
+}
+.world-forest {
+  background-image: url("./scenes/world-forest.webp");
+}
+.world-circuit {
+  background-image: url("./scenes/world-circuit.webp");
+}
+.world-arena {
+  background-image: url("./scenes/world-arena.webp");
+}
+.portal-screen[data-chapter="1"] .world-forest,
+.portal-screen[data-chapter="2"] .world-circuit,
+.portal-screen[data-chapter="3"] .world-arena {
+  opacity: 1;
+}
+.world-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #030a07cf 0%, #030a0745 37%, transparent 65%),
+    linear-gradient(0deg, #030806cc, transparent 40%, #03080644);
+  z-index: 1;
+}
+.world-effects {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.world-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, #0003 3px 4px);
+  z-index: 3;
+}
+.portal-screen[data-chapter="1"] .portal-atmosphere,
+.portal-screen[data-chapter="2"] .portal-atmosphere,
+.portal-screen[data-chapter="3"] .portal-atmosphere,
+.portal-screen[data-chapter="1"] .portal-orbit,
+.portal-screen[data-chapter="2"] .portal-orbit,
+.portal-screen[data-chapter="3"] .portal-orbit {
+  opacity: 0;
+}
+.portal-screen[data-chapter="1"] .portal-vignette,
+.portal-screen[data-chapter="2"] .portal-vignette,
+.portal-screen[data-chapter="3"] .portal-vignette {
+  background: linear-gradient(0deg, #080a08 0%, transparent 19%);
+}
+.portal-screen[data-chapter="1"] .portal-chapter,
+.portal-screen[data-chapter="2"] .portal-chapter,
+.portal-screen[data-chapter="3"] .portal-chapter {
+  top: 28%;
+  width: 46%;
+  text-shadow: 0 4px 22px #0006;
+}
+.portal-chapter .benefit-ingredient {
+  color: #a5cbb5;
+}
+.game-window {
+  inset: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.game-toolbar,
+.game-footnote,
+.game-focus,
+.game-energy {
+  display: none !important;
+}
+.game-reaction {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.reaction-instruction {
+  top: auto;
+  bottom: 185px;
+  left: var(--gutter);
+  font-size: 8px;
+  color: #c3ddce;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 10px #000;
+}
+.reaction-score {
+  top: auto;
+  bottom: 155px;
+  left: var(--gutter);
+  right: auto;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--green);
+}
+.reaction-target {
+  pointer-events: auto;
+  width: 54px;
+  height: 54px;
+  top: auto;
+  background: #07160f33;
+  backdrop-filter: blur(1px);
+  border-color: #b9ddcc55;
+  color: #d0eadd66;
+  box-shadow: 0 0 20px #0008;
+  font-size: 26px;
+}
+.reaction-target[data-target="0"] {
+  left: 53%;
+  top: 36%;
+  right: auto;
+}
+.reaction-target[data-target="1"] {
+  left: 74%;
+  top: 46%;
+  right: auto;
+}
+.reaction-target[data-target="2"] {
+  left: 60%;
+  top: 59%;
+  right: auto;
+}
+.reaction-target.is-target {
+  background: #00d47a20;
+  box-shadow:
+    0 0 0 8px #00d47a12,
+    0 0 45px #00d47a77,
+    inset 0 0 25px #00d47a30;
+}
+.story-jumps button {
+  background: #080a0880;
+  backdrop-filter: blur(8px);
+}
+@media (max-width: 760px) {
+  .world-backdrop {
+    background-position: 60% center;
+    inset: -2% -22%;
+    transform: scale(1.03) translateY(calc(var(--world-drift, 0px) * -0.25));
+  }
+  .world-shade {
+    background: linear-gradient(
+      180deg,
+      #030a07ba 0%,
+      #030a0744 34%,
+      transparent 55%,
+      #030806dd 90%
+    );
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter,
+  .portal-screen[data-chapter="2"] .portal-chapter,
+  .portal-screen[data-chapter="3"] .portal-chapter {
+    top: 170px;
+    width: 90%;
+  }
+  .portal-screen[data-chapter="1"] .portal-chapter h2,
+  .portal-screen[data-chapter="2"] .portal-chapter h2,
+  .portal-screen[data-chapter="3"] .portal-chapter h2 {
+    font-size: 13vw;
+  }
+  .portal-chapter > p:not(.eyebrow) {
+    color: #c3d1c8;
+    text-shadow: 0 2px 10px #000;
+  }
+  .reaction-target {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+  .reaction-target[data-target="0"] {
+    left: 25%;
+    top: 47%;
+  }
+  .reaction-target[data-target="1"] {
+    left: 65%;
+    top: 52%;
+  }
+  .reaction-target[data-target="2"] {
+    left: 40%;
+    top: 61%;
+  }
+  .reaction-instruction {
+    bottom: 215px;
+    font-size: 6px;
+  }
+  .reaction-score {
+    bottom: 183px;
+    font-size: 15px;
+  }
+}
+.world-backdrop {
+  transform: scale(1.055)
+    translate3d(var(--world-pan, 0px), calc(var(--world-drift, 0px) * -0.5), 0);
+}
+@media (max-width: 760px) {
+  .world-backdrop {
+    transform: scale(1.035)
+      translate3d(0, calc(var(--world-drift, 0px) * -0.25), 0);
+  }
+}
+.world-backdrop {
+  transform: scale(var(--world-scale, 1.055))
+    translate3d(var(--world-pan, 0px), calc(var(--world-drift, 0px) * -0.5), 0);
+}
+@media (max-width: 760px) {
+  .world-backdrop {
+    transform: scale(var(--world-scale, 1.035))
+      translate3d(0, calc(var(--world-drift, 0px) * -0.25), 0);
+  }
+}
+.world-hint {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 170px;
+  z-index: 3;
+  font: 7px var(--mo);
+  letter-spacing: 1px;
+  color: #c5dbce;
+  text-shadow: 0 2px 12px #000;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .world-hint {
+    bottom: 182px;
+    font-size: 5px;
+    letter-spacing: 0.5px;
+  }
+  .portal-screen[data-chapter="2"] .world-hint {
+    display: none;
+  }
+}
+/* Gameplay and images now share a single projection; no independent parallax. */
+.world-backdrop {
+  inset: 0 !important;
+  transform: none !important;
+  background-repeat: no-repeat;
+  will-change: opacity;
+}
+.game-window {
+  transform: none !important;
+}
+.battle-status,
+.race-controls,
+.hit-feedback {
+  position: absolute;
+  z-index: 5;
+  left: var(--gutter);
+  bottom: 200px;
+  color: #bbd7c9;
+  font: 8px var(--mo);
+  letter-spacing: 1px;
+  display: none;
+  text-shadow: 0 2px 10px #000;
+}
+.portal-screen[data-chapter="1"] .battle-status {
+  display: block;
+}
+.portal-screen[data-chapter="2"] .race-controls {
+  display: block;
+}
+.race-controls {
+  bottom: 165px;
+}
+.race-status {
+  display: block;
+  margin-bottom: 12px;
+  color: #b9e6ff;
+  font-size: 9px;
+}
+.race-controls > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.race-controls > div > span {
+  font-size: 6px;
+  max-width: 150px;
+  line-height: 1.7;
+}
+.race-controls button {
+  width: 38px;
+  height: 34px;
+  border: 1px solid #8fd0ff77;
+  border-radius: 5px;
+  background: #051422b0;
+  color: #c1e5ff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.race-controls button:hover {
+  background: #255584;
+}
+.reaction-target,
+.reaction-target.is-target {
+  padding: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none;
+  overflow: visible;
+  transition:
+    opacity 0.15s,
+    filter 0.2s;
+  opacity: 0.65;
+}
+.reaction-target.is-target {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px #ffa64c66);
+}
+.drone-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.target-lock {
+  position: absolute;
+  inset: -8%;
+  border: 1px solid #ffad6055;
+  clip-path: polygon(
+    0 0,
+    22% 0,
+    22% 4%,
+    4% 4%,
+    4% 22%,
+    0 22%,
+    0 0,
+    100% 0,
+    100% 22%,
+    96% 22%,
+    96% 4%,
+    78% 4%,
+    78% 0,
+    100% 0,
+    100% 100%,
+    78% 100%,
+    78% 96%,
+    96% 96%,
+    96% 78%,
+    100% 78%,
+    100% 100%,
+    0 100%,
+    0 78%,
+    4% 78%,
+    4% 96%,
+    22% 96%,
+    22% 100%,
+    0 100%
+  );
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.is-target .target-lock {
+  opacity: 0.8;
+}
+.reaction-target.destroyed {
+  opacity: 0 !important;
+  pointer-events: none;
+  filter: brightness(3);
+}
+.hit-feedback {
+  left: 50%;
+  top: 44%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  font: 900 italic 30px var(--hd);
+  color: #ffca85;
+  pointer-events: none;
+  opacity: 0;
+}
+.portal-screen[data-chapter="3"] .hit-feedback {
+  display: block;
+}
+.hit-feedback.pop {
+  animation: hit-confirm 0.65s ease-out forwards;
+}
+@keyframes hit-confirm {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -35%) scale(0.8);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -90%) scale(1);
+  }
+}
+@media (max-width: 760px) {
+  .battle-status {
+    bottom: 208px;
+    font-size: 6px;
+  }
+  .race-controls {
+    bottom: 176px;
+  }
+  .race-status {
+    font-size: 7px;
+    margin-bottom: 8px;
+  }
+  .race-controls > div > span {
+    font-size: 5px;
+    max-width: 110px;
+  }
+  .race-controls button {
+    width: 35px;
+    height: 30px;
+  }
+  .hit-feedback {
+    top: 42%;
+    font-size: 24px;
+  }
+  .portal-screen[data-chapter="2"] .portal-stage {
+    opacity: 0.8;
+  }
+}
+.motion-paused .race-controls,
+.motion-paused .battle-status,
+.no-webgl .race-controls,
+.no-webgl .battle-status {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hit-feedback.pop {
+    animation: none;
+    opacity: 0;
+  }
+}
