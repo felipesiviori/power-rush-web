@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#080A08" />
+    <title>Power Rush — Elegí tu próximo ítem.</title>
+    <meta
+      name="description"
+      content="Misma fórmula. Elegí por sabor. Inspeccioná Cherry Pop y Blue Fizz: energizante en polvo con nootrópicos, 30 servicios por pote."
+    />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=Bricolage+Grotesque:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/inventory/inventory.css" />
+    <script type="importmap">
+      { "imports": { "three": "/assets/experience/vendor/three.module.js" } }
+    </script>
+    <script src="/cart.js" defer></script>
+    <script type="module" src="/assets/inventory/inventory.js"></script>
+  </head>
+  <body data-flavor="cp">
+    <a href="#selection" class="skip">Saltar al contenido</a>
+    <header class="topbar">
+      <a href="/" aria-label="Power Rush, inicio"
+        ><img
+          src="/assets/logo.png"
+          width="142"
+          height="40"
+          alt="Power Rush" /></a
+      ><span class="mono header-path">POWER RUSH / <b>EQUIPAMIENTO</b></span
+      ><button class="cart-link" data-pr-open>
+        INVENTARIO <span data-pr-count>0</span> ↗
+      </button>
+    </header>
+    <main>
+      <section class="selection" id="selection" aria-labelledby="select-title">
+        <div class="selection-head">
+          <div>
+            <p class="eyebrow"><i></i> TU SETUP. TU SABOR.</p>
+            <h1 id="select-title">ELEGÍ TU<br /><em>PRÓXIMO ÍTEM.</em></h1>
+          </div>
+          <p class="intro-copy">
+            Energizante en polvo con nootrópicos.<br />Para jugar, estudiar y
+            seguir con lo tuyo.<span class="mono"
+              >HECHO EN ARGENTINA / 30 SERVICIOS</span
+            >
+          </p>
+        </div>
+        <div class="item-grid">
+          <button
+            class="item-card cherry"
+            data-select="cp"
+            aria-label="Inspeccionar Cherry Pop"
+          >
+            <span class="card-top mono"
+              ><span>ÍTEM / 01</span
+              ><span class="availability">DISPONIBLE ↗</span></span
+            ><span class="item-code" aria-hidden="true">CP</span
+            ><span class="selection-model" id="select-cp"
+              ><img
+                src="/assets/experience/posters/cherry-pop.png"
+                alt="Pote negro Cherry Pop"
+                width="800"
+                height="800"
+                fetchpriority="high" /></span
+            ><span class="pedestal" aria-hidden="true"></span
+            ><span class="item-info"
+              ><span class="mono flavor-note">CEREZA REFRESCANTE Y SUAVE</span
+              ><strong>CHERRY POP</strong
+              ><span class="item-description"
+                >Rico y fácil de tomar todos los días.</span
+              ></span
+            ><span class="inspect-cta">INSPECCIONAR ÍTEM <b>↗</b></span>
+          </button>
+          <div class="same-formula">
+            <span class="mono">01 = 02</span>
+            <p>Misma fórmula.<br /><b>Elegí por sabor.</b></p>
+            <span class="connector" aria-hidden="true"></span>
+          </div>
+          <button
+            class="item-card blue"
+            data-select="bf"
+            aria-label="Inspeccionar Blue Fizz"
+          >
+            <span class="card-top mono"
+              ><span>ÍTEM / 02</span
+              ><span class="availability">DISPONIBLE ↗</span></span
+            ><span class="item-code" aria-hidden="true">BF</span
+            ><span class="selection-model" id="select-bf"
+              ><img
+                src="/assets/experience/posters/blue-fizz.png"
+                alt="Pote blanco Blue Fizz"
+                width="800"
+                height="800" /></span
+            ><span class="pedestal" aria-hidden="true"></span
+            ><span class="item-info"
+              ><span class="mono flavor-note">ÁCIDO INTENSO</span
+              ><strong>BLUE FIZZ</strong
+              ><span class="item-description"
+                >Para los que buscan un sabor que se sienta.</span
+              ></span
+            ><span class="inspect-cta">INSPECCIONAR ÍTEM <b>↗</b></span>
+          </button>
+        </div>
+        <div class="selection-foot mono">
+          <span>6 KCAL / CERO AZÚCAR / SIN GLUTEN</span
+          ><a href="#inspection">EXPLORÁ LA FÓRMULA ↓</a>
+        </div>
+      </section>
+      <section
+        class="inspection"
+        id="inspection"
+        aria-label="Inspección del producto"
+      >
+        <div class="inspection-screen">
+          <div class="inspection-top">
+            <a href="#selection" class="mono back">↖ CAMBIAR ÍTEM</a>
+            <div class="flavor-switch" aria-label="Sabor">
+              <button data-flavor="cp" aria-pressed="true">
+                <i></i> CHERRY POP</button
+              ><button data-flavor="bf" aria-pressed="false">
+                <i></i> BLUE FIZZ
+              </button>
+            </div>
+            <button id="motion" class="mono" aria-pressed="false">
+              PAUSAR GIRO Ⅱ
+            </button>
+          </div>
+          <div class="inspection-main">
+            <div class="object-zone">
+              <span class="object-word" aria-hidden="true">RUSH</span>
+              <div class="orbit" aria-hidden="true"></div>
+              <div
+                id="inspect-model"
+                class="inspect-model"
+                tabindex="0"
+                role="group"
+                aria-label="Modelo del producto. Arrastrá para girar o usá las flechas del teclado."
+              >
+                <img
+                  id="inspect-poster"
+                  src="/assets/experience/posters/cherry-pop.png"
+                  alt="Cherry Pop"
+                  width="800"
+                  height="800"
+                />
+              </div>
+              <div class="object-caption mono">
+                <span id="view-name">01 / FRENTE</span
+                ><span id="drag-hint">ARRASTRÁ PARA GIRAR ↔</span>
+              </div>
+              <div class="rotation-controls">
+                <button
+                  id="rotate-left"
+                  aria-label="Girar producto a la izquierda"
+                >
+                  ↶</button
+                ><button id="reset-rotation">RESTAURAR VISTA</button
+                ><button
+                  id="rotate-right"
+                  aria-label="Girar producto a la derecha"
+                >
+                  ↷
+                </button>
+              </div>
+            </div>
+            <div class="dossier">
+              <article class="panel active" data-panel="0">
+                <p class="eyebrow">01 / TU ÍTEM</p>
+                <h2 id="flavor-title" tabindex="-1">
+                  CHERRY<br /><em>POP.</em>
+                </h2>
+                <p id="flavor-description">
+                  Cereza refrescante y suave. Rico y fácil de tomar todos los
+                  días.
+                </p>
+                <div class="service-stamp">
+                  <b>30</b><span class="mono">SERVICIOS<br />POR POTE</span>
+                </div>
+                <p class="fine">Misma fórmula. Solo cambia el sabor.</p>
+              </article>
+              <article class="panel" data-panel="1" inert>
+                <p class="eyebrow">02 / LO QUE TE ACOMPAÑA</p>
+                <h2>TU PRÓXIMA<br /><em>PARTIDA.</em></h2>
+                <div class="benefit-list">
+                  <div><span>01</span><b>AGUANTE</b><i>↗</i></div>
+                  <div><span>02</span><b>FOCUS</b><i>◎</i></div>
+                  <div><span>03</span><b>ENERGÍA</b><i>ϟ</i></div>
+                  <div><span>04</span><b>REACCIÓN</b><i>⌁</i></div>
+                </div>
+              </article>
+              <article class="panel" data-panel="2" inert>
+                <p class="eyebrow">03 / FICHA TÉCNICA · POR PORCIÓN DE 10 G</p>
+                <h2>LO QUE<br /><em>TENÉS DENTRO.</em></h2>
+                <dl class="formula">
+                  <div>
+                    <dt>Taurina</dt>
+                    <dd>700 <small>mg</small></dd>
+                  </div>
+                  <div>
+                    <dt>L-Tirosina</dt>
+                    <dd>750 <small>mg</small></dd>
+                  </div>
+                  <div>
+                    <dt>Colina</dt>
+                    <dd>300 <small>mg</small></dd>
+                  </div>
+                  <div>
+                    <dt>Cafeína</dt>
+                    <dd>140 <small>mg</small></dd>
+                  </div>
+                  <div>
+                    <dt>L-Teanina</dt>
+                    <dd>140 <small>mg</small></dd>
+                  </div>
+                  <div>
+                    <dt>Ginseng</dt>
+                    <dd>200 <small>mg</small></dd>
+                  </div>
+                  <div>
+                    <dt>Luteína</dt>
+                    <dd>4 <small>mg</small></dd>
+                  </div>
+                </dl>
+                <p class="vitamins">
+                  <span class="mono">VITAMINAS</span> B1, B2, B3, B5, B9, B12, C
+                  y E
+                </p>
+                <p class="fine">6 kcal · Cero azúcar · Sin gluten</p>
+              </article>
+              <article class="panel" data-panel="3" inert>
+                <p class="eyebrow">04 / PREPARACIÓN</p>
+                <h2>TRES PASOS.<br /><em>DALE PLAY.</em></h2>
+                <ol class="recipe">
+                  <li>
+                    <b>01</b
+                    ><span>UN SCOOP.<small>10 g de Power Rush.</small></span>
+                  </li>
+                  <li>
+                    <b>02</b
+                    ><span>AGREGÁ AGUA.<small>350 ml de agua.</small></span>
+                  </li>
+                  <li>
+                    <b>03</b
+                    ><span>AGITÁ.<small>Y seguí con lo tuyo.</small></span>
+                  </li>
+                </ol>
+              </article>
+              <article class="panel" data-panel="4" inert>
+                <p class="eyebrow">05 / INVENTARIO COMPLETO</p>
+                <h2>
+                  ABRÍ.<br /><em>PREPARÁ.<br />REPETÍ.</em>
+                </h2>
+                <p>
+                  30 porciones por pote.<br />Un mes si lo tomás todos los días.
+                </p>
+                <span class="open-note mono"
+                  >POLVO + SCOOP + TU PRÓXIMA PARTIDA</span
+                >
+              </article>
+            </div>
+          </div>
+          <nav class="chapter-nav" aria-label="Paradas de inspección">
+            <button data-step="0" aria-current="step">
+              <span>01</span> FRENTE</button
+            ><button data-step="1"><span>02</span> BENEFICIOS</button
+            ><button data-step="2"><span>03</span> FÓRMULA</button
+            ><button data-step="3"><span>04</span> PREPARACIÓN</button
+            ><button data-step="4"><span>05</span> ABIERTO</button>
+            <div class="chapter-progress"><span></span></div>
+          </nav>
+        </div>
+      </section>
+      <section class="rewards content-width">
+        <p class="eyebrow">MÁS POTES. MÁS RECOMPENSAS.</p>
+        <h2>EQUIPÁ TU<br /><em>INVENTARIO.</em></h2>
+        <div class="reward-grid">
+          <button data-quantity="1">
+            <span class="mono">NIVEL / 01</span><b>1 POTE</b>
+            <p>Precio de lista.</p>
+            <span>SELECCIONAR ↗</span></button
+          ><button data-quantity="2">
+            <span class="mono">NIVEL / 02</span><b>2 POTES</b>
+            <p>10% de descuento + envío gratis.</p>
+            <span>DESBLOQUEAR ↗</span></button
+          ><button data-quantity="3">
+            <span class="mono">NIVEL / 03</span><b>3 POTES</b>
+            <p>15% de descuento + envío gratis.</p>
+            <span>DESBLOQUEAR ↗</span>
+          </button>
+        </div>
+        <p class="fine">
+          Podés combinar sabores. El descuento cuenta el total de potes del
+          carrito.
+        </p>
+      </section>
+      <section class="reviews content-width">
+        <p class="eyebrow">DEL OTRO LADO DE LA PANTALLA</p>
+        <h2>LOS CLIENTES<br /><em>HABLAN SOLOS.</em></h2>
+        <div class="review-grid">
+          <blockquote>
+            <span class="mono">★★★★★</span>
+            <p>
+              "Cuatro horas de ranked y en el overtime estaba igual que en la
+              primera ronda. Antes a esa hora ya erraba los flashes más fáciles.
+              La diferencia es real."
+            </p>
+            <footer>Mateo<small>Gamer competitivo · Rosario</small></footer>
+          </blockquote>
+          <blockquote>
+            <span class="mono">★★★★★</span>
+            <p>
+              "Estudié 6 horas seguidas sin la ansiedad del café. Algo raro para
+              mí que con tres cafés ya estaba temblando. Foco limpio es lo mejor
+              que puedo describir."
+            </p>
+            <footer>Valentina<small>Medicina 3er año · Córdoba</small></footer>
+          </blockquote>
+          <blockquote>
+            <span class="mono">★★★★★</span>
+            <p>
+              "Compré por curiosidad. Ahora no empiezo una sesión sin tomarlo.
+              El tiempo de reacción se siente diferente desde la primera
+              partida."
+            </p>
+            <footer>Benjamín<small>CS2 competitivo · Santa Fe</small></footer>
+          </blockquote>
+        </div>
+      </section>
+      <section class="founder content-width">
+        <div class="founder-art">
+          <img
+            src="/assets/experience/scenes/setup-blue.webp"
+            alt="Power Rush en un setup gamer"
+            loading="lazy"
+          /><span class="mono">HECHO EN ARGENTINA / POWER RUSH</span>
+        </div>
+        <div>
+          <p class="eyebrow">NACIDO DEL MISMO LADO DE LA PANTALLA.</p>
+          <h2>DE UN GAMER.<br /><em>PARA GAMERS.</em></h2>
+          <p>
+            Felipe trabajaba, estudiaba y a la noche quería jugar. Llegaba
+            fundido. Así nació Power Rush: el producto que él quería tener al
+            lado del teclado.
+          </p>
+          <p>
+            Hecho en Argentina. Pensado para ese momento del día que es
+            completamente tuyo.
+          </p>
+        </div>
+      </section>
+      <section class="faq content-width">
+        <div>
+          <p class="eyebrow">¿ALGUNA DUDA?</p>
+          <h2>ANTES DE<br /><em>ENTRAR.</em></h2>
+          <p>Todo claro desde el primer scoop.</p>
+        </div>
+        <div>
+          <details>
+            <summary>
+              ¿Qué es Power Rush?<span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Un suplemento dietario en polvo hecho en Argentina. Combina 7
+              nootrópicos y vitaminas. Cada pote contiene 30 porciones de 10 g.
+            </p>
+          </details>
+          <details>
+            <summary>
+              ¿Los sabores tienen la misma fórmula?<span aria-hidden="true"
+                >+</span
+              >
+            </summary>
+            <p>
+              Sí. Solo cambian el sabor y el packaging. Blue Fizz es ácido e
+              intenso; Cherry Pop es cereza refrescante y suave.
+            </p>
+          </details>
+          <details>
+            <summary>
+              ¿Cuánta cafeína tiene?<span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              140 mg de cafeína por porción, junto con 140 mg de L-Teanina. Tené
+              en cuenta tu sensibilidad y otras fuentes de cafeína que consumís
+              durante el día.
+            </p>
+          </details>
+          <details>
+            <summary>
+              ¿Cómo lo preparo?<span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Mezclá un scoop de 10 g con 350 ml de agua fría y agitá. Seguí las
+              indicaciones y recomendaciones de consumo del envase.
+            </p>
+          </details>
+          <details>
+            <summary>¿Para quién es?<span aria-hidden="true">+</span></summary>
+            <p>
+              Exclusivo para adultos mayores de 18 años. No consumir durante el
+              embarazo o la lactancia. Consultá las indicaciones y advertencias
+              de la etiqueta antes de consumirlo.
+            </p>
+          </details>
+        </div>
+      </section>
+      <footer class="page-footer content-width">
+        <img
+          src="/assets/logo.png"
+          alt="Power Rush"
+          width="145"
+          loading="lazy"
+        />
+        <p class="mono">TU SETUP. TU SABOR. TU MOMENTO.</p>
+        <a href="/products/powerrush">Ver página de producto ↗</a
+        ><a href="#selection">Volver a elegir ↑</a>
+      </footer>
+    </main>
+    <aside class="buy-bar" aria-label="Agregar al inventario" hidden>
+      <div class="buy-item">
+        <i></i>
+        <div>
+          <span class="mono">ÍTEM SELECCIONADO</span
+          ><b id="buy-name">CHERRY POP</b>
+        </div>
+      </div>
+      <div class="buy-quantity">
+        <label for="quantity" class="mono"
+          ><span id="mobile-flavor">CHERRY POP · </span>CANTIDAD</label
+        ><select id="quantity">
+          <option value="1">1 pote</option>
+          <option value="2">2 potes · −10%</option>
+          <option value="3">3 potes · −15%</option>
+        </select>
+      </div>
+      <div class="buy-mix" hidden>
+        <label for="mix" class="mono">SABORES</label
+        ><select id="mix"></select>
+      </div>
+      <div class="buy-price">
+        <strong id="price">—</strong
+        ><span class="mono" id="reward">PRECIO DE LISTA</span>
+      </div>
+      <button class="add-button" id="add">
+        AGREGAR AL INVENTARIO <span>↗</span>
+      </button>
+    </aside>
+    <p class="toast" role="status" aria-live="polite"></p>
+    <noscript
+      ><p class="noscript">
+        Para inspeccionar los modelos y usar el carrito, activá JavaScript.
+        <a href="/products/powerrush">Ver el producto</a>.
+      </p></noscript
+    >
+  </body>
+</html>
